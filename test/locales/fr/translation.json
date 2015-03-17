@@ -1,0 +1,17 @@
+{
+	"app": {
+		"name": "WoT Clan Tool",
+		"description": "Outil de getion de clan pour World of Tanks"
+	},
+	"nav": {
+		"toggle": "Basculer navigation",
+		"home": "Accueil",
+		"garage": "Garage",
+		"events": "Evènements",
+		"my": {
+			"garage": "Mon garage",
+			"strats": "Mes stratégies",
+			"stats": "Mes statistiques"
+		}
+	}
+}
