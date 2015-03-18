@@ -31,11 +31,16 @@ var onLoad = function() {
 				tableContent = '',
 				clanMemberInfo = null,
 				playerInfos = null,
-				actualDate = (new Date()).getTime() / 1000;
+				additionalClass = '',
+				actualDate = (new Date()).getTime() / 1000,
+				lastBattleThreshold = actualDate - (gMAX_BATTLE_TIME * 86400);
 			for (var memberId in dataPlayers) {
+				if (dataPlayers[memberId].last_battle_time < lastBattleThreshold) {
+					additionalClass = ' class="oldBattle"';
+				}
 				clanMemberInfo = dataClan.members[memberId];
 				playerInfos = dataPlayers[memberId];
-				tableContent += '<tr>';
+				tableContent += '<tr' + additionalClass + '>';
 				tableContent += '<td data-id="' + memberId + '"><a class="playerDetailsLink" href="./player.html?id=' + memberId + '" data-id="' + memberId + '" data-target="#my-dialog" data-toggle="modal">' + playerInfos.nickname + '</a></td>';
 				tableContent += '<td>' + clanMemberInfo.role_i18n + '</td>';
 				tableContent += '<td data-value="' + clanMemberInfo.created_at + '"><abbr title="' + moment(new Date(clanMemberInfo.created_at * 1000)).format('LLLL') + '">' + Math.floor((actualDate - clanMemberInfo.created_at) / 86400) + '</abbr></td>';

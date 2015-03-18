@@ -3,6 +3,7 @@
 
 #index .main{position:relative;margin:auto;width:50em;text-align:left}
 #unauthorized .main{position:relative;margin:auto;width:50em;text-align:center}
+#tableClanPlayers tr.oldBattle *{color:#F00}
 /* Move down content because we have a fixed navbar that is 50px tall */
 body{padding-top:50px}
 /* Global add-ons */
