@@ -1,5 +1,5 @@
 var gWG_API_URL = "https://api.worldoftanks.eu/wot/",
-	gWG_APP_ID = '65d48624959befe37494ffa27e085450',
+	gWG_APP_ID = 'e6ecba5f5af3a16603e38f3b40b1a84e',
 	gGOOGLE_API_KEY = 'AIzaSyAdKm0Y8JnlzOXm-DvH_12wEqZRiIp3Rto';
 	gUserLang = navigator.language || navigator.userLanguage,
 	gWG_API_LANG = gUserLang.split('-')[0],
