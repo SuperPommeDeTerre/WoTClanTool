@@ -70,7 +70,7 @@ if (isset($_SESSION["access_token"])) {
 						<li>etc.</li>
 					</ul>
 					<p>Pour commencer, veuillez vous connecter avec vos identifiants Wargaming&nbsp;:</p>
-					<p style="text-align:center"><?php echo(SID); ?><a href="#" class="btn btn-lg btn-primary btn-material-grey-500" id="btnLogin" data-i18n="action.identification">Se connecter</a></p>
+					<p style="text-align:center"><a href="#" class="btn btn-lg btn-primary btn-material-grey-500" id="btnLogin" data-i18n="action.identification">Se connecter</a></p>
 				</div>
 			</div>
 		</div>
