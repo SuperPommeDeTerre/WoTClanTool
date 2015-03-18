@@ -13,5 +13,19 @@
 			"strats": "Mes stratégies",
 			"stats": "Mes statistiques"
 		}
+	},
+	"clan": {
+		"nbplayers": "__count__ joueur",
+		"nbplayers_plural_0" : "0 joueur",
+		"nbplayers_plural": "__count__ joueurs",
+		"nbtanks": "__count__ char",
+		"nbtanks_plural_0" : "0 char",
+		"nbtanks_plural": "__count__ chars",
+		"nbprovinces": "__count__ province",
+		"nbprovinces_plural_0" : "0 province",
+		"nbprovinces_plural": "__count__ provinces"
+	},
+	"player": {
+		"name": "Nom"
 	}
 }

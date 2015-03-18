@@ -4,4 +4,6 @@
 @import url('./morris.css');
 @import url('./fullcalendar.min.css');
 @import url('./fullcalendar.print.css');
+/* @import url('./bootstrap-table.min.css'); */
+@import url('sortable-theme-minimal.css');
 @import url('./app.css');

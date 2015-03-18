@@ -17,7 +17,7 @@
 		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
 	</head>
-	<body>
+	<body id="home">
 		<!-- Static navbar -->
 		<nav class="navbar navbar-default navbar-fixed-top navbar-material-grey-700 shadow-z-2">
 			<div class="container-fluid">
@@ -62,53 +62,37 @@
 		<!-- Main component for a primary marketing message or call to action -->
 		<div class="container-fluid">
 			<div class="row">
-				<nav class="col-sm-3 col-md-2 sidebar menu navbar-material-grey-300">
-					<ul class="nav nav-sidebar">
-						<li class="active withripple"><a href="#top">Vue globale <span class="sr-only">(courant)</span></a></li>
-					</ul>
-					<ul class="nav nav-sidebar">
-						<li class="withripple"><a href="#navAgenda">Agenda</a></li>
-						<li class="withripple"><a href="#navPlayers">Joueurs</a></li>
-						<li class="withripple"><a href="#navStrats">Strat&eacute;gies</a></li>
-						<li class="withripple"><a href="#navTanks">Chars</a></li>
-						<li class="withripple"><a href="#navStats">Statistiques</a></li>
-					</ul>
-				</nav>
-				<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+				<div class="main">
 					<h1 class="page-header" id="clansInfosTitle"></h1>
-					<h3><span class="label label-info" id="clanTotalPlayers"></span>
-						<span class="label label-primary" id="clanTotalVehicles"></span>
-						<span class="label label-success">0 province</span>
-						<span class="label label-warning">2 &eacute;v&egrave;nements</span>
-						<span class="label label-default">23 strat&eacute;gies</span></h3>
+					<h3><a class="btn btn-lg btn-primary btn-material-blue-500" href="#navPlayers" role="button" id="clanTotalPlayers"></a>
+						<a class="btn btn-lg btn-primary btn-material-teal-500" href="./garage.html" role="button" id="clanTotalVehicles"></a>
+						<a class="btn btn-lg btn-primary btn-material-green-500" href="http://worldoftanks.eu/clanwars/maps/globalmap/" role="button" id="clanTotalProvinces">0 province</a>
+						<a class="btn btn-lg btn-primary btn-material-orange-800" href="./events.html" role="button" id="clanTotalEvents">0 &eacute;v&egrave;nement</a>
+						<a class="btn btn-lg btn-primary btn-material-grey-500" href="./strats.html" role="button" id="clanTotalStrats">0 strat&eacute;gie</a></h3>
 					<div class="row placeholders">
 						<div class="col-xs-6 col-sm-3 placeholder">
 							<div id="chartTanksTiers" style="height:200px"></div>
-							<h4>Chars par tiers <span class="badge">5</span></h4>
+							<h4>Chars par tiers</h4>
 							<span class="text-muted">Chars du clan par tiers</span>
 						</div>
 						<div class="col-xs-6 col-sm-3 placeholder">
 							<div id="chartTanksType" style="height:200px"></div>
-							<h4>Chars par type <span class="badge">5</span></h4>
+							<h4>Chars par type</h4>
 							<span class="text-muted">Chars du clan par type</span>
 						</div>
 						<div class="col-xs-6 col-sm-3 placeholder">
 							<div id="chartBattlesOverall" style="height:200px"></div>
-							<h4>Victoires/D&eacute;faites <span class="badge">5</span></h4>
+							<h4>Victoires/D&eacute;faites</h4>
 							<span class="text-muted">Nombre de victoires/d&eacute;faites global</span>
 						</div>
 						<div class="col-xs-6 col-sm-3 placeholder">
 							<div id="chartBattles" style="height:200px;widh:200px"></div>
-							<h4>Victoires/D&eacute;faites <span class="badge">5</span></h4>
+							<h4>Victoires/D&eacute;faites</h4>
 							<span class="text-muted">Evolutions des victoires/d&eacute;faites</span>
 						</div>
 					</div>
-					<!--
-						<p><a class="btn btn-lg btn-primary btn-material-grey-500" href="../../components/#navbar" role="button">View navbar docs &raquo;</a></p>
-					-->
 					<h2 class="sub-header" id="navAgenda">Agenda</h2>
 					<div id="clanCalendar"></div>
-					<h2 class="sub-header" id="navStats">Statistiques</h2>
 					<h2 class="sub-header" id="navPlayers">Joueurs</h2>
 					<div class="table-responsive">
 						<table class="table table-striped" id="tableClanPlayers">
@@ -116,22 +100,7 @@
 								<tr>
 									<th>Joueur</th>
 									<th>Position</th>
-								</tr>
-							</thead>
-							<tbody>
-							</tbody>
-						</table>
-					</div>
-					<h2 class="sub-header" id="navTanks">Chars</h2>
-					<div class="table-responsive">
-						<table class="table table-striped" id="tableTanks">
-							<thead>
-								<tr>
-									<th>Char</th>
-									<th>Nation</th>
-									<th>Tiers</th>
-									<th>Type</th>
-									<th>Joueurs poss&eacute;dant le char</th>
+									<th>Jours dans le clan</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -141,22 +110,39 @@
 				</div>
 			</div>
 		</div>
+		<div id="my-dialog" class="modal fade" tabindex="-1">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button class="close" aria-hidden="true" data-dismiss="modal" type="button">×</button>
+						<h4 class="modal-title">Dialogue</h4>
+					</div>
+					<div class="modal-body"></div>
+					<div class="modal-footer">
+						<button class="btn btn-primary" data-dismiss="modal">Ok</button>
+					</div>
+				</div>
+			</div>
+		</div>
 		<!-- Bootstrap core JavaScript
 		================================================== -->
 		<!-- Placed at the end of the document so the pages load faster -->
-		<script src="./config.js"></script>
-		<script src="./js/jquery-2.1.3.min.js"></script>
-		<script src="./js/i18next-1.8.0.min.js"></script>
-		<script src="./js/bootstrap.min.js"></script>
-		<script src="./js/material.min.js"></script>
-		<script src="./js/ripples.min.js"></script>
-		<script src="./js/raphael-min.js"></script>
-		<script src="./js/morris.min.js"></script>
-		<script src="./js/moment-with-locales.min.js"></script>
-		<script src="./js/fullcalendar.min.js"></script>
-		<script src='./js/fullcalendar.lang-all.js'></script>
+		<script type="text/javascript" src="./config.js"></script>
+		<script type="text/javascript" src="./js/jquery-2.1.3.min.js"></script>
+		<script type="text/javascript" src="./js/i18next-1.8.0.min.js"></script>
+		<script type="text/javascript" src="./js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="./js/material.min.js"></script>
+		<script type="text/javascript" src="./js/ripples.min.js"></script>
+		<script type="text/javascript" src="./js/raphael-min.js"></script>
+		<script type="text/javascript" src="./js/morris.min.js"></script>
+		<script type="text/javascript" src="./js/moment-with-locales.min.js"></script>
+		<script type="text/javascript" src="./js/fullcalendar.min.js"></script>
+		<script type="text/javascript" src='./js/fullcalendar.lang-all.js'></script>
+		<script type="text/javascript" src="./js/gcal.js"></script>
+		<script type="text/javascript" src="./js/sortable.min.js"></script>
 		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-		<script src="./js/ie10-viewport-bug-workaround.js"></script>
-		<script src="./js/app.js"></script>
+		<script type="text/javascript" src="./js/ie10-viewport-bug-workaround.js"></script>
+		<script type="text/javascript" src="./js/pages/home.js"></script>
+		<script type="text/javascript" src="./js/app.js"></script>
 	</body>
 </html>
