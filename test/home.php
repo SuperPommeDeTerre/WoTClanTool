@@ -47,6 +47,8 @@ include("./themes/default/header.php");
 									<th>Joueur</th>
 									<th>Position</th>
 									<th>Jours dans le clan</th>
+									<th>Nombre de batailles</th>
+									<th>Cote personnelle</th>
 								</tr>
 							</thead>
 							<tbody>

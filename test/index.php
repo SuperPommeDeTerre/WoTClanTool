@@ -9,6 +9,14 @@ if (isset($_GET["access_token"])) {
 	$_SESSION["account_id"] = $_GET["account_id"];
 	$_SESSION["expires_at"] = $_GET["expires_at"];
 }
+// Handle WG session expiration
+$curTime = time();
+if ($_SESSION["expires_at"] < $curTime) {
+	session_unset();
+	session_abort();
+	session_start();
+}
+// Redirect to home if WG session is active
 if (isset($_SESSION["access_token"])) {
 	header('Location: home.php');
 	exit;

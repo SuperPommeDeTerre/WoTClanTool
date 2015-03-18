@@ -42,9 +42,9 @@
 							</ul>
 						</li>
 						<li><a href="garage.php" data-i18n="nav.garage">Garage</a></li>
-						<li><a href="#" data-i18n="nav.events">&Eacute;v&egrave;nements</a></li>
+						<li><a href="events.php" data-i18n="nav.events">&Eacute;v&egrave;nements</a></li>
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Strat&eacute;gies <span class="caret"></span></a>
+							<a href="strats.php" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Strat&eacute;gies <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
 								<li><a href="#">Nouvelle</a></li>
 								<li><a href="#">Mes strat&eacute;gies</a></li>
