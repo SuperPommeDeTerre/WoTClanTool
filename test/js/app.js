@@ -1,6 +1,4 @@
-var gWG_API_URL = "https://api.worldoftanks.eu/wot/",
-	gWG_APP_ID = 'e6ecba5f5af3a16603e38f3b40b1a84e',
-	gGOOGLE_API_KEY = 'AIzaSyAdKm0Y8JnlzOXm-DvH_12wEqZRiIp3Rto';
+var gGOOGLE_API_KEY = 'AIzaSyAdKm0Y8JnlzOXm-DvH_12wEqZRiIp3Rto';
 	gUserLang = navigator.language || navigator.userLanguage,
 	gWG_API_LANG = gUserLang.split('-')[0],
 	gTANKS_LEVEL = [ 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X' ];
@@ -12,5 +10,19 @@ $(document).ready(function() {
 		// translate nav
 		$("html").i18n();
 	});
+	if (typeof(gPLAYER_ID) != "undefined") {
+		$.post(gWG_API_URL + 'account/info/', {
+			application_id: gWG_APP_ID,
+			language: gWG_API_LANG,
+			account_id: gPLAYER_ID
+		}, function(dataPlayersResponse) {
+			if (dataPlayersResponse.data[gPLAYER_ID].clan_id != gCLAN_ID) {
+				window.location = 'unauthorized.php';
+			} else {
+				onLoad();
+			}
+		}, 'json');
+	} else {
 	onLoad();
+	}
 });

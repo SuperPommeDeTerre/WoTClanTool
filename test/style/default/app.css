@@ -1,7 +1,8 @@
 @font-face{font-family:'Cuprum';src:local('Cuprum'),url('./fonts/Cuprum.ttf') format('truetype')}
 @font-face{font-family:'Gunplay';src:local('Gunplay'),url('./fonts/gunplay.ttf') format('truetype')}
 
-#index .main{position:relative;margin:auto;width:20em;text-align:left}
+#index .main{position:relative;margin:auto;width:50em;text-align:left}
+#unauthorized .main{position:relative;margin:auto;width:50em;text-align:center}
 /* Move down content because we have a fixed navbar that is 50px tall */
 body{padding-top:50px}
 /* Global add-ons */

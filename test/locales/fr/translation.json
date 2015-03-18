@@ -15,7 +15,8 @@
 		}
 	},
 	"action": {
-		"identification": "Se connecter"
+		"identification": "Se connecter",
+		"logout": "Se déconnecter"
 	},
 	"clan": {
 		"nbplayers": "__count__ joueur",

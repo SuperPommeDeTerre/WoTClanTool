@@ -4,7 +4,7 @@ echo("1");
 $fields = array(
 	'application_id' => $gWG_APP_ID,
 	'language' => $gLang,
-	'clan_id' => $gCLAN_ID
+	'clan_id' => $gCLAN_ID[0]
 );
 echo("2");
 // Création d'une nouvelle ressource cURL

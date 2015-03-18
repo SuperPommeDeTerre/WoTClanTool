@@ -11,18 +11,15 @@ if (isset($_GET["access_token"])) {
 }
 // Handle WG session expiration
 $curTime = time();
-if ($_SESSION["expires_at"] < $curTime) {
+if (isset($_SESSION["expires_at"]) && $_SESSION["expires_at"] < $curTime) {
 	session_unset();
-	session_abort();
-	session_start();
 }
 // Redirect to home if WG session is active
 if (isset($_SESSION["access_token"])) {
 	header('Location: home.php');
 	exit;
 }
-?>
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <html lang="fr">
 	<head>
 		<meta charset="utf-8" />
@@ -62,6 +59,17 @@ if (isset($_SESSION["access_token"])) {
 		<div class="container-fluid">
 			<div class="row">
 				<div class="main">
+					<h1 data-i18n="app.name"></h1>
+					<p>Bienvenue sur cet outil de gestion de clan.</p>
+					<p>Cet outil vous permettra d'effectuer bon nombre d'op&eacute;rations concernant votre clan de World of Tanks. Notamment&nbsp;:</p>
+					<ul>
+						<li>Voir les membres</li>
+						<li>Voir les chars disponibles</li>
+						<li>Définir des évènements et gérer les inscriptions des membres à ceux-ci</li>
+						<li>Préparer des stratégies</li>
+						<li>etc.</li>
+					</ul>
+					<p>Pour commencer, veuillez vous connecter avec vos identifiants Wargaming&nbsp;:</p>
 					<p style="text-align:center"><?php echo(SID); ?><a href="#" class="btn btn-lg btn-primary btn-material-grey-500" id="btnLogin" data-i18n="action.identification">Se connecter</a></p>
 				</div>
 			</div>
