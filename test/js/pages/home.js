@@ -1,5 +1,8 @@
 var onLoad = function() {
 	// Get the clan data
+	var myURI = URI(window.location.href),
+		myURIParams = myURI.search(true);
+	$('#playerNickName').text(myURIParams['nickname']);
 	$.post(gWG_API_URL + 'clan/info/', {
 		application_id: gWG_APP_ID,
 		language: gWG_API_LANG,

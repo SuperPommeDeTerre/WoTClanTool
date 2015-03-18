@@ -1,21 +1,23 @@
-<!DOCTYPE html>
+<?php
+session_start();
+?><!DOCTYPE html>
 <html lang="fr">
 	<head>
 		<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<meta name="description" data-i18n="app.description" content="Outil de getion de clan pour World of Tanks" />
-	<meta name="author" content="J&eacute;r&eacute;mie Langlade" />
-	<link rel="icon" href="./style/default/favicon.ico" />
-	<link href="./style/default/favicon.png" type="image/x-icon" rel="icon" />
-	<title data-i18n="app.name">WoT Clan Tool</title>
-	<!-- CSS -->
-	<link href="./style/default/style.css" rel="stylesheet" />
-	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-	<!--[if lt IE 9]>
-		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-	<![endif]-->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" data-i18n="app.description" content="Outil de gestion de clan pour World of Tanks" />
+		<meta name="author" content="J&eacute;r&eacute;mie Langlade" />
+		<link rel="icon" href="./style/default/favicon.ico" />
+		<link href="./style/default/favicon.png" type="image/x-icon" rel="icon" />
+		<title data-i18n="app.name">WoT Clan Tool</title>
+		<!-- CSS -->
+		<link href="./style/default/style.css" rel="stylesheet" />
+		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+		<!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+			<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
 	</head>
 	<body id="home">
 		<!-- Static navbar -->
@@ -32,16 +34,16 @@
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
 					<ul class="nav navbar-nav navbar-right">
-						<li class="active"><a href="#" data-i18n="nav.home">Accueil</a></li>
+						<li class="active"><a href="./home.php" data-i18n="nav.home">Accueil</a></li>
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">SuperPommeDeTerre <span class="caret"></span></a>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span id="playerNickName"><?php echo($_SESSION["nickname"]) ?></span> <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
 								<li><a href="#" data-i18n="nav.my.garage">Mon garage</a></li>
 								<li><a href="#" data-i18n="nav.my.strats">Mes strat&eacute;gies</a></li>
 								<li><a href="#" data-i18n="nav.my.stats">Mes statistiques</a></li>
 							</ul>
 						</li>
-						<li><a href="#" data-i18n="nav.garage">Garage</a></li>
+						<li><a href="garage.php" data-i18n="nav.garage">Garage</a></li>
 						<li><a href="#" data-i18n="nav.events">&Eacute;v&egrave;nements</a></li>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Strat&eacute;gies <span class="caret"></span></a>
@@ -65,10 +67,10 @@
 				<div class="main">
 					<h1 class="page-header" id="clansInfosTitle"></h1>
 					<h3><a class="btn btn-lg btn-primary btn-material-blue-500" href="#navPlayers" role="button" id="clanTotalPlayers"></a>
-						<a class="btn btn-lg btn-primary btn-material-teal-500" href="./garage.html" role="button" id="clanTotalVehicles"></a>
+						<a class="btn btn-lg btn-primary btn-material-teal-500" href="./garage.php" role="button" id="clanTotalVehicles"></a>
 						<a class="btn btn-lg btn-primary btn-material-green-500" href="http://worldoftanks.eu/clanwars/maps/globalmap/" role="button" id="clanTotalProvinces">0 province</a>
-						<a class="btn btn-lg btn-primary btn-material-orange-800" href="./events.html" role="button" id="clanTotalEvents">0 &eacute;v&egrave;nement</a>
-						<a class="btn btn-lg btn-primary btn-material-grey-500" href="./strats.html" role="button" id="clanTotalStrats">0 strat&eacute;gie</a></h3>
+						<a class="btn btn-lg btn-primary btn-material-orange-800" href="./events.php" role="button" id="clanTotalEvents">0 &eacute;v&egrave;nement</a>
+						<a class="btn btn-lg btn-primary btn-material-grey-500" href="./strats.php" role="button" id="clanTotalStrats">0 strat&eacute;gie</a></h3>
 					<div class="row placeholders">
 						<div class="col-xs-6 col-sm-3 placeholder">
 							<div id="chartTanksTiers" style="height:200px"></div>
@@ -140,6 +142,7 @@
 		<script type="text/javascript" src='./js/fullcalendar.lang-all.js'></script>
 		<script type="text/javascript" src="./js/gcal.js"></script>
 		<script type="text/javascript" src="./js/sortable.min.js"></script>
+		<script type="text/javascript" src="./js/URI.js"></script>
 		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 		<script type="text/javascript" src="./js/ie10-viewport-bug-workaround.js"></script>
 		<script type="text/javascript" src="./js/pages/home.js"></script>
