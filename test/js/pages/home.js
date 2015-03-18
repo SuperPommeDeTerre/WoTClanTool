@@ -10,7 +10,7 @@ var onLoad = function() {
 	}, function(dataClanResponse) {
 		var dataClan = dataClanResponse.data[gCLAN_ID];
 		$('#clansInfosTitle').html('<img src="' + dataClan.emblems.large + '" alt="Embl&egrave;me du clan" /> <span style="color:' + dataClan.color + '">[' + dataClan.abbreviation + ']</span> ' + dataClan.name + ' <small>' + dataClan.motto + '</small>');
-		$('#clanTotalPlayers').text(i18n.t("clan.nbplayers", { count: dataClan.members_count }));
+		$('#clanTotalPlayers').text(i18n.t('clan.nbplayers', { count: dataClan.members_count }));
 		var membersList = '',
 			isFirst = true;
 		for (var memberId in dataClan.members) {
@@ -32,11 +32,13 @@ var onLoad = function() {
 				clanMemberInfo = null,
 				playerInfos = null,
 				additionalClass = '',
-				actualDate = (new Date()).getTime() / 1000,
+				actualDate = Math.floor((new Date()).getTime() / 1000),
 				lastBattleThreshold = actualDate - (gMAX_BATTLE_TIME * 86400);
 			for (var memberId in dataPlayers) {
 				if (dataPlayers[memberId].last_battle_time < lastBattleThreshold) {
 					additionalClass = ' class="oldBattle"';
+				} else {
+					additionalClass = '';
 				}
 				clanMemberInfo = dataClan.members[memberId];
 				playerInfos = dataPlayers[memberId];
@@ -48,9 +50,9 @@ var onLoad = function() {
 				tableContent += '<td>' + playerInfos.global_rating + '</td>';
 				tableContent += '</tr>';
 			}
-			tableClanPlayers.attr("data-sortable", "true");
+			tableClanPlayers.attr('data-sortable', 'true');
 			tableClanPlayers.find('tbody').append(tableContent);
-			tableClanPlayers.find(".playerDetailsLink").on("click", function(evt) {
+			tableClanPlayers.find('.playerDetailsLink').on('click', function(evt) {
 				var myLink = $(this),
 					myPlayerId = myLink.data('id'),
 					myRow = myLink.closest('tr'),
@@ -99,20 +101,20 @@ var onLoad = function() {
 						for (var i = 0; i<playerVehicles.length; i++) {
 							var vehiculeDetails = dataTankopedia[playerVehicles[i].tank_id];
 							nbClanVehiculesByTiers[vehiculeDetails.level - 1]++;
-							if (vehiculeDetails.type == "lightTank") {
+							if (vehiculeDetails.type == 'lightTank') {
 								nbClanVehiculesByType[0]++;
-							} else if (vehiculeDetails.type == "mediumTank") {
+							} else if (vehiculeDetails.type == 'mediumTank') {
 								nbClanVehiculesByType[1]++;
-							} else if (vehiculeDetails.type == "heavyTank") {
+							} else if (vehiculeDetails.type == 'heavyTank') {
 								nbClanVehiculesByType[2]++;
-							} else if (vehiculeDetails.type == "AT-SPG") {
+							} else if (vehiculeDetails.type == 'AT-SPG') {
 								nbClanVehiculesByType[3]++;
-							} else if (vehiculeDetails.type == "SPG") {
+							} else if (vehiculeDetails.type == 'SPG') {
 								nbClanVehiculesByType[4]++;
 							}
 						}
 					}
-					$('#clanTotalVehicles').text(i18n.t("clan.nbtanks", { count: nbTotalVehicules }));
+					$('#clanTotalVehicles').text(i18n.t('clan.nbtanks', { count: nbTotalVehicules }));
 					var myData = [];
 					for (var i=0; i<gTANKS_LEVEL.length; i++) {
 						myData.push({ label: gTANKS_LEVEL[i], value: nbClanVehiculesByTiers[i] });
