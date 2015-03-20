@@ -38,6 +38,7 @@ class Event {
 		$result['title'] = $this->title;
 		$result['description'] = $this->description;
 		$result['start'] = $this->dateStart .'000';
+		$result['end'] = $this->dateEnd .'000';
 		$result['class'] = 'event-type-' . $this->type;
 		$result['url'] = './event.php?id=' . $this->id;
 		return $result;

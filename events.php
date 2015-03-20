@@ -107,14 +107,6 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 								</div>
 								<div class="radio radio-primary">
 									<label>
-										<input type="radio" value="training" name="eventType">
-										<span class="circle"></span>
-										<span class="check"></span>
-										<abbr data-i18n="action.calendar.prop.types.training"></abbr>
-									</label>
-								</div>
-								<div class="radio radio-primary">
-									<label>
 										<input type="radio" value="7vs7" name="eventType">
 										<span class="circle"></span>
 										<span class="check"></span>
@@ -123,10 +115,10 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 								</div>
 								<div class="radio radio-primary">
 									<label>
-										<input type="radio" value="historical" name="eventType">
+										<input type="radio" value="training" name="eventType">
 										<span class="circle"></span>
 										<span class="check"></span>
-										<abbr data-i18n="action.calendar.prop.types.historical"></abbr>
+										<abbr data-i18n="action.calendar.prop.types.training"></abbr>
 									</label>
 								</div>
 								<div class="radio radio-primary">

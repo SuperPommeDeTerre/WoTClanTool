@@ -16,7 +16,8 @@ switch ($_REQUEST['a']) {
 			$date = date('Y-m-d', strtotime("+".$i." days"));
 			$data = new Event();
 			$data->setId($i);
-			$data->setDateStart(strtotime(date('Y-m-d', strtotime("+".$i." days"))));
+			$data->setDateStart(strtotime(date('Y-m-d', strtotime("+".$i." days"))) + (12*3600));
+			$data->setDateEnd($data->getDateStart() + 7200);
 			if ($i < 2) {
 				$data->setType('compa');
 				$data->setTitle('Compagnie '.$i);
