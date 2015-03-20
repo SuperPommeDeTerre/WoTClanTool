@@ -12,6 +12,8 @@ var onLoad = function() {
 		var dataClan = dataClanResponse.data[gConfig.CLAN_IDS[0]];
 		$('#clansInfosTitle').html('<img src="' + dataClan.emblems.large + '" alt="Embl&egrave;me du clan" /> <span style="color:' + dataClan.color + '">[' + dataClan.abbreviation + ']</span> ' + dataClan.name + ' <small>' + dataClan.motto + '</small>');
 		$('#clanTotalPlayers').text(i18n.t('clan.nbplayers', { count: dataClan.members_count }));
+		$('#clanTotalEvents').text(i18n.t('clan.nbevents', { count: 0 }));
+		$('#clanTotalStrats').text(i18n.t('clan.nbstrats', { count: 0 }));
 		var membersList = '',
 			isFirst = true;
 		for (var memberId in dataClan.members) {

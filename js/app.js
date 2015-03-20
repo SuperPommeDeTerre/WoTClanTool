@@ -58,4 +58,3 @@ $(document).ready(function() {
 var afterLoad = function() {
 	$('#progressDialog').fadeOut('fast');
 };
-

@@ -59,6 +59,7 @@
 				"enddate": "Date de fin",
 				"type": "Type :",
 				"types": {
+					"clanwar": "Clan War",
 					"compa": "Compagnie",
 					"stronghold": "Bastion",
 					"training": "Entraînement",
@@ -87,7 +88,13 @@
 		"nbtanks_plural": "__count__ chars",
 		"nbprovinces": "__count__ province",
 		"nbprovinces_plural_0" : "0 province",
-		"nbprovinces_plural": "__count__ provinces"
+		"nbprovinces_plural": "__count__ provinces",
+		"nbevents": "__count__ évènement",
+		"nbevents_plural_0" : "0 évènement",
+		"nbevents_plural": "__count__ évènements",
+		"nbstrats": "__count__ stratégie",
+		"nbstrats_plural_0" : "0 stratégie",
+		"nbstrats_plural": "__count__ stratégies"
 	},
 	"player": {
 		"name": "Nom"

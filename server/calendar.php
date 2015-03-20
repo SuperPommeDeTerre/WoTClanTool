@@ -2,6 +2,8 @@
 // Calendar service
 require(dirname(__FILE__) . '/global.php');
 
+require(dirname(__FILE__) . '/classes/event.inc');
+
 // This service must return JSON to page
 header('Content-Type: application/json');
 
@@ -9,92 +11,81 @@ header('Content-Type: application/json');
 $result = array();
 switch ($_REQUEST['a']) {
 	case 'list':
-		echo ('{
-	"success": 1,
-	"result": [
-		{
-			"id": "293",
-			"title": "This is warning class event with very long title to check how it fits to event in day view",
-			"url": "http://www.example.com/",
-			"class": "event-warning",
-			"start": "1362938400000",
-			"end":   "1363197686300"
-		},
-		{
-			"id": "256",
-			"title": "Event that ends on timeline",
-			"url": "http://www.example.com/",
-			"class": "event-warning",
-			"start": "1363155300000",
-			"end":   "1363227600000"
-		},
-		{
-			"id": "276",
-			"title": "Short day event",
-			"url": "http://www.example.com/",
-			"class": "event-success",
-			"start": "1363245600000",
-			"end":   "1363252200000"
-		},
-		{
-			"id": "294",
-			"title": "This is information class ",
-			"url": "http://www.example.com/",
-			"class": "event-info",
-			"start": "1363111200000",
-			"end":   "1363284086400"
-		},
-		{
-			"id": "297",
-			"title": "This is success event",
-			"url": "http://www.example.com/",
-			"class": "event-success",
-			"start": "1363234500000",
-			"end":   "1363284062400"
-		},
-		{
-			"id": "54",
-			"title": "This is simple event",
-			"url": "http://www.example.com/",
-			"class": "",
-			"start": "1363712400000",
-			"end":   "1363716086400"
-		},
-		{
-			"id": "532",
-			"title": "This is inverse event",
-			"url": "http://www.example.com/",
-			"class": "event-inverse",
-			"start": "1364407200000",
-			"end":   "1364493686400"
-		},
-		{
-			"id": "548",
-			"title": "This is special event",
-			"url": "http://www.example.com/",
-			"class": "event-special",
-			"start": "1363197600000",
-			"end":   "1363629686400"
-		},
-		{
-			"id": "295",
-			"title": "Event 3",
-			"url": "http://www.example.com/",
-			"class": "event-important",
-			"start": "1364320800000",
-			"end":   "1364407286400"
+		$out = array();
+		for($i=1; $i<=16; $i++){   //from day 01 to day 15
+			$date = date('Y-m-d', strtotime("+".$i." days"));
+			$data = new Event();
+			$data->setId($i);
+			$data->setDateStart(strtotime(date('Y-m-d', strtotime("+".$i." days"))));
+			if ($i < 2) {
+				$data->setType('compa');
+				$data->setTitle('Compagnie '.$i);
+				$data->setDescription('Compagnie description '.$i);
+			} else if ($i < 6) {
+				$data->setType('clanwar');
+				$data->setTitle('Clan War '.$i);
+				$data->setDescription('Clan War description '.$i);
+			} else if ($i < 8) {
+				$data->setType('stronghold');
+				$data->setTitle('Bastion '.$i);
+				$data->setDescription('Bastion description '.$i);
+			} else if ($i < 10) {
+				$data->setType('training');
+				$data->setTitle('Entraînement '.$i);
+				$data->setDescription('Entraînement description '.$i);
+			} else if ($i < 12) {
+				$data->setType('7vs7');
+				$data->setTitle('7vs7 '.$i);
+				$data->setDescription('7vs7 description '.$i);
+			} else if ($i < 14) {
+				$data->setType('historical');
+			} else if ($i < 16) {
+				$data->setType('other');
+				$data->setTitle('Autre '.$i);
+				$data->setDescription('Autre description '.$i);
+			}
+			$out[] = $data->toCalendarArray();
 		}
-	]
-}
-');
+		echo json_encode(array('success' => 1, 'result' => $out));
+		exit;
 		break;
 	case 'add':
-		$result['success'] = 'ok';
+		// Parse event frm request
+		$myEvent = array();
+		$myEvent['title'] = $_REQUEST['eventTitle'];
+		$myEvent['type'] = $_REQUEST['eventType'];
+		if (isset($_REQUEST['eventDescription'])) {
+			$myEvent['description'] = $_REQUEST['eventDescription'];
+		}
+		if (isset($_REQUEST['eventStartDate'])) {
+			$myEvent['start'] = $_REQUEST['eventStartDate'];
+		}
+		if (isset($_REQUEST['eventEndDate'])) {
+			$myEvent['end'] = $_REQUEST['eventEndDate'];
+		}
+		if (isset($_REQUEST['eventPrivate'])) {
+			$myEvent['private'] = $_REQUEST['eventPrivate'];
+		}
+		if (isset($_REQUEST['eventPeriodic'])) {
+			$myEvent['periodic'] = $_REQUEST['eventPeriodic'];
+			$myEvent['periodicity'] = array();
+		}
+		if (isset($_REQUEST['eventPeriodicityDays'])) {
+			$myEvent['periodicity']['days'] = $_REQUEST['eventPeriodicityDays'];
+		}
+		$result['result'] = 'ok';
 		break;
 	case 'modify':
+		$result['result'] = 'ok';
+		if (isset($_REQUEST['eventId'])) {
+			$myEventId = $_REQUEST['eventId'];
+		} else {
+			$result['result'] = 'error';
+			$result['code'] = 'error.idrequired';
+		}
 		break;
 	case 'delete':
 		break;
 }
-//echo json_encode($result);
+echo json_encode($result);
 ?>

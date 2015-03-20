@@ -6,7 +6,15 @@
 #tableClanPlayers tr.oldBattle *{color:#F00}
 #progressDialog{position:absolute;top:0;bottom:0;left:0;right:0;z-index:2000;background-color:#eee}
 #progressInfoMessage{text-align:center;font-size:1.5em}
-.cal-context{padding-left:5em}
+/* Calendar */
+.event.event-type-clanwar{background-color:#000}
+.event.event-type-compa{background-color:#b71c1c}
+.event.event-type-stronghold{background-color:#4a148c}
+.event.event-type-training{background-color:#43a047}
+.event.event-type-7vs7{background-color:#1a237e}
+.event.event-type-historical{background-color:#ffeb3b}
+.event.event-type-other{background-color:#9e9e9e}
+.cal-context{margin-top:2em !important}
 /* Move down content because we have a fixed navbar that is 50px tall */
 body{padding-top:50px}
 /* Global add-ons */

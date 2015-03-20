@@ -83,6 +83,14 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 								<h5 data-i18n="action.calendar.prop.type"></h5>
 								<div class="radio radio-primary">
 									<label>
+										<input type="radio" checked="" value="clanwar" name="eventType">
+										<span class="circle"></span>
+										<span class="check"></span>
+										<abbr data-i18n="action.calendar.prop.types.clanwar"></abbr>
+									</label>
+								</div>
+								<div class="radio radio-primary">
+									<label>
 										<input type="radio" checked="" value="compa" name="eventType">
 										<span class="circle"></span>
 										<span class="check"></span>

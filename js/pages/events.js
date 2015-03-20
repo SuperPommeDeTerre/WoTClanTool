@@ -35,6 +35,8 @@ var onLoad = function() {
 	});
 
 	$('.eventDateTimePicker').datetimepicker({
-		locale: gConfig.LANG
+		locale: gConfig.LANG,
+		stepping: 5,
+		sideBySide: true
 	});
 };

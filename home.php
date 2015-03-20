@@ -12,9 +12,9 @@ include(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 			<h1 class="page-header" id="clansInfosTitle"></h1>
 			<h3><a class="btn btn-lg btn-primary btn-material-blue-500" href="#navPlayers" role="button" id="clanTotalPlayers"></a>
 				<a class="btn btn-lg btn-primary btn-material-teal-500" href="./garage.php" role="button" id="clanTotalVehicles"></a>
-				<a class="btn btn-lg btn-primary btn-material-green-500" href="http://worldoftanks.eu/clanwars/maps/globalmap/" role="button" id="clanTotalProvinces">0 province</a>
-				<a class="btn btn-lg btn-primary btn-material-orange-800" href="./events.php" role="button" id="clanTotalEvents">0 &eacute;v&egrave;nement</a>
-				<a class="btn btn-lg btn-primary btn-material-grey-500" href="./strats.php" role="button" id="clanTotalStrats">0 strat&eacute;gie</a></h3>
+				<a class="btn btn-lg btn-primary btn-material-green-500" href="http://worldoftanks.eu/clanwars/maps/globalmap/" role="button" id="clanTotalProvinces"></a>
+				<a class="btn btn-lg btn-primary btn-material-orange-800" href="./events.php" role="button" id="clanTotalEvents"></a>
+				<a class="btn btn-lg btn-primary btn-material-grey-500" href="./strats.php" role="button" id="clanTotalStrats"></a></h3>
 			<div class="row placeholders">
 				<div class="col-xs-6 col-sm-3 placeholder">
 					<div id="chartTanksTiers" style="height:200px"></div>
