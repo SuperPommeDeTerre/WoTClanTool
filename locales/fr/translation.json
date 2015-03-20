@@ -1,0 +1,69 @@
+{
+	"app": {
+		"name": "WoT Clan Tool",
+		"description": "Outil de gestion de clan pour World of Tanks"
+	},
+	"nav": {
+		"toggle": "Basculer navigation",
+		"home": "Accueil",
+		"garage": "Garage",
+		"events": "Evènements",
+		"strats": {
+			"title": "Stratégies",
+			"new": "Nouvelle",
+			"shared": "Partagées",
+			"valid": "Validées",
+			"review": "A revoir"
+		},
+		"my": {
+			"calendar": "Mon calendrier",
+			"garage": "Mon garage",
+			"strats": "Mes stratégies",
+			"stats": "Mes statistiques"
+		}
+	},
+	"elems": {
+		"calendar": "Agenda"
+	},
+	"action": {
+		"identification": "Se connecter",
+		"logout": "Se déconnecter",
+		"event": {
+			"add": "Ajouter un évènement"
+		},
+		"calendar": {
+			"next": "Suivant >>",
+			"previous": "<< Précédent",
+			"today": "Aujourd'hui",
+			"view": {
+				"year": "Année",
+				"month": "Mois",
+				"week": "Semaine",
+				"day": "Jour"
+			}
+		}
+	},
+	"loading": {
+		"generating": "Génération...",
+		"claninfos": "Chargement des informations du clan...",
+		"membersinfos": "Chargement des informations des membres du clan...",
+		"provinceinfos": "Chargement des informations de province du clan...",
+		"tanksinfos": "Chargement des chars...",
+		"membertanksinfos": "Chargement des chars des membres...",
+		"complete": "Terminé !"
+	},
+	"clan": {
+		"nbplayers": "__count__ joueur",
+		"nbplayers_plural_0" : "0 joueur",
+		"nbplayers_plural": "__count__ joueurs",
+		"nbtanks": "__count__ char",
+		"nbtanks_plural_0" : "0 char",
+		"nbtanks_plural": "__count__ chars",
+		"nbprovinces": "__count__ province",
+		"nbprovinces_plural_0" : "0 province",
+		"nbprovinces_plural": "__count__ provinces"
+	},
+	"player": {
+		"name": "Nom"
+	}
+}

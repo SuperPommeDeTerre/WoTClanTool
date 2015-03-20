@@ -1,26 +1,5 @@
 <?php
-require(dirname(__FILE__) . '/server/global.php');
-
-// Get the URI params
-if (isset($_GET["access_token"])) {
-	$_SESSION["access_token"] = $_GET["access_token"];
-	$_SESSION["nickname"] = $_GET["nickname"];
-	$_SESSION["account_id"] = $_GET["account_id"];
-	$_SESSION["expires_at"] = $_GET["expires_at"];
-}
-// Handle WG session expiration
-$curTime = time();
-if (isset($_SESSION["expires_at"]) && $_SESSION["expires_at"] < $curTime) {
-	session_unset();
-	session_destroy();
-	setcookie('PHPSESSID', '', time()-1);
-	session_start();
-}
-// Redirect to home if WG session is active
-if (isset($_SESSION["access_token"])) {
-	header('Location: home.php');
-	exit;
-}
+require(dirname(__FILE__) . "/server/global.php");
 ?><!DOCTYPE html>
 <html lang="fr">
 	<head>
@@ -40,39 +19,29 @@ if (isset($_SESSION["access_token"])) {
 			<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
 	</head>
-	<body id="index">
+	<body id="unauthorized">
 		<nav class="navbar navbar-default navbar-fixed-top navbar-material-grey-700 shadow-z-2">
 			<div class="container-fluid">
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-						<span class="sr-only" data-i18n="nav.toggle">Basculer navigation</span>
+						<span class="sr-only" data-i18n="nav.toggle"></span>
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="./" data-i18n="app.name">WoT Clan Tool</a>
+					<a class="navbar-brand" href="./" data-i18n="app.name"></a>
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
 				</div>
 			</div>
 		</nav>
 
-		<!-- Main component for a primary marketing message or call to action -->
 		<div class="container-fluid">
 			<div class="row">
 				<div class="main">
-					<h1 data-i18n="app.name"></h1>
-					<p>Bienvenue sur cet outil de gestion de clan.</p>
-					<p>Cet outil vous permettra d'effectuer bon nombre d'op&eacute;rations concernant votre clan de World of Tanks. Notamment&nbsp;:</p>
-					<ul>
-						<li>Voir les membres</li>
-						<li>Voir les chars disponibles</li>
-						<li>Définir des évènements et gérer les inscriptions des membres à ceux-ci</li>
-						<li>Préparer des stratégies</li>
-						<li>etc.</li>
-					</ul>
-					<p>Pour commencer, veuillez vous connecter avec vos identifiants Wargaming&nbsp;:</p>
-					<p style="text-align:center"><a href="#" class="btn btn-lg btn-primary btn-material-grey-500" id="btnLogin" data-i18n="action.identification">Se connecter</a></p>
+					<h1>Non autorisé !</h1>
+					<p>Vous n'êtes pas autorisé à accéder à ce site.</p>
+					<p style="text-align:center"><?php echo(SID); ?><a href="#" class="btn btn-lg btn-primary btn-material-grey-500" id="linkLogout" data-i18n="action.logout">Se déconnecter</a></p>
 				</div>
 			</div>
 		</div>
@@ -89,7 +58,9 @@ if (isset($_SESSION["access_token"])) {
 		<script type="text/javascript" src="./js/URI.js"></script>
 		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 		<script type="text/javascript" src="./js/ie10-viewport-bug-workaround.js"></script>
-		<script type="text/javascript" src="./js/pages/index.js"></script>
-		<script type="text/javascript" src="./js/app.js"></script>
+		<script type="text/javascript" src="./js/pages/unauthorized.js"></script>
 	</body>
-</html>
+</html><?php
+// End session
+session_unset();
+?>

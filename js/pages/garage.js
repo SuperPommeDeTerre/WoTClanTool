@@ -1,0 +1,3 @@
+var onLoad = function() {
+	afterLoad();
+};
