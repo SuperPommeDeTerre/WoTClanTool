@@ -46,7 +46,7 @@ var onLoad = function() {
 					additionalClass = '';
 				}
 				tableContent += '<tr' + additionalClass + '>';
-				tableContent += '<td data-id="' + memberId + '"><a class="playerDetailsLink" href="./player.html?id=' + memberId + '" data-id="' + memberId + '" data-target="#my-dialog" data-toggle="modal">';
+				tableContent += '<td data-id="' + memberId + '"><a class="playerDetailsLink" href="./player.php?id=' + memberId + '" data-id="' + memberId + '" data-target="#my-dialog" data-toggle="modal">';
 				tableContent += playerInfos.nickname + '</a></td>';
 				tableContent += '<td>' + clanMemberInfo.role_i18n + '</td>';
 				tableContent += '<td data-value="' + clanMemberInfo.created_at + '"><abbr title="' + moment(new Date(clanMemberInfo.created_at * 1000)).format('LLLL') + '">' + Math.floor((actualDate - clanMemberInfo.created_at) / 86400) + '</abbr></td>';

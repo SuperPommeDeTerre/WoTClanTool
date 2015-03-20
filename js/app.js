@@ -4,21 +4,22 @@ var gTANKS_LEVEL = [ 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'
 		'fr': 'fr-FR'
 	};
 
+var gProgressBar, gProgressMessage;
+
 var advanceProgress = function(pProgress, pMessage) {
 	gProgressMessage.text(pMessage);
-	gProgressPar.attr('aria-valuenow', pProgress)
+	gProgressBar.attr('aria-valuenow', pProgress)
 		.css('width', pProgress + '%')
 		.text(pProgress + ' %');
 };
 
 // Wait for the DOM to finish its initialization before appending data to it.
 $(document).ready(function() {
-	gProgressPar = $('#progressBar');
+	gProgressBar = $('#progressBar');
 	gProgressMessage = $('#progressInfoMessage');
 	moment.locale(gConfig.LANG);
-	i18n.init(function(t) {
-		// translate nav
-		$("html").i18n();
+	i18n.init({ lng: gConfig.LANG, fallbackLng: 'fr' }, function(t) {
+		$(document).i18n();
 	});
 	if (typeof(gConfig.PLAYER_ID) != 'undefined') {
 		$.post(gConfig.WG_API_URL + 'account/info/', {
@@ -29,7 +30,7 @@ $(document).ready(function() {
 			var me = dataPlayersResponse.data[gConfig.PLAYER_ID],
 				isClanFound = false;
 			for (var i=0; i<gConfig.CLAN_IDS.length; i++) {
-				if (me.clan_id == gConfig.CLAN_IDS[i]) {// || me.nickname == 'SuperPommeDeTerre') {
+				if (me.clan_id == gConfig.CLAN_IDS[i]) {
 					onLoad();
 					isClanFound = true;
 					break;

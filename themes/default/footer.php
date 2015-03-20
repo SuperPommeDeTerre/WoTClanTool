@@ -15,6 +15,7 @@
 		<script type="text/javascript" src="./locales/<?php echo($gLang); ?>/calendar.js"></script>
 		<script type="text/javascript" src="./js/calendar.min.js"></script>
 		<script type="text/javascript" src="./js/sortable.min.js"></script>
+		<script type="text/javascript" src="./js/bootstrap-datetimepicker.min.js"></script>
 		<script type="text/javascript" src="./js/URI.js"></script>
 		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 		<script type="text/javascript" src="./js/ie10-viewport-bug-workaround.js"></script>

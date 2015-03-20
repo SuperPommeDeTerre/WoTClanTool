@@ -2,11 +2,11 @@
 require(dirname(__FILE__) . '/server/global.php');
 
 // Get the URI params
-if (isset($_GET["access_token"])) {
-	$_SESSION["access_token"] = $_GET["access_token"];
-	$_SESSION["nickname"] = $_GET["nickname"];
-	$_SESSION["account_id"] = $_GET["account_id"];
-	$_SESSION["expires_at"] = $_GET["expires_at"];
+if (isset($_REQUEST["access_token"])) {
+	$_SESSION["access_token"] = $_REQUEST["access_token"];
+	$_SESSION["nickname"] = $_REQUEST["nickname"];
+	$_SESSION["account_id"] = $_REQUEST["account_id"];
+	$_SESSION["expires_at"] = $_REQUEST["expires_at"];
 }
 // Handle WG session expiration
 $curTime = time();

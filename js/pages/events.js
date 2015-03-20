@@ -1,5 +1,9 @@
 var onLoad = function() {
 	afterLoad();
+	$('[placeholder]').each(function() {
+		var myElem = $(this);
+		myElem.attr('placeholder', i18n.t(myElem.attr('placeholder')));
+	});
 	var myCalendar = $('#clanCalendar').calendar({
 		tmpl_path: './js/calendar-tmpls/',
 		language: gLangMapping[gConfig.LANG],
@@ -24,5 +28,13 @@ var onLoad = function() {
 			$this.addClass('active');
 			myCalendar.view($this.data('calendar-view'));
 		});
+	});
+
+	$('#addEvent').on('click', function(evt) {
+		evt.preventDefault();
+	});
+
+	$('.eventDateTimePicker').datetimepicker({
+		locale: gConfig.LANG
 	});
 };

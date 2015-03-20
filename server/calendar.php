@@ -89,7 +89,7 @@ switch ($_REQUEST['a']) {
 ');
 		break;
 	case 'add':
-		$result['status'] = 'ok';
+		$result['success'] = 'ok';
 		break;
 	case 'modify':
 		break;

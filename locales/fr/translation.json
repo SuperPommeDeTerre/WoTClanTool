@@ -1,6 +1,6 @@
 {
 	"app": {
-		"name": "WoT Clan Tool",
+		"name": "WoT C.T.",
 		"description": "Outil de gestion de clan pour World of Tanks"
 	},
 	"nav": {
@@ -22,8 +22,15 @@
 			"stats": "Mes statistiques"
 		}
 	},
+	"btn": {
+		"ok": "Ok",
+		"cancel": "Annuler",
+		"validate": "Valider",
+		"delete": "Supprimer"
+	},
 	"elems": {
-		"calendar": "Agenda"
+		"calendar": "Agenda",
+		"event": "Evènement"
 	},
 	"action": {
 		"identification": "Se connecter",
@@ -40,6 +47,25 @@
 				"month": "Mois",
 				"week": "Semaine",
 				"day": "Jour"
+			},
+			"prop": {
+				"private": "Privé :",
+				"periodic": "Périodique :",
+				"periodicity": "Périodicité",
+				"participants": "Participants",
+				"title": "Titre",
+				"description": "Description",
+				"startdate": "Date de début",
+				"enddate": "Date de fin",
+				"type": "Type :",
+				"types": {
+					"compa": "Compagnie",
+					"stronghold": "Bastion",
+					"training": "Entraînement",
+					"7vs7": "7/7",
+					"historical": "Bataille historique",
+					"other": "Autre"
+				}
 			}
 		}
 	},
