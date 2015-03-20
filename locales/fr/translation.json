@@ -39,8 +39,8 @@
 			"add": "Ajouter un évènement"
 		},
 		"calendar": {
-			"next": "Suivant >>",
-			"previous": "<< Précédent",
+			"next": ">>",
+			"previous": "<<",
 			"today": "Aujourd'hui",
 			"view": {
 				"year": "Année",

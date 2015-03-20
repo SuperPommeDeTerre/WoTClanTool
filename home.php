@@ -38,21 +38,33 @@ include(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 				</div>
 			</div>
 			<h2 class="sub-header" id="navAgenda" data-i18n="elems.calendar"></h2>
-			<div class="pull-right form-inline">
-				<div class="btn-group btn-group-agenda">
-					<button class="btn btn-primary" data-calendar-nav="prev" data-i18n="action.calendar.previous"></button>
-					<button class="btn" data-calendar-nav="today" data-i18n="action.calendar.today"></button>
-					<button class="btn btn-primary" data-calendar-nav="next" data-i18n="action.calendar.next"></button>
-				</div>
-				<div class="btn-group btn-group-agenda">
-					<button class="btn btn-warning" data-calendar-view="year" data-i18n="action.calendar.view.year"></button>
-					<button class="btn btn-warning active" data-calendar-view="month" data-i18n="action.calendar.view.month"></button>
-					<button class="btn btn-warning" data-calendar-view="week" data-i18n="action.calendar.view.week"></button>
-					<button class="btn btn-warning" data-calendar-view="day" data-i18n="action.calendar.view.day"></button>
+			<div class="container-fuild">
+				<div class="row">
+					<div class="col-md-7">
+						<div id="clanCalendar"></div>
+					</div>
+					<div class="col-md-5">
+						<h3 id="agendaTitle"></h3>
+						<div class="form-inline">
+							<div class="btn-group btn-group-agenda">
+								<button class="btn btn-primary" data-calendar-nav="prev" data-i18n="action.calendar.previous"></button>
+								<button class="btn" data-calendar-nav="today" data-i18n="action.calendar.today"></button>
+								<button class="btn btn-primary" data-calendar-nav="next" data-i18n="action.calendar.next"></button>
+							</div>
+							<div class="btn-group btn-group-agenda">
+								<button class="btn btn-warning" data-calendar-view="year" data-i18n="action.calendar.view.year"></button>
+								<button class="btn btn-warning active" data-calendar-view="month" data-i18n="action.calendar.view.month"></button>
+								<button class="btn btn-warning" data-calendar-view="week" data-i18n="action.calendar.view.week"></button>
+								<button class="btn btn-warning" data-calendar-view="day" data-i18n="action.calendar.view.day"></button>
+							</div>
+						</div>
+						<h3 id="agendaTitleTody" data-i18n="action.calendar.today"></h3>
+						<h4><span class="label label-default">20:00</span> Clan War</h4>
+						<p>Description de l'évènement</p>
+						<h5 data-i18n="action.calendar.prop.participants"></p>
+					</div>
 				</div>
 			</div>
-			<h3 id="agendaTitle"></h3>
-			<div id="clanCalendar"></div>
 			<h2 class="sub-header" id="navPlayers">Joueurs</h2>
 			<div class="table-responsive">
 				<table class="table table-hover" id="tableClanPlayers">

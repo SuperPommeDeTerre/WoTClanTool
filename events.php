@@ -81,7 +81,7 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 						<div class="input-group">
 							<div class="eventType">
 								<h5 data-i18n="action.calendar.prop.type"></h5>
-								<div class="radio radio-primary">
+								<div class="radio radio-material-indigo-600">
 									<label>
 										<input type="radio" checked="" value="clanwar" name="eventType">
 										<span class="circle"></span>
@@ -89,15 +89,15 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 										<abbr data-i18n="action.calendar.prop.types.clanwar"></abbr>
 									</label>
 								</div>
-								<div class="radio radio-primary">
+								<div class="radio radio-material-indigo-600">
 									<label>
-										<input type="radio" checked="" value="compa" name="eventType">
+										<input type="radio" value="compa" name="eventType">
 										<span class="circle"></span>
 										<span class="check"></span>
 										<abbr data-i18n="action.calendar.prop.types.compa"></abbr>
 									</label>
 								</div>
-								<div class="radio radio-primary">
+								<div class="radio radio-material-indigo-600">
 									<label>
 										<input type="radio" value="stronghold" name="eventType">
 										<span class="circle"></span>
@@ -105,7 +105,7 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 										<abbr data-i18n="action.calendar.prop.types.stronghold"></abbr>
 									</label>
 								</div>
-								<div class="radio radio-primary">
+								<div class="radio radio-material-indigo-600">
 									<label>
 										<input type="radio" value="7vs7" name="eventType">
 										<span class="circle"></span>
@@ -113,7 +113,7 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 										<abbr data-i18n="action.calendar.prop.types.7vs7"></abbr>
 									</label>
 								</div>
-								<div class="radio radio-primary">
+								<div class="radio radio-material-indigo-600">
 									<label>
 										<input type="radio" value="training" name="eventType">
 										<span class="circle"></span>
@@ -121,7 +121,7 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 										<abbr data-i18n="action.calendar.prop.types.training"></abbr>
 									</label>
 								</div>
-								<div class="radio radio-primary">
+								<div class="radio radio-material-indigo-600">
 									<label>
 										<input type="radio" value="other" name="eventType">
 										<span class="circle"></span>

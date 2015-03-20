@@ -12,7 +12,7 @@ $result = array();
 switch ($_REQUEST['a']) {
 	case 'list':
 		$out = array();
-		for($i=1; $i<=16; $i++){   //from day 01 to day 15
+		for($i=1; $i<=13; $i++){   //from day 01 to day 15
 			$date = date('Y-m-d', strtotime("+".$i." days"));
 			$data = new Event();
 			$data->setId($i);
@@ -39,8 +39,6 @@ switch ($_REQUEST['a']) {
 				$data->setTitle('7vs7 '.$i);
 				$data->setDescription('7vs7 description '.$i);
 			} else if ($i < 14) {
-				$data->setType('historical');
-			} else if ($i < 16) {
 				$data->setType('other');
 				$data->setTitle('Autre '.$i);
 				$data->setDescription('Autre description '.$i);

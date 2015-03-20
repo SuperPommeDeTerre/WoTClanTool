@@ -7,7 +7,7 @@
 #progressDialog{position:absolute;top:0;bottom:0;left:0;right:0;z-index:2000;background-color:#eee}
 #progressInfoMessage{text-align:center;font-size:1.5em}
 /* Calendar */
-.cal-context{margin-top:2em !important}
+.cal-context{margin-top:2em !important;max-width:1000px;margin:auto}
 .dh-event-type-clanwar,.event-type-clanwar{background-color:#000}.dh-event-type-clanwar a{color:#FFF}
 .dh-event-type-compa,.event-type-compa{background-color:#b71c1c}
 .dh-event-type-stronghold,.event-type-stronghold{background-color:#4a148c}
