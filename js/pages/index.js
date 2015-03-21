@@ -3,7 +3,7 @@ var onLoad = function() {
 		myURIParams = myURI.search(true);
 	$('#btnLogin').on('click', function(evt) {
 		evt.preventDefault();
-		$.post(gConfig.WG_API_URL + 'auth/login/', {
+		$.post(gConfig.WG_API_URL + 'wot/auth/login/', {
 				'application_id': gConfig.WG_APP_ID,
 				'language': gConfig.LANG,
 				'redirect_uri': myURI.href(),
