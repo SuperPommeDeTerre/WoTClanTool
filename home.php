@@ -67,7 +67,7 @@ include(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 			</div>
 			<h2 class="sub-header" id="navPlayers">Joueurs</h2>
 			<div class="table-responsive">
-				<table class="table table-hover" id="tableClanPlayers">
+				<table class="table table-hover header-fixed" id="tableClanPlayers">
 					<thead>
 						<tr>
 							<th>Joueur</th>

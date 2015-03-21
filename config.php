@@ -12,12 +12,6 @@ $gCLAN_ID = [ "500031667" ];
 // Max number of days before a player is marked as inactive
 $gMAX_BATTLE_TIME = 14;
 
-// Google API key (used for google calendars)
-$gGOOGLE_API_KEY = 'AIzaSyAdKm0Y8JnlzOXm-DvH_12wEqZRiIp3Rto';
-
-// List of calendars to use
-$gCALENDARS = [ "vaevictis.wot@gmail.com" ];
-
 // Name of theme to use
 $gThemeName = 'default';
 ?>

@@ -7,9 +7,7 @@ $confArray = array(
 	'WG_API_URL' => $gWG_API_URL,
 	'CLAN_IDS' => $gCLAN_ID,
 	'LANG' => $gLang,
-	'GOOGLE_API_KEY' => $gGOOGLE_API_KEY,
-	'THRESHOLDS_MAX_BATTLES' => $gMAX_BATTLE_TIME,
-	'CALENDARS' => $gCALENDARS
+	'THRESHOLDS_MAX_BATTLES' => $gMAX_BATTLE_TIME
 );
 if (isset($_SESSION["access_token"])) {
 	$confArray['ACCESS_TOKEN'] = $_SESSION["access_token"];

@@ -4,8 +4,10 @@ var gTANKS_LEVEL = [ 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'
 		'fr': 'fr-FR'
 	};
 
-var gProgressBar, gProgressMessage;
-
+var gProgressBar,
+	gProgressMessage,
+	progressNbSteps = 0,
+	progressCurStep = 0;
 var advanceProgress = function(pProgress, pMessage) {
 	gProgressMessage.text(pMessage);
 	gProgressBar.attr('aria-valuenow', pProgress)
