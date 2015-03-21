@@ -4,7 +4,7 @@ $gWG_APP_ID_CLIENT = "65d48624959befe37494ffa27e085450";
 $gWG_APP_ID_SERVER = "d7a3552bfae044c2316a7db9176c46ba";
 
 // URL of WG API
-$gWG_API_URL = "https://api.worldoftanks.eu/wot/";
+$gWG_API_URL = "https://api.worldoftanks.eu/";
 
 // List of clans ID
 $gCLAN_ID = [ "500031667" ];

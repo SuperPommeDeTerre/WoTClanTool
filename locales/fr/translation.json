@@ -30,7 +30,9 @@
 	},
 	"elems": {
 		"calendar": "Agenda",
-		"event": "Evènement"
+		"event": "Evènement",
+		"strats": "Stratégies",
+		"stats": "Statistiques"
 	},
 	"action": {
 		"identification": "Se connecter",
@@ -97,6 +99,23 @@
 		"nbstrats_plural": "__count__ stratégies"
 	},
 	"player": {
-		"name": "Nom"
+		"name": "Nom",
+		"role": {
+			"commander": "Commandant",
+			"executive_officer": "Commandant en second",
+			"personnel_officer": "Officier du personnel",
+			"intelligence_officer": "Officier du renseignement",
+			"combat_officer": "Officier de combat",
+			"junior_officer": "Officier subalterne",
+			"recruitment_officer": "Recruteur",
+			"reservist": "Réserviste",
+			"private": "Soldat",
+			"recruit": "Recrue"
+		}
+	},
+	"page": {
+		"my": {
+			"title": "Mes informations personnelles"
+		}
 	}
 }

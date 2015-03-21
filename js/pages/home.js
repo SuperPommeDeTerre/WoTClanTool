@@ -4,30 +4,32 @@ var onLoad = function() {
 		myURIParams = myURI.search(true);
 	$('#playerNickName').text(myURIParams['nickname']);
 	advanceProgress(15, i18n.t('loading.claninfos'));
-	$.post(gConfig.WG_API_URL + 'clan/info/', {
+	$.post(gConfig.WG_API_URL + 'wgn/clans/info/', {
 		application_id: gConfig.WG_APP_ID,
 		language: gConfig.LANG,
+		access_token: gConfig.ACCESS_TOKEN,
 		clan_id: gConfig.CLAN_IDS.join(',')
 	}, function(dataClanResponse) {
 		var dataClan = dataClanResponse.data[gConfig.CLAN_IDS[0]];
-		$('#clansInfosTitle').html('<img src="' + dataClan.emblems.large + '" alt="Embl&egrave;me du clan" /> <span style="color:' + dataClan.color + '">[' + dataClan.abbreviation + ']</span> ' + dataClan.name + ' <small>' + dataClan.motto + '</small>');
+		$('#clansInfosTitle').html('<img src="' + dataClan.emblems[4].url + '" alt="Embl&egrave;me du clan" /> <span style="color:' + dataClan.color + '">[' + dataClan.tag + ']</span> ' + dataClan.name + ' <small>' + dataClan.motto + '</small>');
 		$('#clanTotalPlayers').text(i18n.t('clan.nbplayers', { count: dataClan.members_count }));
 		$('#clanTotalEvents').text(i18n.t('clan.nbevents', { count: 0 }));
 		$('#clanTotalStrats').text(i18n.t('clan.nbstrats', { count: 0 }));
 		var membersList = '',
 			isFirst = true;
-		for (var memberId in dataClan.members) {
+		for (var i=0; i<dataClan.members_count; i++) {
 			if (isFirst) {
 				isFirst = false;
 			} else {
 				membersList += ',';
 			}
-			membersList += memberId;
+			membersList += dataClan.members[i].account_id;
 		}
 		advanceProgress(30, i18n.t('loading.membersinfos'));
-		$.post(gConfig.WG_API_URL + 'account/info/', {
+		$.post(gConfig.WG_API_URL + 'wot/account/info/', {
 			application_id: gConfig.WG_APP_ID,
 			language: gConfig.G_API_LANG,
+			access_token: gConfig.ACCESS_TOKEN,
 			account_id: membersList
 		}, function(dataPlayersResponse) {
 			advanceProgress(45, i18n.t('loading.generating'));
@@ -41,9 +43,11 @@ var onLoad = function() {
 				lastBattleThreshold = actualDate - (gConfig.THRESHOLDS_MAX_BATTLES * 86400),
 				nbTotalWins = 0,
 				nbTotalLosses = 0,
-				nbTotalDraws = 0;
-			for (var memberId in dataPlayers) {
-				clanMemberInfo = dataClan.members[memberId];
+				nbTotalDraws = 0,
+				memberId = 0;
+			for (var i=0; i<dataClan.members_count; i++) {
+				clanMemberInfo = dataClan.members[i];
+				memberId = clanMemberInfo.account_id;
 				playerInfos = dataPlayers[memberId];
 				if (playerInfos.last_battle_time < lastBattleThreshold) {
 					additionalClass = ' class="oldBattle"';
@@ -53,8 +57,8 @@ var onLoad = function() {
 				tableContent += '<tr' + additionalClass + '>';
 				tableContent += '<td data-id="' + memberId + '"><a class="playerDetailsLink" href="./player.php?id=' + memberId + '" data-id="' + memberId + '" data-target="#my-dialog" data-toggle="modal">';
 				tableContent += playerInfos.nickname + '</a></td>';
-				tableContent += '<td>' + clanMemberInfo.role_i18n + '</td>';
-				tableContent += '<td data-value="' + clanMemberInfo.created_at + '"><abbr title="' + moment(new Date(clanMemberInfo.created_at * 1000)).format('LLLL') + '">' + Math.floor((actualDate - clanMemberInfo.created_at) / 86400) + '</abbr></td>';
+				tableContent += '<td>' + i18n.t('player.role.' + clanMemberInfo.role) + '</td>';
+				tableContent += '<td data-value="' + clanMemberInfo.joined_at + '"><abbr title="' + moment(new Date(clanMemberInfo.joined_at * 1000)).format('LLLL') + '">' + Math.floor((actualDate - clanMemberInfo.joined_at) / 86400) + '</abbr></td>';
 				tableContent += '<td>' + playerInfos.statistics.all.battles + '</td>';
 				tableContent += '<td>' + playerInfos.global_rating + '</td>';
 				tableContent += '</tr>';
@@ -90,6 +94,13 @@ var onLoad = function() {
 				myPlayerDetails += '<a href="http://wot-life.com/eu/player/' + myPlayerInfos.nickname + '/">WoT Life</a><br />';
 				myPlayerDetails += '<a href="http://www.noobmeter.com/player/eu/' + myPlayerInfos.nickname + '/' + myPlayerId + '">Noobmeter</a>';
 				myPlayerDetails += '</p></div></div>';
+				$.post(gConfig.WG_API_URL + 'wot/tanks/stats/', {
+					application_id: gConfig.WG_APP_ID,
+					language: gConfig.LANG,
+					access_token: gConfig.ACCESS_TOKEN,
+					account_id: myPlayerId
+				}, function(dataPlayerTanksResponse) {
+				});
 				myContainer.html(myPlayerDetails);
 			});
 			Sortable.initTable(tableClanPlayers[0]);
@@ -103,27 +114,31 @@ var onLoad = function() {
 				colors: [ "#4caf50", "#f44336", "#2196f3" ]
 			});
 			advanceProgress(60, i18n.t('loading.tanksinfos'));
-			$.post(gConfig.WG_API_URL + 'encyclopedia/tanks/', {
+			$.post(gConfig.WG_API_URL + 'wot/encyclopedia/tanks/', {
 				application_id: gConfig.WG_APP_ID,
+				access_token: gConfig.ACCESS_TOKEN,
 				language: gConfig.LANG
 			}, function(dataTankopediaResponse) {
 				var dataTankopedia = dataTankopediaResponse.data;
 				advanceProgress(75, i18n.t('loading.membertanksinfos'));
-				$.post(gConfig.WG_API_URL + 'account/tanks/', {
+				$.post(gConfig.WG_API_URL + 'wot/account/tanks/', {
 					application_id: gConfig.WG_APP_ID,
 					language: gConfig.LANG,
+					access_token: gConfig.ACCESS_TOKEN,
 					account_id: membersList
 				}, function(dataPlayersVehiclesResponse) {
 					advanceProgress(90, i18n.t('loading.generating'));
 					var dataPlayersVehicles = dataPlayersVehiclesResponse.data,
 						nbClanVehiculesByTiers = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
 						nbClanVehiculesByType = [ 0, 0, 0, 0, 0 ],
-						nbTotalVehicules = 0;
-					for (var playerId in dataClan.members) {
-						var playerVehicles = dataPlayersVehicles[playerId];
+						nbTotalVehicules = 0,
+						playerId = 0;
+					for (var i=0; i<dataClan.members_count; i++) {
+						var playerId = dataClan.members[i].account_id,
+							playerVehicles = dataPlayersVehicles[playerId];
 						nbTotalVehicules += playerVehicles.length;
-						for (var i = 0; i<playerVehicles.length; i++) {
-							var vehiculeDetails = dataTankopedia[playerVehicles[i].tank_id];
+						for (var j = 0; j<playerVehicles.length; j++) {
+							var vehiculeDetails = dataTankopedia[playerVehicles[j].tank_id];
 							nbClanVehiculesByTiers[vehiculeDetails.level - 1]++;
 							if (vehiculeDetails.type == 'lightTank') {
 								nbClanVehiculesByType[0]++;
@@ -202,9 +217,10 @@ var onLoad = function() {
 		}, 'json');
 	}, 'json');
 	// Get the clan province's infos
-	$.post(gConfig.WG_API_URL + 'clan/provinces/', {
+	$.post(gConfig.WG_API_URL + 'wot/clan/provinces/', {
 		application_id: gConfig.WG_APP_ID,
 		language: gConfig.LANG,
+		access_token: gConfig.ACCESS_TOKEN,
 		clan_id: gConfig.CLAN_IDS[0]
 	}, function(dataClanProvincesResponse) {
 		$('#clanTotalProvinces').text(i18n.t("clan.nbprovinces", { count: dataClanProvincesResponse.count }));

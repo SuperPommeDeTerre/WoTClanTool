@@ -22,7 +22,7 @@ $(document).ready(function() {
 		$(document).i18n();
 	});
 	if (typeof(gConfig.PLAYER_ID) != 'undefined') {
-		$.post(gConfig.WG_API_URL + 'account/info/', {
+		$.post(gConfig.WG_API_URL + 'wot/account/info/', {
 			application_id: gConfig.WG_APP_ID,
 			language: gConfig.LANG,
 			access_token: gConfig.ACCESS_TOKEN,
@@ -47,7 +47,7 @@ $(document).ready(function() {
 	}
 	$('#linkLogout').on('click', function(evt) {
 		evt.preventDefault();
-		$.post(gConfig.WG_API_URL + 'auth/logout/', {
+		$.post(gConfig.WG_API_URL + 'wot/auth/logout/', {
 			application_id: gConfig.WG_APP_ID,
 			access_token: gConfig.ACCESS_TOKEN
 		}, function(data) {
