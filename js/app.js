@@ -25,6 +25,7 @@ $(document).ready(function() {
 		$.post(gConfig.WG_API_URL + 'account/info/', {
 			application_id: gConfig.WG_APP_ID,
 			language: gConfig.LANG,
+			access_token: gConfig.ACCESS_TOKEN,
 			account_id: gConfig.PLAYER_ID
 		}, function(dataPlayersResponse) {
 			var me = dataPlayersResponse.data[gConfig.PLAYER_ID],

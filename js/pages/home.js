@@ -38,7 +38,10 @@ var onLoad = function() {
 				additionalClass = '',
 				playerInfos = null,
 				actualDate = Math.floor((new Date()).getTime() / 1000),
-				lastBattleThreshold = actualDate - (gConfig.THRESHOLDS_MAX_BATTLES * 86400);
+				lastBattleThreshold = actualDate - (gConfig.THRESHOLDS_MAX_BATTLES * 86400),
+				nbTotalWins = 0,
+				nbTotalLosses = 0,
+				nbTotalDraws = 0;
 			for (var memberId in dataPlayers) {
 				clanMemberInfo = dataClan.members[memberId];
 				playerInfos = dataPlayers[memberId];
@@ -55,6 +58,9 @@ var onLoad = function() {
 				tableContent += '<td>' + playerInfos.statistics.all.battles + '</td>';
 				tableContent += '<td>' + playerInfos.global_rating + '</td>';
 				tableContent += '</tr>';
+				nbTotalWins += playerInfos.statistics.all.wins;
+				nbTotalLosses += playerInfos.statistics.all.losses;
+				nbTotalDraws += playerInfos.statistics.all.draws;
 			}
 			tableClanPlayers.attr('data-sortable', 'true');
 			tableClanPlayers.find('tbody').append(tableContent);
@@ -87,6 +93,15 @@ var onLoad = function() {
 				myContainer.html(myPlayerDetails);
 			});
 			Sortable.initTable(tableClanPlayers[0]);
+			new Morris.Donut({
+				element: 'chartBattlesOverall',
+				data: [
+					{ label: 'Victoires', value: nbTotalWins },
+					{ label: 'Défaites', value: nbTotalLosses },
+					{ label: 'Egalités', value: nbTotalDraws }
+				],
+				colors: [ "#4caf50", "#f44336", "#2196f3" ]
+			});
 			advanceProgress(60, i18n.t('loading.tanksinfos'));
 			$.post(gConfig.WG_API_URL + 'encyclopedia/tanks/', {
 				application_id: gConfig.WG_APP_ID,
@@ -194,15 +209,6 @@ var onLoad = function() {
 	}, function(dataClanProvincesResponse) {
 		$('#clanTotalProvinces').text(i18n.t("clan.nbprovinces", { count: dataClanProvincesResponse.count }));
 	}, 'json');
-	new Morris.Donut({
-		element: 'chartBattlesOverall',
-		data: [
-			{ label: 'Victoires', value: 54 },
-			{ label: 'Défaites', value: 45 },
-			{ label: 'Egalités', value: 1 }
-		],
-		colors: [ "#4caf50", "#f44336", "#2196f3" ]
-	});
 	new Morris.Line({
 		element: 'chartBattles',
 		data: [
