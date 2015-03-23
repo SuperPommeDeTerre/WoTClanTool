@@ -100,12 +100,12 @@ var onLoad = function() {
 				tableContent += '<td data-value="' + (tankInfos.is_premium?'1':'0') + '"><div class="togglebutton"><label><input type="checkbox" class="chkTanksIsFull" id="chkTanksIsFull' + myTank.tank_id + '" value="true"' + (tankInfos.is_premium?' checked="checked" disabled="disabled"':'') + ' /><span class="toggle"></span></label></div></td>';
 				tableContent += '</tr>';
 				listContent += '<div class="small tank tankcontainer tankmastery' + myTank.mark_of_mastery +  (myTank.in_garage?' ingarage':' hidden') + (tankInfos.is_premium?' ispremium isfull':'') +'">';
-				listContent += '<img src="' + tankInfos.image_small + '" />';
-				listContent += '<p>' + tankInfos.short_name_i18n + '</p>';
+				listContent += '<div class="tanklevel' + tankInfos.level + '"><img src="' + tankInfos.image_small + '" /></div>';
+				listContent += '<p class="tankname">' + tankInfos.short_name_i18n + '</p>';
 				listContent += '</div>';
 				listLargeContent += '<div class="big tank tankcontainer tankmastery' + myTank.mark_of_mastery + (myTank.in_garage?' ingarage':' hidden') + (tankInfos.is_premium?' ispremium isfull':'') +'">';
-				listLargeContent += '<img src="' + tankInfos.image + '" />';
-				listLargeContent += '<p>' + tankInfos.short_name_i18n + '</p>';
+				listLargeContent += '<div class="tanklevel' + tankInfos.level + '"><img src="' + tankInfos.image + '" /></div>';
+				listLargeContent += '<p class="tankname">' + tankInfos.short_name_i18n + '</p>';
 				listLargeContent += '</div>';
 			}
 			myTanksTable.attr('data-sortable', 'true');

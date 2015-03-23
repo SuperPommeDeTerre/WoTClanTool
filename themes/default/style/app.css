@@ -28,9 +28,20 @@
 .tankmastery2{background: url('./images/markofmastery2.png') no-repeat left center;background-size:24px 24px}
 .tankmastery3{background: url('./images/markofmastery3.png') no-repeat left center;background-size:24px 24px}
 .tankmastery4{background: url('./images/markofmastery4.png') no-repeat left center;background-size:24px 24px}
+.tanklevel1{background: url('./images/Tier_01_icon.png') no-repeat 25px 2px}
+.tanklevel2{background: url('./images/Tier_02_icon.png') no-repeat 25px 2px}
+.tanklevel3{background: url('./images/Tier_03_icon.png') no-repeat 25px 2px}
+.tanklevel4{background: url('./images/Tier_04_icon.png') no-repeat 25px 2px}
+.tanklevel5{background: url('./images/Tier_05_icon.png') no-repeat 25px 2px}
+.tanklevel6{background: url('./images/Tier_06_icon.png') no-repeat 25px 2px}
+.tanklevel7{background: url('./images/Tier_07_icon.png') no-repeat 25px 2px}
+.tanklevel8{background: url('./images/Tier_08_icon.png') no-repeat 25px 2px}
+.tanklevel9{background: url('./images/Tier_09_icon.png') no-repeat 25px 2px}
+.tanklevel10{background: url('./images/Tier_10_icon.png') no-repeat 25px 2px}
 .tankcontainer{display:block;float:left;background-position:left top}
 .tankcontainer.big img{width:160px;height:100px}
 .tankcontainer.small{padding-left:10px}
+.tankcontainer .tankname{padding-left:24px}
 
 /* Move down content because we have a fixed navbar that is 50px tall */
 body{padding-top:50px}
