@@ -20,14 +20,17 @@
 .header-fixed > thead > tr > th{background-color: rgba(238, 238, 238, 0.9)}
 
 /* Tanks */
-.tableTanks tbody tr:not(.ingarage) *{color:#999}
+.tank:not(.ingarage) *{color:#999}
 .tableTanks thead .tankcontour{width:50px}
 .tableTanks thead .tankmastery{width:50px}
-.tableTanks tbody td.tankmastery0{background: url('./images/markofmastery0.png') no-repeat left center;background-size:24px 24px}
-.tableTanks tbody td.tankmastery1{background: url('./images/markofmastery1.png') no-repeat left center;background-size:24px 24px}
-.tableTanks tbody td.tankmastery2{background: url('./images/markofmastery2.png') no-repeat left center;background-size:24px 24px}
-.tableTanks tbody td.tankmastery3{background: url('./images/markofmastery3.png') no-repeat left center;background-size:24px 24px}
-.tableTanks tbody td.tankmastery4{background: url('./images/markofmastery4.png') no-repeat left center;background-size:24px 24px}
+.tankmastery0{background: url('./images/markofmastery0.png') no-repeat left center;background-size:24px 24px}
+.tankmastery1{background: url('./images/markofmastery1.png') no-repeat left center;background-size:24px 24px}
+.tankmastery2{background: url('./images/markofmastery2.png') no-repeat left center;background-size:24px 24px}
+.tankmastery3{background: url('./images/markofmastery3.png') no-repeat left center;background-size:24px 24px}
+.tankmastery4{background: url('./images/markofmastery4.png') no-repeat left center;background-size:24px 24px}
+.tankcontainer{display:block;float:left;background-position:left top}
+.tankcontainer.big img{width:160px;height:100px}
+.tankcontainer.small{padding-left:10px}
 
 /* Move down content because we have a fixed navbar that is 50px tall */
 body{padding-top:50px}

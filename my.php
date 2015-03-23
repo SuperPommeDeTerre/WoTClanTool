@@ -13,9 +13,9 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 			<div id="myCalendar"></div>
 			<h2 class="sub-header" id="garage" data-i18n="elems.garage"></h2>
 			<div class="btn-group" role="group">
-				<button type="button" class="btn btn-default btn-material-grey-500 active"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span></button>
-				<button type="button" class="btn btn-default btn-material-grey-500"><span class="glyphicon glyphicon-th" aria-hidden="true"></span></button>
-				<button type="button" class="btn btn-default btn-material-grey-500"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span></button>
+				<button type="button" id="btnShowTanksTable" class="btn btn-default btn-material-grey-500 active"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span></button>
+				<button type="button" id="btnShowTanksListSmall" class="btn btn-default btn-material-grey-500"><span class="glyphicon glyphicon-th" aria-hidden="true"></span></button>
+				<button type="button" id="btnShowTanksListLarge" class="btn btn-default btn-material-grey-500"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span></button>
 			</div>
 			<div class="pull-right form-inline">
 				<div class="togglebutton" style="float:left">
@@ -31,27 +31,29 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 					</label>
 				</div>
 			</div>
-			<div class="table-responsive" id="myTanksContainerTable">
-				<table class="table table-hover header-fixed tableTanks" id="tableMyTanks">
-					<thead>
-						<tr>
-							<th class="tankcontour" data-sortable="false"></th>
-							<th class="tankmastery">M</th>
-							<th class="tankname">Char</th>
-							<th class="tanktiers" data-sorted="true" data-sorted-direction="descending">Tiers</th>
-							<th class="tanktype">Type</th>
-							<th class="tankbattles">Batailles</th>
-							<th class="tankwinratio">% victoires</th>
-							<th class="tankisfull">Full ?</th>
-						</tr>
-					</thead>
-					<tbody>
-					</tbody>
-				</table>
-			</div>
-			<div class="table-responsive" id="myTanksContainerSmall">
-			</div>
-			<div class="table-responsive" id="myTanksContainerBig">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="table-responsive" id="myTanksContainerTable">
+						<table class="table table-hover header-fixed tableTanks" id="tableMyTanks">
+							<thead>
+								<tr>
+									<th class="tankcontour" data-sortable="false"></th>
+									<th class="tankmastery">M</th>
+									<th class="tankname">Char</th>
+									<th class="tanktiers" data-sorted="true" data-sorted-direction="descending">Tiers</th>
+									<th class="tanktype">Type</th>
+									<th class="tankbattles">Batailles</th>
+									<th class="tankwinratio">% victoires</th>
+									<th class="tankisfull">Full ?</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+					<div id="myTanksContainerSmall" class="hidden"></div>
+					<div id="myTanksContainerBig" class="hidden"></div>
+				</div>
 			</div>
 			<h2 class="sub-header" id="strats" data-i18n="elems.strats"></h2>
 			<h2 class="sub-header" id="stats" data-i18n="elems.stats"></h2>

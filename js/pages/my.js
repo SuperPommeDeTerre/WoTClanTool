@@ -1,26 +1,52 @@
-var applyTableTanksFilters = function(pTableTanks, filter) {
-	var myRows = pTableTanks.find('tbody tr'),
-		myFilteredRows = myRows;
-	// Reduce rows by filter
+var applyTableTanksFilters = function(filter) {
+	var myElems = $('.tank'),
+		myFilteredElems = myElems;
+	// Reduce elements by filter
 	if (filter.isfull) {
-		myFilteredRows = myFilteredRows.filter('.isfull');
+		myFilteredElems = myFilteredElems.filter('.isfull');
 	}
 	if (filter.ingarage) {
-		myFilteredRows = myFilteredRows.filter('.ingarage');
+		myFilteredElems = myFilteredElems.filter('.ingarage');
 	}
-	// Hide all rows
-	myRows.addClass('hidden');
-	// And show filtered rows
-	myFilteredRows.removeClass('hidden')
+	// Hide all elements
+	myElems.addClass('hidden');
+	// And show filtered elements
+	myFilteredElems.removeClass('hidden')
 };
 
 var onLoad = function() {
-	var myTanksTable = $('#tableMyTanks');
+	var myTanksTable = $('#tableMyTanks'),
+		myTanksSmallContainer = $('#myTanksContainerSmall'),
+		myTanksBigContainer = $('#myTanksContainerBig');
 	checkConnected();
 	progressNbSteps = 5;
 	advanceProgress(i18n.t('loading.claninfos'));
 	setNavBrandWithClan();
 	advanceProgress(i18n.t('loading.tanksinfos'));
+	$('#btnShowTanksTable').on('click', function(evt) {
+		var myButton = $(this);
+		myButton.siblings().removeClass('active');
+		myButton.addClass('active');
+		myTanksTable.removeClass('hidden');
+		myTanksSmallContainer.addClass('hidden');
+		myTanksBigContainer.addClass('hidden');
+	});
+	$('#btnShowTanksListSmall').on('click', function(evt) {
+		var myButton = $(this);
+		myButton.siblings().removeClass('active');
+		myButton.addClass('active');
+		myTanksTable.addClass('hidden');
+		myTanksSmallContainer.removeClass('hidden');
+		myTanksBigContainer.addClass('hidden');
+	});
+	$('#btnShowTanksListLarge').on('click', function(evt) {
+		var myButton = $(this);
+		myButton.siblings().removeClass('active');
+		myButton.addClass('active');
+		myTanksTable.addClass('hidden');
+		myTanksSmallContainer.addClass('hidden');
+		myTanksBigContainer.removeClass('hidden');
+	});
 	$.post(gConfig.WG_API_URL + 'wot/encyclopedia/tanks/', {
 		application_id: gConfig.WG_APP_ID,
 		access_token: gConfig.ACCESS_TOKEN,
@@ -71,23 +97,33 @@ var onLoad = function() {
 				tableContent += '<td>' + tankInfos.type_i18n + '</td>';
 				tableContent += '<td>' + myTank.all.battles + '</td>';
 				tableContent += '<td data-value="' + winRatio + '">' + (winRatio > -1?(Math.round(winRatio * 100) / 100) + ' %':'-') + '</td>';
-				tableContent += '<td data-value="0"><div class="togglebutton"><label><input type="checkbox" class="chkTanksIsFull" id="chkTanksIsFull' + myTank.tank_id + '" value="true"' + (tankInfos.is_premium?' checked="checked" disabled="disabled"':'') + ' /><span class="toggle"></span></label></div></td>';
+				tableContent += '<td data-value="' + (tankInfos.is_premium?'1':'0') + '"><div class="togglebutton"><label><input type="checkbox" class="chkTanksIsFull" id="chkTanksIsFull' + myTank.tank_id + '" value="true"' + (tankInfos.is_premium?' checked="checked" disabled="disabled"':'') + ' /><span class="toggle"></span></label></div></td>';
 				tableContent += '</tr>';
+				listContent += '<div class="small tank tankcontainer tankmastery' + myTank.mark_of_mastery +  (myTank.in_garage?' ingarage':' hidden') + (tankInfos.is_premium?' ispremium isfull':'') +'">';
+				listContent += '<img src="' + tankInfos.image_small + '" />';
+				listContent += '<p>' + tankInfos.short_name_i18n + '</p>';
+				listContent += '</div>';
+				listLargeContent += '<div class="big tank tankcontainer tankmastery' + myTank.mark_of_mastery + (myTank.in_garage?' ingarage':' hidden') + (tankInfos.is_premium?' ispremium isfull':'') +'">';
+				listLargeContent += '<img src="' + tankInfos.image + '" />';
+				listLargeContent += '<p>' + tankInfos.short_name_i18n + '</p>';
+				listLargeContent += '</div>';
 			}
 			myTanksTable.attr('data-sortable', 'true');
 			myTanksTable.find('tbody').append(tableContent);
+			myTanksSmallContainer.html(listContent);
+			myTanksBigContainer.html(listLargeContent);
 			Sortable.initTable(myTanksTable[0]);
 			myTanksTable.find('.chkTanksIsFull').on('change', function(evt) {
 				$(this).closest('tr').toggleClass('isfull');
 			});
 			chkInGarage.on('change', function(evt) {
-				applyTableTanksFilters(myTanksTable, {
+				applyTableTanksFilters({
 					isfull: chkIsFull.is(':checked'),
 					ingarage: chkInGarage.is(':checked')
 				});
 			});
 			chkIsFull.on('change', function(evt) {
-				applyTableTanksFilters(myTanksTable, {
+				applyTableTanksFilters({
 					isfull: chkIsFull.is(':checked'),
 					ingarage: chkInGarage.is(':checked')
 				});
