@@ -1,17 +1,23 @@
 var onLoad = function() {
+	checkConnected();
 	// Get the clan data
-	var myURI = URI(window.location.href),
-		myURIParams = myURI.search(true);
-	$('#playerNickName').text(myURIParams['nickname']);
-	advanceProgress(15, i18n.t('loading.claninfos'));
+	progressNbSteps = 7;
+	advanceProgress(i18n.t('loading.claninfos'));
 	$.post(gConfig.WG_API_URL + 'wgn/clans/info/', {
 		application_id: gConfig.WG_APP_ID,
 		language: gConfig.LANG,
 		access_token: gConfig.ACCESS_TOKEN,
 		clan_id: gConfig.CLAN_IDS.join(',')
 	}, function(dataClanResponse) {
-		var dataClan = dataClanResponse.data[gConfig.CLAN_IDS[0]];
-		$('#clansInfosTitle').html('<img src="' + dataClan.emblems[4].url + '" alt="Embl&egrave;me du clan" /> <span style="color:' + dataClan.color + '">[' + dataClan.tag + ']</span> ' + dataClan.name + ' <small>' + dataClan.motto + '</small>');
+		var dataClan = dataClanResponse.data[gConfig.CLAN_IDS[0]],
+			clanEmblem = '';
+		for (var i=0; i<dataClan.emblems.length; i++) {
+			if (dataClan.emblems[i].type == '64x64') {
+				clanEmblem = dataClan.emblems[i].url;
+				break;
+			}
+		}
+		$('#clansInfosTitle').html('<img src="' + clanEmblem + '" alt="Embl&egrave;me du clan" /> <span style="color:' + dataClan.color + '">[' + dataClan.tag + ']</span> ' + dataClan.name + ' <small>' + dataClan.motto + '</small>');
 		$('#clanTotalPlayers').text(i18n.t('clan.nbplayers', { count: dataClan.members_count }));
 		$('#clanTotalEvents').text(i18n.t('clan.nbevents', { count: 0 }));
 		$('#clanTotalStrats').text(i18n.t('clan.nbstrats', { count: 0 }));
@@ -25,14 +31,14 @@ var onLoad = function() {
 			}
 			membersList += dataClan.members[i].account_id;
 		}
-		advanceProgress(30, i18n.t('loading.membersinfos'));
+		advanceProgress(i18n.t('loading.membersinfos'));
 		$.post(gConfig.WG_API_URL + 'wot/account/info/', {
 			application_id: gConfig.WG_APP_ID,
 			language: gConfig.G_API_LANG,
 			access_token: gConfig.ACCESS_TOKEN,
 			account_id: membersList
 		}, function(dataPlayersResponse) {
-			advanceProgress(45, i18n.t('loading.generating'));
+			advanceProgress(i18n.t('loading.generating'));
 			var dataPlayers = dataPlayersResponse.data,
 				tableClanPlayers = $('#tableClanPlayers'),
 				tableContent = '',
@@ -68,7 +74,6 @@ var onLoad = function() {
 			}
 			tableClanPlayers.attr('data-sortable', 'true');
 			tableClanPlayers.find('tbody').append(tableContent);
-			tableClanPlayers.stickyTableHeaders({fixedOffset: $('#mainNavBar')});
 			tableClanPlayers.find('.playerDetailsLink').on('click', function(evt) {
 				var myLink = $(this),
 					myPlayerId = myLink.data('id'),
@@ -114,21 +119,21 @@ var onLoad = function() {
 				],
 				colors: [ "#4caf50", "#f44336", "#2196f3" ]
 			});
-			advanceProgress(60, i18n.t('loading.tanksinfos'));
+			advanceProgress(i18n.t('loading.tanksinfos'));
 			$.post(gConfig.WG_API_URL + 'wot/encyclopedia/tanks/', {
 				application_id: gConfig.WG_APP_ID,
 				access_token: gConfig.ACCESS_TOKEN,
 				language: gConfig.LANG
 			}, function(dataTankopediaResponse) {
 				var dataTankopedia = dataTankopediaResponse.data;
-				advanceProgress(75, i18n.t('loading.membertanksinfos'));
+				advanceProgress(i18n.t('loading.membertanksinfos'));
 				$.post(gConfig.WG_API_URL + 'wot/account/tanks/', {
 					application_id: gConfig.WG_APP_ID,
 					language: gConfig.LANG,
 					access_token: gConfig.ACCESS_TOKEN,
 					account_id: membersList
 				}, function(dataPlayersVehiclesResponse) {
-					advanceProgress(90, i18n.t('loading.generating'));
+					advanceProgress(i18n.t('loading.generating'));
 					var dataPlayersVehicles = dataPlayersVehiclesResponse.data,
 						nbClanVehiculesByTiers = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
 						nbClanVehiculesByType = [ 0, 0, 0, 0, 0 ],
@@ -211,7 +216,7 @@ var onLoad = function() {
 					tableTanks.find('tbody').html(tableContent);
 					Sortable.initTable(tableTanks[0]);
 					*/
-					advanceProgress(100, i18n.t('loading.complete'));
+					advanceProgress(i18n.t('loading.complete'));
 					afterLoad();
 				}, 'json');
 			}, 'json');

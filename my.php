@@ -17,14 +17,32 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 				<button type="button" class="btn btn-default btn-material-grey-500"><span class="glyphicon glyphicon-th" aria-hidden="true"></span></button>
 				<button type="button" class="btn btn-default btn-material-grey-500"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span></button>
 			</div>
+			<div class="pull-right form-inline">
+				<div class="togglebutton" style="float:left">
+					<label><span>Au garage</span>
+					<input type="checkbox" id="chkInGarage" checked="checked" />
+					<span class="toggle"></span>
+					</label>
+				</div>
+				<div class="togglebutton" style="float:left">
+					<label><span>Full</span>
+					<input type="checkbox" id="chkIsFull" />
+					<span class="toggle"></span>
+					</label>
+				</div>
+			</div>
 			<div class="table-responsive" id="myTanksContainerTable">
-				<table class="table table-hover" id="tableMyTanks">
+				<table class="table table-hover header-fixed tableTanks" id="tableMyTanks">
 					<thead>
 						<tr>
-							<th>Char</th>
-							<th>Tiers</th>
-							<th>Type</th>
-							<th>Au garage</th>
+							<th class="tankcontour" data-sortable="false"></th>
+							<th class="tankmastery">M</th>
+							<th class="tankname">Char</th>
+							<th class="tanktiers">Tiers</th>
+							<th class="tanktype">Type</th>
+							<th class="tankbattles">Batailles</th>
+							<th class="tankwinratio">% victoires</th>
+							<th class="tankisfull">Full ?</th>
 						</tr>
 					</thead>
 					<tbody>

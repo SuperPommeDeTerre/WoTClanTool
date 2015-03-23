@@ -134,7 +134,7 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-primary" data-dismiss="modal" data-i18n="btn.cancel"></button>
+					<button class="btn btn-default" data-dismiss="modal" data-i18n="btn.cancel"></button>
 					<button class="btn btn-primary" data-dismiss="modal" data-i18n="btn.ok"></button>
 				</div>
 			</div>

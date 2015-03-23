@@ -32,7 +32,8 @@
 		"calendar": "Agenda",
 		"event": "Evènement",
 		"strats": "Stratégies",
-		"stats": "Statistiques"
+		"stats": "Statistiques",
+		"garage": "Garage"
 	},
 	"action": {
 		"identification": "Se connecter",
@@ -77,6 +78,7 @@
 		"claninfos": "Chargement des informations du clan...",
 		"membersinfos": "Chargement des informations des membres du clan...",
 		"provinceinfos": "Chargement des informations de province du clan...",
+		"mytanksinfos": "Chargement de mes chars...",
 		"tanksinfos": "Chargement des chars...",
 		"membertanksinfos": "Chargement des chars des membres...",
 		"complete": "Terminé !"

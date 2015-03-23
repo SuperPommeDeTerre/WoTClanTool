@@ -1,4 +1,5 @@
 var onLoad = function() {
+	checkConnected();
 	afterLoad();
 	$('[placeholder]').each(function() {
 		var myElem = $(this);

@@ -6,6 +6,8 @@
 #tableClanPlayers tr.oldBattle *{color:#F00}
 #progressDialog{position:absolute;top:0;bottom:0;left:0;right:0;z-index:2000;background-color:#eee}
 #progressInfoMessage{text-align:center;font-size:1.5em}
+/* Header */
+.navbar-brand small{position:absolute;left:52px;top:38px;font-size:0.4em;color:#999}
 /* Calendar */
 .cal-context{margin-top:2em !important;max-width:1000px;margin:auto}
 .dh-event-type-clanwar,.event-type-clanwar{background-color:#000}.dh-event-type-clanwar a{color:#FFF}
@@ -15,40 +17,18 @@
 .dh-event-type-7vs7,.event-type-7vs7{background-color:#1a237e}
 .dh-event-type-historical,.event-type-historical{background-color:#ffeb3b}
 .dh-event-type-other,.event-type-other{background-color:#9e9e9e}
-.header-fixed > thead > tr > th{background: #eee}
-/*
-.header-fixed {
-    width: 100% 
-}
+.header-fixed > thead > tr > th{background-color: rgba(238, 238, 238, 0.9)}
 
-.header-fixed > thead,
-.header-fixed > tbody,
-.header-fixed > thead > tr,
-.header-fixed > tbody > tr,
-.header-fixed > thead > tr > th,
-.header-fixed > tbody > tr > td {
-    display: block;
-}
+/* Tanks */
+.tableTanks tbody tr:not(.ingarage) *{color:#999}
+.tableTanks thead .tankcontour{width:50px}
+.tableTanks thead .tankmastery{width:50px}
+.tableTanks tbody td.tankmastery0{background: url('./images/markofmastery0.png') no-repeat left center;background-size:24px 24px}
+.tableTanks tbody td.tankmastery1{background: url('./images/markofmastery1.png') no-repeat left center;background-size:24px 24px}
+.tableTanks tbody td.tankmastery2{background: url('./images/markofmastery2.png') no-repeat left center;background-size:24px 24px}
+.tableTanks tbody td.tankmastery3{background: url('./images/markofmastery3.png') no-repeat left center;background-size:24px 24px}
+.tableTanks tbody td.tankmastery4{background: url('./images/markofmastery4.png') no-repeat left center;background-size:24px 24px}
 
-.header-fixed > tbody > tr:after,
-.header-fixed > thead > tr:after {
-    content: ' ';
-    display: block;
-    visibility: hidden;
-    clear: both;
-}
-
-.header-fixed > tbody {
-    overflow-y: auto;
-    height: 500px;
-}
-
-.header-fixed > tbody > tr > td,
-.header-fixed > thead > tr > th {
-    width: 20%;
-    float: left;
-}
-*/
 /* Move down content because we have a fixed navbar that is 50px tall */
 body{padding-top:50px}
 /* Global add-ons */

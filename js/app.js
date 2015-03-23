@@ -2,17 +2,41 @@
 var gTANKS_LEVEL = [ 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X' ],
 	gLangMapping = {
 		'fr': 'fr-FR'
-	};
+	},
+	gPersonalInfos = '';
 
 var gProgressBar,
 	gProgressMessage,
 	progressNbSteps = 0,
 	progressCurStep = 0;
-var advanceProgress = function(pProgress, pMessage) {
+var advanceProgress = function(pMessage) {
+	var progressToSet = (++progressCurStep * (100 / progressNbSteps));
 	gProgressMessage.text(pMessage);
-	gProgressBar.attr('aria-valuenow', pProgress)
-		.css('width', pProgress + '%')
-		.text(pProgress + ' %');
+	gProgressBar.attr('aria-valuenow', progressToSet)
+		.css('width', progressToSet + '%')
+		.text(progressToSet + ' %');
+};
+
+var checkConnected = function() {
+	if (typeof(gConfig.PLAYER_ID) == 'undefined') {
+		document.location = './unauthorized.php';
+	}
+};
+
+var setNavBrandWithClan = function(clanInfos) {
+	var clanEmblem = '';
+	// Get the 32x32 emblem
+	for (var i=0; i<clanInfos.emblems.length; i++) {
+		if (clanInfos.emblems[i].type == '32x32') {
+			clanEmblem = clanInfos.emblems[i].url;
+			break;
+		}
+	}
+	$('#mainNavBar .navbar-brand').html('<span style="color:' + clanInfos.color + '">[' + clanInfos.tag + ']</span> ' + clanInfos.name + ' <small>' + clanInfos.motto + '</small>')
+		// Set clan emblem with CSS because it causes problems with inline HTML.
+		.css('background', 'url(\'' + clanEmblem + '\') no-repeat 15px center')
+		// Add padding to avoid overlap of emblem and text
+		.css('padding-left', '51px');
 };
 
 // Wait for the DOM to finish its initialization before appending data to it.
@@ -36,6 +60,7 @@ $(document).ready(function() {
 				if (me.clan_id == gConfig.CLAN_IDS[i]) {
 					onLoad();
 					isClanFound = true;
+					gPersonalInfos = me;
 					break;
 				}
 			}
@@ -60,4 +85,5 @@ $(document).ready(function() {
 
 var afterLoad = function() {
 	$('#progressDialog').fadeOut('fast');
+	$('.header-fixed').stickyTableHeaders({fixedOffset: $('#mainNavBar')});
 };

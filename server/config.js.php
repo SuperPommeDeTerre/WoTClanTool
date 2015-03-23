@@ -5,6 +5,7 @@ header('Content-Type: text/javascript');
 $confArray = array(
 	'WG_APP_ID' => $gWG_APP_ID_CLIENT,
 	'WG_API_URL' => $gWG_API_URL,
+	'THEME' => $gThemeName,
 	'CLAN_IDS' => $gCLAN_ID,
 	'LANG' => $gLang,
 	'THRESHOLDS_MAX_BATTLES' => $gMAX_BATTLE_TIME
