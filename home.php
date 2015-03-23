@@ -71,7 +71,7 @@ include(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 					<thead>
 						<tr>
 							<th>Joueur</th>
-							<th>Position</th>
+							<th data-sorted="true" data-sorted-direction="descending">Position</th>
 							<th>Jours dans le clan</th>
 							<th>Nombre de batailles</th>
 							<th>Cote personnelle</th>

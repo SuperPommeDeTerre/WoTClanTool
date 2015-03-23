@@ -50,9 +50,20 @@ var onLoad = function() {
 				nbTotalWins = 0,
 				nbTotalLosses = 0,
 				nbTotalDraws = 0,
-				memberId = 0;
-			for (var i=0; i<dataClan.members_count; i++) {
-				clanMemberInfo = dataClan.members[i];
+				memberId = 0,
+				clanMembers = dataClan.members;
+			// Sort member by rank
+			clanMembers.sort(function(a, b) {
+				if (gROLE_POSITION[a.role] < gROLE_POSITION[b.role]) {
+					return -1;
+				}
+				if (gROLE_POSITION[a.role] > gROLE_POSITION[b.role]) {
+					return 1;
+				}
+				return 0;
+			});
+			for (var i=0; i<clanMembers.length; i++) {
+				clanMemberInfo = clanMembers[i];
 				memberId = clanMemberInfo.account_id;
 				playerInfos = dataPlayers[memberId];
 				if (playerInfos.last_battle_time < lastBattleThreshold) {
@@ -63,7 +74,7 @@ var onLoad = function() {
 				tableContent += '<tr' + additionalClass + '>';
 				tableContent += '<td data-id="' + memberId + '"><a class="playerDetailsLink" href="./player.php?id=' + memberId + '" data-id="' + memberId + '" data-target="#my-dialog" data-toggle="modal">';
 				tableContent += playerInfos.nickname + '</a></td>';
-				tableContent += '<td>' + i18n.t('player.role.' + clanMemberInfo.role) + '</td>';
+				tableContent += '<td data-value="' + gROLE_POSITION[clanMemberInfo.role] + '">' + i18n.t('player.role.' + clanMemberInfo.role) + '</td>';
 				tableContent += '<td data-value="' + clanMemberInfo.joined_at + '"><abbr title="' + moment(new Date(clanMemberInfo.joined_at * 1000)).format('LLLL') + '">' + Math.floor((actualDate - clanMemberInfo.joined_at) / 86400) + '</abbr></td>';
 				tableContent += '<td>' + playerInfos.statistics.all.battles + '</td>';
 				tableContent += '<td>' + playerInfos.global_rating + '</td>';
