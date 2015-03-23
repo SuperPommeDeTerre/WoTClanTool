@@ -26,7 +26,7 @@
 		</div>
 		<div id="content">
 			<!-- Static navbar -->
-			<nav class="navbar navbar-default navbar-fixed-top navbar-material-grey-700 shadow-z-2">
+			<nav class="navbar navbar-default navbar-fixed-top navbar-material-grey-700 shadow-z-2" id="mainNavBar">
 				<div class="container-fluid">
 					<div class="navbar-header">
 						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">

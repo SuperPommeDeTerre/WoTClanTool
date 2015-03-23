@@ -68,6 +68,7 @@ var onLoad = function() {
 			}
 			tableClanPlayers.attr('data-sortable', 'true');
 			tableClanPlayers.find('tbody').append(tableContent);
+			tableClanPlayers.stickyTableHeaders({fixedOffset: $('#mainNavBar')});
 			tableClanPlayers.find('.playerDetailsLink').on('click', function(evt) {
 				var myLink = $(this),
 					myPlayerId = myLink.data('id'),
