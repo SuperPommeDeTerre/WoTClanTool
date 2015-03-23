@@ -19,15 +19,7 @@ var onLoad = function() {
 	checkConnected();
 	progressNbSteps = 5;
 	advanceProgress(i18n.t('loading.claninfos'));
-	$.post(gConfig.WG_API_URL + 'wgn/clans/info/', {
-		application_id: gConfig.WG_APP_ID,
-		language: gConfig.LANG,
-		access_token: gConfig.ACCESS_TOKEN,
-		clan_id: gConfig.CLAN_IDS.join(',')
-	}, function(dataClanResponse) {
-		var dataClan = dataClanResponse.data[gConfig.CLAN_IDS[0]];
-		setNavBrandWithClan(dataClan);
-	}, 'json');
+	setNavBrandWithClan();
 	advanceProgress(i18n.t('loading.tanksinfos'));
 	$.post(gConfig.WG_API_URL + 'wot/encyclopedia/tanks/', {
 		application_id: gConfig.WG_APP_ID,
@@ -52,6 +44,18 @@ var onLoad = function() {
 				chkInGarage = $('#chkInGarage'),
 				chkIsFull = $('#chkIsFull');
 			advanceProgress(i18n.t('loading.generating'));
+			// Sort tanks by tiers
+			dataMyTanks.sort(function(a, b) {
+				var tankInfosA = dataTankopedia[a.tank_id],
+					tankInfosB = dataTankopedia[b.tank_id];
+				if (tankInfosA.level > tankInfosB.level) {
+					return -1;
+				}
+				if (tankInfosA.level < tankInfosB.level) {
+					return 1;
+				}
+				return 0;
+			});
 			for (var i=0; i<dataMyTanks.length; i++) {
 				myTank = dataMyTanks[i];
 				tankInfos = dataTankopedia[myTank.tank_id];

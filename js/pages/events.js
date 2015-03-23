@@ -1,10 +1,7 @@
 var onLoad = function() {
 	checkConnected();
-	afterLoad();
-	$('[placeholder]').each(function() {
-		var myElem = $(this);
-		myElem.attr('placeholder', i18n.t(myElem.attr('placeholder')));
-	});
+	advanceProgress(i18n.t('loading.claninfos'));
+	setNavBrandWithClan();
 	var myCalendar = $('#clanCalendar').calendar({
 		tmpl_path: './js/calendar-tmpls/',
 		language: gLangMapping[gConfig.LANG],
@@ -40,4 +37,5 @@ var onLoad = function() {
 		stepping: 5,
 		sideBySide: true
 	});
+	afterLoad();
 };

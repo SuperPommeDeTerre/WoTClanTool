@@ -179,43 +179,6 @@ var onLoad = function() {
 							{ label: 'SPG', value: nbClanVehiculesByType[4] }
 						]
 					});
-					/*
-					var tableTanks = $('#tableTanks'),
-						tableContent = '',
-						isTankInGarage = false,
-						isFirstPlayer = true;
-					for (var tankId in dataTankopedia) {
-						isTankInGarage = false;
-						isFirstPlayer = true;
-						for (var playerId in dataPlayersVehicles) {
-							for (var i=0; i<dataPlayersVehicles[playerId].length; i++) {
-								if (dataPlayersVehicles[playerId][i].tank_id == tankId) {
-									if (!isTankInGarage) {
-										isTankInGarage = true;
-										tableContent += '<tr><td>' + dataTankopedia[tankId].short_name_i18n + '</td>',
-										tableContent += '<td>' + dataTankopedia[tankId].nation_i18n + '</td>';
-										tableContent += '<td data-value="' + dataTankopedia[tankId].level + '">' + gTANKS_LEVEL[dataTankopedia[tankId].level - 1]+ '</td>';
-										tableContent += '<td>' + dataTankopedia[tankId].type_i18n + '</td>';
-										tableContent += '<td>';
-									}
-									if (isFirstPlayer) {
-										isFirstPlayer = false;
-									} else {
-										tableContent += ', ';
-									}
-									tableContent += dataPlayers[playerId].nickname;
-									break;
-								}
-							}
-						}
-						if (isTankInGarage) {
-							tableContent += '</td></tr>';
-						}
-					}
-					tableTanks.attr("data-sortable", "true");
-					tableTanks.find('tbody').html(tableContent);
-					Sortable.initTable(tableTanks[0]);
-					*/
 					advanceProgress(i18n.t('loading.complete'));
 					afterLoad();
 				}, 'json');

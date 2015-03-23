@@ -51,14 +51,14 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 					</nav>
 					<div id="containerEventMain">
 						<div class="input-group">
-							<input id="eventTitle" type="text" class="form-control" placeholder="action.calendar.prop.title" aria-describedby="sizing-addon1">
-							<textarea id="eventDescription" class="form-control" placeholder="action.calendar.prop.description" aria-describedby="sizing-addon1"></textarea>
+							<input id="eventTitle" type="text" class="form-control" data-i18n="[placeholder]action.calendar.prop.title;"  placeholder="" aria-describedby="sizing-addon1">
+							<textarea id="eventDescription" class="form-control" data-i18n="[placeholder]action.calendar.prop.description;" placeholder="" aria-describedby="sizing-addon1"></textarea>
 							<div class="input-group date eventDateTimePicker">
-								<input type="text" id="eventStartDate" class="form-control" placeholder="action.calendar.prop.startdate" />
+								<input type="text" id="eventStartDate" class="form-control" data-i18n="[placeholder]action.calendar.prop.startdate;" placeholder="" />
 								<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 							</div>
 							<div class="input-group date eventDateTimePicker">
-								<input type="text" id="eventEndDate" class="form-control" placeholder="action.calendar.prop.enddate" />
+								<input type="text" id="eventEndDate" class="form-control" data-i18n="[placeholder]action.calendar.prop.enddate;" placeholder="" />
 								<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 							</div>
 							<div class="togglebutton">

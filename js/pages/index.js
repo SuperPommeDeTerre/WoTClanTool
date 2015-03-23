@@ -1,6 +1,5 @@
 var onLoad = function() {
-	var myURI = URI(window.location.href),
-		myURIParams = myURI.search(true);
+	var myURI = URI(window.location.href);
 	$('#btnLogin').on('click', function(evt) {
 		evt.preventDefault();
 		$.post(gConfig.WG_API_URL + 'wot/auth/login/', {

@@ -3,7 +3,7 @@ var gTANKS_LEVEL = [ 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'
 	gLangMapping = {
 		'fr': 'fr-FR'
 	},
-	gPersonalInfos = '';
+	gPersonalInfos = null;
 
 var gProgressBar,
 	gProgressMessage,
@@ -18,25 +18,45 @@ var advanceProgress = function(pMessage) {
 };
 
 var checkConnected = function() {
+	var isUserValid = false;
 	if (typeof(gConfig.PLAYER_ID) == 'undefined') {
-		document.location = './unauthorized.php';
+		// User is not connected, redirect to home
+		document.location = './index.php';
+	} else {
+		isUserValid = false;
+		for (var i=0; i<gConfig.CLAN_IDS.length; i++) {
+			if (gPersonalInfos.clan_id == gConfig.CLAN_IDS[i])
+			isUserValid = true;
+			break;
+		}
+		if (!isUserValid) {
+			document.location = './unauthorized.php';
+		}
 	}
 };
 
-var setNavBrandWithClan = function(clanInfos) {
-	var clanEmblem = '';
-	// Get the 32x32 emblem
-	for (var i=0; i<clanInfos.emblems.length; i++) {
-		if (clanInfos.emblems[i].type == '32x32') {
-			clanEmblem = clanInfos.emblems[i].url;
-			break;
+var setNavBrandWithClan = function() {
+	$.post(gConfig.WG_API_URL + 'wgn/clans/info/', {
+		application_id: gConfig.WG_APP_ID,
+		language: gConfig.LANG,
+		access_token: gConfig.ACCESS_TOKEN,
+		clan_id: gConfig.CLAN_IDS.join(',')
+	}, function(dataClanResponse) {
+		var dataClan = dataClanResponse.data[gConfig.CLAN_IDS[0]],
+			clanEmblem = '';
+		// Get the 32x32 emblem
+		for (var i=0; i<dataClan.emblems.length; i++) {
+			if (dataClan.emblems[i].type == '32x32') {
+				clanEmblem = dataClan.emblems[i].url;
+				break;
+			}
 		}
-	}
-	$('#mainNavBar .navbar-brand').html('<span style="color:' + clanInfos.color + '">[' + clanInfos.tag + ']</span> ' + clanInfos.name + ' <small>' + clanInfos.motto + '</small>')
-		// Set clan emblem with CSS because it causes problems with inline HTML.
-		.css('background', 'url(\'' + clanEmblem + '\') no-repeat 15px center')
-		// Add padding to avoid overlap of emblem and text
-		.css('padding-left', '51px');
+		$('#mainNavBar .navbar-brand').html('<span style="color:' + dataClan.color + '">[' + dataClan.tag + ']</span> ' + dataClan.name + ' <small>' + dataClan.motto + '</small>')
+			// Set clan emblem with CSS because it causes problems with inline HTML.
+			.css('background', 'url(\'' + clanEmblem + '\') no-repeat 15px center')
+			// Add padding to avoid overlap of emblem and text
+			.css('padding-left', '51px');
+	}, 'json');
 };
 
 // Wait for the DOM to finish its initialization before appending data to it.
@@ -48,6 +68,7 @@ $(document).ready(function() {
 		$(document).i18n();
 	});
 	if (typeof(gConfig.PLAYER_ID) != 'undefined') {
+		// Verify that user is member of one of the handled clans...
 		$.post(gConfig.WG_API_URL + 'wot/account/info/', {
 			application_id: gConfig.WG_APP_ID,
 			language: gConfig.LANG,
@@ -58,9 +79,9 @@ $(document).ready(function() {
 				isClanFound = false;
 			for (var i=0; i<gConfig.CLAN_IDS.length; i++) {
 				if (me.clan_id == gConfig.CLAN_IDS[i]) {
-					onLoad();
 					isClanFound = true;
 					gPersonalInfos = me;
+					onLoad();
 					break;
 				}
 			}
