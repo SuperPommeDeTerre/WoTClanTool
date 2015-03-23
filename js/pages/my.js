@@ -59,7 +59,10 @@ var onLoad = function() {
 			for (var i=0; i<dataMyTanks.length; i++) {
 				myTank = dataMyTanks[i];
 				tankInfos = dataTankopedia[myTank.tank_id];
-				winRatio = myTank.all.wins * 100 / myTank.all.battles;
+				winRatio = -1;
+				if (myTank.all.battles > 0) {
+					winRatio = myTank.all.wins * 100 / myTank.all.battles;
+				}
 				tableContent += '<tr class="tank ' + (myTank.in_garage?' ingarage':' hidden') + (tankInfos.is_premium?' ispremium isfull':'') +'">';
 				tableContent += '<td><img src="' + tankInfos.contour_image + '" /></td>';
 				tableContent += '<td data-value="' + myTank.mark_of_mastery + '" class="tankmastery' + myTank.mark_of_mastery + '">&nbsp;</td>';
@@ -67,7 +70,7 @@ var onLoad = function() {
 				tableContent += '<td data-value="' + tankInfos.level  + '">' + gTANKS_LEVEL[tankInfos.level - 1] + '</td>';
 				tableContent += '<td>' + tankInfos.type_i18n + '</td>';
 				tableContent += '<td>' + myTank.all.battles + '</td>';
-				tableContent += '<td data-value="' + winRatio + '">' + (Math.round(winRatio * 100) / 100) + ' %</td>';
+				tableContent += '<td data-value="' + winRatio + '">' + (winRatio > -1?(Math.round(winRatio * 100) / 100) + ' %':'-') + '</td>';
 				tableContent += '<td data-value="0"><div class="togglebutton"><label><input type="checkbox" class="chkTanksIsFull" id="chkTanksIsFull' + myTank.tank_id + '" value="true"' + (tankInfos.is_premium?' checked="checked" disabled="disabled"':'') + ' /><span class="toggle"></span></label></div></td>';
 				tableContent += '</tr>';
 			}
