@@ -31,6 +31,7 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 			</div>
 			<div class="container-fluid">
 				<div class="row">
+					<canvas width="300" height="150" id="canvasRecapPlayer"></canvas>
 					<div class="table-responsive" id="myTanksContainerTable">
 						<table class="table table-hover header-fixed tableTanks" id="tableMyTanks">
 							<thead>

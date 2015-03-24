@@ -18,8 +18,10 @@
 		<script type="text/javascript" src="./js/jquery.stickytableheaders.min.js"></script>
 		<script type="text/javascript" src="./js/bootstrap-datetimepicker.min.js"></script>
 		<script type="text/javascript" src="./js/URI.js"></script>
+		<script type="text/javascript" src="./js/jcanvas.min.js"></script>
 		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 		<script type="text/javascript" src="./js/ie10-viewport-bug-workaround.js"></script>
+		<!-- Local scripts -->
 		<script type="text/javascript" src="./js/pages/<?php echo($gPageID); ?>.js"></script>
 		<script type="text/javascript" src="./js/app.js"></script>
 	</body>

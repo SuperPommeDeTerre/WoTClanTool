@@ -49,12 +49,46 @@ var displayTanks = function(dataMyTanks, dataTankopedia) {
 				}
 				return 0;
 			});
+			var myCanvas = $('#canvasRecapPlayer'),
+				nbTanksInGarage = 0,
+				curTankInGarage = 0;
+			for (var i=0; i<dataMyTanks.length; i++) {
+				if (dataMyTanks[i].in_garage) {
+					nbTanksInGarage++;
+				}
+			}
+			myCanvas.attr('height', nbTanksInGarage * 25);
 			for (var i=0; i<dataMyTanks.length; i++) {
 				myTank = dataMyTanks[i];
 				tankInfos = dataTankopedia[myTank.tank_id];
 				winRatio = -1;
 				if (myTank.all.battles > 0) {
 					winRatio = myTank.all.wins * 100 / myTank.all.battles;
+				}
+				if (myTank.in_garage) {
+					myCanvas.drawImage({
+						source: tankInfos.contour_image,
+						x: 30, y: (curTankInGarage * 25) + 10
+					});
+					myCanvas.drawImage({
+						source: './themes/default/style/images/Tier_' + tankInfos.level + '_icon.png',
+						x: 10, y: (curTankInGarage * 25) + 5
+					});
+					myCanvas.drawImage({
+						source: './themes/default/style/images/type-' + tankInfos.type + '.png',
+						x: 70, y: (curTankInGarage * 25) + 10
+					});
+					myCanvas.drawText({
+						fillStyle: '#000',
+						strokeStyle: '#000',
+						strokeWidth: 0,
+						x: 90, y: (curTankInGarage * 25) + 5,
+						fromCenter: false,
+						fontSize: 12,
+						fontFamily: 'RobotoDraft, Roboto, Verdana, sans-serif',
+						text: tankInfos.short_name_i18n
+					});
+					curTankInGarage++;
 				}
 				tableContent += '<tr class="tank ' + (myTank.in_garage?' ingarage':' hidden') + (tankInfos.is_premium?' ispremium':'') + (tankInfos.is_premium||myTank['is_full']?' isfull':'') +'">';
 				tableContent += '<td><img src="' + tankInfos.contour_image + '" /></td>';
