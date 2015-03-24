@@ -24,7 +24,7 @@
 .header-fixed > thead > tr > th{background-color: rgba(238, 238, 238, 0.9)}
 
 /* Tanks */
-.tank:not(.ingarage) *{color:#999}
+.tank:not(.ingarage) td {background-color:#CCC}
 .tableTanks thead .tankcontour{width:50px}
 .tableTanks thead .tankmastery{width:50px}
 .tankmastery0{background: url('./images/markofmastery0.png') no-repeat left center;background-size:24px 24px}

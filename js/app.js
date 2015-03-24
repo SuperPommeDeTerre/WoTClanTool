@@ -4,6 +4,17 @@ var gTANKS_LEVEL = [ 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'
 	gLangMapping = {
 		'fr': 'fr-FR'
 	},
+	gWN8_CLASSES = {
+		'material-black': { min: 0, max: 300 },
+		'material-red-900': { min: 300, max: 600 },
+		'material-orange-900': { min: 600, max: 900 },
+		'material-yellow-500': { min: 900, max: 1250 },
+		'material-green-500': { min: 1250, max: 1600 },
+		'material-green-900': { min: 1600, max: 1900 },
+		'material-blue-500': { min: 1900, max: 2350 },
+		'material-purple-300': { min: 2350, max: 2900 },
+		'material-purple-800': { min: 2900, max: -1 }
+	},
 	gPersonalInfos = null;
 
 var gProgressBar,
@@ -16,6 +27,22 @@ var advanceProgress = function(pMessage) {
 	gProgressBar.attr('aria-valuenow', progressToSet)
 		.css('width', progressToSet + '%')
 		.text(progressToSet + ' %');
+};
+
+var getWN8Class = function(pWN8Rating) {
+	var returnVal = '';
+	for (lClass in gWN8_CLASSES) {
+		var lClassObj = gWN8_CLASSES[lClass];
+		// Handle last case
+		if (lClassObj.max < 0 && pWN8Rating >= lClassObj.min) {
+			returnVal = lClass;
+			break;
+		} else if (pWN8Rating >= lClassObj.min && pWN8Rating < lClassObj.max) {
+			returnVal = lClass;
+			break;
+		}
+	}
+	return returnVal;
 };
 
 var checkConnected = function() {
