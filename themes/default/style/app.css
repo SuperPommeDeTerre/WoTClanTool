@@ -1,5 +1,9 @@
 @font-face{font-family:'Cuprum';src:local('Cuprum'),url('./fonts/Cuprum.ttf') format('truetype')}
 @font-face{font-family:'Gunplay';src:local('Gunplay'),url('./fonts/gunplay.ttf') format('truetype')}
+@font-face{font-family:"RobotoDraft";src: local("RobotoDraft"), local("RobotoDraft-Regular"), local("Roboto-Regular"), url("./fonts/RobotoDraftRegular.woff2") format("woff2"), url("./fonts/RobotoDraftRegular.woff") format("woff");}
+@font-face{font-family:"RobotoDraft";font-weight: 500;src: local("RobotoDraft Medium"), local("RobotoDraft-Medium"), local("Roboto-Medium"), url("./fonts/RobotoDraftMedium.woff2") format("woff2"), url("./fonts/RobotoDraftMedium.woff") format("woff");}
+@font-face{font-family:"RobotoDraft";font-weight: 700;src: local("RobotoDraft Bold"), local("RobotoDraft-Bold"), local("Roboto-Bold"), url("./fonts/RobotoDraftBold.woff2") format("woff2"), url("./fonts/RobotoDraftBold.woff") format("woff");}
+@font-face{font-family:"RobotoDraft";font-style: italic;src: local("RobotoDraft Italic"), local("RobotoDraft-Italic"), local("Roboto-Italic"), url("./fonts/RobotoDraftItalic.woff2") format("woff2"), url("./fonts/RobotoDraftItalic.woff") format("woff");}
 
 #index .main{position:relative;margin:auto;width:50em;text-align:left}
 #unauthorized .main{position:relative;margin:auto;width:50em;text-align:center}
