@@ -63,7 +63,7 @@ var displayTanks = function(dataMyTanks, dataTankopedia) {
 				tableContent += '<td data-value="' + tankInfos.level  + '">' + gTANKS_LEVEL[tankInfos.level - 1] + '</td>';
 				tableContent += '<td>' + tankInfos.type_i18n + '</td>';
 				tableContent += '<td>' + myTank.all.battles + '</td>';
-				tableContent += '<td><label class="label label-' + getWN8Class(myTank.wn8) + '">' + Math.round(myTank.wn8) + '</label></td>';
+				tableContent += '<td><label class="label label-' + getWN8Class(myTank.wn8) + '">' + (Math.round(myTank.wn8 * 100) / 100) + '</label></td>';
 				tableContent += '<td data-value="' + winRatio + '">' + (winRatio > -1?(Math.round(winRatio * 100) / 100) + ' %':'-') + '</td>';
 				tableContent += '<td data-value="' + (tankInfos.is_premium?'1':'0') + '"><div class="togglebutton' + (tankInfos.is_premium?' togglebutton-material-amber':'') + '"><label>&nbsp;<input type="checkbox" class="chkTanksIsFull" id="chkTanksIsFull' + myTank.tank_id + '" value="' + myTank.tank_id + '"' + (tankInfos.is_premium||myTank['is_full']?' checked="checked"':'') + (tankInfos.is_premium?' disabled="disabled"':'') + ' /></label></div></td>';
 				tableContent += '</tr>';
