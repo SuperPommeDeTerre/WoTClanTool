@@ -1,11 +1,20 @@
-<!DOCTYPE html>
+<?php
+/*
+header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
+header('Last-Modified: '.gmdate( 'D, d M Y H:i:s' ).' GMT');
+header('Cache-Control: no-cache, must-revalidate, max-age=0');
+header('Cache: no-cache');
+header('Pragma: no-cache');
+*/
+header('Content-Type: text/html; charset=utf-8');
+?><!DOCTYPE html>
 <html lang="<?php echo($gLang); ?>">
 	<head>
 		<meta charset="utf-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="description" data-i18n="app.description" content="Outil de gestion de clan pour World of Tanks" />
-		<meta name="author" content="J&eacute;r&eacute;mie Langlade" />
+		<meta name="author" content="J&eacute;r&eacute;mie Langlade &lt;jlanglade@pixbuf.net&gt;" />
 		<link rel="icon" href="./themes/<?php echo($gThemeName); ?>/style/favicon.ico" />
 		<link href="./themes/<?php echo($gThemeName); ?>/style/favicon.png" type="image/x-icon" rel="icon" />
 		<title data-i18n="app.name"></title>

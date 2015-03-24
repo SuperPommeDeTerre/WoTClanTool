@@ -10,13 +10,7 @@ var onLoad = function() {
 		clan_id: gConfig.CLAN_IDS.join(',')
 	}, function(dataClanResponse) {
 		var dataClan = dataClanResponse.data[gConfig.CLAN_IDS[0]],
-			clanEmblem = '';
-		for (var i=0; i<dataClan.emblems.length; i++) {
-			if (dataClan.emblems[i].type == '64x64') {
-				clanEmblem = dataClan.emblems[i].url;
-				break;
-			}
-		}
+			clanEmblem = dataClan.emblems.x64.portal;
 		$('#clansInfosTitle').html('<img src="' + clanEmblem + '" alt="Embl&egrave;me du clan" /> <span style="color:' + dataClan.color + '">[' + dataClan.tag + ']</span> ' + dataClan.name + ' <small>' + dataClan.motto + '</small>');
 		$('#clanTotalPlayers').text(i18n.t('clan.nbplayers', { count: dataClan.members_count }));
 		$('#clanTotalEvents').text(i18n.t('clan.nbevents', { count: 0 }));

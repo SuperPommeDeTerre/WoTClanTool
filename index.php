@@ -28,7 +28,7 @@ if (isset($_SESSION["access_token"])) {
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="description" data-i18n="app.description" content="Outil de gestion de clan pour World of Tanks" />
-		<meta name="author" content="J&eacute;r&eacute;mie Langlade" />
+		<meta name="author" content="J&eacute;r&eacute;mie Langlade &lt;jlanglade@pixbuf.net&gt;" />
 		<link rel="icon" href="./themes/<?php echo($gThemeName); ?>/style/favicon.ico" />
 		<link href="./themes/<?php echo($gThemeName); ?>/style/favicon.png" type="image/x-icon" rel="icon" />
 		<title data-i18n="app.name">WoT Clan Tool</title>

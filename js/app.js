@@ -44,14 +44,7 @@ var setNavBrandWithClan = function() {
 		clan_id: gConfig.CLAN_IDS.join(',')
 	}, function(dataClanResponse) {
 		var dataClan = dataClanResponse.data[gConfig.CLAN_IDS[0]],
-			clanEmblem = '';
-		// Get the 32x32 emblem
-		for (var i=0; i<dataClan.emblems.length; i++) {
-			if (dataClan.emblems[i].type == '32x32') {
-				clanEmblem = dataClan.emblems[i].url;
-				break;
-			}
-		}
+			clanEmblem = dataClan.emblems.x32.portal;
 		$('#mainNavBar .navbar-brand').html('<span style="color:' + dataClan.color + '">[' + dataClan.tag + ']</span> ' + dataClan.name + ' <small>' + dataClan.motto + '</small>')
 			// Set clan emblem with CSS because it causes problems with inline HTML.
 			.css('background', 'url(\'' + clanEmblem + '\') no-repeat 15px center')
