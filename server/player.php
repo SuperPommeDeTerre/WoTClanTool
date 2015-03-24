@@ -17,7 +17,7 @@ function calcTankWN8($pTanksExpectedVals, $pTankStats) {
 			$avgSpot = $pTankStats['all']['spotted'] / $lTankBattles;
 			$avgFrag = $pTankStats['all']['frags'] / $lTankBattles;
 			$avgDef = $pTankStats['all']['dropped_capture_points'] / $lTankBattles;
-			$avgWinRate = $pTankStats['all']['wins'] / $lTankBattles;
+			$avgWinRate = $pTankStats['all']['wins'] * 100 / $lTankBattles;
 			// STEP 1
 			$rDAMAGE = $avgDmg     / $tankExpectedVals['expDamage'];
 			$rSPOT   = $avgSpot    / $tankExpectedVals['expSpot'];
