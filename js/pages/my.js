@@ -107,6 +107,9 @@ var onLoad = function() {
 	advanceProgress(i18n.t('loading.claninfos'));
 	setNavBrandWithClan();
 	advanceProgress(i18n.t('loading.tanksinfos'));
+	var myTanksTable = $('#tableMyTanks'),
+		myTanksSmallContainer = $('#myTanksContainerSmall'),
+		myTanksBigContainer = $('#myTanksContainerBig');
 	$('#btnShowTanksTable').on('click', function(evt) {
 		var myButton = $(this);
 		myButton.siblings().removeClass('active');
