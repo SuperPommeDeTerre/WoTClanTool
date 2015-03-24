@@ -6,13 +6,24 @@ require(dirname(__FILE__) . '/global.php');
 header('Content-Type: application/json');
 
 // Switch between requested action
-$userFile = WCT_DATA_DIR . 'user/' . $_SESSION["account_id"] . '.json';
+$userFile = WCT_DATA_DIR . 'user/' . $_SESSION['account_id'] . '.json';
 $result = array();
 switch ($_REQUEST['action']) {
 	case 'gettanksstats':
+		$usersToGet = array();
+		if (array_key_exists('account_id', $_REQUEST)) {
+			$usersToGet = explode(',', $_REQUEST['account_id']);
+		} else {
+			$usersToGet[] = $_SESSION['account_id'];
+		}
 		$playerTanksStats = array();
-		if (file_exists($userFile)) {
-			$playerTanksStats = json_decode(file_get_contents($userFile), true);
+		foreach ($usersToGet as $userId) {
+			$userFile = WCT_DATA_DIR . 'user/' . $userId . '.json';
+			if (file_exists($userFile)) {
+				$playerTanksStats[$userId] = json_decode(file_get_contents($userFile), true);
+			} else {
+				$playerTanksStats[$userId] = array();
+			}
 		}
 		$result['data'] = $playerTanksStats;
 		break;

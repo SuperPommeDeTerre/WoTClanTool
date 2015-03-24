@@ -141,7 +141,7 @@ var onLoad = function() {
 		$.post('./server/player.php', {
 			'action': 'gettanksstats'
 		}, function(dataMyTanksResponse) {
-			var dataMyTanks = dataMyTanksResponse.data;
+			var dataMyTanks = dataMyTanksResponse.data[gConfig.PLAYER_ID];
 			if (dataMyTanksResponse.data.length == 0) {
 				// We have no data for the user
 				$.post(gConfig.WG_API_URL + 'wot/tanks/stats/', {

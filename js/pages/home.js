@@ -105,13 +105,6 @@ var onLoad = function() {
 				myPlayerDetails += '<a href="http://wot-life.com/eu/player/' + myPlayerInfos.nickname + '/">WoT Life</a><br />';
 				myPlayerDetails += '<a href="http://www.noobmeter.com/player/eu/' + myPlayerInfos.nickname + '/' + myPlayerId + '">Noobmeter</a>';
 				myPlayerDetails += '</p></div></div>';
-				$.post(gConfig.WG_API_URL + 'wot/tanks/stats/', {
-					application_id: gConfig.WG_APP_ID,
-					language: gConfig.LANG,
-					access_token: gConfig.ACCESS_TOKEN,
-					account_id: myPlayerId
-				}, function(dataPlayerTanksResponse) {
-				});
 				myContainer.html(myPlayerDetails);
 			});
 			Sortable.initTable(tableClanPlayers[0]);
@@ -144,48 +137,77 @@ var onLoad = function() {
 						nbClanVehiculesByType = [ 0, 0, 0, 0, 0 ],
 						nbTotalVehicules = 0,
 						playerId = 0;
-					for (var i=0; i<dataClan.members_count; i++) {
-						var playerId = dataClan.members[i].account_id,
-							playerVehicles = dataPlayersVehicles[playerId];
-						nbTotalVehicules += playerVehicles.length;
-						for (var j = 0; j<playerVehicles.length; j++) {
-							var vehiculeDetails = dataTankopedia[playerVehicles[j].tank_id];
-							nbClanVehiculesByTiers[vehiculeDetails.level - 1]++;
-							if (vehiculeDetails.type == 'lightTank') {
-								nbClanVehiculesByType[0]++;
-							} else if (vehiculeDetails.type == 'mediumTank') {
-								nbClanVehiculesByType[1]++;
-							} else if (vehiculeDetails.type == 'heavyTank') {
-								nbClanVehiculesByType[2]++;
-							} else if (vehiculeDetails.type == 'AT-SPG') {
-								nbClanVehiculesByType[3]++;
-							} else if (vehiculeDetails.type == 'SPG') {
-								nbClanVehiculesByType[4]++;
+					$.post('./server/player.php', {
+						action: 'gettanksstats',
+						account_id: membersList
+					}, function(dataStoredPlayersTanksResponse) {
+						var dataStoredPlayersTanks = dataStoredPlayersTanksResponse.data;
+						for (var i=0; i<dataClan.members_count; i++) {
+							var playerId = dataClan.members[i].account_id,
+								playerVehicles = dataPlayersVehicles[playerId],
+								playerStoredVehicules = dataStoredPlayersTanks[playerId],
+								vehiculeDetails = null;
+							if (playerStoredVehicules.length == 0) {
+								nbTotalVehicules += playerVehicles.length;
+								for (var j = 0; j<playerVehicles.length; j++) {
+									vehiculeDetails = dataTankopedia[playerVehicles[j].tank_id];
+									nbClanVehiculesByTiers[vehiculeDetails.level - 1]++;
+									if (vehiculeDetails.type == 'lightTank') {
+										nbClanVehiculesByType[0]++;
+									} else if (vehiculeDetails.type == 'mediumTank') {
+										nbClanVehiculesByType[1]++;
+									} else if (vehiculeDetails.type == 'heavyTank') {
+										nbClanVehiculesByType[2]++;
+									} else if (vehiculeDetails.type == 'AT-SPG') {
+										nbClanVehiculesByType[3]++;
+									} else if (vehiculeDetails.type == 'SPG') {
+										nbClanVehiculesByType[4]++;
+									}
+								}
+							} else {
+								for (var j=0; j<playerStoredVehicules.length; j++) {
+									if (playerStoredVehicules[j].is_full) {
+										vehiculeDetails = dataTankopedia[playerStoredVehicules[j].tank_id];
+										nbTotalVehicules++;
+										nbClanVehiculesByTiers[vehiculeDetails.level - 1]++;
+										if (vehiculeDetails.type == 'lightTank') {
+											nbClanVehiculesByType[0]++;
+										} else if (vehiculeDetails.type == 'mediumTank') {
+											nbClanVehiculesByType[1]++;
+										} else if (vehiculeDetails.type == 'heavyTank') {
+											nbClanVehiculesByType[2]++;
+										} else if (vehiculeDetails.type == 'AT-SPG') {
+											nbClanVehiculesByType[3]++;
+										} else if (vehiculeDetails.type == 'SPG') {
+											nbClanVehiculesByType[4]++;
+										}
+									}
+								}
 							}
 						}
-					}
-					$('#clanTotalVehicles').text(i18n.t('clan.nbtanks', { count: nbTotalVehicules }));
-					var myData = [];
-					for (var i=0; i<gTANKS_LEVEL.length; i++) {
-						myData.push({ label: gTANKS_LEVEL[i], value: nbClanVehiculesByTiers[i] });
-					}
-					new Morris.Donut({
-						element: 'chartTanksTiers',
-						data: myData,
-						colors: [ "#ffebee", "#ffcdd2", "#ef9a9a", "#e57373", "#ef5350", "#f44336", "#e53935", "#d32f2f", "#c62828", "#b71c1c" ]
-					});
-					new Morris.Donut({
-						element: 'chartTanksType',
-						data: [
-							{ label: 'Light', value: nbClanVehiculesByType[0] },
-							{ label: 'Medium', value: nbClanVehiculesByType[1] },
-							{ label: 'Heavy', value: nbClanVehiculesByType[2] },
-							{ label: 'TD', value: nbClanVehiculesByType[3] },
-							{ label: 'SPG', value: nbClanVehiculesByType[4] }
-						]
-					});
-					advanceProgress(i18n.t('loading.complete'));
-					afterLoad();
+						$('#clanTotalVehicles').text(i18n.t('clan.nbtanks', { count: nbTotalVehicules }));
+						var myData = [];
+						for (var i=0; i<gTANKS_LEVEL.length; i++) {
+							myData.push({ label: gTANKS_LEVEL[i], value: nbClanVehiculesByTiers[i] });
+						}
+						new Morris.Donut({
+							element: 'chartTanksTiers',
+							data: myData,
+							colors: [ "#ffebee", "#ffcdd2", "#ef9a9a", "#e57373", "#ef5350", "#f44336", "#e53935", "#d32f2f", "#c62828", "#b71c1c" ]
+						});
+						new Morris.Donut({
+							element: 'chartTanksType',
+							data: [
+								{ label: 'Light', value: nbClanVehiculesByType[0] },
+								{ label: 'Medium', value: nbClanVehiculesByType[1] },
+								{ label: 'Heavy', value: nbClanVehiculesByType[2] },
+								{ label: 'TD', value: nbClanVehiculesByType[3] },
+								{ label: 'SPG', value: nbClanVehiculesByType[4] }
+							]
+						});
+						advanceProgress(i18n.t('loading.complete'));
+						afterLoad();
+					}, 'json');
 				}, 'json');
 			}, 'json');
 		}, 'json');
