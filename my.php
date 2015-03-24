@@ -17,6 +17,9 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 				<button type="button" id="btnShowTanksListSmall" class="btn btn-default btn-material-grey-500"><span class="glyphicon glyphicon-th" aria-hidden="true"></span></button>
 				<button type="button" id="btnShowTanksListLarge" class="btn btn-default btn-material-grey-500"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span></button>
 			</div>
+			<div class="btn-group" role="group">
+				<button type="button" id="btnShowTankImage" class="btn btn-default btn-material-green-300" data-target="#my-dialog" data-toggle="modal"><span class="glyphicon glyphicon-picture" aria-hidden="true"></span></button>
+			</div>
 			<div class="pull-right form-inline">
 				<div class="togglebutton" style="float:left">
 					<label><span>Au garage</span>
@@ -31,7 +34,6 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 			</div>
 			<div class="container-fluid">
 				<div class="row">
-					<canvas width="300" height="150" id="canvasRecapPlayer"></canvas>
 					<div class="table-responsive" id="myTanksContainerTable">
 						<table class="table table-hover header-fixed tableTanks" id="tableMyTanks">
 							<thead>
@@ -57,6 +59,20 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 			</div>
 			<h2 class="sub-header" id="strats" data-i18n="elems.strats"></h2>
 			<h2 class="sub-header" id="stats" data-i18n="elems.stats"></h2>
+		</div>
+	</div>
+</div>
+<div id="my-dialog" class="modal fade" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button class="close" aria-hidden="true" data-dismiss="modal" type="button">×</button>
+				<h4 class="modal-title">Image</h4>
+			</div>
+			<div class="modal-body"><canvas width="300" height="150" id="canvasRecapPlayer"></canvas></div>
+			<div class="modal-footer">
+				<button class="btn btn-primary" data-dismiss="modal" data-i18n="btn.ok"></button>
+			</div>
 		</div>
 	</div>
 </div>

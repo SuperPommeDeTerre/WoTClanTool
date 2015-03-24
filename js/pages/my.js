@@ -51,7 +51,10 @@ var displayTanks = function(dataMyTanks, dataTankopedia) {
 			});
 			var myCanvas = $('#canvasRecapPlayer'),
 				nbTanksInGarage = 0,
-				curTankInGarage = 0;
+				curTankInGarage = 0,
+				basePosX = 0,
+				basePosY = 0,
+				textColor = '#000';
 			for (var i=0; i<dataMyTanks.length; i++) {
 				if (dataMyTanks[i].in_garage) {
 					nbTanksInGarage++;
@@ -78,9 +81,14 @@ var displayTanks = function(dataMyTanks, dataTankopedia) {
 						source: './themes/default/style/images/type-' + tankInfos.type + '.png',
 						x: 70, y: (curTankInGarage * 25) + 10
 					});
+					if (myTank['is_full']) {
+						textColor = '#000';
+					} else {
+						textColor = '#666';
+					}
 					myCanvas.drawText({
-						fillStyle: '#000',
-						strokeStyle: '#000',
+						fillStyle: textColor,
+						strokeStyle: textColor,
 						strokeWidth: 0,
 						x: 90, y: (curTankInGarage * 25) + 5,
 						fromCenter: false,
@@ -88,6 +96,17 @@ var displayTanks = function(dataMyTanks, dataTankopedia) {
 						fontFamily: 'RobotoDraft, Roboto, Verdana, sans-serif',
 						text: tankInfos.short_name_i18n
 					});
+					/*
+					$('canvas').drawLine({
+						strokeStyle: '#000',
+						strokeWidth: 10,
+						rounded: true,
+						x1: 80, y1: 50,
+						x2: 100, y2: 150,
+						x3: 200, y3: 100,
+						x4: 150, y4: 200
+					});
+					*/
 					curTankInGarage++;
 				}
 				tableContent += '<tr class="tank ' + (myTank.in_garage?' ingarage':' hidden') + (tankInfos.is_premium?' ispremium':'') + (tankInfos.is_premium||myTank['is_full']?' isfull':'') +'">';
@@ -97,7 +116,7 @@ var displayTanks = function(dataMyTanks, dataTankopedia) {
 				tableContent += '<td data-value="' + tankInfos.level  + '">' + gTANKS_LEVEL[tankInfos.level - 1] + '</td>';
 				tableContent += '<td>' + tankInfos.type_i18n + '</td>';
 				tableContent += '<td>' + myTank.all.battles + '</td>';
-				tableContent += '<td><label class="label label-' + getWN8Class(myTank.wn8) + '">' + (Math.round(myTank.wn8 * 100) / 100) + '</label></td>';
+				tableContent += '<td><span class="label label-' + getWN8Class(myTank.wn8) + '">' + (Math.round(myTank.wn8 * 100) / 100) + '</span></td>';
 				tableContent += '<td data-value="' + winRatio + '">' + (winRatio > -1?(Math.round(winRatio * 100) / 100) + ' %':'-') + '</td>';
 				tableContent += '<td data-value="' + (tankInfos.is_premium?'1':'0') + '"><div class="togglebutton' + (tankInfos.is_premium?' togglebutton-material-amber':'') + '"><label>&nbsp;<input type="checkbox" class="chkTanksIsFull" id="chkTanksIsFull' + myTank.tank_id + '" value="' + myTank.tank_id + '"' + (tankInfos.is_premium||myTank['is_full']?' checked="checked"':'') + (tankInfos.is_premium?' disabled="disabled"':'') + ' /></label></div></td>';
 				tableContent += '</tr>';
