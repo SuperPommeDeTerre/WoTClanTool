@@ -52,7 +52,7 @@ var displayTanks = function(dataMyTanks, dataTankopedia) {
 		if (myTank.all.battles > 0) {
 			winRatio = myTank.all.wins * 100 / myTank.all.battles;
 		}
-		tableContent += '<tr class="tank ' + (myTank.in_garage?' ingarage':' hidden') + (tankInfos.is_premium?' ispremium isfull':'') +'">';
+		tableContent += '<tr class="tank ' + (myTank.in_garage?' ingarage':' hidden') + (tankInfos.is_premium?' ispremium':'') + (tankInfos.is_premium||myTank['is_full']?' isfull':'') +'">';
 		tableContent += '<td><img src="' + tankInfos.contour_image + '" /></td>';
 		tableContent += '<td data-value="' + myTank.mark_of_mastery + '" class="tankmastery' + myTank.mark_of_mastery + '">&nbsp;</td>';
 		tableContent += '<td class="tankname">' + tankInfos.short_name_i18n + '</td>';
@@ -62,11 +62,11 @@ var displayTanks = function(dataMyTanks, dataTankopedia) {
 		tableContent += '<td data-value="' + winRatio + '">' + (winRatio > -1?(Math.round(winRatio * 100) / 100) + ' %':'-') + '</td>';
 		tableContent += '<td data-value="' + (tankInfos.is_premium?'1':'0') + '"><div class="togglebutton"><label><input type="checkbox" class="chkTanksIsFull" id="chkTanksIsFull' + myTank.tank_id + '" value="' + myTank.tank_id + '"' + (tankInfos.is_premium||myTank['is_full']?' checked="checked" disabled="disabled"':'') + ' /><span class="toggle"></span></label></div></td>';
 		tableContent += '</tr>';
-		listContent += '<div class="small tank tankcontainer tankmastery' + myTank.mark_of_mastery +  (myTank.in_garage?' ingarage':' hidden') + (tankInfos.is_premium?' ispremium isfull':'') +'">';
+		listContent += '<div class="small tank tankcontainer tankmastery' + myTank.mark_of_mastery +  (myTank.in_garage?' ingarage':' hidden') + (tankInfos.is_premium?' ispremium':'') + (tankInfos.is_premium||myTank['is_full']?' isfull':'') +'">';
 		listContent += '<div class="tanklevel' + tankInfos.level + '"><img src="' + tankInfos.image_small + '" /></div>';
 		listContent += '<p class="tankname">' + tankInfos.short_name_i18n + '</p>';
 		listContent += '</div>';
-		listLargeContent += '<div class="big tank tankcontainer tankmastery' + myTank.mark_of_mastery + (myTank.in_garage?' ingarage':' hidden') + (tankInfos.is_premium?' ispremium isfull':'') +'">';
+		listLargeContent += '<div class="big tank tankcontainer tankmastery' + myTank.mark_of_mastery + (myTank.in_garage?' ingarage':' hidden') + (tankInfos.is_premium?' ispremium':'') + (tankInfos.is_premium||myTank['is_full']?' isfull':'') +'">';
 		listLargeContent += '<div class="tanklevel' + tankInfos.level + '"><img src="' + tankInfos.image + '" /></div>';
 		listLargeContent += '<p class="tankname">' + tankInfos.short_name_i18n + '</p>';
 		listLargeContent += '</div>';
