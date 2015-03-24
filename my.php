@@ -20,14 +20,12 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 			<div class="pull-right form-inline">
 				<div class="togglebutton" style="float:left">
 					<label><span>Au garage</span>
-					<input type="checkbox" id="chkInGarage" checked="checked" />
-					<span class="toggle"></span>
+						<input type="checkbox" id="chkInGarage" checked="checked" />
 					</label>
 				</div>
 				<div class="togglebutton" style="float:left">
 					<label><span>Full</span>
-					<input type="checkbox" id="chkIsFull" />
-					<span class="toggle"></span>
+						<input type="checkbox" id="chkIsFull" />
 					</label>
 				</div>
 			</div>

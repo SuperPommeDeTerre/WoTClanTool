@@ -101,4 +101,5 @@ $(document).ready(function() {
 var afterLoad = function() {
 	$('#progressDialog').fadeOut('fast');
 	$('.header-fixed').stickyTableHeaders({fixedOffset: $('#mainNavBar')});
+	$.material.init();
 };
