@@ -18,7 +18,7 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 				<button type="button" id="btnShowTanksListLarge" class="btn btn-default btn-material-grey-500"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span></button>
 			</div>
 			<div class="btn-group" role="group">
-				<button type="button" id="btnShowTankImage" class="btn btn-default btn-material-green-300" data-target="#my-dialog" data-toggle="modal"><span class="glyphicon glyphicon-picture" aria-hidden="true"></span></button>
+				<button type="button" id="btnShowTankImage" class="btn btn-default btn-material-green-300" data-target="#my-dialog" data-toggle="modal"><span class="glyphicon glyphicon-headphones" aria-hidden="true"></span></button>
 			</div>
 			<div class="pull-right form-inline">
 				<div class="togglebutton" style="float:left">
@@ -67,9 +67,22 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 		<div class="modal-content">
 			<div class="modal-header">
 				<button class="close" aria-hidden="true" data-dismiss="modal" type="button">×</button>
-				<h4 class="modal-title">Image</h4>
+				<h4 class="modal-title" data-i18n="nav.tscomments"></h4>
 			</div>
-			<div class="modal-body"><canvas width="300" height="150" id="canvasRecapPlayer"></canvas></div>
+			<div class="modal-body">
+				<ul class="nav nav-tabs nav-tabs-material-grey">
+					<li role="presentation" class="active"><a href="#tabTSCommentImage" data-toggle="tab" data-i18n="nav.tscommentimage"></a></li>
+					<li role="presentation"><a href="#tabTSCommentText" data-toggle="tab" data-i18n="nav.tscommenttext"></a></li>
+				</ul>
+				<div id="myTabTSCommentsContent" class="tab-content">
+					<div class="tab-pane fade active in" id="tabTSCommentImage">
+						<canvas width="300" height="150" id="canvasRecapPlayer"></canvas>
+					</div>
+					<div class="tab-pane fade active in" id="tabTSCommentText">
+						<pre id="textResumePlayer">Texte</pre>
+					</div>
+				</div>
+			</div>
 			<div class="modal-footer">
 				<button class="btn btn-primary" data-dismiss="modal" data-i18n="btn.ok"></button>
 			</div>

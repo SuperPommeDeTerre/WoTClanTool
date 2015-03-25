@@ -8,6 +8,9 @@
 		"home": "Accueil",
 		"garage": "Garage",
 		"events": "Evènements",
+		"tscomments": "Contenu commentaire Mumble/TS",
+		"tscommentimage": "Image",
+		"tscommenttext": "Texte",
 		"strats": {
 			"title": "Stratégies",
 			"new": "Nouvelle",
