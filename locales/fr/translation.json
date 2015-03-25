@@ -119,6 +119,15 @@
 			"recruit": "Recrue"
 		}
 	},
+	"tank": {
+		"type": {
+			"lightTank": "Léger",
+			"mediumTank": "Moyen",
+			"heavyTank": "Lourd",
+			"AT-SPG": "TD",
+			"SPG": "Artillerie mobile"
+		}
+	},
 	"page": {
 		"my": {
 			"title": "Mes informations personnelles"
