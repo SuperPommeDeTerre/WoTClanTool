@@ -122,10 +122,20 @@
 	"tank": {
 		"type": {
 			"lightTank": "Léger",
+			"lightTank_plural_0": "Léger",
+			"lightTank_plural": "Légers",
 			"mediumTank": "Moyen",
-			"heavyTank": "Lourd",
+			"mediumTank_plural_0": "Moyen",
+			"mediumTank_plural": "Moyen",
+			"heavyTank": "Lourds",
+			"heavyTank_plural_0": "Lourd",
+			"heavyTank_plural": "Lourds",
 			"AT-SPG": "TD",
-			"SPG": "Artillerie mobile"
+			"AT-SPG_plural_0": "TD",
+			"AT-SPG_plural": "TDs",
+			"SPG": "Artillerie mobile",
+			"SPG_plural_0": "Artillerie mobile",
+			"SPG_plural": "Artilleries mobiles"
 		}
 	},
 	"page": {

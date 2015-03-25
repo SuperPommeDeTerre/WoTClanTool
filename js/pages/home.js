@@ -178,11 +178,11 @@ var onLoad = function() {
 						new Morris.Donut({
 							element: 'chartTanksType',
 							data: [
-								{ label: i18n.t('tank.type.lightTank'), value: nbClanVehiculesByType['lightTank'] },
-								{ label: i18n.t('tank.type.mediumTank'), value: nbClanVehiculesByType['mediumTank'] },
-								{ label: i18n.t('tank.type.heavyTank'), value: nbClanVehiculesByType['heavyTank'] },
-								{ label: i18n.t('tank.type.AT-SPG'), value: nbClanVehiculesByType['AT-SPG'] },
-								{ label: i18n.t('tank.type.SPG'), value: nbClanVehiculesByType['SPG'] }
+								{ label: i18n.t('tank.type.lightTank', { count: nbClanVehiculesByType['lightTank'] }), value: nbClanVehiculesByType['lightTank'] },
+								{ label: i18n.t('tank.type.mediumTank', { count: nbClanVehiculesByType['mediumTank'] }), value: nbClanVehiculesByType['mediumTank'] },
+								{ label: i18n.t('tank.type.heavyTank', { count: nbClanVehiculesByType['heavyTank'] }), value: nbClanVehiculesByType['heavyTank'] },
+								{ label: i18n.t('tank.type.AT-SPG', { count: nbClanVehiculesByType['AT-SPG'] }), value: nbClanVehiculesByType['AT-SPG'] },
+								{ label: i18n.t('tank.type.SPG', { count: nbClanVehiculesByType['SPG'] }), value: nbClanVehiculesByType['SPG'] }
 							]
 						});
 						advanceProgress(i18n.t('loading.complete'));
