@@ -77,7 +77,7 @@ switch ($_REQUEST['action']) {
 								$valueToStore['is_full'] = $valueStored['is_full'];
 							}
 							if (array_key_exists('in_garage', $valueStored)) {
-								$valueToStore['in_garage'] = ($valueToStore['in_garage'] == null?$valueStored['in_garage']?$valueToStore['in_garage']);
+								$valueToStore['in_garage'] = $valueToStore['in_garage'] == null?$valueStored['in_garage']:$valueToStore['in_garage'];
 							}
 							// Calculate WN8 if battles have been recorded since last storage
 							if ($valueStored['all']['battles'] != $valueToStore['all']['battles']) {
