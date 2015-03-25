@@ -61,6 +61,7 @@ header('Content-Type: text/html; charset=utf-8');
 							</li>
 							<li<?php if ($gPageID == 'garage') { echo(' class="active"'); } ?>><a href="garage.php" data-i18n="nav.garage"></a></li>
 							<li<?php if ($gPageID == 'events') { echo(' class="active"'); } ?>><a href="events.php" data-i18n="nav.events"></a></li>
+							<li<?php if ($gPageID == 'stronghold') { echo(' class="active"'); } ?>><a href="stronghold.php" data-i18n="nav.stronghold"></a></li>
 							<li class="dropdown<?php if ($gPageID == 'strats') { echo(' active'); } ?>">
 								<a href="./strats.php" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span data-i18n="nav.strats.title"></span> <span class="caret"></span></a>
 								<ul class="dropdown-menu" role="menu">
