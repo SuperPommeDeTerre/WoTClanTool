@@ -14,57 +14,24 @@ var applyTableTanksFilters = function(filter) {
 	myFilteredElems.removeClass('hidden')
 };
 
-var onLoad = function() {
-	checkConnected();
-	progressNbSteps = 5;
-	advanceProgress(i18n.t('loading.claninfos'));
-	setNavBrandWithClan();
-	advanceProgress(i18n.t('loading.tanksinfos'));
+var displayTanks = function(dataMyTanks, dataTankopedia) {
 	var myTanksTable = $('#tableMyTanks'),
 		myTanksSmallContainer = $('#myTanksContainerSmall'),
-		myTanksBigContainer = $('#myTanksContainerBig');
-	$('#btnShowTanksTable').on('click', function(evt) {
-		var myButton = $(this);
-		myButton.siblings().removeClass('active');
-		myButton.addClass('active');
-		myTanksTable.removeClass('hidden');
-		myTanksSmallContainer.addClass('hidden');
-		myTanksBigContainer.addClass('hidden');
-	});
-	$('#btnShowTanksListSmall').on('click', function(evt) {
-		var myButton = $(this);
-		myButton.siblings().removeClass('active');
-		myButton.addClass('active');
-		myTanksTable.addClass('hidden');
-		myTanksSmallContainer.removeClass('hidden');
-		myTanksBigContainer.addClass('hidden');
-	});
-	$('#btnShowTanksListLarge').on('click', function(evt) {
-		var myButton = $(this);
-		myButton.siblings().removeClass('active');
-		myButton.addClass('active');
-		myTanksTable.addClass('hidden');
-		myTanksSmallContainer.addClass('hidden');
-		myTanksBigContainer.removeClass('hidden');
-	});
-	$.post(gConfig.WG_API_URL + 'wot/encyclopedia/tanks/', {
-		application_id: gConfig.WG_APP_ID,
-		access_token: gConfig.ACCESS_TOKEN,
-		language: gConfig.LANG
-	}, function(dataTankopediaResponse) {
-		var dataTankopedia = dataTankopediaResponse.data,
-			myTanksTable = $('#tableMyTanks'),
-			myTanksSmallContainer = $('#myTanksContainerSmall'),
-			myTanksBigContainer = $('#myTanksContainerBig'),
-			tableContent = '',
-			listContent = '',
-			listLargeContent = '',
-			myTank = null,
-			tankInfos = null,
-			winRatio = 0,
-			chkInGarage = $('#chkInGarage'),
-			chkIsFull = $('#chkIsFull');
-		advanceProgress(i18n.t('loading.mytanksinfos'));
+		myTanksBigContainer = $('#myTanksContainerBig'),
+		tableContent = '',
+		listContent = '',
+		listLargeContent = '',
+		myTank = null,
+		tankInfos = null,
+		winRatio = 0,
+		chkInGarage = $('#chkInGarage'),
+		chkIsFull = $('#chkIsFull');
+	// Save tanks infos
+	$.post('./server/player.php', {
+		'action': 'settanksstats',
+		'data': JSON.stringify(dataMyTanks)
+	}, function(dataSaveTanksResponse) {
+		// Then reget it with WN8 calculation
 		$.post('./server/player.php', {
 			'action': 'gettanksstats'
 		}, function(dataMyTanksResponse) {
@@ -74,19 +41,11 @@ var onLoad = function() {
 			dataMyTanks.sort(function(a, b) {
 				var tankInfosA = dataTankopedia[a.tank_id],
 					tankInfosB = dataTankopedia[b.tank_id];
-				// First, sort by level
 				if (tankInfosA.level > tankInfosB.level) {
 					return -1;
 				}
 				if (tankInfosA.level < tankInfosB.level) {
 					return 1;
-				}
-				// Then by type
-				if (gTANKS_TYPES[tankInfosA.type] > gTANKS_TYPES[tankInfosB.type]) {
-					return -1;
-				}
-				if (gTANKS_TYPES[tankInfosA.type] < gTANKS_TYPES[tankInfosB.type]) {
-					return -1;
 				}
 				return 0;
 			});
@@ -95,10 +54,7 @@ var onLoad = function() {
 				curTankInGarage = 0,
 				basePosX = 0,
 				basePosY = 0,
-				textColor = '#000',
-				curTankLevel = -1,
-				curTankType = '',
-				nbMaxTanksInLevel = 0;
+				textColor = '#000';
 			for (var i=0; i<dataMyTanks.length; i++) {
 				if (dataMyTanks[i].in_garage) {
 					nbTanksInGarage++;
@@ -113,28 +69,19 @@ var onLoad = function() {
 					winRatio = myTank.all.wins * 100 / myTank.all.battles;
 				}
 				if (myTank.in_garage) {
-					if (curTankLevel != myTank.level) {
-						// Change level
-						if (curTankLevel == -1) {
-						}
-						curTankLevel = myTank.level;
-						myCanvas.drawImage({
-							source: './themes/default/style/images/Tier_' + tankInfos.level + '_icon.png',
-							x: 10, y: basePosY + 5
-						});
-					}
-					if (curTankType != gTANKS_TYPES[myTank.type]) {
-						curTankType = gTANKS_TYPES[myTank.type];
-					}
 					myCanvas.drawImage({
 						source: tankInfos.contour_image,
 						x: 30, y: (curTankInGarage * 25) + 10
 					});
 					myCanvas.drawImage({
+						source: './themes/default/style/images/Tier_' + tankInfos.level + '_icon.png',
+						x: 10, y: (curTankInGarage * 25) + 5
+					});
+					myCanvas.drawImage({
 						source: './themes/default/style/images/type-' + tankInfos.type + '.png',
 						x: 70, y: (curTankInGarage * 25) + 10
 					});
-					if (myTank['is_full'] || myTank.is_premium) {
+					if (myTank['is_full']) {
 						textColor = '#000';
 					} else {
 						textColor = '#666';
@@ -210,6 +157,58 @@ var onLoad = function() {
 			});
 			advanceProgress(i18n.t('loading.complete'));
 			afterLoad();
+		}, 'json');
+	}, 'json');
+};
+
+var onLoad = function() {
+	checkConnected();
+	progressNbSteps = 5;
+	advanceProgress(i18n.t('loading.claninfos'));
+	setNavBrandWithClan();
+	advanceProgress(i18n.t('loading.tanksinfos'));
+	var myTanksTable = $('#tableMyTanks'),
+		myTanksSmallContainer = $('#myTanksContainerSmall'),
+		myTanksBigContainer = $('#myTanksContainerBig');
+	$('#btnShowTanksTable').on('click', function(evt) {
+		var myButton = $(this);
+		myButton.siblings().removeClass('active');
+		myButton.addClass('active');
+		myTanksTable.removeClass('hidden');
+		myTanksSmallContainer.addClass('hidden');
+		myTanksBigContainer.addClass('hidden');
+	});
+	$('#btnShowTanksListSmall').on('click', function(evt) {
+		var myButton = $(this);
+		myButton.siblings().removeClass('active');
+		myButton.addClass('active');
+		myTanksTable.addClass('hidden');
+		myTanksSmallContainer.removeClass('hidden');
+		myTanksBigContainer.addClass('hidden');
+	});
+	$('#btnShowTanksListLarge').on('click', function(evt) {
+		var myButton = $(this);
+		myButton.siblings().removeClass('active');
+		myButton.addClass('active');
+		myTanksTable.addClass('hidden');
+		myTanksSmallContainer.addClass('hidden');
+		myTanksBigContainer.removeClass('hidden');
+	});
+	$.post(gConfig.WG_API_URL + 'wot/encyclopedia/tanks/', {
+		application_id: gConfig.WG_APP_ID,
+		access_token: gConfig.ACCESS_TOKEN,
+		language: gConfig.LANG
+	}, function(dataTankopediaResponse) {
+		var dataTankopedia = dataTankopediaResponse.data;
+		advanceProgress(i18n.t('loading.mytanksinfos'));
+		$.post(gConfig.WG_API_URL + 'wot/tanks/stats/', {
+			application_id: gConfig.WG_APP_ID,
+			language: gConfig.LANG,
+			access_token: gConfig.ACCESS_TOKEN,
+			account_id: gConfig.PLAYER_ID
+		}, function(dataMyTanksResponse) {
+			dataMyTanks = dataMyTanksResponse.data[gConfig.PLAYER_ID];
+			displayTanks(dataMyTanks, dataTankopedia);
 		}, 'json');
 	}, 'json');
 };
