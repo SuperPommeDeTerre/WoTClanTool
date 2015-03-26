@@ -109,9 +109,7 @@ switch ($_REQUEST['action']) {
 								if (array_key_exists('is_ready', $valueStored)) {
 									$valueToStore['is_ready'] = $valueStored['is_ready'];
 								}
-								if ($valueWG['in_garage'] != null) {
-									$valueToStore['in_garage'] = $valueWG['in_garage'];
-								}
+								$valueToStore['in_garage'] = $valueWG['in_garage'] != null?$valueWG['in_garage']:false;
 								// Calculate WN8 if battles have been recorded since last storage
 								if ($valueStored['battles'] != $valueWG['all']['battles']) {
 									$valueToStore['wn8'] = calcTankWN8($tanksExpectedVals, $valueWG);
@@ -172,7 +170,6 @@ switch ($_REQUEST['action']) {
 		$myfile = fopen($userFile, 'w') or die('Unable to open file!');
 		fwrite($myfile, json_encode($playerTanksStats));
 		fclose($myfile);
-		$result['data'] = $playerTanksStats;
 		break;
 	case 'settankisready':
 		$tankId = $_REQUEST['tank_id'];
@@ -189,7 +186,6 @@ switch ($_REQUEST['action']) {
 		$myfile = fopen($userFile, 'w') or die('Unable to open file!');
 		fwrite($myfile, json_encode($playerTanksStats));
 		fclose($myfile);
-		$result['data'] = $playerTanksStats;
 		break;
 }
 $result['result'] = 'ok';
