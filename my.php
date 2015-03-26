@@ -80,8 +80,8 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 						<canvas width="300" height="150" id="canvasRecapPlayer"></canvas>
 					</div>
 					<div class="tab-pane fade in" id="tabTSCommentText">
-						<button id="copy-button" class="btn btn-default btn-material-grey-500" data-clipboard-target="textResumePlayer" data-i18n="[title]action.copy;"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></button>
 						<pre id="textResumePlayer"></pre>
+						<button id="copy-button" class="btn btn-default btn-material-grey-500" data-clipboard-target="textResumePlayer" data-i18n="[title]action.copy;"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></button>
 					</div>
 				</div>
 			</div>

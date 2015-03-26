@@ -71,7 +71,11 @@ header('Content-Type: text/html; charset=utf-8');
 									<li><a href="./strats.php#valid" data-i18n="nav.strats.valid"></a></li>
 									<li><a href="./strats.php#review" data-i18n="nav.strats.review"></a></li>
 								</ul>
-							</li>
+							</li><?php
+// Show the administration only if the user is in the admins group
+if (in_array($_SESSION["account_id"], $gAdmins)) { ?>
+							<li<?php if ($gPageID == 'admin') { echo(' class="active"'); } ?>><a href="admin.php" data-i18n="[title]nav.admin;"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></li><?php
+} ?>
 						</ul>
 					</div><!--/.nav-collapse -->
 				</div><!--/.container-fluid -->

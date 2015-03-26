@@ -14,4 +14,7 @@ $gMAX_BATTLE_TIME = 14;
 
 // Name of theme to use
 $gThemeName = 'default';
+
+// Adminstrators
+$gAdmins = [ "506641783" ];
 ?>

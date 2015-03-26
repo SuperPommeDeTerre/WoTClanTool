@@ -5,9 +5,20 @@ require(dirname(__FILE__) . '/global.php');
 // This service must return JSON to page
 header('Content-Type: application/json');
 
+// Gets the WN8 expected vals as requested by the algorithm
 $WN8_EXPECTED_VALS = json_decode(file_get_contents(WCT_DATA_DIR . 'WN8_expected_tank_values.json'), true);
 $tanksExpectedVals = is_array($WN8_EXPECTED_VALS['data']) ? $WN8_EXPECTED_VALS['data'] : array($WN8_EXPECTED_VALS['data']);
 
+/**
+ * Compute the WN8 of a tank respect to the algorithm specified here :
+ * http://wiki.wnefficiency.net/pages/WN8#The_Steps_of_WN8_-_The_Formula
+ *
+ * @param $pTanksExpectedVals
+ *     Tank expected values (for all tanks) as needed by the algrithm (http://www.wnefficiency.net/wnexpected/)
+ * @param $pTankStats
+ *     Actual tank staistics.
+ * @return The WN8 rating of the tank.
+ */
 function calcTankWN8($pTanksExpectedVals, $pTankStats) {
 	$returnVal = 0;
 	foreach ($pTanksExpectedVals as $tankExpectedVals) {
@@ -42,14 +53,37 @@ function calcTankWN8($pTanksExpectedVals, $pTankStats) {
 $userFile = WCT_DATA_DIR . 'user/' . $_SESSION['account_id'] . '.json';
 $result = array();
 switch ($_REQUEST['action']) {
+	case 'purge':
+		$usersToPurge = array();
+		if (array_key_exists('account_id', $_REQUEST)) {
+			$usersToPurge = explode(',', $_REQUEST['account_id']);
+		} else {
+			$usersToPurge[] = $_SESSION['account_id'];
+		}
+		foreach ($usersToGet as $userId) {
+			$userFile = WCT_DATA_DIR . 'user/' . $userId . '.json';
+			if (file_exists($userFile)) {
+				unlink($userFile);
+			}
+		}
+		break;
 	case 'gettanksstats':
 		$usersToGet = array();
+		$myTanksStats = array();
 		if (array_key_exists('account_id', $_REQUEST)) {
 			$usersToGet = explode(',', $_REQUEST['account_id']);
 		} else {
 			$usersToGet[] = $_SESSION['account_id'];
 		}
+		// If the request passes data, then we are also setting data
+		$doParseData = false;
+		if (array_key_exists('data', $_REQUEST)) {
+			$myTanksStats = json_decode($_REQUEST['data'], true);
+			$myTanksStats = is_array($myTanksStats) ? $myTanksStats : array($myTanksStats);
+			$doParseData = true;
+		}
 		$playerTanksStats = array();
+		$playerTanksStatsToStore = array();
 		foreach ($usersToGet as $userId) {
 			$userFile = WCT_DATA_DIR . 'user/' . $userId . '.json';
 			if (file_exists($userFile)) {
@@ -57,52 +91,71 @@ switch ($_REQUEST['action']) {
 			} else {
 				$playerTanksStats[$userId] = array();
 			}
-		}
-		$result['data'] = $playerTanksStats;
-		break;
-	case 'settanksstats':
-		$myTanksStats = json_decode($_REQUEST['data'], true);
-		$myTanksStats = is_array($myTanksStats) ? $myTanksStats : array($myTanksStats);
-		$doCalcWN8 = false;
-		// Handle modifications
-		if (file_exists($userFile)) {
-			$playerTanksStats = json_decode(file_get_contents($userFile), true);
-			$playerTanksStats = is_array($playerTanksStats) ? $playerTanksStats : array($playerTanksStats);
-			foreach ($myTanksStats as &$valueToStore) {
-				$isTankFound = false;
-				foreach ($playerTanksStats as $valueStored) {
-					if ($valueStored['tank_id'] == $valueToStore['tank_id']) {
-						// It's the same tank. Process it...
-						if (array_key_exists('is_full', $valueStored)) {
-							$valueToStore['is_full'] = $valueStored['is_full'];
+			$playerTanksStatsToStore[$userId] = array();
+			if ($doParseData) {
+				$doCalcWN8 = false;
+				// Handle modifications
+				if (file_exists($userFile)) {
+					$valueToStore = array();
+					foreach ($myTanksStats[$userId] as &$valueWG) {
+						$isTankFound = false;
+						foreach ($playerTanksStats[$userId] as $valueStored) {
+							if ($valueStored['tank_id'] == $valueWG['tank_id']) {
+								// It's the same tank. Process it...
+								$valueToStore['tank_id'] = $valueWG['tank_id'];
+								if (array_key_exists('is_full', $valueStored)) {
+									$valueToStore['is_full'] = $valueStored['is_full'];
+								}
+								if (array_key_exists('is_ready', $valueStored)) {
+									$valueToStore['is_ready'] = $valueStored['is_ready'];
+								}
+								if ($valueWG['in_garage'] != null) {
+									$valueToStore['in_garage'] = $valueWG['in_garage'];
+								}
+								// Calculate WN8 if battles have been recorded since last storage
+								if ($valueStored['battles'] != $valueWG['all']['battles']) {
+									$valueToStore['wn8'] = calcTankWN8($tanksExpectedVals, $valueWG);
+								} else {
+									// Gets the old WN8 if the tank has not been played
+									$valueToStore['wn8'] = $valueStored['wn8'];
+								}
+								$valueToStore['battles'] = $valueWG['all']['battles'];
+								$isTankFound = true;
+								break;
+							}
 						}
-						// Calculate WN8 if battles have been recorded since last storage
-						if ($valueStored['all']['battles'] != $valueToStore['all']['battles']) {
+						if (!$isTankFound) {
+							// The tank is not found in the player data. Add it.
+							$valueToStore['tank_id'] = $valueWG['tank_id'];
+							$valueToStore['battles'] = $valueWG['all']['battles'];
+							$valueToStore['in_garage'] = $valueWG['in_garage'] != null?$valueWG['in_garage']:false;
+							$valueToStore['is_full'] = false;
+							$valueToStore['is_ready'] = false;
 							$valueToStore['wn8'] = calcTankWN8($tanksExpectedVals, $valueToStore);
-						} else {
-							// Gets the old WN8 if the tank has not been played
-							$valueToStore['wn8'] = $valueStored['wn8'];
 						}
-						$isTankFound = true;
-						break;
+						$playerTanksStatsToStore[$userId][] = $valueToStore;
+					}
+				} else {
+					foreach ($myTanksStats[$userId] as &$valueWG) {
+						$valueToStore = array();
+						$valueToStore['tank_id'] = $valueWG['tank_id'];
+						$valueToStore['battles'] = $valueWG['all']['battles'];
+						$valueToStore['in_garage'] = $valueWG['in_garage'] != null?$valueWG['in_garage']:false;
+						$valueToStore['is_full'] = false;
+						$valueToStore['is_ready'] = false;
+						$valueToStore['wn8'] = calcTankWN8($tanksExpectedVals, $valueWG);
+						$playerTanksStatsToStore[$userId][] = $valueToStore;
 					}
 				}
-				if (!$isTankFound) {
-					// The tank is not found in the player data. Add it.
-					$valueToStore['is_full'] = false;
-					$valueToStore['wn8'] = calcTankWN8($tanksExpectedVals, $valueToStore);
-					$myTanksStats[] = $valueToStore;
-				}
-			}
-		} else {
-			foreach ($myTanksStats as &$valueToStore) {
-				$valueToStore['is_full'] = false;
-				$valueToStore['wn8'] = calcTankWN8($tanksExpectedVals, $valueToStore);
+				$myfile = fopen($userFile, 'w') or die('Unable to open file!');
+				fwrite($myfile, json_encode($playerTanksStatsToStore[$userId]));
+				fclose($myfile);
 			}
 		}
-		$myfile = fopen($userFile, 'w') or die('Unable to open file!');
-		fwrite($myfile, json_encode($myTanksStats));
-		fclose($myfile);
+		if (array_key_exists('data', $_REQUEST)) {
+			$playerTanksStats = $playerTanksStatsToStore;
+		}
+		$result['data'] = $playerTanksStats;
 		break;
 	case 'settankisfull':
 		$tankId = $_REQUEST['tank_id'];
@@ -121,7 +174,25 @@ switch ($_REQUEST['action']) {
 		fclose($myfile);
 		$result['data'] = $playerTanksStats;
 		break;
+	case 'settankisready':
+		$tankId = $_REQUEST['tank_id'];
+		$tankIsReady = $_REQUEST['is_ready'];
+		$playerTanksStats = file_get_contents($userFile);
+		$playerTanksStats = json_decode($playerTanksStats, true);
+		$playerTanksStats = is_array($playerTanksStats) ? $playerTanksStats : array($playerTanksStats);
+		foreach ($playerTanksStats as &$valueStored) {
+			if ($valueStored['tank_id'] == $tankId) {
+				$valueStored['is_ready'] = $tankIsReady;
+				break;
+			}
+		}
+		$myfile = fopen($userFile, 'w') or die('Unable to open file!');
+		fwrite($myfile, json_encode($playerTanksStats));
+		fclose($myfile);
+		$result['data'] = $playerTanksStats;
+		break;
 }
 $result['result'] = 'ok';
 
 echo json_encode($result);
+?>
