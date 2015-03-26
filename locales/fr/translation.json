@@ -140,6 +140,12 @@
 			"SPG_plural": "CAMs"
 		}
 	},
+	"filter": {
+		"tank": {
+			"in_garage": "Au garage",
+			"is_full": "Full"
+		}
+	},
 	"page": {
 		"my": {
 			"title": "Mes informations personnelles"

@@ -22,12 +22,12 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 			</div>
 			<div class="pull-right form-inline">
 				<div class="togglebutton" style="float:left">
-					<label><span>Au garage</span>
+					<label><span data-i18n="filter.tank.in_garage"></span>
 						<input type="checkbox" id="chkInGarage" checked="checked" />
 					</label>
 				</div>
 				<div class="togglebutton" style="float:left">
-					<label><span>Full</span>
+					<label><span data-i18n="filter.tank.is_full"></span>
 						<input type="checkbox" id="chkIsFull" />
 					</label>
 				</div>
