@@ -54,6 +54,12 @@ var onLoad = function() {
 				if (gROLE_POSITION[a.role] > gROLE_POSITION[b.role]) {
 					return 1;
 				}
+				if (a.nickname < b.nickname) {
+					return -1;
+				}
+				if (a.nickname > b.nickname) {
+					return 1;
+				}
 				return 0;
 			});
 			for (var i=0; i<clanMembers.length; i++) {
@@ -167,22 +173,22 @@ var onLoad = function() {
 						}
 						$('#clanTotalVehicles').text(i18n.t('clan.nbtanks', { count: nbTotalVehicules }));
 						var myData = [];
-						for (var i=0; i<gTANKS_LEVEL.length; i++) {
+						for (var i=gTANKS_LEVEL.length - 1; i>=0; i--) {
 							myData.push({ label: gTANKS_LEVEL[i], value: nbClanVehiculesByTiers[i] });
 						}
 						new Morris.Donut({
 							element: 'chartTanksTiers',
 							data: myData,
-							colors: [ "#ffebee", "#ffcdd2", "#ef9a9a", "#e57373", "#ef5350", "#f44336", "#e53935", "#d32f2f", "#c62828", "#b71c1c" ]
+							colors: [ "#b71c1c", "#c62828", "#e53935", "#d32f2f", "#f44336", "#ef5350", "#e57373", "#ef9a9a", "#ffcdd2", "#ffebee" ]
 						});
 						new Morris.Donut({
 							element: 'chartTanksType',
 							data: [
-								{ label: i18n.t('tank.type.lightTank', { count: nbClanVehiculesByType['lightTank'] }), value: nbClanVehiculesByType['lightTank'] },
-								{ label: i18n.t('tank.type.mediumTank', { count: nbClanVehiculesByType['mediumTank'] }), value: nbClanVehiculesByType['mediumTank'] },
-								{ label: i18n.t('tank.type.heavyTank', { count: nbClanVehiculesByType['heavyTank'] }), value: nbClanVehiculesByType['heavyTank'] },
+								{ label: i18n.t('tank.type.SPG', { count: nbClanVehiculesByType['SPG'] }), value: nbClanVehiculesByType['SPG'] },
 								{ label: i18n.t('tank.type.AT-SPG', { count: nbClanVehiculesByType['AT-SPG'] }), value: nbClanVehiculesByType['AT-SPG'] },
-								{ label: i18n.t('tank.type.SPG', { count: nbClanVehiculesByType['SPG'] }), value: nbClanVehiculesByType['SPG'] }
+								{ label: i18n.t('tank.type.heavyTank', { count: nbClanVehiculesByType['heavyTank'] }), value: nbClanVehiculesByType['heavyTank'] },
+								{ label: i18n.t('tank.type.mediumTank', { count: nbClanVehiculesByType['mediumTank'] }), value: nbClanVehiculesByType['mediumTank'] },
+								{ label: i18n.t('tank.type.lightTank', { count: nbClanVehiculesByType['lightTank'] }), value: nbClanVehiculesByType['lightTank'] }
 							]
 						});
 						advanceProgress(i18n.t('loading.complete'));

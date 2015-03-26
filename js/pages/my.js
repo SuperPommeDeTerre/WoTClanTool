@@ -148,7 +148,7 @@ var displayTanks = function(dataMyTanks, dataTankopedia) {
 						curTankType = '';
 						nbTanksOnLine = 0;
 						myCanvas.drawImage({
-							source: './themes/default/style/images/Tier_' + tankInfos.level + '_icon.png',
+							source: './themes/' + gConfig.THEME + '/style/images/Tier_' + tankInfos.level + '_icon.png',
 							fromCenter: false,
 							x: 10, y: basePosY + 5
 						});
@@ -196,8 +196,8 @@ var displayTanks = function(dataMyTanks, dataTankopedia) {
 						x: basePosX + 30, y: basePosY + 10
 					});
 					myCanvas.drawImage({
-						source: './themes/default/style/images/type-' + tankInfos.type + '.png',
-						x: basePosX + 10, y: basePosY + 10
+						source: './themes/' + gConfig.THEME + '/style/images/type-' + tankInfos.type + '.png',
+						x: basePosX + 10, y: basePosY + 5
 					});
 					if (tankAdditionalInfos.is_full) {
 						textColor = '#000';
@@ -224,8 +224,8 @@ var displayTanks = function(dataMyTanks, dataTankopedia) {
 			tableContent += '<td><img src="' + tankInfos.contour_image + '" /></td>';
 			tableContent += '<td data-value="' + myTank.mark_of_mastery + '" class="tankmastery' + myTank.mark_of_mastery + '">&nbsp;</td>';
 			tableContent += '<td class="tankname">' + tankInfos.short_name_i18n + '</td>';
-			tableContent += '<td data-value="' + tankInfos.level  + '">' + gTANKS_LEVEL[tankInfos.level - 1] + '</td>';
-			tableContent += '<td>' + tankInfos.type_i18n + '</td>';
+			tableContent += '<td data-value="' + tankInfos.level  + '"><img src="./themes/' + gConfig.THEME + '/style/images/Tier_' + tankInfos.level + '_icon.png" alt="' + gTANKS_LEVEL[tankInfos.level - 1] + '" /></td>';
+			tableContent += '<td data-value="' + gTANKS_TYPES[tankInfos.type] + '"><img src="./themes/' + gConfig.THEME + '/style/images/type-' + tankInfos.type + '.png" alt="' + tankInfos.type_i18n + '" /></td>';
 			tableContent += '<td>' + myTank.all.battles + '</td>';
 			tableContent += '<td><span class="label label-' + getWN8Class(tankAdditionalInfos.wn8) + '">' + (Math.round(tankAdditionalInfos.wn8 * 100) / 100) + '</span></td>';
 			tableContent += '<td data-value="' + winRatio + '">' + (winRatio > -1?(Math.round(winRatio * 100) / 100) + ' %':'-') + '</td>';

@@ -40,7 +40,7 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 								<tr>
 									<th class="tankcontour" data-sortable="false"></th>
 									<th class="tankmastery">M</th>
-									<th class="tankname">Char</th>
+									<th class="tankname">Nom du char</th>
 									<th class="tanktiers" data-sorted="true" data-sorted-direction="descending">Tiers</th>
 									<th class="tanktype">Type</th>
 									<th class="tankbattles">Batailles</th>
