@@ -45,6 +45,7 @@
 		"event": {
 			"add": "Ajouter un évènement"
 		},
+		"copy": "Copier vers le presse-papiers",
 		"calendar": {
 			"next": ">>",
 			"previous": "<<",

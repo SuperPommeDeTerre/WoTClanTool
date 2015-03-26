@@ -46,7 +46,8 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 									<th class="tankbattles">Batailles</th>
 									<th class="tankwn8">WN8</th>
 									<th class="tankwinratio">% victoires</th>
-									<th class="tankisfull">Full ?</th>
+									<th class="tankisfull"><abbr title="Indique si le char possède tous les éléments optimaux.">Full ?</abbr></th>
+									<th class="tankisready"><abbr title="Indique si ce char est prêt pour les évènements (équipage, équipements, etc.).">Pr&ecirc;t ?</abbr></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -70,7 +71,7 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 				<h4 class="modal-title" data-i18n="nav.tscomments"></h4>
 			</div>
 			<div class="modal-body">
-				<ul class="nav nav-tabs nav-tabs-material-grey">
+				<ul class="nav nav-pills nav-pills-material-grey">
 					<li role="presentation" class="active"><a href="#tabTSCommentImage" data-toggle="tab" data-i18n="nav.tscommentimage"></a></li>
 					<li role="presentation"><a href="#tabTSCommentText" data-toggle="tab" data-i18n="nav.tscommenttext"></a></li>
 				</ul>
@@ -78,8 +79,9 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 					<div class="tab-pane fade active in" id="tabTSCommentImage">
 						<canvas width="300" height="150" id="canvasRecapPlayer"></canvas>
 					</div>
-					<div class="tab-pane fade active in" id="tabTSCommentText">
-						<pre id="textResumePlayer">Texte</pre>
+					<div class="tab-pane fade in" id="tabTSCommentText">
+						<button id="copy-button" class="btn btn-default btn-material-grey-500" data-clipboard-target="textResumePlayer" data-i18n="[title]action.copy;"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></button>
+						<pre id="textResumePlayer"></pre>
 					</div>
 				</div>
 			</div>

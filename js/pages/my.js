@@ -1,3 +1,8 @@
+var gIMAGE_PARAMS = {
+	offsetElem: 150,
+	offsetLine: 25,
+	nbTanksByLine: 3
+};
 var applyTableTanksFilters = function(filter) {
 	var myElems = $('.tank'),
 		myFilteredElems = myElems;
@@ -41,26 +46,69 @@ var displayTanks = function(dataMyTanks, dataTankopedia) {
 			dataMyTanks.sort(function(a, b) {
 				var tankInfosA = dataTankopedia[a.tank_id],
 					tankInfosB = dataTankopedia[b.tank_id];
+				// Sort by tiers
 				if (tankInfosA.level > tankInfosB.level) {
 					return -1;
 				}
 				if (tankInfosA.level < tankInfosB.level) {
 					return 1;
 				}
+				// Then by type
+				if (gTANKS_TYPES[tankInfosA.type] < gTANKS_TYPES[tankInfosB.type]) {
+					return -1;
+				}
+				if (gTANKS_TYPES[tankInfosA.type] > gTANKS_TYPES[tankInfosB.type]) {
+					return 1;
+				}
 				return 0;
 			});
 			var myCanvas = $('#canvasRecapPlayer'),
-				nbTanksInGarage = 0,
-				curTankInGarage = 0,
+				canvasRealHeight = 0,
 				basePosX = 0,
 				basePosY = 0,
 				textColor = '#000';
+				curTankLevel = 0,
+				curTankType = '',
+				nbTanksOnLine = 0,
+				commentText = '';
+			// Compute canvas real height
 			for (var i=0; i<dataMyTanks.length; i++) {
+				myTank = dataMyTanks[i];
+				tankInfos = dataTankopedia[myTank.tank_id];
 				if (dataMyTanks[i].in_garage) {
-					nbTanksInGarage++;
+					if (tankInfos.level == 10 || tankInfos.level == 8 || tankInfos.level == 6 || tankInfos.level == 4) {
+						if (curTankLevel != tankInfos.level) {
+							if (curTankLevel != 0) {
+								canvasRealHeight += gIMAGE_PARAMS.offsetLine;
+							}
+							curTankLevel = tankInfos.level;
+						}
+						if (curTankType != tankInfos.type) {
+							canvasRealHeight += gIMAGE_PARAMS.offsetLine;
+							curTankType = tankInfos.type;
+						} else {
+							if (nbTanksOnLine > gIMAGE_PARAMS.nbTanksByLine) {
+								canvasRealHeight += gIMAGE_PARAMS.offsetLine;
+								nbTanksOnLine = 0;
+							}
+						}
+						nbTanksOnLine++;
+					}
 				}
 			}
-			myCanvas.attr('height', nbTanksInGarage * 25);
+			myCanvas.attr('height', canvasRealHeight);
+			myCanvas.attr('width', gIMAGE_PARAMS.nbTanksByLine * gIMAGE_PARAMS.offsetElem);
+			curTankLevel = 0;
+			curTankType = '';
+			nbTanksOnLine = 0;
+			commentText = '<table border="1"><thead><tr>\n';
+			commentText += '  <th>&nbsp;</th>\n';
+			commentText += '  <th>Léger</th>\n';
+			commentText += '  <th>Moyen</th>\n';
+			commentText += '  <th>Lourd</th>\n';
+			commentText += '  <th>TD</th>\n';
+			commentText += '  <th>Arti</th>\n';
+			commentText += '</tr></thead><tbody>\n';
 			for (var i=0; i<dataMyTanks.length; i++) {
 				myTank = dataMyTanks[i];
 				tankInfos = dataTankopedia[myTank.tank_id];
@@ -69,45 +117,100 @@ var displayTanks = function(dataMyTanks, dataTankopedia) {
 					winRatio = myTank.all.wins * 100 / myTank.all.battles;
 				}
 				if (myTank.in_garage) {
-					myCanvas.drawImage({
-						source: tankInfos.contour_image,
-						x: 30, y: (curTankInGarage * 25) + 10
-					});
-					myCanvas.drawImage({
-						source: './themes/default/style/images/Tier_' + tankInfos.level + '_icon.png',
-						x: 10, y: (curTankInGarage * 25) + 5
-					});
-					myCanvas.drawImage({
-						source: './themes/default/style/images/type-' + tankInfos.type + '.png',
-						x: 70, y: (curTankInGarage * 25) + 10
-					});
-					if (myTank['is_full']) {
-						textColor = '#000';
-					} else {
-						textColor = '#666';
+					// Draw only tanks that are in garage for Mumble/TS canvas
+					if (tankInfos.level == 10 || tankInfos.level == 8 || tankInfos.level == 6 || tankInfos.level == 4) {
+						// And only useful tanks...
+						if (curTankLevel != tankInfos.level) {
+							if (curTankLevel != 0) {
+								basePosY += gIMAGE_PARAMS.offsetLine;
+								switch (curTankType) {
+									case 'lightTank':
+										commentText += '<td>&nbsp;</td>\n';
+									case 'mediumTank':
+										commentText += '<td>&nbsp;</td>\n';
+									case 'heavyTank':
+										commentText += '<td>&nbsp;</td>\n';
+									case 'AT-SPG':
+										commentText += '<td>&nbsp;</td>';
+										break;
+								}
+								commentText += '</tr>\n';
+							}
+							curTankLevel = tankInfos.level;
+							curTankType = '';
+							nbTanksOnLine = 0;
+							myCanvas.drawImage({
+								source: './themes/default/style/images/Tier_' + tankInfos.level + '_icon.png',
+								fromCenter: false,
+								x: 10, y: basePosY + 5
+							});
+							myCanvas.drawLine({
+								strokeStyle: '#333',
+								strokeWidth: 1,
+								x1: 0, y1: basePosY + gIMAGE_PARAMS.offsetLine - 3,
+								x2: myCanvas.attr('width'), y2: basePosY + gIMAGE_PARAMS.offsetLine - 3
+							});
+							commentText += '<tr><th>' + gTANKS_LEVEL[tankInfos.level - 1] + '</th>';
+						}
+						if (curTankType != tankInfos.type) {
+							if (curTankType != '') {
+								commentText += '</td>\n';
+							} else {
+								switch (tankInfos.type) {
+									case 'SPG':
+										commentText += '<td>&nbsp;</td>\n';
+									case 'AT-SPG':
+										commentText += '<td>&nbsp;</td>\n';
+									case 'heavyTank':
+										commentText += '<td>&nbsp;</td>\n';
+									case 'mediumTank':
+										commentText += '<td>&nbsp;</td>';
+										break;
+								}
+							}
+							basePosY += gIMAGE_PARAMS.offsetLine;
+							basePosX = 0;
+							curTankType = tankInfos.type;
+							nbTanksOnLine = 0;
+							commentText += '<td>';
+						} else {
+							// Handle line change
+							if (nbTanksOnLine > gIMAGE_PARAMS.nbTanksByLine) {
+								nbTanksOnLine = 0;
+								basePosX = 0;
+								basePosY += gIMAGE_PARAMS.offsetLine;
+							} else {
+								basePosX += gIMAGE_PARAMS.offsetElem;
+							}
+						}
+						myCanvas.drawImage({
+							source: tankInfos.contour_image,
+							x: basePosX + 30, y: basePosY + 10
+						});
+						myCanvas.drawImage({
+							source: './themes/default/style/images/type-' + tankInfos.type + '.png',
+							x: basePosX + 10, y: basePosY + 10
+						});
+						if (myTank['is_full']) {
+							textColor = '#000';
+						} else if (myTank.is_premium) {
+							textColor = '#ffc107';
+						} else {
+							textColor = '#666';
+						}
+						myCanvas.drawText({
+							fillStyle: textColor,
+							strokeStyle: textColor,
+							strokeWidth: 0,
+							x: basePosX + 70, y: basePosY + 5,
+							fromCenter: false,
+							fontSize: 12,
+							fontFamily: 'RobotoDraft, Roboto, Verdana, sans-serif',
+							text: tankInfos.short_name_i18n
+						});
+						commentText += (nbTanksOnLine != 0?', ':'') + tankInfos.short_name_i18n;
+						nbTanksOnLine++;
 					}
-					myCanvas.drawText({
-						fillStyle: textColor,
-						strokeStyle: textColor,
-						strokeWidth: 0,
-						x: 90, y: (curTankInGarage * 25) + 5,
-						fromCenter: false,
-						fontSize: 12,
-						fontFamily: 'RobotoDraft, Roboto, Verdana, sans-serif',
-						text: tankInfos.short_name_i18n
-					});
-					/*
-					$('canvas').drawLine({
-						strokeStyle: '#000',
-						strokeWidth: 10,
-						rounded: true,
-						x1: 80, y1: 50,
-						x2: 100, y2: 150,
-						x3: 200, y3: 100,
-						x4: 150, y4: 200
-					});
-					*/
-					curTankInGarage++;
 				}
 				tableContent += '<tr class="tank ' + (myTank.in_garage?' ingarage':' hidden') + (tankInfos.is_premium?' ispremium':'') + (tankInfos.is_premium||myTank['is_full']?' isfull':'') +'">';
 				tableContent += '<td><img src="' + tankInfos.contour_image + '" /></td>';
@@ -119,6 +222,7 @@ var displayTanks = function(dataMyTanks, dataTankopedia) {
 				tableContent += '<td><span class="label label-' + getWN8Class(myTank.wn8) + '">' + (Math.round(myTank.wn8 * 100) / 100) + '</span></td>';
 				tableContent += '<td data-value="' + winRatio + '">' + (winRatio > -1?(Math.round(winRatio * 100) / 100) + ' %':'-') + '</td>';
 				tableContent += '<td data-value="' + (tankInfos.is_premium?'1':'0') + '"><div class="togglebutton' + (tankInfos.is_premium?' togglebutton-material-amber':'') + '"><label>&nbsp;<input type="checkbox" class="chkTanksIsFull" id="chkTanksIsFull' + myTank.tank_id + '" value="' + myTank.tank_id + '"' + (tankInfos.is_premium||myTank['is_full']?' checked="checked"':'') + (tankInfos.is_premium?' disabled="disabled"':'') + ' /></label></div></td>';
+				tableContent += '<td data-value="' + (tankInfos.is_premium?'1':'0') + '"><div class="togglebutton"><label>&nbsp;<input type="checkbox" class="chkTanksIsReady" id="chkTanksIsReady' + myTank.tank_id + '" value="' + myTank.tank_id + '"' + (tankInfos.is_premium||myTank['is_full']?' checked="checked"':'') + ' /></label></div></td>';
 				tableContent += '</tr>';
 				listContent += '<div class="small tank tankcontainer tankmastery' + myTank.mark_of_mastery +  (myTank.in_garage?' ingarage':' hidden') + (tankInfos.is_premium?' ispremium':'') + (tankInfos.is_premium||myTank['is_full']?' isfull':'') +'">';
 				listContent += '<div class="tanklevel' + tankInfos.level + '"><img src="' + tankInfos.image_small + '" /></div>';
@@ -129,6 +233,8 @@ var displayTanks = function(dataMyTanks, dataTankopedia) {
 				listLargeContent += '<p class="tankname">' + tankInfos.short_name_i18n + '</p>';
 				listLargeContent += '</div>';
 			}
+			commentText += '</tr>\n</tbody></table>';
+			$('#textResumePlayer').text(commentText);
 			myTanksTable.attr('data-sortable', 'true');
 			myTanksTable.find('tbody').append(tableContent);
 			myTanksSmallContainer.html(listContent);
@@ -156,6 +262,7 @@ var displayTanks = function(dataMyTanks, dataTankopedia) {
 				});
 			});
 			advanceProgress(i18n.t('loading.complete'));
+			new ZeroClipboard($('#copy-button'));
 			afterLoad();
 		}, 'json');
 	}, 'json');
