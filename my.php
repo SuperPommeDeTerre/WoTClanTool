@@ -18,7 +18,7 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 				<button type="button" id="btnShowTanksListLarge" class="btn btn-default btn-material-grey-500"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span></button>
 			</div>
 			<div class="btn-group" role="group">
-				<button type="button" id="btnShowTankImage" class="btn btn-default btn-material-green-300" data-target="#my-dialog" data-toggle="modal"><span class="glyphicon glyphicon-headphones" aria-hidden="true"></span></button>
+				<button type="button" id="btnShowTanksResume" class="btn btn-default btn-material-green-300" data-target="#my-dialog" data-toggle="modal"><span class="glyphicon glyphicon-headphones" aria-hidden="true"></span></button>
 			</div>
 			<div class="pull-right form-inline">
 				<div class="togglebutton" style="float:left">
