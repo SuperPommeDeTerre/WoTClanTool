@@ -38,6 +38,7 @@
 		"event": "Evènement",
 		"strats": "Stratégies",
 		"stats": "Statistiques",
+		"players": "Joueurs",
 		"garage": "Garage"
 	},
 	"action": {
@@ -79,6 +80,18 @@
 			}
 		}
 	},
+	"stats": {
+		"global": {
+			"tanksbylevel": "Chars par tiers",
+			"tanksbyleveldescription": "Chars du clan par tiers",
+			"tanksbytype": "Chars par type",
+			"tanksbytypedescription": "Chars du clan par type",
+			"winratio": "Victoires/Défaites",
+			"winratiodescription": "Nombre de victoires/défaites global",
+			"battles": "Batailles",
+			"battlesdescription": "Nombres de batailles effectuées par jour"
+		}
+	},
 	"loading": {
 		"generating": "Génération...",
 		"claninfos": "Chargement des informations du clan...",
@@ -87,7 +100,8 @@
 		"mytanksinfos": "Chargement de mes chars...",
 		"tanksinfos": "Chargement des chars...",
 		"membertanksinfos": "Chargement des chars des membres...",
-		"complete": "Terminé !"
+		"complete": "Terminé !",
+		"playersratings": "Chargement des statistiques des membres..."
 	},
 	"clan": {
 		"nbplayers": "__count__ joueur",
@@ -119,6 +133,13 @@
 			"reservist": "Réserviste",
 			"private": "Soldat",
 			"recruit": "Recrue"
+		},
+		"headers": {
+			"nickname": "Joueur",
+			"role": "Position",
+			"daysinclan": "Jours dans le clan",
+			"battles": "Nombre de batailles",
+			"personal_rating": "Côte personnelle"
 		}
 	},
 	"tank": {

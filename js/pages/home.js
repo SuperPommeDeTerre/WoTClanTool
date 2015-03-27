@@ -41,6 +41,7 @@ var onLoad = function() {
 				playerInfos = null,
 				actualDate = Math.floor((new Date()).getTime() / 1000),
 				lastBattleThreshold = actualDate - (gConfig.THRESHOLDS_MAX_BATTLES * 86400),
+				nbTotalBattles = 0,
 				nbTotalWins = 0,
 				nbTotalLosses = 0,
 				nbTotalDraws = 0,
@@ -79,6 +80,7 @@ var onLoad = function() {
 				tableContent += '<td>' + playerInfos.statistics.all.battles + '</td>';
 				tableContent += '<td>' + playerInfos.global_rating + '</td>';
 				tableContent += '</tr>';
+				nbTotalBattles += playerInfos.statistics.all.battles;
 				nbTotalWins += playerInfos.statistics.all.wins;
 				nbTotalLosses += playerInfos.statistics.all.losses;
 				nbTotalDraws += playerInfos.statistics.all.draws;
@@ -124,6 +126,68 @@ var onLoad = function() {
 				],
 				colors: [ "#4caf50", "#f44336", "#2196f3" ]
 			});
+			advanceProgress(i18n.t('loading.playersratings'));
+			$.post(gConfig.WG_API_URL + 'wot/ratings/accounts/', {
+				application_id: gConfig.WG_APP_ID,
+				language: gConfig.LANG,
+				access_token: gConfig.ACCESS_TOKEN,
+				type: 'all',
+				date: moment().subtract(1, 'days').hours(0).minutes(0).seconds(0).unix(),
+				account_id: membersList
+			}, function(dataRatingYesterdayResponse) {
+				var dataPlayersYesterdayRatings = dataRatingYesterdayResponse.data,
+					today = moment(),
+					yesterday = moment().subtract(1, 'days').hours(0).minutes(0).seconds(0),
+					yesterdayTotalBattles = 0
+					playerId = '';
+				for (playerId in dataPlayersYesterdayRatings) {
+					curPlayerRatings = dataPlayersYesterdayRatings[playerId];
+					yesterdayTotalBattles += curPlayerRatings.battles_count.value;
+				}
+				$.post(gConfig.WG_API_URL + 'wot/ratings/accounts/', {
+					application_id: gConfig.WG_APP_ID,
+					language: gConfig.LANG,
+					access_token: gConfig.ACCESS_TOKEN,
+					type: 'all',
+					date: moment().subtract(2, 'days').hours(0).minutes(0).seconds(0).unix(),
+					account_id: membersList
+				}, function(dataRatingTwoDaysResponse) {
+					var dataPlayersTwoDaysRatings = dataRatingTwoDaysResponse.data,
+						today = moment(),
+						twoDays = moment().subtract(2, 'days').hours(0).minutes(0).seconds(0),
+						twoDaysTotalBattles = 0
+						playerId = '';
+					for (playerId in dataPlayersTwoDaysRatings) {
+						curPlayerRatings = dataPlayersTwoDaysRatings[playerId];
+						twoDaysTotalBattles += curPlayerRatings.battles_count.value;
+					}
+					/*
+					new Morris.Line({
+						element: 'chartBattles',
+						data: [
+							{ date: today.format('YYYY-MM-DD'), victories: nbTotalWins, defeats: nbTotalLosses, draws: nbTotalDraws },
+							{ date: yesterday.format('YYYY-MM-DD'), victories: yesterdayTotalWins, defeats: yesterdayTotalLosses, draws: yesterdayTotalDraws }
+						],
+						xkey: 'date',
+						ykeys: [ 'victories', 'defeats', 'draws' ],
+						labels: [ 'Victoires', 'Defaites', 'Egalites' ],
+						lineColors: [ "#4caf50", "#f44336", "#2196f3" ]
+					});
+					*/
+					new Morris.Line({
+						element: 'chartBattles',
+						data: [
+							{ dateT: today.format('YYYY-MM-DD'), battles: nbTotalBattles - yesterdayTotalBattles },
+							{ dateT: yesterday.format('YYYY-MM-DD'), battles: yesterdayTotalBattles - twoDaysTotalBattles }
+						],
+						xLabels: 'day',
+						xkey: 'dateT',
+						ykeys: [ 'battles' ],
+						labels: [ 'Batailles' ],
+						lineColors: [ '#4caf50' ]
+					});
+				}, 'json');
+			}, 'json');
 			advanceProgress(i18n.t('loading.tanksinfos'));
 			$.post(gConfig.WG_API_URL + 'wot/encyclopedia/tanks/', {
 				application_id: gConfig.WG_APP_ID,
@@ -208,18 +272,6 @@ var onLoad = function() {
 	}, function(dataClanProvincesResponse) {
 		$('#clanTotalProvinces').text(i18n.t("clan.nbprovinces", { count: dataClanProvincesResponse.count }));
 	}, 'json');
-	new Morris.Line({
-		element: 'chartBattles',
-		data: [
-			{ date: '2015-01', victories: 425, defeats: 324, draws: 12 },
-			{ date: '2015-02', victories: 516, defeats: 229, draws: 31 },
-			{ date: '2015-03', victories: 456, defeats: 503, draws: 25 }
-		],
-		xkey: 'date',
-		ykeys: [ 'victories', 'defeats', 'draws' ],
-		labels: [ 'Victoires', 'Defaites', 'Egalites' ],
-		lineColors: [ "#4caf50", "#f44336", "#2196f3" ]
-	});
 	var myCalendar = $('#clanCalendar').calendar({
 		tmpl_path: './js/calendar-tmpls/',
 		language: gLangMapping[gConfig.LANG],

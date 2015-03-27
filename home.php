@@ -18,23 +18,23 @@ include(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 			<div class="row placeholders">
 				<div class="col-xs-6 col-sm-3 placeholder">
 					<div id="chartTanksTiers" style="height:200px"></div>
-					<h4>Chars par tiers</h4>
-					<span class="text-muted">Chars du clan par tiers</span>
+					<h4 data-i18n="stats.global.tanksbylevel"></h4>
+					<span class="text-muted" data-i18n="stats.global.tanksbyleveldescription"></span>
 				</div>
 				<div class="col-xs-6 col-sm-3 placeholder">
 					<div id="chartTanksType" style="height:200px"></div>
-					<h4>Chars par type</h4>
-					<span class="text-muted">Chars du clan par type</span>
+					<h4 data-i18n="stats.global.tanksbytype"></h4>
+					<span class="text-muted" data-i18n="stats.global.tanksbytypedescription"></span>
 				</div>
 				<div class="col-xs-6 col-sm-3 placeholder">
 					<div id="chartBattlesOverall" style="height:200px"></div>
-					<h4>Victoires/D&eacute;faites</h4>
-					<span class="text-muted">Nombre de victoires/d&eacute;faites global</span>
+					<h4 data-i18n="stats.global.winratio"></h4>
+					<span class="text-muted" data-i18n="stats.global.winratiodescription"></span>
 				</div>
 				<div class="col-xs-6 col-sm-3 placeholder">
 					<div id="chartBattles" style="height:200px;widh:200px"></div>
-					<h4>Victoires/D&eacute;faites</h4>
-					<span class="text-muted">Evolutions des victoires/d&eacute;faites</span>
+					<h4 data-i18n="stats.global.battles"></h4>
+					<span class="text-muted" data-i18n="stats.global.battlesdescription"></span>
 				</div>
 			</div>
 			<h2 class="sub-header" id="navAgenda" data-i18n="elems.calendar"></h2>
@@ -65,16 +65,16 @@ include(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 					</div>
 				</div>
 			</div>
-			<h2 class="sub-header" id="navPlayers">Joueurs</h2>
+			<h2 class="sub-header" id="navPlayers" data-i18n="elems.players"></h2>
 			<div class="table-responsive">
 				<table class="table table-hover header-fixed" id="tableClanPlayers">
 					<thead>
 						<tr>
-							<th>Joueur</th>
-							<th data-sorted="true" data-sorted-direction="descending">Position</th>
-							<th>Jours dans le clan</th>
-							<th>Nombre de batailles</th>
-							<th>Cote personnelle</th>
+							<th data-i18n="player.headers.nickname"></th>
+							<th data-i18n="player.headers.role" data-sorted="true" data-sorted-direction="descending"></th>
+							<th data-i18n="player.headers.daysinclan"></th>
+							<th data-i18n="player.headers.battles"></th>
+							<th data-i18n="player.headers.personal_rating"></th>
 						</tr>
 					</thead>
 					<tbody>
