@@ -1,5 +1,5 @@
 var gIMAGE_PARAMS = {
-		offsetElem: 150,
+		offsetElem: 180,
 		offsetLine: 25,
 		nbTanksByLine: 3
 	},
@@ -210,6 +210,7 @@ var onLoad = function() {
 							}
 						}
 					}
+					myCanvas.clearCanvas();
 					myCanvas.attr('height', canvasRealHeight);
 					myCanvas.attr('width', gIMAGE_PARAMS.nbTanksByLine * gIMAGE_PARAMS.offsetElem);
 					curTankLevel = 0;
@@ -314,7 +315,8 @@ var onLoad = function() {
 								}
 								myCanvas.drawImage({
 									source: tankInfos.contour_image,
-									x: basePosX + 30, y: basePosY + 10
+									fromCenter: false,
+									x: basePosX, y: basePosY
 								});
 								myCanvas.drawImage({
 									source: './themes/' + gConfig.THEME + '/style/images/type-' + tankInfos.type + '.png',
@@ -329,7 +331,7 @@ var onLoad = function() {
 								}
 								myCanvas.drawText({
 									fillStyle: textColor,
-									x: basePosX + 70, y: basePosY + 5,
+									x: basePosX + 79, y: basePosY + 5,
 									fromCenter: false,
 									fontSize: 12,
 									fontFamily: 'RobotoDraft, Roboto, Verdana, sans-serif',
