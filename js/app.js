@@ -122,6 +122,10 @@ $(document).ready(function() {
 			access_token: gConfig.ACCESS_TOKEN,
 			account_id: gConfig.PLAYER_ID
 		}, function(dataPlayersResponse) {
+			if (dataPlayersResponse.status == "error") {
+				document.location = "logout.php";
+				return;
+			}
 			var me = dataPlayersResponse.data[gConfig.PLAYER_ID],
 				isClanFound = false;
 			if (me.clan_id != null) {

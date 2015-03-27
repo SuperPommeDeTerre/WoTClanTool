@@ -9,7 +9,26 @@
 session_set_cookie_params(1209600);
 session_start();
 
-require(dirname(__FILE__) . '/../config.php');
+$gConfig = json_decode(file_get_contents(dirname(__FILE__) . '/../config/config.json'), true);
+$gConfig = is_array($gConfig) ? $gConfig : array($gConfig);
+
+// Define the WG application ID.
+$gWG_APP_ID_CLIENT = $gConfig["WG"]["app_id"];
+
+// URL of WG API
+$gWG_API_URL = $gConfig["WG"]["api_url"];
+
+// List of authorized clans ID (empty for no restrictions)
+$gCLAN_ID = $gConfig["clans"]["restric_to"];
+
+// Max number of days before a player is marked as inactive
+$gMAX_BATTLE_TIME = $gConfig["player"]["max_battle_time"];;
+
+// Name of theme to use
+$gThemeName = $gConfig["app"]["theme"];
+
+// Adminstrators
+$gAdmins = $gConfig["app"]["admins"];
 
 define('WCT_DATA_DIR', dirname(__FILE__) . '/../data/');
 

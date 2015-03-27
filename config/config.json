@@ -1,0 +1,16 @@
+{
+	"WG": {
+		"app_id": "e6ecba5f5af3a16603e38f3b40b1a84e",
+		"api_url": "https://api.worldoftanks.eu/"
+	},
+	"app": {
+		"theme": "default",
+		"admins": [ "506641783" ]
+	},
+	"clans": {
+		"restric_to": [ "500031667" ]
+	},
+	"player": {
+		"max_battle_time": 14
+	}
+}
