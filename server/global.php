@@ -35,7 +35,7 @@ define('WCT_DATA_DIR', dirname(__FILE__) . '/../data/');
 $gLang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
 
 function getUserFile($pUserId) {
-	$userFileName = WCT_DATA_DIR . 'user/' . substr($pUserId, 0, 3) . '/' . substr($pUserId, 3, 3) . '/' . substr($pUserId, 6, 3) . '/' . $pUserId . '.json';
+	$userFileName = WCT_DATA_DIR . 'user/' . substr($pUserId, 0, 3) . '/' . substr($pUserId, 3, 3) . '/' . $pUserId . '.json';
 	$dirName = dirname($userFileName);
 	if (!is_dir($dirName)) {
 		mkdir($dirName, 0755, true);
