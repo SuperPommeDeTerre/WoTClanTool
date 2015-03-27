@@ -5,16 +5,16 @@ var gTANKS_LEVEL = [ 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'
 	gLangMapping = {
 		'fr': 'fr-FR'
 	},
-	gWN8_CLASSES = {
-		'material-black': { min: 0, max: 300 },
-		'material-red-900': { min: 300, max: 600 },
-		'material-orange-900': { min: 600, max: 900 },
-		'material-yellow-500': { min: 900, max: 1250 },
-		'material-green-500': { min: 1250, max: 1600 },
-		'material-green-900': { min: 1600, max: 1900 },
-		'material-blue-500': { min: 1900, max: 2350 },
-		'material-purple-300': { min: 2350, max: 2900 },
-		'material-purple-800': { min: 2900, max: -1 }
+	gWN8_SCALE = {
+		'very-bad':			{ min: 0,		max: 300,	color: '#000000',	cssclass: 'material-black' },
+		'bad': 				{ min: 300,		max: 600,	color: '#cd3333',	cssclass: 'material-red-900' },
+		'below-average':	{ min: 600,		max: 900,	color: '#d77900',	cssclass: 'material-orange-900' },
+		'average':			{ min: 900,		max: 1250,	color: '#d7b600',	cssclass: 'material-yellow-500' },
+		'good':				{ min: 1250,	max: 1600,	color: '#6d9521',	cssclass: 'material-green-500' },
+		'very-good':		{ min: 1600,	max: 1900,	color: '#4c762e',	cssclass: 'material-green-900' },
+		'great':			{ min: 1900,	max: 2350,	color: '#4a92b7',	cssclass: 'material-blue-500' },
+		'unicum':			{ min: 2350,	max: 2900,	color: '#83579d',	cssclass: 'material-purple-300' },
+		'super-unicum':		{ min: 2900,	max: -1,	color: '#5a3175',	cssclass: 'material-purple-800' }
 	},
 	gPersonalInfos = null;
 
@@ -31,15 +31,33 @@ var advanceProgress = function(pMessage) {
 };
 
 var getWN8Class = function(pWN8Rating) {
-	var returnVal = '';
-	for (lClass in gWN8_CLASSES) {
-		var lClassObj = gWN8_CLASSES[lClass];
+	var returnVal = '',
+		lRatingLevel = '';
+	for (lRatingLevel in gWN8_SCALE) {
+		var lClassObj = gWN8_SCALE[lRatingLevel];
 		// Handle last case
 		if (lClassObj.max < 0 && pWN8Rating >= lClassObj.min) {
-			returnVal = lClass;
+			returnVal = lClassObj.cssclass;
 			break;
 		} else if (pWN8Rating >= lClassObj.min && pWN8Rating < lClassObj.max) {
-			returnVal = lClass;
+			returnVal = lClassObj.cssclass;
+			break;
+		}
+	}
+	return returnVal;
+};
+
+var getWN8Color = function(pWN8Rating) {
+	var returnVal = '#666',
+		lRatingLevel = '';
+	for (lRatingLevel in gWN8_SCALE) {
+		var lClassObj = gWN8_SCALE[lRatingLevel];
+		// Handle last case
+		if (lClassObj.max < 0 && pWN8Rating >= lClassObj.min) {
+			returnVal = lClassObj.color;
+			break;
+		} else if (pWN8Rating >= lClassObj.min && pWN8Rating < lClassObj.max) {
+			returnVal = lClassObj.color;
 			break;
 		}
 	}

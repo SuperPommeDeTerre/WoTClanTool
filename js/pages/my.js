@@ -313,14 +313,22 @@ var onLoad = function() {
 										basePosX += gIMAGE_PARAMS.offsetElem;
 									}
 								}
+								// Draw tank contour
 								myCanvas.drawImage({
 									source: tankInfos.contour_image,
 									fromCenter: false,
 									x: basePosX, y: basePosY
 								});
+								// Draw tank type
 								myCanvas.drawImage({
 									source: './themes/' + gConfig.THEME + '/style/images/type-' + tankInfos.type + '.png',
 									x: basePosX + 10, y: basePosY + 5
+								});
+								// Draw tank user skill (WN8)
+								myCanvas.drawRect({
+									fillStyle: getWN8Color(tankAdditionalInfos.wn8),
+									x: basePosX + 70, y: basePosY + 10,
+									width: 10, height: 10
 								});
 								if (tankInfos.is_premium) {
 									textColor = '#ffc107';
