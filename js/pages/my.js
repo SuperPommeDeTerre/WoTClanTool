@@ -215,6 +215,7 @@ var onLoad = function() {
 					curTankLevel = 0;
 					curTankType = '';
 					nbTanksOnLine = 0;
+					nbTanksOfType = 0;
 					for (var i=0; i<dataMyTanks.length; i++) {
 						myTank = dataMyTanks[i];
 						tankInfos = dataTankopedia[myTank.tank_id];
@@ -299,6 +300,7 @@ var onLoad = function() {
 									basePosX = 0;
 									curTankType = tankInfos.type;
 									nbTanksOnLine = 0;
+									nbTanksOfType = 0;
 									commentText += '<td>';
 								} else {
 									// Handle line change
@@ -333,12 +335,26 @@ var onLoad = function() {
 									fontFamily: 'RobotoDraft, Roboto, Verdana, sans-serif',
 									text: tankInfos.short_name_i18n
 								});
-								commentText += (nbTanksOnLine != 0?', ':'') + '<span style="color:' + textColor + '">' + tankInfos.short_name_i18n + '</span>';
+								commentText += (nbTanksOfType != 0?', ':'') + '<span style="color:' + textColor + '">' + tankInfos.short_name_i18n + '</span>';
+								nbTanksOfType++;
 								nbTanksOnLine++;
 							}
 						}
 					}
-					commentText += '</td></tr>\n</tbody></table>';
+					// Add missing cols for last row
+					commentText += '</td>';
+					switch (curTankType) {
+						case 'lightTank':
+							commentText += '<td>&nbsp;</td>';
+						case 'mediumTank':
+							commentText += '<td>&nbsp;</td>';
+						case 'heavyTank':
+							commentText += '<td>&nbsp;</td>';
+						case 'AT-SPG':
+							commentText += '<td>&nbsp;</td>';
+							break;
+					}
+					commentText += '</tr>\n</tbody></table>';
 					$('#textResumePlayer').text(commentText);
 				});
 				chkInGarage.on('change', function(evt) {
