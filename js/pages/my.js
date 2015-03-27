@@ -258,7 +258,7 @@ var onLoad = function() {
 											respectAlign: true,
 											align: 'right'
 										});
-										commentText = '<p style="color:#666:font-size:0.75em">' + generationDate + '</p><table border="1"><thead><tr><th>&nbsp;</th><th>' + i18n.t('tank.type.lightTank')
+										commentText = '<p style="color:#666;font-size:0.75em;text-align:center">' + generationDate + '</p><table border="1"><thead><tr><th>&nbsp;</th><th>' + i18n.t('tank.type.lightTank')
 											+ '</th><th>' + i18n.t('tank.type.mediumTank')
 											+ '</th><th>'+ i18n.t('tank.type.heavyTank')
 											+ '</th><th>' + i18n.t('tank.type.AT-SPG')
@@ -284,6 +284,35 @@ var onLoad = function() {
 								if (curTankType != tankInfos.type) {
 									if (curTankType != '') {
 										commentText += '</td>';
+										switch (curTankType) {
+											case 'lightTank':
+												switch (tankInfos.type) {
+													case 'SPG':
+														commentText += '<td>&nbsp;</td>';
+													case 'AT-SPG':
+														commentText += '<td>&nbsp;</td>';
+													case 'heavyTank':
+														commentText += '<td>&nbsp;</td>';
+														break;
+												}
+												break;
+											case 'mediumTank':
+												switch (tankInfos.type) {
+													case 'SPG':
+														commentText += '<td>&nbsp;</td>';
+													case 'AT-SPG':
+														commentText += '<td>&nbsp;</td>';
+														break;
+												}
+												break;
+											case 'heavyTank':
+												switch (tankInfos.type) {
+													case 'SPG':
+														commentText += '<td>&nbsp;</td>';
+												}
+												commentText += '<td>&nbsp;</td>';
+												break;
+										}
 									} else {
 										switch (tankInfos.type) {
 											case 'SPG':
@@ -349,7 +378,7 @@ var onLoad = function() {
 									fontFamily: 'RobotoDraft, Roboto, Verdana, sans-serif',
 									text: tankInfos.short_name_i18n
 								});
-								commentText += (nbTanksOfType != 0?', ':'') + '<span style="color:' + textColor + '">' + tankInfos.short_name_i18n + '</span>';
+								commentText += (nbTanksOfType != 0?', ':'') + '<span style="color:' + getWN8Color(tankAdditionalInfos.wn8) + '">&marker;</span><span style="color:' + textColor + '">' + tankInfos.short_name_i18n + '</span>';
 								nbTanksOfType++;
 								nbTanksOnLine++;
 							}
