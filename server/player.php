@@ -50,7 +50,7 @@ function calcTankWN8($pTanksExpectedVals, $pTankStats) {
 }
 
 // Switch between requested action
-$userFile = WCT_DATA_DIR . 'user/' . $_SESSION['account_id'] . '.json';
+$userFile = getUserFile($_SESSION['account_id']);
 $result = array();
 switch ($_REQUEST['action']) {
 	case 'purge':
@@ -61,7 +61,7 @@ switch ($_REQUEST['action']) {
 			$usersToPurge[] = $_SESSION['account_id'];
 		}
 		foreach ($usersToGet as $userId) {
-			$userFile = WCT_DATA_DIR . 'user/' . $userId . '.json';
+			$userFile = getUserFile($userId);
 			if (file_exists($userFile)) {
 				unlink($userFile);
 			}
@@ -85,7 +85,7 @@ switch ($_REQUEST['action']) {
 		$playerTanksStats = array();
 		$playerTanksStatsToStore = array();
 		foreach ($usersToGet as $userId) {
-			$userFile = WCT_DATA_DIR . 'user/' . $userId . '.json';
+			$userFile = getUserFile($userId);
 			if (file_exists($userFile)) {
 				$playerTanksStats[$userId] = json_decode(file_get_contents($userFile), true);
 			} else {

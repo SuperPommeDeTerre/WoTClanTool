@@ -7,9 +7,9 @@ var onLoad = function() {
 		application_id: gConfig.WG_APP_ID,
 		language: gConfig.LANG,
 		access_token: gConfig.ACCESS_TOKEN,
-		clan_id: gConfig.CLAN_IDS.join(',')
+		clan_id: gPersonalInfos.clan_id
 	}, function(dataClanResponse) {
-		var dataClan = dataClanResponse.data[gConfig.CLAN_IDS[0]],
+		var dataClan = dataClanResponse.data[gPersonalInfos.clan_id],
 			clanEmblem = dataClan.emblems.x64.portal;
 		$('#clansInfosTitle').html('<img src="' + clanEmblem + '" alt="Embl&egrave;me du clan" /> <span style="color:' + dataClan.color + '">[' + dataClan.tag + ']</span> ' + dataClan.name + ' <small>' + dataClan.motto + '</small>');
 		$('#clanTotalPlayers').text(i18n.t('clan.nbplayers', { count: dataClan.members_count }));
@@ -109,7 +109,8 @@ var onLoad = function() {
 				myPlayerDetails += '<a href="http://wotlabs.net/eu/player/' + myPlayerInfos.nickname + '/">Wot Labs</a><br />';
 				myPlayerDetails += '<a href="http://www.wotstats.org/stats/eu/' + myPlayerInfos.nickname + '/">WoT Stats</a><br />';
 				myPlayerDetails += '<a href="http://wot-life.com/eu/player/' + myPlayerInfos.nickname + '/">WoT Life</a><br />';
-				myPlayerDetails += '<a href="http://www.noobmeter.com/player/eu/' + myPlayerInfos.nickname + '/' + myPlayerId + '">Noobmeter</a>';
+				myPlayerDetails += '<a href="http://www.noobmeter.com/player/eu/' + myPlayerInfos.nickname + '/' + myPlayerId + '">Noobmeter</a><br />';
+				myPlayerDetails += '<a href="http://wotreplays.eu/player/' + myPlayerInfos.nickname + '">WoTReplays</a>';
 				myPlayerDetails += '</p></div></div>';
 				myContainer.html(myPlayerDetails);
 			});
@@ -203,7 +204,7 @@ var onLoad = function() {
 		application_id: gConfig.WG_APP_ID,
 		language: gConfig.LANG,
 		access_token: gConfig.ACCESS_TOKEN,
-		clan_id: gConfig.CLAN_IDS[0]
+		clan_id: gPersonalInfos.clan_id
 	}, function(dataClanProvincesResponse) {
 		$('#clanTotalProvinces').text(i18n.t("clan.nbprovinces", { count: dataClanProvincesResponse.count }));
 	}, 'json');

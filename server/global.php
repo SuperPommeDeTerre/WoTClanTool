@@ -14,4 +14,8 @@ require(dirname(__FILE__) . '/../config.php');
 define('WCT_DATA_DIR', dirname(__FILE__) . '/../data/');
 
 $gLang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+
+function getUserFile($pUserId) {
+	return WCT_DATA_DIR . 'user/' . $pUserId . '.json';
+}
 ?>

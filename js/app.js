@@ -22,6 +22,7 @@ var gProgressBar,
 	gProgressMessage,
 	progressNbSteps = 0,
 	progressCurStep = 0;
+
 var advanceProgress = function(pMessage) {
 	var progressToSet = (++progressCurStep * (100 / progressNbSteps));
 	gProgressMessage.text(pMessage);
@@ -71,10 +72,16 @@ var checkConnected = function() {
 		document.location = './index.php';
 	} else {
 		isUserValid = false;
-		for (var i=0; i<gConfig.CLAN_IDS.length; i++) {
-			if (gPersonalInfos.clan_id == gConfig.CLAN_IDS[i])
+		// If no restrictions set, then user is valid
+		if (gConfig.CLAN_IDS.length == 0) {
 			isUserValid = true;
-			break;
+		} else {
+			for (var i=0; i<gConfig.CLAN_IDS.length; i++) {
+				if (gPersonalInfos.clan_id == gConfig.CLAN_IDS[i]) {
+					isUserValid = true;
+				}
+				break;
+			}
 		}
 		if (!isUserValid) {
 			document.location = './unauthorized.php';
@@ -87,9 +94,9 @@ var setNavBrandWithClan = function() {
 		application_id: gConfig.WG_APP_ID,
 		language: gConfig.LANG,
 		access_token: gConfig.ACCESS_TOKEN,
-		clan_id: gConfig.CLAN_IDS.join(',')
+		clan_id: gPersonalInfos.clan_id
 	}, function(dataClanResponse) {
-		var dataClan = dataClanResponse.data[gConfig.CLAN_IDS[0]],
+		var dataClan = dataClanResponse.data[gPersonalInfos.clan_id],
 			clanEmblem = dataClan.emblems.x32.portal;
 		$('#mainNavBar .navbar-brand').html('<span style="color:' + dataClan.color + '">[' + dataClan.tag + ']</span> ' + dataClan.name + ' <small>' + dataClan.motto + '</small>')
 			// Set clan emblem with CSS because it causes problems with inline HTML.
@@ -117,12 +124,20 @@ $(document).ready(function() {
 		}, function(dataPlayersResponse) {
 			var me = dataPlayersResponse.data[gConfig.PLAYER_ID],
 				isClanFound = false;
-			for (var i=0; i<gConfig.CLAN_IDS.length; i++) {
-				if (me.clan_id == gConfig.CLAN_IDS[i]) {
+			if (me.clan_id != null) {
+				if (gConfig.CLAN_IDS.length == 0) {
 					isClanFound = true;
 					gPersonalInfos = me;
 					onLoad();
-					break;
+				} else {
+					for (var i=0; i<gConfig.CLAN_IDS.length; i++) {
+						if (me.clan_id == gConfig.CLAN_IDS[i]) {
+							isClanFound = true;
+							gPersonalInfos = me;
+							onLoad();
+							break;
+						}
+					}
 				}
 			}
 			if (!isClanFound) {
