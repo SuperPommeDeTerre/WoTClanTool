@@ -138,6 +138,21 @@
 			"SPG": "CAM",
 			"SPG_plural_0": "CAM",
 			"SPG_plural": "CAMs"
+		},
+		"infos": {
+			"name": "Nom du char",
+			"level": "Tiers",
+			"type": "Type",
+			"is_full": "Full ?",
+			"is_full_title": "Indique si le char possède tous les éléments optimaux.",
+			"is_ready": "Prêt ?",
+			"is_ready_title": "Indique si ce char est prêt à combattre (équipage à 100%, équipements, etc.)."
+		},
+		"stats": {
+			"mastery": "M",
+			"battles": "Batailles",
+			"wn8": "WN8",
+			"winratio": "% victoires"
 		}
 	},
 	"filter": {

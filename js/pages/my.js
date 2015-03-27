@@ -258,7 +258,7 @@ var onLoad = function() {
 											respectAlign: true,
 											align: 'right'
 										});
-										commentText = '<p style="color:#666">' + generationDate + '</p><table border="1"><thead><tr><th>&nbsp;</th><th>' + i18n.t('tank.type.lightTank')
+										commentText = '<p style="color:#666:font-size:0.75em">' + generationDate + '</p><table border="1"><thead><tr><th>&nbsp;</th><th>' + i18n.t('tank.type.lightTank')
 											+ '</th><th>' + i18n.t('tank.type.mediumTank')
 											+ '</th><th>'+ i18n.t('tank.type.heavyTank')
 											+ '</th><th>' + i18n.t('tank.type.AT-SPG')

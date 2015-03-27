@@ -38,16 +38,16 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 						<table class="table table-hover header-fixed tableTanks" id="tableMyTanks">
 							<thead>
 								<tr>
-									<th class="tankcontour" data-sortable="false"></th>
-									<th class="tankmastery">M</th>
-									<th class="tankname">Nom du char</th>
-									<th class="tanktiers" data-sorted="true" data-sorted-direction="descending">Tiers</th>
-									<th class="tanktype">Type</th>
-									<th class="tankbattles">Batailles</th>
-									<th class="tankwn8">WN8</th>
-									<th class="tankwinratio">% victoires</th>
-									<th class="tankisfull"><abbr title="Indique si le char possède tous les éléments optimaux.">Full ?</abbr></th>
-									<th class="tankisready"><abbr title="Indique si ce char est prêt pour les évènements (équipage, équipements, etc.).">Pr&ecirc;t ?</abbr></th>
+									<th class="tankcontour" data-sortable="false">&nbsp;</th>
+									<th class="tankmastery" data-i18n="tank.stats.mastery"></th>
+									<th class="tankname" data-i18n="tank.infos.name"></th>
+									<th class="tanktiers" data-sorted="true" data-sorted-direction="descending" data-i18n="tank.infos.level"></th>
+									<th class="tanktype" data-i18n="tank.infos.type"></th>
+									<th class="tankbattles" data-i18n="tank.stats.battles"></th>
+									<th class="tankwn8" data-i18n="tank.stats.wn8"></th>
+									<th class="tankwinratio" data-i18n="tank.stats.winratio"></th>
+									<th class="tankisfull"><abbr data-i18n="[title]tank.infos.is_full_title;tank.infos.is_full"></abbr></th>
+									<th class="tankisready"><abbr data-i18n="[title]tank.infos.is_ready_title;tank.infos.is_ready"></abbr></th>
 								</tr>
 							</thead>
 							<tbody>
