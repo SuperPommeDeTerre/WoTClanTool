@@ -328,7 +328,11 @@ var onLoad = function() {
 								myCanvas.drawRect({
 									fillStyle: getWN8Color(tankAdditionalInfos.wn8),
 									x: basePosX + 70, y: basePosY + 10,
-									width: 10, height: 10
+									width: 10, height: 10,
+									shadowColor: '#999',
+									shadowBlur: 3,
+									shadowX: 1,
+									shadowY: 1
 								});
 								if (tankInfos.is_premium) {
 									textColor = '#ffc107';
