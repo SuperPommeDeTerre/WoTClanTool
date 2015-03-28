@@ -378,7 +378,7 @@ var onLoad = function() {
 									fontFamily: 'RobotoDraft, Roboto, Verdana, sans-serif',
 									text: tankInfos.short_name_i18n
 								});
-								commentText += (nbTanksOfType != 0?', ':'') + '<span style="color:' + getWN8Color(tankAdditionalInfos.wn8) + '">&marker;</span><span style="color:' + textColor + '">' + tankInfos.short_name_i18n + '</span>';
+								commentText += (nbTanksOfType != 0?', ':'') + '<span style="color:' + getWN8Color(tankAdditionalInfos.wn8) + '">&#9646;</span><span style="color:' + textColor + '">' + tankInfos.short_name_i18n + '</span>';
 								nbTanksOfType++;
 								nbTanksOnLine++;
 							}
