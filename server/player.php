@@ -163,7 +163,8 @@ switch ($_REQUEST['action']) {
 		$playerTanksStats = is_array($playerTanksStats) ? $playerTanksStats : array($playerTanksStats);
 		foreach ($playerTanksStats as &$valueStored) {
 			if ($valueStored['tank_id'] == $tankId) {
-				$valueStored['is_full'] = $tankIsFull;
+				$valueStored['is_full'] = $tankIsFull === 'true'? true: false;
+				$result['data'] = $valueStored;
 				break;
 			}
 		}
@@ -179,7 +180,8 @@ switch ($_REQUEST['action']) {
 		$playerTanksStats = is_array($playerTanksStats) ? $playerTanksStats : array($playerTanksStats);
 		foreach ($playerTanksStats as &$valueStored) {
 			if ($valueStored['tank_id'] == $tankId) {
-				$valueStored['is_ready'] = $tankIsReady;
+				$valueStored['is_ready'] = $tankIsReady === 'true'? true: false;
+				$result['data'] = $valueStored;
 				break;
 			}
 		}

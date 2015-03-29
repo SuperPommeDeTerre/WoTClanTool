@@ -8,7 +8,7 @@
 		"admins": [ "506641783" ]
 	},
 	"clans": {
-		"restric_to": [ "500031667" ]
+		"restric_to": [  ]
 	},
 	"player": {
 		"max_battle_time": 14

@@ -185,13 +185,43 @@ var onLoad = function() {
 						curTankType = '',
 						nbTanksOnLine = 0,
 						commentText = '',
-						generationDate = moment().format('LLL');
+						generationDate = moment().format('LLL'),
+						i = 0,
+						j = 0;
+					/*
+					// Prepare data
+					var dataToDisplay = {},
+						listTankTypes = {};
+						// Prepare tank types
+					for (i = gTankTiersAllowedForResume.length - 1; i >= 0; i--) {
+						listTankTypes = {};
+						for (tankTypeName in gTANKS_TYPES) {
+							listTankTypes[tankTypeName] = [];
+						}
+						dataToDisplay.['tiers' + gTankTiersAllowedForResume[i]] = listTankTypes;
+					}
+					for (i=0; i<dataMyTanks.length; i++) {
+						myTank = dataMyTanks[i];
+						tankInfos = dataTankopedia[myTank.tank_id];
+						tankAdditionalInfos = getTankAdditionalInfos(myTank.tank_id, dataMyTanksAdditionalInfos);
+						if (tankAdditionalInfos.in_garage
+								&& ($.inArray(tankInfos.level, gTankTiersAllowedForResume) >= 0)
+								&& tankAdditionalInfos.is_ready) {
+							dataToDisplay['tiers' + tankInfos.level][tankInfos.type].push({
+								name: tankInfos.short_name_i18n,
+								wn8: tankAdditionalInfos.wn8,
+								contour: tankInfos.contour_image
+							});
+						}
+					}
+					// Compute canvas real height
+					*/
 					// Compute canvas real height
 					for (var i=0; i<dataMyTanks.length; i++) {
 						myTank = dataMyTanks[i];
 						tankInfos = dataTankopedia[myTank.tank_id];
 						tankAdditionalInfos = getTankAdditionalInfos(myTank.tank_id, dataMyTanksAdditionalInfos);
-						if (dataMyTanks[i].in_garage) {
+						if (tankAdditionalInfos.in_garage) {
 							if (($.inArray(tankInfos.level, gTankTiersAllowedForResume) >= 0) && tankAdditionalInfos.is_ready) {
 								if (curTankLevel != tankInfos.level) {
 									canvasRealHeight += gIMAGE_PARAMS.offsetLine;
