@@ -177,7 +177,9 @@
 			"mastery": "M",
 			"battles": "Batailles",
 			"wn8": "WN8",
-			"winratio": "% victoires"
+			"winratio": "% victoires",
+			"owners": "Propriétaires",
+			"ownerscount": "Nombre de propriétaires"
 		}
 	},
 	"filter": {
