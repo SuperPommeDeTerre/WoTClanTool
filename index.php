@@ -27,11 +27,11 @@ if (isset($_SESSION["access_token"])) {
 		<meta charset="utf-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta name="description" data-i18n="app.description" content="Outil de gestion de clan pour World of Tanks" />
+		<meta name="description" data-i18n="[content]app.description;" />
 		<meta name="author" content="J&eacute;r&eacute;mie Langlade &lt;jlanglade@pixbuf.net&gt;" />
 		<link rel="icon" href="./themes/<?php echo($gThemeName); ?>/style/favicon.ico" />
 		<link href="./themes/<?php echo($gThemeName); ?>/style/favicon.png" type="image/x-icon" rel="icon" />
-		<title data-i18n="app.name">WoT Clan Tool</title>
+		<title data-i18n="app.name"></title>
 		<!-- CSS -->
 		<link href="./themes/<?php echo($gThemeName); ?>/style/style.css" rel="stylesheet" />
 		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -45,12 +45,12 @@ if (isset($_SESSION["access_token"])) {
 			<div class="container-fluid">
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-						<span class="sr-only" data-i18n="nav.toggle">Basculer navigation</span>
+						<span class="sr-only" data-i18n="nav.toggle"></span>
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="./" data-i18n="app.name">WoT Clan Tool</a>
+					<a class="navbar-brand" href="./" data-i18n="app.name"></a>
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
 				</div>
@@ -62,17 +62,17 @@ if (isset($_SESSION["access_token"])) {
 			<div class="row">
 				<div class="main">
 					<h1 data-i18n="app.name"></h1>
-					<p>Bienvenue sur cet outil de gestion de clan.</p>
-					<p>Cet outil vous permettra d'effectuer bon nombre d'op&eacute;rations concernant votre clan de World of Tanks. Notamment&nbsp;:</p>
+					<p data-i18n="[html]page.index.lines.0"></p>
+					<p data-i18n="[html]page.index.lines.1"></p>
 					<ul>
-						<li>Voir les membres</li>
-						<li>Voir les chars disponibles</li>
-						<li>Définir des évènements et gérer les inscriptions des membres à ceux-ci</li>
-						<li>Préparer des stratégies</li>
-						<li>etc.</li>
+						<li data-i18n="page.index.features.0"></li>
+						<li data-i18n="page.index.features.1"></li>
+						<li data-i18n="page.index.features.2"></li>
+						<li data-i18n="page.index.features.3"></li>
+						<li data-i18n="page.index.features.4"></li>
 					</ul>
-					<p>Pour commencer, veuillez vous connecter avec vos identifiants Wargaming&nbsp;:</p>
-					<p style="text-align:center"><a href="#" class="btn btn-lg btn-primary btn-material-grey-500" id="btnLogin" data-i18n="action.identification">Se connecter</a></p>
+					<p data-i18n="[html]page.index.lines.2"></p>
+					<p style="text-align:center"><a href="#" class="btn btn-lg btn-primary btn-material-grey-500" id="btnLogin" data-i18n="action.identification"></a></p>
 				</div>
 			</div>
 			<!--

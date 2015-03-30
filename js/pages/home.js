@@ -120,74 +120,57 @@ var onLoad = function() {
 			new Morris.Donut({
 				element: 'chartBattlesOverall',
 				data: [
-					{ label: 'Victoires', value: nbTotalWins },
-					{ label: 'Défaites', value: nbTotalLosses },
-					{ label: 'Egalités', value: nbTotalDraws }
+					{ label: i18n.t('stats.global.victories'), value: nbTotalWins },
+					{ label: i18n.t('stats.global.defeats'), value: nbTotalLosses },
+					{ label: i18n.t('stats.global.draws'), value: nbTotalDraws }
 				],
 				colors: [ "#4caf50", "#f44336", "#2196f3" ]
 			});
 			advanceProgress(i18n.t('loading.playersratings'));
-			$.post(gConfig.WG_API_URL + 'wot/ratings/accounts/', {
-				application_id: gConfig.WG_APP_ID,
-				language: gConfig.LANG,
-				access_token: gConfig.ACCESS_TOKEN,
-				type: 'all',
-				date: moment().subtract(1, 'days').hours(0).minutes(0).seconds(0).unix(),
-				account_id: membersList
-			}, function(dataRatingYesterdayResponse) {
-				var dataPlayersYesterdayRatings = dataRatingYesterdayResponse.data,
-					today = moment(),
-					yesterday = moment().subtract(1, 'days').hours(0).minutes(0).seconds(0),
-					yesterdayTotalBattles = 0
-					playerId = '';
-				for (playerId in dataPlayersYesterdayRatings) {
-					curPlayerRatings = dataPlayersYesterdayRatings[playerId];
-					yesterdayTotalBattles += curPlayerRatings.battles_count.value;
-				}
+			var nbCompletedRequests = 0,
+				dataToDraw = [],
+				datesToGetStats = [];
+			for (var i=1; i<=7; i++) {
+				datesToGetStats.push(moment().subtract(i, 'days').hours(0).minutes(0).seconds(0).unix());
 				$.post(gConfig.WG_API_URL + 'wot/ratings/accounts/', {
 					application_id: gConfig.WG_APP_ID,
 					language: gConfig.LANG,
 					access_token: gConfig.ACCESS_TOKEN,
-					type: 'all',
-					date: moment().subtract(2, 'days').hours(0).minutes(0).seconds(0).unix(),
+					type: '1',
+					date: datesToGetStats[i - 1],
 					account_id: membersList
-				}, function(dataRatingTwoDaysResponse) {
-					var dataPlayersTwoDaysRatings = dataRatingTwoDaysResponse.data,
-						today = moment(),
-						twoDays = moment().subtract(2, 'days').hours(0).minutes(0).seconds(0),
-						twoDaysTotalBattles = 0
-						playerId = '';
-					for (playerId in dataPlayersTwoDaysRatings) {
-						curPlayerRatings = dataPlayersTwoDaysRatings[playerId];
-						twoDaysTotalBattles += curPlayerRatings.battles_count.value;
+				}, function(dataRatingYesterdayResponse) {
+					// Handle response and add it to data
+					var dataPlayersYesterdayRatings = dataRatingYesterdayResponse.data,
+						dayTotalBattles = 0;
+					for (playerId in dataPlayersYesterdayRatings) {
+						var curPlayerRatings = dataPlayersYesterdayRatings[playerId];
+						if (curPlayerRatings != null) {
+							dayTotalBattles += curPlayerRatings.battles_count.value;
+						}
 					}
-					/*
-					new Morris.Line({
-						element: 'chartBattles',
-						data: [
-							{ date: today.format('YYYY-MM-DD'), victories: nbTotalWins, defeats: nbTotalLosses, draws: nbTotalDraws },
-							{ date: yesterday.format('YYYY-MM-DD'), victories: yesterdayTotalWins, defeats: yesterdayTotalLosses, draws: yesterdayTotalDraws }
-						],
-						xkey: 'date',
-						ykeys: [ 'victories', 'defeats', 'draws' ],
-						labels: [ 'Victoires', 'Defaites', 'Egalites' ],
-						lineColors: [ "#4caf50", "#f44336", "#2196f3" ]
+					dataToDraw.push({
+						battles: dayTotalBattles
 					});
-					*/
-					new Morris.Line({
-						element: 'chartBattles',
-						data: [
-							{ dateT: today.format('YYYY-MM-DD'), battles: nbTotalBattles - yesterdayTotalBattles },
-							{ dateT: yesterday.format('YYYY-MM-DD'), battles: yesterdayTotalBattles - twoDaysTotalBattles }
-						],
-						xLabels: 'day',
-						xkey: 'dateT',
-						ykeys: [ 'battles' ],
-						labels: [ 'Batailles' ],
-						lineColors: [ '#4caf50' ]
-					});
+					nbCompletedRequests++;
+					if (nbCompletedRequests >= 7) {
+						for (var j=0; j<=6; j++) {
+							dataToDraw[j]['date'] = datesToGetStats[j] * 1000;
+						}
+						// We have completed all. Draw the chart.
+						new Morris.Line({
+							element: 'chartBattles',
+							data: dataToDraw,
+							xLabels: 'day',
+							xkey: 'date',
+							ykeys: [ 'battles' ],
+							dateFormat: function(x) { return moment(x).format('LL'); },
+							labels: [ i18n.t('stats.global.battles') ],
+							lineColors: [ '#4caf50' ]
+						});
+					}
 				}, 'json');
-			}, 'json');
+			}
 			advanceProgress(i18n.t('loading.tanksinfos'));
 			$.post(gConfig.WG_API_URL + 'wot/encyclopedia/tanks/', {
 				application_id: gConfig.WG_APP_ID,

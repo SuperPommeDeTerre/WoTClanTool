@@ -188,7 +188,6 @@ var onLoad = function() {
 						generationDate = moment().format('LLL'),
 						i = 0,
 						j = 0;
-					/*
 					// Prepare data
 					var dataToDisplay = {},
 						listTankTypes = {};
@@ -198,7 +197,7 @@ var onLoad = function() {
 						for (tankTypeName in gTANKS_TYPES) {
 							listTankTypes[tankTypeName] = [];
 						}
-						dataToDisplay.['tiers' + gTankTiersAllowedForResume[i]] = listTankTypes;
+						dataToDisplay[gTANKS_LEVEL[gTankTiersAllowedForResume[i] - 1]] = listTankTypes;
 					}
 					for (i=0; i<dataMyTanks.length; i++) {
 						myTank = dataMyTanks[i];
@@ -207,227 +206,164 @@ var onLoad = function() {
 						if (tankAdditionalInfos.in_garage
 								&& ($.inArray(tankInfos.level, gTankTiersAllowedForResume) >= 0)
 								&& tankAdditionalInfos.is_ready) {
-							dataToDisplay['tiers' + tankInfos.level][tankInfos.type].push({
+							dataToDisplay[gTANKS_LEVEL[tankInfos.level - 1]][tankInfos.type].push({
 								name: tankInfos.short_name_i18n,
 								wn8: tankAdditionalInfos.wn8,
-								contour: tankInfos.contour_image
+								contour: tankInfos.contour_image,
+								is_premium: tankInfos.is_premium,
+								is_full: tankAdditionalInfos.is_full
 							});
 						}
 					}
 					// Compute canvas real height
-					*/
-					// Compute canvas real height
-					for (var i=0; i<dataMyTanks.length; i++) {
-						myTank = dataMyTanks[i];
-						tankInfos = dataTankopedia[myTank.tank_id];
-						tankAdditionalInfos = getTankAdditionalInfos(myTank.tank_id, dataMyTanksAdditionalInfos);
-						if (tankAdditionalInfos.in_garage) {
-							if (($.inArray(tankInfos.level, gTankTiersAllowedForResume) >= 0) && tankAdditionalInfos.is_ready) {
-								if (curTankLevel != tankInfos.level) {
-									canvasRealHeight += gIMAGE_PARAMS.offsetLine;
-									curTankLevel = tankInfos.level;
-								}
-								if (curTankType != tankInfos.type) {
-									canvasRealHeight += gIMAGE_PARAMS.offsetLine;
-									curTankType = tankInfos.type;
-								} else {
-									if (nbTanksOnLine >= gIMAGE_PARAMS.nbTanksByLine) {
-										canvasRealHeight += gIMAGE_PARAMS.offsetLine;
-										nbTanksOnLine = 0;
-									}
-								}
-								nbTanksOnLine++;
-							}
+					for (tankTiersName in dataToDisplay) {
+						var tankTiersDetails = dataToDisplay[tankTiersName],
+							nbTanksInTIers = 0;
+						for (tankTypeName in tankTiersDetails) {
+							var tankTypeDetails = tankTiersDetails[tankTypeName];
+							nbTanksInTIers += tankTypeDetails.length;
+							canvasRealHeight += Math.ceil(tankTypeDetails.length / gIMAGE_PARAMS.nbTanksByLine) * gIMAGE_PARAMS.offsetLine;
+						}
+						if (nbTanksInTIers > 0) {
+							canvasRealHeight += gIMAGE_PARAMS.offsetLine;
 						}
 					}
-					myCanvas.clearCanvas();
-					myCanvas.attr('height', canvasRealHeight);
-					myCanvas.attr('width', gIMAGE_PARAMS.nbTanksByLine * gIMAGE_PARAMS.offsetElem);
-					curTankLevel = 0;
-					curTankType = '';
-					nbTanksOnLine = 0;
-					nbTanksOfType = 0;
-					for (var i=0; i<dataMyTanks.length; i++) {
-						myTank = dataMyTanks[i];
-						tankInfos = dataTankopedia[myTank.tank_id];
-						tankAdditionalInfos = getTankAdditionalInfos(myTank.tank_id, dataMyTanksAdditionalInfos);
-						winRatio = -1;
-						if (myTank.all.battles > 0) {
-							winRatio = myTank.all.wins * 100 / myTank.all.battles;
-						}
-						if (tankAdditionalInfos.in_garage) {
-							// Draw only tanks that are in garage for Mumble/TS canvas
-							if (($.inArray(tankInfos.level, gTankTiersAllowedForResume) >= 0) && tankAdditionalInfos.is_ready) {
-								// And only useful tanks...
-								if (curTankLevel != tankInfos.level) {
-									if (curTankLevel != 0) {
-										basePosY += gIMAGE_PARAMS.offsetLine;
-										commentText += '</td>';
-										switch (curTankType) {
-											case 'lightTank':
-												commentText += '<td>&nbsp;</td>';
-											case 'mediumTank':
-												commentText += '<td>&nbsp;</td>';
-											case 'heavyTank':
-												commentText += '<td>&nbsp;</td>';
-											case 'AT-SPG':
-												commentText += '<td>&nbsp;</td>';
-												break;
-										}
-										commentText += '</tr>\n';
-									} else {
-										// It's the first tank to draw. Add generation date
-										myCanvas.drawText({
-											fillStyle: '#666',
-											fontStyle: 'normal',
-											fontSize: 10,
-											fontFamily: 'RobotoDraft, Roboto, Verdana, sans-serif',
-											text: generationDate,
-											//fromCenter: false,
-											x: myCanvas.attr('width'), y: 15,
-											respectAlign: true,
-											align: 'right'
-										});
-										commentText = '<p style="color:#666;font-size:0.75em;text-align:center">' + generationDate + '</p><table border="1"><thead><tr><th>&nbsp;</th><th>' + i18n.t('tank.type.lightTank')
-											+ '</th><th>' + i18n.t('tank.type.mediumTank')
-											+ '</th><th>'+ i18n.t('tank.type.heavyTank')
-											+ '</th><th>' + i18n.t('tank.type.AT-SPG')
-											+ '</th><th>' + i18n.t('tank.type.SPG')
-											+ '</th></tr></thead><tbody>\n';
-									}
-									curTankLevel = tankInfos.level;
-									curTankType = '';
-									nbTanksOnLine = 0;
-									myCanvas.drawImage({
-										source: './themes/' + gConfig.THEME + '/style/images/Tier_' + tankInfos.level + '_icon.png',
-										fromCenter: false,
-										x: 10, y: basePosY + 5
-									});
-									myCanvas.drawLine({
-										strokeStyle: '#333',
-										strokeWidth: 1,
-										x1: 0, y1: basePosY + gIMAGE_PARAMS.offsetLine - 3,
-										x2: myCanvas.attr('width'), y2: basePosY + gIMAGE_PARAMS.offsetLine - 3
-									});
-									commentText += '<tr><th>' + gTANKS_LEVEL[tankInfos.level - 1] + '</th>';
-								}
-								if (curTankType != tankInfos.type) {
-									if (curTankType != '') {
-										commentText += '</td>';
-										switch (curTankType) {
-											case 'lightTank':
-												switch (tankInfos.type) {
-													case 'SPG':
-														commentText += '<td>&nbsp;</td>';
-													case 'AT-SPG':
-														commentText += '<td>&nbsp;</td>';
-													case 'heavyTank':
-														commentText += '<td>&nbsp;</td>';
-														break;
-												}
-												break;
-											case 'mediumTank':
-												switch (tankInfos.type) {
-													case 'SPG':
-														commentText += '<td>&nbsp;</td>';
-													case 'AT-SPG':
-														commentText += '<td>&nbsp;</td>';
-														break;
-												}
-												break;
-											case 'heavyTank':
-												switch (tankInfos.type) {
-													case 'SPG':
-														commentText += '<td>&nbsp;</td>';
-												}
-												commentText += '<td>&nbsp;</td>';
-												break;
-										}
-									} else {
-										switch (tankInfos.type) {
-											case 'SPG':
-												commentText += '<td>&nbsp;</td>';
-											case 'AT-SPG':
-												commentText += '<td>&nbsp;</td>';
-											case 'heavyTank':
-												commentText += '<td>&nbsp;</td>';
-											case 'mediumTank':
-												commentText += '<td>&nbsp;</td>';
-												break;
-										}
-									}
-									basePosY += gIMAGE_PARAMS.offsetLine;
-									basePosX = 0;
-									curTankType = tankInfos.type;
-									nbTanksOnLine = 0;
-									nbTanksOfType = 0;
+					// Draw canvas and compute resume text
+					commentText = '<p style="color:#666;font-size:0.75em;text-align:center">' + generationDate + '</p>';
+					if (canvasRealHeight == 0) {
+						// We have no tanks ta display
+						myCanvas.clearCanvas();
+						myCanvas.attr('height', gIMAGE_PARAMS.offsetLine);
+						myCanvas.attr('width', gIMAGE_PARAMS.nbTanksByLine * gIMAGE_PARAMS.offsetElem);
+						myCanvas.drawText({
+							fillStyle: '#666',
+							fontStyle: 'normal',
+							fontSize: 10,
+							fontFamily: 'RobotoDraft, Roboto, Verdana, sans-serif',
+							text: generationDate,
+							//fromCenter: false,
+							x: myCanvas.attr('width'), y: 15,
+							respectAlign: true,
+							align: 'right'
+						});
+					} else {
+						// We have some tanks to display
+						commentText += '<table border="1"><thead><tr><th>&nbsp;</th><th>' + i18n.t('tank.type.lightTank')
+							+ '</th><th>' + i18n.t('tank.type.mediumTank')
+							+ '</th><th>'+ i18n.t('tank.type.heavyTank')
+							+ '</th><th>' + i18n.t('tank.type.AT-SPG')
+							+ '</th><th>' + i18n.t('tank.type.SPG')
+							+ '</th></tr></thead><tbody>\n';
+						myCanvas.clearCanvas();
+						myCanvas.attr('height', canvasRealHeight);
+						myCanvas.attr('width', gIMAGE_PARAMS.nbTanksByLine * gIMAGE_PARAMS.offsetElem);
+						myCanvas.drawText({
+							fillStyle: '#666',
+							fontStyle: 'normal',
+							fontSize: 10,
+							fontFamily: 'RobotoDraft, Roboto, Verdana, sans-serif',
+							text: generationDate,
+							//fromCenter: false,
+							x: myCanvas.attr('width'), y: 15,
+							respectAlign: true,
+							align: 'right'
+						});
+						for (tankTiersName in dataToDisplay) {
+							var tankTiersDetails = dataToDisplay[tankTiersName],
+								nbTanksInTIers = 0;
+							// Draw tiers header
+							commentText += '<tr><th>' + tankTiersName + '</th>';
+							// Draw image for tiers only if we have tanks in this tiers
+							for (tankTypeName in tankTiersDetails) {
+								nbTanksInTIers += tankTiersDetails[tankTypeName].length;
+							}
+							if (nbTanksInTIers == 0) {
+								commentText += '<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>';
+							} else {
+								myCanvas.drawImage({
+									source: './themes/' + gConfig.THEME + '/style/images/Tier_' + ($.inArray(tankTiersName, gTANKS_LEVEL) + 1) + '_icon.png',
+									fromCenter: false,
+									x: 10, y: basePosY + 5
+								});
+								myCanvas.drawLine({
+									strokeStyle: '#333',
+									strokeWidth: 1,
+									x1: 0, y1: basePosY + gIMAGE_PARAMS.offsetLine - 3,
+									x2: myCanvas.attr('width'), y2: basePosY + gIMAGE_PARAMS.offsetLine - 3
+								});
+								basePosY += gIMAGE_PARAMS.offsetLine;
+								// Draw tanks details
+								for (tankTypeName in tankTiersDetails) {
+									var tankTypeDetails = tankTiersDetails[tankTypeName];
 									commentText += '<td>';
-								} else {
-									// Handle line change
-									if (nbTanksOnLine >= gIMAGE_PARAMS.nbTanksByLine) {
+									if (tankTypeDetails.length == 0) {
+										// No tanks for this type
+										commentText += '&nbsp;';
+									} else {
+										var countTanksInType = 0;
 										nbTanksOnLine = 0;
 										basePosX = 0;
+										for (var i=0; i<tankTypeDetails.length; i++) {
+											var aTank = tankTypeDetails[i];
+											if (aTank.is_premium) {
+												textColor = '#ffc107';
+											} else if (aTank.is_full) {
+												textColor = '#000';
+											} else {
+												textColor = '#666';
+											}
+											if (countTanksInType > 0) {
+												commentText += ', ';
+											}
+											commentText += '<span style="color:' + getWN8Color(aTank.wn8) + '">&#9646;</span><span style="color:' + textColor + '">' + aTank.name + '</span>';
+											nbTanksOnLine++;
+											if (nbTanksOnLine >= gIMAGE_PARAMS.nbTanksByLine) {
+												nbTanksOnLine = 0;
+												basePosX = 0;
+												basePosY += gIMAGE_PARAMS.offsetLine;
+											}
+											// Draw tank contour
+											myCanvas.drawImage({
+												source: aTank.contour,
+												fromCenter: false,
+												x: basePosX, y: basePosY
+											});
+											// Draw tank type
+											myCanvas.drawImage({
+												source: './themes/' + gConfig.THEME + '/style/images/type-' + tankTypeName + '.png',
+												x: basePosX + 10, y: basePosY + 5
+											});
+											// Draw tank user skill (WN8)
+											myCanvas.drawRect({
+												fillStyle: getWN8Color(aTank.wn8),
+												x: basePosX + 70, y: basePosY + 10,
+												width: 10, height: 10,
+												shadowColor: '#999',
+												shadowBlur: 3,
+												shadowX: 1,
+												shadowY: 1
+											});
+											// Draw tank name
+											myCanvas.drawText({
+												fillStyle: textColor,
+												x: basePosX + 79, y: basePosY + 5,
+												fromCenter: false,
+												fontSize: 12,
+												fontFamily: 'RobotoDraft, Roboto, Verdana, sans-serif',
+												text: aTank.name
+											});
+											basePosX += gIMAGE_PARAMS.offsetElem;
+											countTanksInType++;
+										}
 										basePosY += gIMAGE_PARAMS.offsetLine;
-									} else {
-										basePosX += gIMAGE_PARAMS.offsetElem;
 									}
+									commentText += '</td>';
 								}
-								// Draw tank contour
-								myCanvas.drawImage({
-									source: tankInfos.contour_image,
-									fromCenter: false,
-									x: basePosX, y: basePosY
-								});
-								// Draw tank type
-								myCanvas.drawImage({
-									source: './themes/' + gConfig.THEME + '/style/images/type-' + tankInfos.type + '.png',
-									x: basePosX + 10, y: basePosY + 5
-								});
-								// Draw tank user skill (WN8)
-								myCanvas.drawRect({
-									fillStyle: getWN8Color(tankAdditionalInfos.wn8),
-									x: basePosX + 70, y: basePosY + 10,
-									width: 10, height: 10,
-									shadowColor: '#999',
-									shadowBlur: 3,
-									shadowX: 1,
-									shadowY: 1
-								});
-								if (tankInfos.is_premium) {
-									textColor = '#ffc107';
-								} else if (tankAdditionalInfos.is_full) {
-									textColor = '#000';
-								} else {
-									textColor = '#666';
-								}
-								myCanvas.drawText({
-									fillStyle: textColor,
-									x: basePosX + 79, y: basePosY + 5,
-									fromCenter: false,
-									fontSize: 12,
-									fontFamily: 'RobotoDraft, Roboto, Verdana, sans-serif',
-									text: tankInfos.short_name_i18n
-								});
-								commentText += (nbTanksOfType != 0?', ':'') + '<span style="color:' + getWN8Color(tankAdditionalInfos.wn8) + '">&#9646;</span><span style="color:' + textColor + '">' + tankInfos.short_name_i18n + '</span>';
-								nbTanksOfType++;
-								nbTanksOnLine++;
 							}
+							commentText += '</tr>\n';
 						}
+						commentText += '</tbody></table>';
 					}
-					// Add missing cols for last row
-					commentText += '</td>';
-					switch (curTankType) {
-						case 'lightTank':
-							commentText += '<td>&nbsp;</td>';
-						case 'mediumTank':
-							commentText += '<td>&nbsp;</td>';
-						case 'heavyTank':
-							commentText += '<td>&nbsp;</td>';
-						case 'AT-SPG':
-							commentText += '<td>&nbsp;</td>';
-							break;
-					}
-					commentText += '</tr>\n</tbody></table>';
 					$('#textResumePlayer').text(commentText);
 				});
 				chkInGarage.on('change', function(evt) {

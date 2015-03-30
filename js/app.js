@@ -16,7 +16,8 @@ var gTANKS_LEVEL = [ 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'
 		'unicum':			{ min: 2350,	max: 2900,	color: '#83579d',	cssclass: 'material-purple-300' },
 		'super-unicum':		{ min: 2900,	max: -1,	color: '#5a3175',	cssclass: 'material-purple-800' }
 	},
-	gPersonalInfos = null;
+	gPersonalInfos = null,
+	gClanInfos = null;
 
 var gProgressBar,
 	gProgressMessage,
@@ -90,20 +91,29 @@ var checkConnected = function() {
 };
 
 var setNavBrandWithClan = function() {
-	$.post(gConfig.WG_API_URL + 'wgn/clans/info/', {
-		application_id: gConfig.WG_APP_ID,
-		language: gConfig.LANG,
-		access_token: gConfig.ACCESS_TOKEN,
-		clan_id: gPersonalInfos.clan_id
-	}, function(dataClanResponse) {
-		var dataClan = dataClanResponse.data[gPersonalInfos.clan_id],
-			clanEmblem = dataClan.emblems.x32.portal;
-		$('#mainNavBar .navbar-brand').html('<span style="color:' + dataClan.color + '">[' + dataClan.tag + ']</span> ' + dataClan.name + ' <small>' + dataClan.motto + '</small>')
+	if (gClanInfos != null) {
+		$('#mainNavBar .navbar-brand').html('<span style="color:' + gClanInfos.color + '">[' + gClanInfos.tag + ']</span> ' + gClanInfos.name + ' <small>' + gClanInfos.motto + '</small>')
 			// Set clan emblem with CSS because it causes problems with inline HTML.
-			.css('background', 'url(\'' + clanEmblem + '\') no-repeat 15px center')
+			.css('background', 'url(\'' + gClanInfos.emblems.x32.portal + '\') no-repeat 15px center')
 			// Add padding to avoid overlap of emblem and text
 			.css('padding-left', '51px');
-	}, 'json');
+	} else {
+		$.post(gConfig.WG_API_URL + 'wgn/clans/info/', {
+			application_id: gConfig.WG_APP_ID,
+			language: gConfig.LANG,
+			access_token: gConfig.ACCESS_TOKEN,
+			clan_id: gPersonalInfos.clan_id
+		}, function(dataClanResponse) {
+			var dataClan = dataClanResponse.data[gPersonalInfos.clan_id],
+				clanEmblem = dataClan.emblems.x32.portal;
+			gClanInfos = dataClan;
+			$('#mainNavBar .navbar-brand').html('<span style="color:' + gClanInfos.color + '">[' + gClanInfos.tag + ']</span> ' + gClanInfos.name + ' <small>' + gClanInfos.motto + '</small>')
+				// Set clan emblem with CSS because it causes problems with inline HTML.
+				.css('background', 'url(\'' + gClanInfos.emblems.x32.portal + '\') no-repeat 15px center')
+				// Add padding to avoid overlap of emblem and text
+				.css('padding-left', '51px');
+		}, 'json');
+	}
 };
 
 // Wait for the DOM to finish its initialization before appending data to it.

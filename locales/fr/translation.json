@@ -1,6 +1,7 @@
 {
 	"app": {
 		"name": "WoT C.T.",
+		"version": "Version :",
 		"description": "Outil de gestion de clan pour World of Tanks"
 	},
 	"nav": {
@@ -89,7 +90,10 @@
 			"winratio": "Victoires/Défaites",
 			"winratiodescription": "Nombre de victoires/défaites global",
 			"battles": "Batailles",
-			"battlesdescription": "Nombres de batailles effectuées par jour"
+			"battlesdescription": "Nombres de batailles effectuées par jour",
+			"victories": "Victoires",
+			"defeats": "Défaites",
+			"draws": "Egalités"
 		}
 	},
 	"loading": {
@@ -185,6 +189,27 @@
 	"page": {
 		"my": {
 			"title": "Mes informations personnelles"
+		},
+		"index": {
+			"lines": [
+				"Bienvenue sur cet outil de gestion de clan.",
+				"Cet outil vous permettra d'effectuer bon nombre d'op&eacute;rations concernant votre clan de World of Tanks. Notamment&nbsp;:",
+				"Pour commencer, veuillez vous connecter avec vos identifiants Wargaming&nbsp;:"
+			],
+			"features": [
+				"Voir les membres",
+				"Voir les chars disponibles",
+				"Définir des évènements et gérer les inscriptions des membres à ceux-ci",
+				"Préparer des stratégies",
+				"etc."
+			]
+		},
+		"unauthorized": {
+			"title": "Non autorisé !",
+			"lines": [
+				"Vous n'êtes pas autorisé à accéder à ce site.",
+				"Seul les membres des clans autorisés peuvent se connecter à ce site."
+			]
 		}
 	}
 }

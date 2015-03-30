@@ -6,11 +6,11 @@ require(dirname(__FILE__) . "/server/global.php");
 		<meta charset="utf-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta name="description" data-i18n="app.description" content="Outil de gestion de clan pour World of Tanks" />
+		<meta name="description" data-i18n="[content]app.description;" />
 		<meta name="author" content="J&eacute;r&eacute;mie Langlade &lt;jlanglade@pixbuf.net&gt;" />
 		<link rel="icon" href="./themes/<?php echo($gThemeName); ?>/style/favicon.ico" />
 		<link href="./themes/<?php echo($gThemeName); ?>/style/favicon.png" type="image/x-icon" rel="icon" />
-		<title data-i18n="app.name">WoT Clan Tool</title>
+		<title data-i18n="app.name"></title>
 		<!-- CSS -->
 		<link href="./themes/<?php echo($gThemeName); ?>/style/style.css" rel="stylesheet" />
 		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -39,9 +39,10 @@ require(dirname(__FILE__) . "/server/global.php");
 		<div class="container-fluid">
 			<div class="row">
 				<div class="main">
-					<h1>Non autorisé !</h1>
-					<p>Vous n'êtes pas autorisé à accéder à ce site.</p>
-					<p style="text-align:center"><?php echo(SID); ?><a href="#" class="btn btn-lg btn-primary btn-material-grey-500" id="linkLogout" data-i18n="action.logout">Se déconnecter</a></p>
+					<h1 data-i18n="unauthorized.title"></h1>
+					<p data-i18n="unauthorized.lines.0"></p>
+					<p data-i18n="unauthorized.lines.1"></p>
+					<p style="text-align:center"><a href="#" class="btn btn-lg btn-primary btn-material-grey-500" id="linkLogout" data-i18n="action.logout"></a></p>
 				</div>
 			</div>
 			<!--

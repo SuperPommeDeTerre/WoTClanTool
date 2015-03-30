@@ -13,7 +13,7 @@ header('Content-Type: text/html; charset=utf-8');
 		<meta charset="utf-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta name="description" data-i18n="app.description" content="Outil de gestion de clan pour World of Tanks" />
+		<meta name="description" data-i18n="[content]app.description;" />
 		<meta name="author" content="J&eacute;r&eacute;mie Langlade &lt;jlanglade@pixbuf.net&gt;" />
 		<link rel="icon" href="./themes/<?php echo($gThemeName); ?>/style/favicon.ico" />
 		<link href="./themes/<?php echo($gThemeName); ?>/style/favicon.png" type="image/x-icon" rel="icon" />
@@ -26,7 +26,7 @@ header('Content-Type: text/html; charset=utf-8');
 			<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
 	</head>
-	<body id="<?php echo($gPageID); ?>">
+	<body id="<?php echo($gPageID); ?>" data-spy="scroll" data-target="#pageNavbar">
 		<div id="progressDialog">
 			<div class="progress">
 				<div id="progressBar" class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">0 %</div>
