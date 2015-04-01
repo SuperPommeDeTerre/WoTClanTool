@@ -74,9 +74,9 @@ var onLoad = function() {
 		for (i=0; i<gIGNLeadingChars.length; i++) {
 			var memberInGroup = membersGroups[gIGNLeadingChars[i]];
 			if (memberInGroup == null) {
-				$('#lnkChooseIGN' + gIGNLeadingChars[i]).addClass('disabled');
+				$('#lnkChooseIGN' + gIGNLeadingChars[i]).addClass('disabled hidden');
 			} else {
-				tempContentHtml += '<div class="btn-group" role="group" id="btnsFilterTankOwner' + gIGNLeadingChars[i] + '" style="display:none">';
+				tempContentHtml += '<div id="btnsFilterTankOwner' + gIGNLeadingChars[i] + '" style="display:none">';
 				for (j=0; j<memberInGroup.length; j++) {
 					var myMember = memberInGroup[j];
 					tempContentHtml += '<button type="button" class="btn btn-material-grey" value="' + myMember.account_id + '">' + myMember.account_name + '</button>';
