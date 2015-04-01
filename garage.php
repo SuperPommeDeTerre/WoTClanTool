@@ -18,16 +18,16 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 						<div class="col-md-8">
 							<label data-i18n="filter.tank.level"></label>
 							<div class="btn-group" role="group" id="btnsFilterTankLevel">
-								<button type="button" class="btn btn-material-grey" value="1"><img src="./themes/<?php echo($gThemeName); ?>/style/images/Tier_1_icon.png" data-i18n="[title]tank.level.0;[alt]tank.level.0;" /></button>
-								<button type="button" class="btn btn-material-grey" value="2"><img src="./themes/<?php echo($gThemeName); ?>/style/images/Tier_2_icon.png" data-i18n="[title]tank.level.1;[alt]tank.level.1;" /></button>
-								<button type="button" class="btn btn-material-grey" value="3"><img src="./themes/<?php echo($gThemeName); ?>/style/images/Tier_3_icon.png" data-i18n="[title]tank.level.2;[alt]tank.level.2;" /></button>
-								<button type="button" class="btn btn-material-grey" value="4"><img src="./themes/<?php echo($gThemeName); ?>/style/images/Tier_4_icon.png" data-i18n="[title]tank.level.3;[alt]tank.level.3;" /></button>
-								<button type="button" class="btn btn-material-grey" value="5"><img src="./themes/<?php echo($gThemeName); ?>/style/images/Tier_5_icon.png" data-i18n="[title]tank.level.4;[alt]tank.level.4;" /></button>
-								<button type="button" class="btn btn-material-grey" value="6"><img src="./themes/<?php echo($gThemeName); ?>/style/images/Tier_6_icon.png" data-i18n="[title]tank.level.5;[alt]tank.level.5;" /></button>
-								<button type="button" class="btn btn-material-grey" value="7"><img src="./themes/<?php echo($gThemeName); ?>/style/images/Tier_7_icon.png" data-i18n="[title]tank.level.6;[alt]tank.level.6;" /></button>
-								<button type="button" class="btn btn-material-grey" value="8"><img src="./themes/<?php echo($gThemeName); ?>/style/images/Tier_8_icon.png" data-i18n="[title]tank.level.7;[alt]tank.level.7;" /></button>
-								<button type="button" class="btn btn-material-grey" value="9"><img src="./themes/<?php echo($gThemeName); ?>/style/images/Tier_9_icon.png" data-i18n="[title]tank.level.8;[alt]tank.level.8;" /></button>
-								<button type="button" class="btn btn-material-grey" value="10"><img src="./themes/<?php echo($gThemeName); ?>/style/images/Tier_10_icon.png" data-i18n="[title]tank.level.9;[alt]tank.level.9;" /></button>
+								<button type="button" class="btn btn-material-grey" value="1" data-i18n="tank.level.0"></button>
+								<button type="button" class="btn btn-material-grey" value="2" data-i18n="tank.level.1"></button>
+								<button type="button" class="btn btn-material-grey" value="3" data-i18n="tank.level.2"></button>
+								<button type="button" class="btn btn-material-grey" value="4" data-i18n="tank.level.3"></button>
+								<button type="button" class="btn btn-material-grey" value="5" data-i18n="tank.level.4"></button>
+								<button type="button" class="btn btn-material-grey" value="6" data-i18n="tank.level.5"></button>
+								<button type="button" class="btn btn-material-grey" value="7" data-i18n="tank.level.6"></button>
+								<button type="button" class="btn btn-material-grey" value="8" data-i18n="tank.level.7"></button>
+								<button type="button" class="btn btn-material-grey" value="9" data-i18n="tank.level.8"></button>
+								<button type="button" class="btn btn-material-grey" value="10" data-i18n="tank.level.9"></button>
 							</div>
 						</div>
 						<div class="col-md-4">
