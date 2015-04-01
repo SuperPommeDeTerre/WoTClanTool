@@ -18,7 +18,11 @@ if (isset($_SESSION["expires_at"]) && $_SESSION["expires_at"] < $curTime) {
 }
 // Redirect to home if WG session is active
 if (isset($_SESSION["access_token"])) {
-	header('Location: home.php');
+	if (isset($_REQUEST["returnUrl"])) {
+		header('Location: ' . $_REQUEST["returnUrl"]);
+	} else {
+		header('Location: home.php');
+	}
 	exit;
 }
 ?><!DOCTYPE html>
