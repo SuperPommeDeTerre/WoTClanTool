@@ -3,7 +3,7 @@ require(dirname(__FILE__) . '/server/global.php');
 
 $gPageID = "home";
 
-include(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
+require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 ?>
 <!-- Main component for a primary marketing message or call to action -->
 <div class="container-fluid">
@@ -99,5 +99,5 @@ include(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 	</div>
 </div>
 <?php
-include(dirname(__FILE__) . '/themes/' . $gThemeName . '/footer.php');
+require(dirname(__FILE__) . '/themes/' . $gThemeName . '/footer.php');
 ?>

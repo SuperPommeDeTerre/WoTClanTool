@@ -44,7 +44,7 @@ header('Content-Type: text/html; charset=utf-8');
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 						</button>
-						<a class="navbar-brand" href="./home.php" data-i18n="app.name"></a>
+						<a class="navbar-brand" href="./home.php" data-i18n="[title]nav.home;app.name;"></a>
 					</div>
 					<div id="navbar" class="navbar-collapse collapse">
 						<ul class="nav navbar-nav navbar-right">
@@ -55,8 +55,6 @@ header('Content-Type: text/html; charset=utf-8');
 									<li><a href="./my.php#garage" data-i18n="nav.my.garage"></a></li>
 									<li><a href="./my.php#strats" data-i18n="nav.my.strats"></a></li>
 									<li><a href="./my.php#stats" data-i18n="nav.my.stats"></a></li>
-									<li class="divider"></li>
-									<li><a href="./logout.php" id="linkLogout" data-i18n="action.logout"></a></li>
 								</ul>
 							</li>
 							<li<?php if ($gPageID == 'garage') { echo(' class="active"'); } ?>><a href="garage.php" data-i18n="nav.garage"></a></li>
@@ -76,6 +74,7 @@ header('Content-Type: text/html; charset=utf-8');
 if (in_array($_SESSION["account_id"], $gAdmins)) { ?>
 							<li<?php if ($gPageID == 'admin') { echo(' class="active"'); } ?>><a href="admin.php" data-i18n="[title]nav.admin;"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></li><?php
 } ?>
+							<li><a href="logout.php" id="linkLogout" data-i18n="[title]nav.logout;"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></a></li>
 						</ul>
 					</div><!--/.nav-collapse -->
 				</div><!--/.container-fluid -->

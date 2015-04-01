@@ -11,6 +11,7 @@
 		"events": "Evènements",
 		"stronghold": "Bastion",
 		"admin": "Administration",
+		"logout": "Se déconnecter",
 		"tscomments": "Contenu commentaire Mumble/TS",
 		"tscommentimage": "Image",
 		"tscommenttext": "Texte",
@@ -49,6 +50,7 @@
 			"add": "Ajouter un évènement"
 		},
 		"copy": "Copier vers le presse-papiers",
+		"filter": "Filter",
 		"calendar": {
 			"next": ">>",
 			"previous": "<<",
@@ -105,7 +107,8 @@
 		"tanksinfos": "Chargement des chars...",
 		"membertanksinfos": "Chargement des chars des membres...",
 		"complete": "Terminé !",
-		"playersratings": "Chargement des statistiques des membres..."
+		"playersratings": "Chargement des statistiques des membres...",
+		"tanksadditionalinfos": "Chargement d'informations complémentaires sur les chars..."
 	},
 	"clan": {
 		"nbplayers": "__count__ joueur",
@@ -147,6 +150,18 @@
 		}
 	},
 	"tank": {
+		"level": [
+			"I",
+			"II",
+			"III",
+			"IV",
+			"V",
+			"VI",
+			"VII",
+			"VIII",
+			"IX",
+			"X"
+		],
 		"type": {
 			"lightTank": "Léger",
 			"lightTank_plural_0": "Léger",
@@ -185,7 +200,10 @@
 	"filter": {
 		"tank": {
 			"in_garage": "Au garage",
-			"is_full": "Full"
+			"is_full": "Full",
+			"level": "Tiers",
+			"type": "Type",
+			"owner": "Propriétaire"
 		}
 	},
 	"page": {

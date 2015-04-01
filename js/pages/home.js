@@ -1,7 +1,9 @@
+var gNbDaysHistory = 6;
+
 var onLoad = function() {
 	checkConnected();
 	// Get the clan data
-	progressNbSteps = 7;
+	progressNbSteps = 9;
 	advanceProgress(i18n.t('loading.claninfos'));
 	$.post(gConfig.WG_API_URL + 'wgn/clans/info/', {
 		application_id: gConfig.WG_APP_ID,
@@ -130,7 +132,7 @@ var onLoad = function() {
 			var nbCompletedRequests = 0,
 				dataToDraw = [],
 				datesToGetStats = [];
-			for (var i=1; i<=7; i++) {
+			for (var i=1; i<=gNbDaysHistory; i++) {
 				datesToGetStats.push(moment().subtract(i, 'days').hours(0).minutes(0).seconds(0).unix());
 				$.post(gConfig.WG_API_URL + 'wot/ratings/accounts/', {
 					application_id: gConfig.WG_APP_ID,
@@ -142,7 +144,8 @@ var onLoad = function() {
 				}, function(dataRatingYesterdayResponse) {
 					// Handle response and add it to data
 					var dataPlayersYesterdayRatings = dataRatingYesterdayResponse.data,
-						dayTotalBattles = 0;
+						dayTotalBattles = 0,
+						queryParams = new URI('?' + this.data).search(true);
 					for (playerId in dataPlayersYesterdayRatings) {
 						var curPlayerRatings = dataPlayersYesterdayRatings[playerId];
 						if (curPlayerRatings != null) {
@@ -150,13 +153,20 @@ var onLoad = function() {
 						}
 					}
 					dataToDraw.push({
+						date: queryParams.date * 1000,
 						battles: dayTotalBattles
 					});
 					nbCompletedRequests++;
-					if (nbCompletedRequests >= 7) {
-						for (var j=0; j<=6; j++) {
-							dataToDraw[j]['date'] = datesToGetStats[j] * 1000;
-						}
+					if (nbCompletedRequests >= gNbDaysHistory) {
+						dataToDraw.sort(function(a, b) {
+							if (a.date < b.date) {
+								return -1;
+							}
+							if (a.date > b.date) {
+								return 1;
+							}
+							return 0;
+						});
 						// We have completed all. Draw the chart.
 						new Morris.Line({
 							element: 'chartBattles',
@@ -185,7 +195,7 @@ var onLoad = function() {
 					access_token: gConfig.ACCESS_TOKEN,
 					account_id: membersList
 				}, function(dataPlayersVehiclesResponse) {
-					advanceProgress(i18n.t('loading.generating'));
+					advanceProgress(i18n.t('loading.tanksadditionalinfos'));
 					var dataPlayersVehicles = dataPlayersVehiclesResponse.data,
 						nbClanVehiculesByTiers = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
 						nbClanVehiculesByType = { 'lightTank': 0, 'mediumTank': 0, 'heavyTank': 0, 'AT-SPG': 0, 'SPG': 0},
@@ -195,6 +205,7 @@ var onLoad = function() {
 						action: 'gettanksstats',
 						account_id: membersList
 					}, function(dataStoredPlayersTanksResponse) {
+						advanceProgress(i18n.t('loading.generating'));
 						var dataStoredPlayersTanks = dataStoredPlayersTanksResponse.data;
 						for (var i=0; i<dataClan.members_count; i++) {
 							var playerId = dataClan.members[i].account_id,

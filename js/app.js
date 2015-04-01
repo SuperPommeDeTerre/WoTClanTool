@@ -17,9 +17,8 @@ var gTANKS_LEVEL = [ 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'
 		'super-unicum':		{ min: 2900,	max: -1,	color: '#5a3175',	cssclass: 'material-purple-800' }
 	},
 	gPersonalInfos = null,
-	gClanInfos = null;
-
-var gProgressBar,
+	gClanInfos = null,
+	gProgressBar,
 	gProgressMessage,
 	progressNbSteps = 0,
 	progressCurStep = 0;
@@ -70,7 +69,7 @@ var checkConnected = function() {
 	var isUserValid = false;
 	if (typeof(gConfig.PLAYER_ID) == 'undefined') {
 		// User is not connected, redirect to home
-		document.location = './index.php';
+		document.location = './index.php?returnUrl=' + encodeURI(document.location.href);
 	} else {
 		isUserValid = false;
 		// If no restrictions set, then user is valid
@@ -132,8 +131,8 @@ $(document).ready(function() {
 			access_token: gConfig.ACCESS_TOKEN,
 			account_id: gConfig.PLAYER_ID
 		}, function(dataPlayersResponse) {
-			if (dataPlayersResponse.status == "error") {
-				document.location = "logout.php";
+			if (dataPlayersResponse.status == 'error') {
+				document.location = 'logout.php';
 				return;
 			}
 			var me = dataPlayersResponse.data[gConfig.PLAYER_ID],
@@ -168,7 +167,7 @@ $(document).ready(function() {
 			application_id: gConfig.WG_APP_ID,
 			access_token: gConfig.ACCESS_TOKEN
 		}, function(data) {
-			document.location = "./logout.php";
+			document.location = './logout.php';
 		}, 'json');
 	});
 });
