@@ -56,8 +56,8 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 				<thead>
 					<tr>
 						<th class="tankcontour" data-sortable="false">&nbsp;</th>
-						<th class="tankname" data-i18n="tank.infos.name"></th>
 						<th class="tanknation" data-i18n="tank.infos.nation"></th>
+						<th class="tankname" data-i18n="tank.infos.name"></th>
 						<th class="tanktiers" data-sorted="true" data-sorted-direction="descending" data-i18n="tank.infos.level"></th>
 						<th class="tanktype" data-i18n="tank.infos.type"></th>
 						<th class="tankowners" data-sortable="false" data-i18n="tank.stats.owners"></th>
