@@ -268,7 +268,7 @@ var onLoad = function() {
 							tanksListHtml += '<tr>';
 							tanksListHtml += '<td><img src="' + myElemToDisplay.contour_image + '" alt="' + myElemToDisplay.short_name_i18n + '" /></td>';
 							tanksListHtml += '<td>' + myElemToDisplay.short_name_i18n + '</td>';
-							tanksListHtml += '<td>' + myElemToDisplay.nation_i18n + '</td>';
+							tanksListHtml += '<td data-value="' + myElemToDisplay.nation_i18n + '"><img src="./themes/' + gConfig.THEME + '/style/images/nation_' + myElemToDisplay.nation + '.png" alt="' + myElemToDisplay.nation_i18n + '" title="' + myElemToDisplay.nation_i18n + '" width="24" height="24" /></td>';
 							tanksListHtml += '<td class="tanklevel" data-value="' + myElemToDisplay.level + '"><img src="./themes/' + gConfig.THEME + '/style/images/Tier_' + myElemToDisplay.level + '_icon.png" alt="' + gTANKS_LEVEL[myElemToDisplay.level - 1] + '" title="' + myElemToDisplay.level + '" /></td>';
 							tanksListHtml += '<td class="tanktype" data-value="' + gTANKS_TYPES[myElemToDisplay.type] + '"><img src="./themes/' + gConfig.THEME + '/style/images/type-' + myElemToDisplay.type + '.png" alt="' + myElemToDisplay.type_i18n + '" title="' + myElemToDisplay.type_i18n + '" /></td>';
 							tanksListHtml += '<td class="tankowners">';
