@@ -183,6 +183,7 @@
 			"name": "Nom du char",
 			"level": "Tiers",
 			"type": "Type",
+			"nation": "Nation",
 			"is_full": "Full ?",
 			"is_full_title": "Indique si le char possède tous les modules optimaux.",
 			"is_ready": "Prêt ?",

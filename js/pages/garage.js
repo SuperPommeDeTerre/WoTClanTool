@@ -8,7 +8,11 @@ var onLoad = function() {
 	progressNbSteps = 7;
 	var ignPills = '',
 		i = 0,
-		membersGroups = {};
+		membersGroups = {},
+		myTanksTable = $('#tableMyTanks'),
+		myFilterLevels = [],
+		myFilterTypes = [],
+		myFilterOwners = [];
 	// Define event handlers
 	for (i=0; i<gIGNLeadingChars.length; i++) {
 		ignPills += '<li role="presentation" id="lnkChooseIGN' + gIGNLeadingChars[i] + '"><a href="#">' + gIGNLeadingChars[i] + '</a></li>';
@@ -25,15 +29,78 @@ var onLoad = function() {
 			myOwnerContainer.toggle();
 		}
 	});
+	var applyFilter = function() {
+		var myRows = myTanksTable.find('tbody > tr'),
+			i = 0,
+			myFilter = '';
+		myRows.hide();
+		// Filter rows by level
+		if (myFilterLevels.length != 0 && myFilterLevels.length != 10) {
+			for (i=0; i<myFilterLevels.length; i++) {
+				if (myFilter != '') {
+					myFilter += ',';
+				}
+				myFilter += '>td.tanklevel[data-value="' + myFilterLevels[i] + '"]';
+			}
+		}
+		if (myFilter != '') {
+			myRows = myRows.has(myFilter);
+		}
+		// Filter rows by type
+		myFilter = '';
+		if (myFilterTypes.length != 0 && myFilterTypes.length != 5) {
+			for (i=0; i<myFilterTypes.length; i++) {
+				if (myFilter != '') {
+					myFilter += ',';
+				}
+				myFilter += '>td.tanktype[data-value="' + myFilterTypes[i] + '"]';
+			}
+		}
+		if (myFilter != '') {
+			myRows = myRows.has(myFilter);
+		}
+		// Filter rows by owner
+		myFilter = '';
+		if (myFilterOwners.length != 0 && myFilterOwners.length != 5) {
+			for (i=0; i<myFilterOwners.length; i++) {
+				if (myFilter != '') {
+					myFilter += ',';
+				}
+				myFilter += '>td.tankowners>span[data-value="' + myFilterOwners[i] + '"]';
+			}
+		}
+		if (myFilter != '') {
+			myRows = myRows.has(myFilter);
+		}
+		myRows.show();
+	};
 	$('#linkFilter').on('click', function(evt) {
 		evt.preventDefault();
 		$(this).parent().next().slideToggle('fast');
 	});
 	$('#btnsFilterTankLevel button').on('click', function(evt) {
-		$(this).toggleClass('active');
+		var myButton = $(this),
+			isActive = !myButton.hasClass('active'),
+			myButtonIndex = $.inArray(myButton.val(), myFilterLevels);
+		if (!isActive && myButtonIndex >= 0) {
+			myFilterLevels.splice(myButtonIndex, 1);
+		} else if (isActive) {
+			myFilterLevels.push(myButton.val());
+		}
+		myButton.toggleClass('active');
+		applyFilter();
 	});
 	$('#btnsFilterTankType button').on('click', function(evt) {
-		$(this).toggleClass('active');
+		var myButton = $(this),
+			isActive = !myButton.hasClass('active'),
+			myButtonIndex = $.inArray(gTANKS_TYPES[myButton.val()], myFilterTypes);
+		if (!isActive && myButtonIndex >= 0) {
+			myFilterTypes.splice(myButtonIndex, 1);
+		} else if (isActive) {
+			myFilterTypes.push(gTANKS_TYPES[myButton.val()]);
+		}
+		myButton.toggleClass('active');
+		applyFilter();
 	});
 	// Load data
 	advanceProgress(i18n.t('loading.claninfos'));
@@ -85,7 +152,16 @@ var onLoad = function() {
 			}
 		}
 		$('#pillsIGN').after(tempContentHtml).parent().find('button').on('click', function(evt) {
-			$(this).toggleClass('active');
+			var myButton = $(this),
+				isActive = !myButton.hasClass('active'),
+				myButtonIndex = $.inArray(myButton.val(), myFilterOwners);
+			if (!isActive && myButtonIndex >= 0) {
+				myFilterOwners.splice(myButtonIndex, 1);
+			} else if (isActive) {
+				myFilterOwners.push(myButton.val());
+			}
+			myButton.toggleClass('active');
+			applyFilter();
 		});
 		advanceProgress(i18n.t('loading.membersinfos'));
 		$.post(gConfig.WG_API_URL + 'wot/account/info/', {
@@ -109,11 +185,112 @@ var onLoad = function() {
 					access_token: gConfig.ACCESS_TOKEN,
 					account_id: membersList
 				}, function(dataPlayersVehiclesResponse) {
-					advanceProgress(i18n.t('loading.generating'));
 					var dataPlayersVehicles = dataPlayersVehiclesResponse.data;
-					advanceProgress(i18n.t('loading.generating'));
-					advanceProgress(i18n.t('loading.complete'));
-					afterLoad();
+					advanceProgress(i18n.t('loading.tanksadditionalinfos'));
+					$.post('./server/player.php', {
+						action: 'gettanksstats',
+						account_id: membersList
+					}, function(dataStoredPlayersTanksResponse) {
+						advanceProgress(i18n.t('loading.generating'));
+						var dataStoredPlayersTanks = dataStoredPlayersTanksResponse.data,
+							listToDisplay = [],
+							dataToAdd = {},
+							tankId = 0,
+							i = 0,
+							j = 0,
+							playerAdditionalInfos = [],
+							playerTankAdditionalInfos = {},
+							tankDetails = {};
+							playerId = '',
+							isTankInList = false,
+							indexTankInList = 0,
+							tanksListHtml = '',
+							myElemToDisplay = {};
+						for (playerId in dataStoredPlayersTanks) {
+							playerAdditionalInfos = dataStoredPlayersTanks[playerId];
+							if (playerAdditionalInfos.length > 0) {
+								// We have data for this player. Process it.
+								for (i=0; i<playerAdditionalInfos.length; i++) {
+									playerTankAdditionalInfos = playerAdditionalInfos[i];
+									if (playerTankAdditionalInfos.in_garage && playerTankAdditionalInfos.is_ready) {
+										// The tank is ready to fight. Add it to list
+										isTankInList = false;
+										for (tankId in listToDisplay) {
+											if (tankId == playerTankAdditionalInfos.tank_id) {
+												isTankInList = true;
+												break;
+											}
+										}
+										if (!isTankInList) {
+											tankDetails = dataTankopedia[playerTankAdditionalInfos.tank_id];
+											dataToAdd = tankDetails;
+											dataToAdd['owners'] = {};
+										} else {
+											dataToAdd = listToDisplay[playerTankAdditionalInfos.tank_id];
+										}
+										dataToAdd.owners[playerId] = playerTankAdditionalInfos;
+										isTankInList = false;
+										for (j=0; j<listToDisplay.length; j++) {
+											if (listToDisplay[j].tank_id == playerTankAdditionalInfos.tank_id) {
+												isTankInList = true;
+												indexTankInList = j;
+												break;
+											}
+										}
+										if (!isTankInList) {
+											listToDisplay.push(dataToAdd);
+										} else {
+											listToDisplay[indexTankInList] = dataToAdd;
+										}
+									}
+								}
+							}
+						}
+						// Sort tanks by level and by type
+						listToDisplay.sort(function(a, b) {
+							if (a.level > b.level) {
+								return -1;
+							}
+							if (a.level < b.level) {
+								return 1;
+							}
+							if (gTANKS_TYPES[a.type] < gTANKS_TYPES[b.type]) {
+								return -1;
+							}
+							if (gTANKS_TYPES[a.type] > gTANKS_TYPES[b.type]) {
+								return 1;
+							}
+							return 0;
+						});
+						// Perform display
+						for (i=0; i<listToDisplay.length; i++) {
+							myElemToDisplay = listToDisplay[i];
+							tanksListHtml += '<tr>';
+							tanksListHtml += '<td><img src="' + myElemToDisplay.contour_image + '" alt="' + myElemToDisplay.short_name_i18n + '" /></td>';
+							tanksListHtml += '<td>' + myElemToDisplay.short_name_i18n + '</td>';
+							tanksListHtml += '<td>' + myElemToDisplay.nation_i18n + '</td>';
+							tanksListHtml += '<td class="tanklevel" data-value="' + myElemToDisplay.level + '"><img src="./themes/' + gConfig.THEME + '/style/images/Tier_' + myElemToDisplay.level + '_icon.png" alt="' + gTANKS_LEVEL[myElemToDisplay.level - 1] + '" title="' + myElemToDisplay.level + '" /></td>';
+							tanksListHtml += '<td class="tanktype" data-value="' + gTANKS_TYPES[myElemToDisplay.type] + '"><img src="./themes/' + gConfig.THEME + '/style/images/type-' + myElemToDisplay.type + '.png" alt="' + myElemToDisplay.type_i18n + '" title="' + myElemToDisplay.type_i18n + '" /></td>';
+							tanksListHtml += '<td class="tankowners">';
+							isFirst = true;
+							for (var userId in myElemToDisplay.owners) {
+								playerTankAdditionalInfos = myElemToDisplay.owners[userId];
+								if (isFirst) {
+									isFirst = false;
+								} else {
+									tanksListHtml += ', ';
+								}
+								tanksListHtml += '<span data-value="' + userId + '"><span class="label label-' + getWN8Class(playerTankAdditionalInfos.wn8) + '">' + (Math.round(playerTankAdditionalInfos.wn8 * 100) / 100) + '</span>&nbsp;' + dataPlayers[userId].nickname + '</span>';
+							}
+							tanksListHtml += '</td>';
+							tanksListHtml += '</tr>';
+						}
+						myTanksTable.attr('data-sortable', 'true');
+						myTanksTable.find('tbody').html(tanksListHtml);
+						Sortable.initTable(myTanksTable[0]);
+						advanceProgress(i18n.t('loading.complete'));
+						afterLoad();
+					}, 'json');
 				}, 'json');
 			}, 'json');
 		}, 'json');
