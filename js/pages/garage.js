@@ -195,7 +195,7 @@ var onLoad = function() {
 						var dataStoredPlayersTanks = dataStoredPlayersTanksResponse.data,
 							listToDisplay = [],
 							dataToAdd = {},
-							tankId = 0,
+							curTank = {},
 							i = 0,
 							j = 0,
 							playerAdditionalInfos = [],
@@ -215,9 +215,10 @@ var onLoad = function() {
 									if (playerTankAdditionalInfos.in_garage && playerTankAdditionalInfos.is_ready) {
 										// The tank is ready to fight. Add it to list
 										isTankInList = false;
-										for (tankId in listToDisplay) {
-											if (tankId == playerTankAdditionalInfos.tank_id) {
+										for (curTank in listToDisplay) {
+											if (listToDisplay[curTank].tank_id == playerTankAdditionalInfos.tank_id) {
 												isTankInList = true;
+												dataToAdd = listToDisplay[curTank];
 												break;
 											}
 										}
@@ -225,8 +226,6 @@ var onLoad = function() {
 											tankDetails = dataTankopedia[playerTankAdditionalInfos.tank_id];
 											dataToAdd = tankDetails;
 											dataToAdd['owners'] = {};
-										} else {
-											dataToAdd = listToDisplay[playerTankAdditionalInfos.tank_id];
 										}
 										dataToAdd.owners[playerId] = playerTankAdditionalInfos;
 										isTankInList = false;
