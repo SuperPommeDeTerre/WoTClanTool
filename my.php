@@ -29,7 +29,7 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 				<div class="pull-left" style="margin-top:-1em">
 					<label><span data-i18n="filter.tank.status" style="font-weight:400"></span>
 						<div style="display:inline-block;width:5em;position:relative;top:.75em;margin-left:1em">
-							<div class="slider shor slider-default" id="slideTankStatus"></div>
+							<div data-toggle="tooltip" data-placement="top" class="slider shor slider-default" id="slideTankStatus" data-i18n="[title]tank.status.0;"></div>
 						</div>
 					</label>
 				</div>
