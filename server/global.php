@@ -9,6 +9,12 @@
 session_set_cookie_params(1209600);
 session_start();
 
+// If the configuration file doesn't exists, then proceed to install...
+if (!file_exists(dirname(__FILE__) . '/../config/config.json')) {
+	header('Location: ./install.php');
+	exit;
+}
+
 $gConfig = json_decode(file_get_contents(dirname(__FILE__) . '/../config/config.json'), true);
 $gConfig = is_array($gConfig) ? $gConfig : array($gConfig);
 
