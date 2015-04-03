@@ -21,14 +21,16 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 				<button type="button" id="btnShowTanksResume" class="btn btn-default btn-material-green-300" data-target="#my-dialog" data-toggle="modal"><span class="glyphicon glyphicon-headphones" aria-hidden="true"></span></button>
 			</div>
 			<div class="pull-right form-inline">
-				<div class="togglebutton" style="float:left">
+				<div class="togglebutton togglebutton-info pull-left">
 					<label><span data-i18n="filter.tank.in_garage"></span>
 						<input type="checkbox" id="chkInGarage" checked="checked" />
 					</label>
 				</div>
-				<div class="togglebutton" style="float:left">
-					<label><span data-i18n="filter.tank.is_full"></span>
-						<input type="checkbox" id="chkIsFull" />
+				<div class="pull-left" style="margin-top:-1em">
+					<label><span data-i18n="filter.tank.status" style="font-weight:400"></span>
+						<div style="display:inline-block;width:5em;position:relative;top:.75em;margin-left:1em">
+							<div class="slider shor slider-default" id="slideTankStatus"></div>
+						</div>
 					</label>
 				</div>
 			</div>
@@ -47,8 +49,7 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 									<th class="tankbattles" data-i18n="tank.stats.battles"></th>
 									<th class="tankwn8" data-i18n="tank.stats.wn8"></th>
 									<th class="tankwinratio" data-i18n="tank.stats.winratio"></th>
-									<th class="tankisfull"><abbr data-i18n="[title]tank.infos.is_full_title;tank.infos.is_full"></abbr></th>
-									<th class="tankisready"><abbr data-i18n="[title]tank.infos.is_ready_title;tank.infos.is_ready"></abbr></th>
+									<th class="tankstate"><abbr data-i18n="[title]tank.infos.state_title;tank.infos.state"></abbr></th>
 								</tr>
 							</thead>
 							<tbody>

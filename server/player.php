@@ -155,32 +155,19 @@ switch ($_REQUEST['action']) {
 		}
 		$result['data'] = $playerTanksStats;
 		break;
-	case 'settankisfull':
+	case 'settankprops':
 		$tankId = $_REQUEST['tank_id'];
-		$tankIsFull = $_REQUEST['is_full'];
 		$playerTanksStats = file_get_contents($userFile);
 		$playerTanksStats = json_decode($playerTanksStats, true);
 		$playerTanksStats = is_array($playerTanksStats) ? $playerTanksStats : array($playerTanksStats);
 		foreach ($playerTanksStats as &$valueStored) {
 			if ($valueStored['tank_id'] == $tankId) {
-				$valueStored['is_full'] = $tankIsFull === 'true'? true: false;
-				$result['data'] = $valueStored;
-				break;
-			}
-		}
-		$myfile = fopen($userFile, 'w') or die('Unable to open file!');
-		fwrite($myfile, json_encode($playerTanksStats));
-		fclose($myfile);
-		break;
-	case 'settankisready':
-		$tankId = $_REQUEST['tank_id'];
-		$tankIsReady = $_REQUEST['is_ready'];
-		$playerTanksStats = file_get_contents($userFile);
-		$playerTanksStats = json_decode($playerTanksStats, true);
-		$playerTanksStats = is_array($playerTanksStats) ? $playerTanksStats : array($playerTanksStats);
-		foreach ($playerTanksStats as &$valueStored) {
-			if ($valueStored['tank_id'] == $tankId) {
-				$valueStored['is_ready'] = $tankIsReady === 'true'? true: false;
+				if (isset($_REQUEST['is_full'])) {
+					$valueStored['is_full'] = $_REQUEST['is_full'] === 'true'? true: false;
+				}
+				if (isset($_REQUEST['is_ready'])) {
+					$valueStored['is_ready'] = $_REQUEST['is_ready'] === 'true'? true: false;
+				}
 				$result['data'] = $valueStored;
 				break;
 			}

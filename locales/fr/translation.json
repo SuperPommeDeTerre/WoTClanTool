@@ -187,8 +187,15 @@
 			"is_full": "Full ?",
 			"is_full_title": "Indique si le char possède tous les modules optimaux.",
 			"is_ready": "Prêt ?",
-			"is_ready_title": "Indique si ce char est prêt à combattre (équipage à 100%, équipements, etc.)."
+			"is_ready_title": "Indique si ce char est prêt à combattre (équipage à 100%, équipements, etc.).",
+			"state": "Statut",
+			"state_title": "Stock: En cours de grind, Full: Tous les modules recherchés et installés, Prêt: Prêt à combattre (équipage, etc.)"
 		},
+		"status": [
+			"Stock",
+			"Full",
+			"Prêt !"
+		],
 		"stats": {
 			"mastery": "M",
 			"battles": "Batailles",
@@ -204,7 +211,8 @@
 			"is_full": "Full",
 			"level": "Tiers",
 			"type": "Type",
-			"owner": "Propriétaire"
+			"owner": "Propriétaire",
+			"status": "Statut"
 		}
 	},
 	"page": {

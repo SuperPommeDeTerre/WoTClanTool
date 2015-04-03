@@ -29,6 +29,7 @@
 .tableTanks thead .tankmastery{width:50px}
 .tableTanks thead .tanktiers{width:70px}
 .tableTanks thead .tanktype{width:70px}
+.ispremium .tankname{color:#ffc107}
 .tankmastery0{background: url('./images/markofmastery0.png') no-repeat left center;background-size:24px 24px}
 .tankmastery1{background: url('./images/markofmastery1.png') no-repeat left center;background-size:24px 24px}
 .tankmastery2{background: url('./images/markofmastery2.png') no-repeat left center;background-size:24px 24px}

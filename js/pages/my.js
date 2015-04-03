@@ -12,6 +12,9 @@ var applyTableTanksFilters = function(filter) {
 	if (filter.isfull) {
 		myFilteredElems = myFilteredElems.filter('.isfull');
 	}
+	if (filter.isready) {
+		myFilteredElems = myFilteredElems.filter('.isready');
+	}
 	if (filter.ingarage) {
 		myFilteredElems = myFilteredElems.filter('.ingarage');
 	}
@@ -89,6 +92,7 @@ var onLoad = function() {
 				winRatio = 0,
 				chkInGarage = $('#chkInGarage'),
 				chkIsFull = $('#chkIsFull');
+				slideTankStatus = $('#slideTankStatus');
 			// Save tanks infos
 			$.post('./server/player.php', {
 				'action': 'gettanksstats',
@@ -125,7 +129,11 @@ var onLoad = function() {
 					if (myTank.all.battles > 0) {
 						winRatio = myTank.all.wins * 100 / myTank.all.battles;
 					}
-					tableContent += '<tr class="tank ' + (tankAdditionalInfos.in_garage?'ingarage':'hidden') + (tankInfos.is_premium?' ispremium':'') + (tankInfos.is_premium||tankAdditionalInfos.is_full?' isfull':'') +'">';
+					tableContent += '<tr data-tankid="' + myTank.tank_id + '" class="tank '
+						+ (tankAdditionalInfos.in_garage?'ingarage':'hidden')
+						+ (tankInfos.is_premium?' ispremium':'')
+						+ (tankInfos.is_premium||tankAdditionalInfos.is_full?' isfull':'')
+						+ (tankAdditionalInfos.is_ready?' isready':'') + '">';
 					tableContent += '<td><img src="' + tankInfos.contour_image + '" /></td>';
 					tableContent += '<td data-value="' + myTank.mark_of_mastery + '" class="tankmastery' + myTank.mark_of_mastery + '">&nbsp;</td>';
 					tableContent += '<td data-value="' + tankInfos.nation_i18n + '"><img src="./themes/' + gConfig.THEME + '/style/images/nation_' + tankInfos.nation + '.png" alt="' + tankInfos.nation_i18n + '" title="' + tankInfos.nation_i18n + '" width="24" height="24" /></td>';
@@ -135,8 +143,8 @@ var onLoad = function() {
 					tableContent += '<td>' + myTank.all.battles + '</td>';
 					tableContent += '<td><span class="label label-' + getWN8Class(tankAdditionalInfos.wn8) + '">' + (Math.round(tankAdditionalInfos.wn8 * 100) / 100) + '</span></td>';
 					tableContent += '<td data-value="' + winRatio + '">' + (winRatio > -1?(Math.round(winRatio * 100) / 100) + ' %':'-') + '</td>';
-					tableContent += '<td data-value="' + (tankInfos.is_premium?'1':'0') + '"><div class="togglebutton' + (tankInfos.is_premium?' togglebutton-material-amber':'') + '"><label>&nbsp;<input type="checkbox" class="chkTanksIsFull" id="chkTanksIsFull' + myTank.tank_id + '" value="' + myTank.tank_id + '"' + (tankInfos.is_premium||tankAdditionalInfos.is_full?' checked="checked"':'') + (tankInfos.is_premium?' disabled="disabled"':'') + ' /></label></div></td>';
-					tableContent += '<td data-value="' + (tankAdditionalInfos.is_ready?'1':'0') + '"><div class="togglebutton"><label>&nbsp;<input type="checkbox" class="chkTanksIsReady" id="chkTanksIsReady' + myTank.tank_id + '" value="' + myTank.tank_id + '"' + (tankAdditionalInfos.is_ready?' checked="checked"':'') + ' /></label></div></td>';
+					tableContent += '<td><div class="slider shor slider-info"></div></td>';
+					tableContent += '<td>&nbsp;</td>';
 					tableContent += '</tr>';
 					listContent += '<div class="small tank tankcontainer tankmastery' + myTank.mark_of_mastery +  (tankAdditionalInfos.in_garage?' ingarage':' hidden') + (tankInfos.is_premium?' ispremium':'') + (tankInfos.is_premium||tankAdditionalInfos.is_full?' isfull':'') +'">';
 					listContent += '<div class="tanklevel' + tankInfos.level + '"><img src="' + tankInfos.image_small + '" /></div>';
@@ -152,29 +160,69 @@ var onLoad = function() {
 				myTanksSmallContainer.html(listContent);
 				myTanksBigContainer.html(listLargeContent);
 				Sortable.initTable(myTanksTable[0]);
-				myTanksTable.find('.chkTanksIsFull').on('change', function(evt) {
-					var myChk = $(this);
-					$.post('./server/player.php', {
-						'action': 'settankisfull',
-						'tank_id': myChk.val(),
-						'is_full': myChk.is(':checked')
-					}, function(dataSaveTanksResponse) {
-						tankAdditionalInfos = getTankAdditionalInfos(myChk.val(), dataMyTanksAdditionalInfos);
-						tankAdditionalInfos.is_full = myChk.is(':checked');
-					}, 'json');
-					$(this).closest('tr').toggleClass('isfull');
-				});
-				myTanksTable.find('.chkTanksIsReady').on('change', function(evt) {
-					var myChk = $(this);
-					$.post('./server/player.php', {
-						'action': 'settankisready',
-						'tank_id': myChk.val(),
-						'is_ready': myChk.is(':checked')
-					}, function(dataSaveTanksResponse) {
-						tankAdditionalInfos = getTankAdditionalInfos(myChk.val(), dataMyTanksAdditionalInfos);
-						tankAdditionalInfos.is_ready = myChk.is(':checked');
-					}, 'json');
-					$(this).closest('tr').toggleClass('isfull');
+				myTanksTable.find(".shor").each(function(index, el) {
+					var myElem = $(this),
+						myElemSilderOptions = {
+							start: 0,
+							step: 1,
+							range: {
+								min: 0,
+								max: 2
+							}
+						},
+						myTankId = myElem.closest('tr').data('tankid'),
+						myTankAdditionalInfos = getTankAdditionalInfos(myTankId, dataMyTanksAdditionalInfos),
+						myTankInfos = dataTankopedia[myTankId];
+					if (myTankInfos.is_premium) {
+						myElem.removeClass('slider-info').addClass('slider-material-yellow');
+					}
+					if (myTankAdditionalInfos.is_ready) {
+						myElemSilderOptions.start = 2;
+					} else if (myTankAdditionalInfos.is_full || myTankInfos.is_premium) {
+						myElemSilderOptions.start = 1;
+					} 
+					myElem.noUiSlider(myElemSilderOptions);
+					myElem.on({
+						set: function(evt) {
+							var isFull = false,
+								isReady = false,
+								myLine = myElem.closest('tr');
+							switch (parseInt(myElem.val())) {
+								case 0:
+									// Prevent change or premium tanks
+									if (myLine.hasClass('ispremium')) {
+										isFull = true;
+										isReady = false;
+										myElem.val(1);
+									} else {
+										isFull = false;
+										isReady = false;
+										myLine.removeClass('isfull').removeClass('isready');
+									}
+									break;
+								case 1:
+									isFull = true;
+									isReady = false;
+									myLine.addClass('isfull').removeClass('isready');
+									break;
+								case 2:
+									isFull = true;
+									isReady = true;
+									myLine.addClass('isfull').addClass('isready');
+									break;
+							}
+							$.post('./server/player.php', {
+								'action': 'settankprops',
+								'tank_id': myTankId,
+								'is_full': isFull,
+								'is_ready': isReady
+							}, function(dataSaveTanksResponse) {
+								tankAdditionalInfos = getTankAdditionalInfos(myTankId, dataMyTanksAdditionalInfos);
+								tankAdditionalInfos.is_full = isFull;
+								tankAdditionalInfos.is_ready = isReady;
+							}, 'json');
+						}
+					});
 				});
 				$('#btnShowTanksResume').on('click', function(evt) {
 					var myCanvas = $('#canvasRecapPlayer'),
@@ -369,15 +417,27 @@ var onLoad = function() {
 				});
 				chkInGarage.on('change', function(evt) {
 					applyTableTanksFilters({
-						isfull: chkIsFull.is(':checked'),
+						isfull: parseInt(slideTankStatus.val()) > 0,
+						isready: parseInt(slideTankStatus.val()) > 1,
 						ingarage: chkInGarage.is(':checked')
 					});
 				});
-				chkIsFull.on('change', function(evt) {
-					applyTableTanksFilters({
-						isfull: chkIsFull.is(':checked'),
-						ingarage: chkInGarage.is(':checked')
-					});
+				slideTankStatus.noUiSlider({
+					start: 0,
+					step: 1,
+					range: {
+						min: 0,
+						max: 2
+					}
+				});
+				slideTankStatus.on({
+					'set': function(evt) {
+						applyTableTanksFilters({
+							isfull: parseInt(slideTankStatus.val()) > 0,
+							isready: parseInt(slideTankStatus.val()) > 1,
+							ingarage: chkInGarage.is(':checked')
+						});
+					}
 				});
 				advanceProgress(i18n.t('loading.complete'));
 				new ZeroClipboard($('#copy-button'));
