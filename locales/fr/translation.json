@@ -15,6 +15,7 @@
 		"tscomments": "Contenu commentaire Mumble/TS",
 		"tscommentimage": "Image",
 		"tscommenttext": "Texte",
+		"tscommenthtml": "HTML",
 		"strats": {
 			"title": "Stratégies",
 			"new": "Nouvelle",
@@ -203,6 +204,9 @@
 			"winratio": "% victoires",
 			"owners": "Propriétaires",
 			"ownerscount": "Nombre de propriétaires"
+		},
+		"resume": {
+			"chkcontour": "Silhouette des chars"
 		}
 	},
 	"filter": {

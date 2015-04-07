@@ -75,10 +75,15 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 			<div class="modal-body">
 				<ul class="nav nav-pills nav-pills-material-grey">
 					<li role="presentation" class="active"><a href="#tabTSCommentImage" data-toggle="tab" data-i18n="nav.tscommentimage"></a></li>
-					<li role="presentation"><a href="#tabTSCommentText" data-toggle="tab" data-i18n="nav.tscommenttext"></a></li>
+					<li role="presentation"><a href="#tabTSCommentText" data-toggle="tab" data-i18n="nav.tscommenthtml"></a></li>
 				</ul>
 				<div id="myTabTSCommentsContent" class="tab-content">
 					<div class="tab-pane fade active in" id="tabTSCommentImage">
+						<div class="checkbox">
+							<label>
+								<input type="checkbox" id="chkContourIcons" checked="checked" /> <span data-i18n="tank.resume.chkcontour" style="left:25px;top:8px;width:200px"></span>
+							</label>
+						</div>
 						<canvas width="300" height="150" id="canvasRecapPlayer"></canvas>
 					</div>
 					<div class="tab-pane fade in" id="tabTSCommentText">

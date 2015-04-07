@@ -228,7 +228,9 @@ var onLoad = function() {
 						}
 					});
 				});
-				$('#btnShowTanksResume').on('click', function(evt) {
+				$('#chkContourIcons').on('change', function(evt) {
+					var myCheckBox = $(this),
+						isResumeWithContourIcons = myCheckBox.is(':checked');
 					var myCanvas = $('#canvasRecapPlayer'),
 						canvasRealHeight = 0,
 						basePosX = 0,
@@ -376,30 +378,28 @@ var onLoad = function() {
 												basePosY += gIMAGE_PARAMS.offsetLine;
 											}
 											// Draw tank contour
-											myCanvas.drawImage({
-												source: aTank.contour,
-												fromCenter: false,
-												x: basePosX, y: basePosY
-											});
+											if (isResumeWithContourIcons) {
+												myCanvas.drawImage({
+													source: aTank.contour,
+													fromCenter: false,
+													x: basePosX, y: basePosY
+												});
+											}
 											// Draw tank type
 											myCanvas.drawImage({
 												source: './themes/' + gConfig.THEME + '/style/images/type-' + tankTypeName + '.png',
-												x: basePosX + 10, y: basePosY + 5
+												x: basePosX + 10, y: basePosY + (isResumeWithContourIcons?5:10)
 											});
 											// Draw tank user skill (WN8)
 											myCanvas.drawRect({
 												fillStyle: getWN8Color(aTank.wn8),
-												x: basePosX + 70, y: basePosY + 10,
-												width: 10, height: 10,
-												shadowColor: '#999',
-												shadowBlur: 3,
-												shadowX: 1,
-												shadowY: 1
+												x: basePosX + (isResumeWithContourIcons?70:25), y: basePosY + 10,
+												width: 10, height: 10
 											});
 											// Draw tank name
 											myCanvas.drawText({
 												fillStyle: textColor,
-												x: basePosX + 79, y: basePosY + 5,
+												x: basePosX + (isResumeWithContourIcons?79:34), y: basePosY + 5,
 												fromCenter: false,
 												fontSize: 12,
 												fontFamily: 'RobotoDraft, Roboto, Verdana, sans-serif',
@@ -418,6 +418,9 @@ var onLoad = function() {
 						commentText += '</tbody></table>';
 					}
 					$('#textResumePlayer').text(commentText);
+				}).change();
+				$('#btnShowTanksResume').on('click', function(evt) {
+					$('#chkContourIcons').change();
 				});
 				chkInGarage.on('change', function(evt) {
 					applyTableTanksFilters({
