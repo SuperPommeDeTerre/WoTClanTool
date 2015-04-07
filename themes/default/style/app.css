@@ -82,11 +82,6 @@ header{position:fixed;top:0;left:0;bottom:0}
 #menuEditShapes > a.polygon,#menuEditShapes a.shape.polygon{background:url('./icons/layer-shape-polygon.png') no-repeat center center}
 #colorSelectorLine{width:4em}
 #menuEditLines > div{min-width:12em}
-fieldset{border:1px dotted #CCC}
-fieldset legend{font-size:0.9em}
-label{font-size:0.9em;display:inline}
-details > summary{transition:color 1s;color:black}
-details[open] > summary{color:red}
 main{text-align:center;padding-top:30px}
 #mapDesc{color:#999;display:block;font-size:.8em}
 #selLangContainer{position:absolute;right:0;top:0;display:none}
@@ -146,10 +141,7 @@ input.overlay, textarea.overlay{border:1px dotted #FFF;background:transparent}
 .contextMenu a.textPosition.bottom.selected{background:url('./icons/text_padding_top_faded.png') no-repeat left top}
 .contextMenu a.textPosition.left{background:url('./icons/text_padding_right.png') no-repeat left top}
 .contextMenu a.textPosition.left.selected{background:url('./icons/text_padding_right_faded.png') no-repeat left top}
-#dialog-confirm,#textEdit{display:none}
 #shapeHandlers{display:none}
-#shapeOptions{display:none}
-#lineOptions{display:none}
 .handler{display:block;width:16px;height:16px;opacity:.5;border:1px solid #000;background:#666;position:absolute}
 .handler:hover{opacity:1}
 

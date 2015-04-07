@@ -255,6 +255,12 @@
 			"shapes": "Editer les formes",
 			"texts": "Editer les textes"
 		},
+		"dialog": {
+			"modifytext": "Modifier le texte",
+			"lineoptions": "Options de le ligne",
+			"shapeoptions": "Options de la forme",
+			"confirm": "Confirmation"
+		},
 		"map": {
 			"select": "Carte",
 			"selecttitle": "Sélectionner une carte",

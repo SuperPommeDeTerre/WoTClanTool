@@ -760,7 +760,7 @@ var onLoad = function() {
 		preventClosingContextMenu = false;
 		myContextMenus.hide();
 	});
-	myContextMenus.find("a").on("click", function(e) {
+	myContextMenus.find("a").not("[data-target]").on("click", function(e) {
 		e.stopPropagation();
 		e.preventDefault();
 	});
@@ -888,6 +888,9 @@ var onLoad = function() {
 			]
 		});
 	});
+	$('#textEdit').on('hide.bs.modal', function (e) {
+		// do something...
+	});
 	myContextMenuElement.find(".modifytext").on("click", function(e) {
 		// Handle text modify
 		var myImage = $("#" + myContextMenuElement.attr("rel")),
@@ -900,6 +903,7 @@ var onLoad = function() {
 		} else {
 			$("#textColor").val("FFFFFF");
 		}
+		/*
 		$("#textEdit").dialog({
 			"resizable": false,
 			"modal": true,
@@ -932,6 +936,7 @@ var onLoad = function() {
 				}
 			]
 		});
+		*/
 	});
 	myContextMenuElement.find(".textPosition").on("click", function(e) {
 		var myLink = $(this);
