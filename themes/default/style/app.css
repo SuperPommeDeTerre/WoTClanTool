@@ -50,6 +50,125 @@
 .tankcontainer.small{padding-left:10px}
 .tankcontainer .tankname{padding-left:24px}
 
+/* Strats */
+header{position:fixed;top:0;left:0;bottom:0}
+#menu{background:#EEE;position:absolute;top:60px;bottom:0;left:0}
+#menu *{color:#000;text-decoration:none}
+#menu select, #menu input, #menu option, #menu textarea{color:#000}
+#menu .colorpicker input{color:#898989}
+#menu > ul{display:block;margin:0;padding:0}
+#menu > ul > li{list-style:none;margin:0;padding:.5em}
+#menu > ul > li > div{display:none;position:absolute;left:32px;top:0;bottom:0;z-index:1000;padding:1em;background:#EEE}
+#menu > ul > li:hover > div{display:block}
+#menu > ul > li > ul{display:none}
+#menu .operation{padding:0 0 0 20px}
+#menu .operation.delete{background:url('./icons/delete.png') no-repeat left top}
+#menu .operation.select{background:url('./icons/layout.png') no-repeat left top}
+#menu > ul > li > a{display:block;width:24px;height:24px;border:1px solid transparent}
+#menu > ul > li > a.selected{border:1px solid #999}
+#menu > ul:hover > li > a{}
+#menu label.fortext{display:inline-block;width:5em;text-align:right}
+#menuMap div{min-width:20em}
+#menuEditStrat > a{background:url('./icons/book.png') no-repeat center center}
+#menuEditStrat > div{min-width:25em}
+#lblStratDesc{width:100%;height:25em}
+#menuEditShapes ul{list-style:none;margin:0;padding:0}
+#menuEditShapes li{margin:0;padding:0}
+#menuEditShapes a.shape{display:block;width:24px;height:24px}
+#menuEditShapes a.shape.selected{border:1px solid #999}
+#menuEditShapes a.shape span{display:none}
+#menuEditShapes > a.ellipse,#menuEditShapes a.shape.ellipse{background:url('./icons/layer-shape-ellipse.png') no-repeat center center}
+#menuEditShapes > a.rect,#menuEditShapes a.shape.rect{background:url('./icons/layer-shape.png') no-repeat center center}
+#menuEditShapes > a.polygon,#menuEditShapes a.shape.polygon{background:url('./icons/layer-shape-polygon.png') no-repeat center center}
+#colorSelectorLine{width:4em}
+#menuEditLines > div{min-width:12em}
+fieldset{border:1px dotted #CCC}
+fieldset legend{font-size:0.9em}
+label{font-size:0.9em;display:inline}
+details > summary{transition:color 1s;color:black}
+details[open] > summary{color:red}
+main{text-align:center;padding-top:30px}
+#mapDesc{color:#999;display:block;font-size:.8em}
+#selLangContainer{position:absolute;right:0;top:0;display:none}
+#selLangContainer label{display:none}
+#mapContainer{margin:auto}
+#mapContainer text{text-align:center}
+#mapContainer .team0{stroke:#FFF}
+#mapContainer .team1{stroke:#0F0}
+#mapContainer .team2{stroke:#F00}
+#mapContainer text.team0{fill:#FFF}
+#mapContainer text.team1{fill:#0F0}
+#mapContainer text.team2{fill:#F00}
+#gridOverlay text{fill:#000}
+#gridOverlay line.outer{stroke:#FFF;stroke-width:0.5;stroke-dasharray:1,1}
+#gridOverlay line.inner{stroke:#000;stroke-width:0.5;stroke-dasharray:1,1}
+#basesOverlay circle{fill-opacity:.5}
+#basesOverlay polygon{fill-opacity:.5;fill:#333}
+#basesOverlay circle.team0{fill:#FFF}
+#basesOverlay circle.team1{fill:#0F0}
+#basesOverlay circle.team2{fill:#F00}
+#textsOverlay text{fill:#FFF}
+#elementsOverlay text{fill:#FFF}
+#scaleOverlay line{stroke:#FFF;stroke-width:0.5}
+#scaleOverlay text{fill:#FFF}
+#shapesOverlay *{stroke:#FFF;stroke-width:1;fill:#333;fill-opacity:.5}
+#linesOverlay polyline{stroke:#0F0;fill:none;stroke-linecap:round}
+#linesOverlay polyline.drawing{stroke-opacity:.5}
+.elements{list-style:none;padding:0;margin:0}
+.elements li{margin:.25em}
+.element{list-style:none;padding:0;margin:0;display:block;width:24px;height:24px;border:1px solid transparent}
+.element.selected{border:1px solid #999}
+.element span{display:none}
+.moving,.resizing,.rotating{opacity:.5}
+input.overlay, textarea.overlay{border:1px dotted #FFF;background:transparent}
+.contextMenu{position:absolute;display:none;border:1px solid #999;background:#FFF;opacity:.5;padding:2px;height:22px}
+.contextMenu:hover{opacity:1}
+.contextMenu *{font-size:.9em}
+.contextMenu label{color:#FFF;margin:-9px 0 0 0;padding:0}
+.contextMenu select{margin:-2px 0 0 0}
+.contextMenu ul{list-style:none;margin:0;padding:0}
+.contextMenu li{display:inline-block;margin:0;padding:0}
+.contextMenu a{display:block;width:16px;height:16px}
+.contextMenu a span{display:none}
+.contextMenu a.move{background:url('./icons/arrow_nsew.png') no-repeat left top}
+.contextMenu a.delete{background:url('./icons/cross.png') no-repeat left top}
+.contextMenu a.modifytext{background:url('./icons/edit.png') no-repeat left top}
+.contextMenu a.smallertext{background:url('./icons/edit-size-down.png') no-repeat left top}
+.contextMenu a.biggertext{background:url('./icons/edit-size-up.png') no-repeat left top}
+.contextMenu a.rotate{background:url('./icons/arrow_rotate_clockwise.png') no-repeat left top}
+.contextMenu a.resize{background:url('./icons/arrow_out.png') no-repeat left top}
+.contextMenu a.options{background:url('./icons/gear.png') no-repeat left top}
+.contextMenu a.textPosition.top{background:url('./icons/text_padding_bottom.png') no-repeat left top}
+.contextMenu a.textPosition.top.selected{background:url('./icons/text_padding_bottom_faded.png') no-repeat left top}
+.contextMenu a.textPosition.right{background:url('./icons/text_padding_left.png') no-repeat left top}
+.contextMenu a.textPosition.right.selected{background:url('./icons/text_padding_left_faded.png') no-repeat left top}
+.contextMenu a.textPosition.bottom{background:url('./icons/text_padding_top.png') no-repeat left top}
+.contextMenu a.textPosition.bottom.selected{background:url('./icons/text_padding_top_faded.png') no-repeat left top}
+.contextMenu a.textPosition.left{background:url('./icons/text_padding_right.png') no-repeat left top}
+.contextMenu a.textPosition.left.selected{background:url('./icons/text_padding_right_faded.png') no-repeat left top}
+#dialog-confirm,#textEdit{display:none}
+#shapeHandlers{display:none}
+#shapeOptions{display:none}
+#lineOptions{display:none}
+.handler{display:block;width:16px;height:16px;opacity:.5;border:1px solid #000;background:#666;position:absolute}
+.handler:hover{opacity:1}
+
+.element.HT0,#menuEditElements > a.HT0{background:url('../../../res/wot/elements/HT0.png') no-repeat center center}
+.element.HT1,#menuEditElements > a.HT1{background:url('../../../res/wot/elements/HT1.png') no-repeat center center}
+.element.HT2,#menuEditElements > a.HT2{background:url('../../../res/wot/elements/HT2.png') no-repeat center center}
+.element.MT0,#menuEditElements > a.MT0{background:url('../../../res/wot/elements/MT0.png') no-repeat center center}
+.element.MT1,#menuEditElements > a.MT1{background:url('../../../res/wot/elements/MT1.png') no-repeat center center}
+.element.MT2,#menuEditElements > a.MT2{background:url('../../../res/wot/elements/MT2.png') no-repeat center center}
+.element.LT0,#menuEditElements > a.LT0{background:url('../../../res/wot/elements/LT0.png') no-repeat center center}
+.element.LT1,#menuEditElements > a.LT1{background:url('../../../res/wot/elements/LT1.png') no-repeat center center}
+.element.LT2,#menuEditElements > a.LT2{background:url('../../../res/wot/elements/LT2.png') no-repeat center center}
+.element.TD0,#menuEditElements > a.TD0{background:url('../../../res/wot/elements/TD0.png') no-repeat center center}
+.element.TD1,#menuEditElements > a.TD1{background:url('../../../res/wot/elements/TD1.png') no-repeat center center}
+.element.TD2,#menuEditElements > a.TD2{background:url('../../../res/wot/elements/TD2.png') no-repeat center center}
+.element.SPG0,#menuEditElements > a.SPG0{background:url('../../../res/wot/elements/SPG0.png') no-repeat center center}
+.element.SPG1,#menuEditElements > a.SPG1{background:url('../../../res/wot/elements/SPG1.png') no-repeat center center}
+.element.SPG2,#menuEditElements > a.SPG2{background:url('../../../res/wot/elements/SPG2.png') no-repeat center center}
+
 /* Move down content because we have a fixed navbar that is 50px tall */
 body{padding-top:50px}
 /* Global add-ons */

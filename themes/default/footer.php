@@ -27,8 +27,14 @@
 		<script type="text/javascript" src="./js/bootstrap-datetimepicker.min.js"></script>
 		<script type="text/javascript" src="./js/URI.js"></script>
 		<script type="text/javascript" src="./js/jcanvas.min.js"></script>
+		<script type="text/javascript" src="./js/colorpicker.js"></script>
 		<script type="text/javascript" src="./js/ZeroClipboard.min.js"></script>
 		<script type="text/javascript" src="./js/jquery.nouislider.all.min.js"></script>
+		<script type="text/javascript" src="./js/jquery-svg.js"></script>
+		<script type="text/javascript" src="./js/jquery-svgdom.js"></script>
+		<script type="text/javascript" src="./js/jquery-svgfilter.js"></script>
+		<script type="text/javascript" src="./js/jquery-svggraph.js"></script>
+		<script type="text/javascript" src="./js/jquery-svgplot.js"></script>
 		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 		<script type="text/javascript" src="./js/ie10-viewport-bug-workaround.js"></script>
 		<!-- Local scripts -->
