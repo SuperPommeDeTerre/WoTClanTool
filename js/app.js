@@ -137,6 +137,11 @@ $(document).ready(function() {
 			}
 			var me = dataPlayersResponse.data[gConfig.PLAYER_ID],
 				isClanFound = false;
+			$.post('./server/player.php', {
+				'action': 'setclanid',
+				'clan_id': me.clan_id
+			}, function(dataSetClanID) {
+			}, 'json');
 			if (me.clan_id != null) {
 				if (gConfig.CLAN_IDS.length == 0) {
 					isClanFound = true;

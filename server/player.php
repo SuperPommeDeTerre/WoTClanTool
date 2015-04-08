@@ -53,6 +53,9 @@ function calcTankWN8($pTanksExpectedVals, $pTankStats) {
 $userFile = getUserFile($_SESSION['account_id']);
 $result = array();
 switch ($_REQUEST['action']) {
+	case 'setclanid':
+		$_SESSION["clan_id"] = $_REQUEST["clan_id"];
+		break;
 	case 'purge':
 		$usersToPurge = array();
 		if (array_key_exists('account_id', $_REQUEST)) {

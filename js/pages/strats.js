@@ -1,5 +1,6 @@
 var onLoad = function() {
 	checkConnected();
+	progressNbSteps = 4;
 	advanceProgress(i18n.t('loading.claninfos'));
 	setNavBrandWithClan();
 	// Global variables to store configuration
@@ -21,7 +22,8 @@ var onLoad = function() {
 		gIsImporting = false,
 		gIsDrawingLine = false,
 		gCurrentLine = null,
-		gCurrentLineConf = null;
+		gCurrentLineConf = null,
+		gStratId = -1;
 
 	// Constants
 	var gDECAL_GRID = 20,
@@ -601,53 +603,36 @@ var onLoad = function() {
 		// TODO: Handle markers color (need clone of markers)
 
 		// Show dialog
-		myLineOptions.dialog({
-			"resizable": false,
-			"modal": true,
-			"width": 475,
-			"buttons": [
-				{
-					"text": i18n.t('btn.ok'),
-					"click": function() {
-						var myStrokeWidth = $("#lineThickness").val(),
-							myStrokeColor = $("#lineColor").val(),
-							myStrokeOpacity = $("#lineOpacity").val(),
-							myStrokeType = $("#lineType").val(),
-							myMarkerStartType = $("#lineMarkerStartType").val(),
-							myMarkerEndType = $("#lineMarkerEndType").val();
-						gCurrentElement.style["stroke-width"] = myStrokeWidth + "px";
-						gCurrentElement.style["stroke"] = "#" + myStrokeColor;
-						gCurrentElement.style["stroke-opacity"] = myStrokeOpacity;
-						gCurrentElement.style["stroke-dasharray"] = getStrokeDashArray(myStrokeType, myStrokeWidth);
-						myLine.css("stroke-width", gCurrentElement.style["stroke-width"]);
-						myLine.css("stroke", gCurrentElement.style["stroke"]);
-						myLine.css("stroke-dasharray", gCurrentElement.style["stroke-dasharray"]);
-						myLine.css("stroke-opacity", gCurrentElement.style["stroke-opacity"]);
-						// Handle properties
-						if (myMarkerStartType === "none") {
-							delete gCurrentElement.props["marker-start"];
-							myLine.removeAttr("marker-start");
-						} else {
-							gCurrentElement.props["marker-start"] = myMarkerStartType;
-							myLine.attr("marker-start", "url(#" + myMarkerStartType + ")");
-						}
-						if (myMarkerEndType === "none") {
-							delete gCurrentElement.props["marker-end"];
-							myLine.removeAttr("marker-end");
-						} else {
-							gCurrentElement.props["marker-end"] = myMarkerEndType;
-							myLine.attr("marker-end", "url(#" + myMarkerEndType + ")");
-						}
-						$(this).dialog("close");
-					}
-				},
-				{
-					"text": i18n.t('btn.cancel'),
-					"click": function() {
-						$(this).dialog("close");
-					}
-				}
-			]
+		$('#lineOptionsBtnOk').off('click').on('click', function(evt) {
+			var myStrokeWidth = $("#lineThickness").val(),
+				myStrokeColor = $("#lineColor").val(),
+				myStrokeOpacity = $("#lineOpacity").val(),
+				myStrokeType = $("#lineType").val(),
+				myMarkerStartType = $("#lineMarkerStartType").val(),
+				myMarkerEndType = $("#lineMarkerEndType").val();
+			gCurrentElement.style["stroke-width"] = myStrokeWidth + "px";
+			gCurrentElement.style["stroke"] = "#" + myStrokeColor;
+			gCurrentElement.style["stroke-opacity"] = myStrokeOpacity;
+			gCurrentElement.style["stroke-dasharray"] = getStrokeDashArray(myStrokeType, myStrokeWidth);
+			myLine.css("stroke-width", gCurrentElement.style["stroke-width"]);
+			myLine.css("stroke", gCurrentElement.style["stroke"]);
+			myLine.css("stroke-dasharray", gCurrentElement.style["stroke-dasharray"]);
+			myLine.css("stroke-opacity", gCurrentElement.style["stroke-opacity"]);
+			// Handle properties
+			if (myMarkerStartType === "none") {
+				delete gCurrentElement.props["marker-start"];
+				myLine.removeAttr("marker-start");
+			} else {
+				gCurrentElement.props["marker-start"] = myMarkerStartType;
+				myLine.attr("marker-start", "url(#" + myMarkerStartType + ")");
+			}
+			if (myMarkerEndType === "none") {
+				delete gCurrentElement.props["marker-end"];
+				myLine.removeAttr("marker-end");
+			} else {
+				gCurrentElement.props["marker-end"] = myMarkerEndType;
+				myLine.attr("marker-end", "url(#" + myMarkerEndType + ")");
+			}
 		});
 	});
 	myContextMenuShape.find(".options").on("click", function(e) {
@@ -695,51 +680,35 @@ var onLoad = function() {
 			$("#shapeFillOpacity").val(".5");
 		}
 		// Show dialog
-		myShapeOptions.dialog({
-			"resizable": false,
-			"modal": true,
-			"buttons": [
-				{
-					"text": i18n.t('btn.ok'),
-					"click": function() {
-						var myFillPattern = $("#shapeFillType").val(),
-							myFillColor = $("#colorSelectorShapeFill").val(),
-							myFillOpacity = $("#shapeFillOpacity").val(),
-							myStrokeWidth = $("#shapeContourThickness").val(),
-							myStrokeColor = $("#colorSelectorShapeContour").val(),
-							myStrokeRadius = $("#shapeContourRadius").val(),
-							myStrokeType = $("#shapeContourType").val();
-						gCurrentElement.style["fill-opacity"] = myFillOpacity;
-						// FIXME: Apply a fill color with a pattern
-						if (myFillPattern !== "none") {
-							gCurrentElement.style["fill"] = "url(#" + myFillPattern + ") #" + myFillColor;
-						} else {
-							gCurrentElement.style["fill"] = "#" + myFillColor;
-						}
-						gCurrentElement.style["stroke-width"] = myStrokeWidth + "px";
-						gCurrentElement.style["stroke"] = "#" + myStrokeColor;
-						if (myShape.is("rect")) {
-							gCurrentElement.rx = myStrokeRadius;
-							gCurrentElement.ry = myStrokeRadius;
-							myShape.attr("rx", gCurrentElement.rx);
-							myShape.attr("ry", gCurrentElement.ry);
-						}
-						gCurrentElement.style["stroke-dasharray"] = getStrokeDashArray(myStrokeType, myStrokeWidth);
-						myShape.css("fill", gCurrentElement.style["fill"]);
-						myShape.css("fill-opacity", gCurrentElement.style["fill-opacity"]);
-						myShape.css("stroke-width", gCurrentElement.style["stroke-width"]);
-						myShape.css("stroke", gCurrentElement.style["stroke"]);
-						myShape.css("stroke-dasharray", gCurrentElement.style["stroke-dasharray"]);
-						$(this).dialog("close");
-					}
-				},
-				{
-					"text": i18n.t('btn.cancel'),
-					"click": function() {
-						$(this).dialog("close");
-					}
-				}
-			]
+		$('#shapeOptionsBtnOk').off('click').on('click', function(evt) {
+			var myFillPattern = $("#shapeFillType").val(),
+				myFillColor = $("#colorSelectorShapeFill").val(),
+				myFillOpacity = $("#shapeFillOpacity").val(),
+				myStrokeWidth = $("#shapeContourThickness").val(),
+				myStrokeColor = $("#colorSelectorShapeContour").val(),
+				myStrokeRadius = $("#shapeContourRadius").val(),
+				myStrokeType = $("#shapeContourType").val();
+			gCurrentElement.style["fill-opacity"] = myFillOpacity;
+			// FIXME: Apply a fill color with a pattern
+			if (myFillPattern !== "none") {
+				gCurrentElement.style["fill"] = "url(#" + myFillPattern + ") #" + myFillColor;
+			} else {
+				gCurrentElement.style["fill"] = "#" + myFillColor;
+			}
+			gCurrentElement.style["stroke-width"] = myStrokeWidth + "px";
+			gCurrentElement.style["stroke"] = "#" + myStrokeColor;
+			if (myShape.is("rect")) {
+				gCurrentElement.rx = myStrokeRadius;
+				gCurrentElement.ry = myStrokeRadius;
+				myShape.attr("rx", gCurrentElement.rx);
+				myShape.attr("ry", gCurrentElement.ry);
+			}
+			gCurrentElement.style["stroke-dasharray"] = getStrokeDashArray(myStrokeType, myStrokeWidth);
+			myShape.css("fill", gCurrentElement.style["fill"]);
+			myShape.css("fill-opacity", gCurrentElement.style["fill-opacity"]);
+			myShape.css("stroke-width", gCurrentElement.style["stroke-width"]);
+			myShape.css("stroke", gCurrentElement.style["stroke"]);
+			myShape.css("stroke-dasharray", gCurrentElement.style["stroke-dasharray"]);
 		});
 	});
 	$("#inverseTeams").on("change", function(e) {
@@ -783,65 +752,49 @@ var onLoad = function() {
 	});
 	myContextMenus.find(".delete").on("click", function(e) {
 		var myContextMenu = $(this).closest(".contextMenu");
-		$("#dialog-confirm").dialog({
-			"resizable": false,
-			"modal": true,
-			"buttons": [
-				{
-					"text": i18n.t('btn.yes'),
-					"click": function() {
-						if (myContextMenu.is("#contextMenuElement")) {
-							var myTmpElement = $("#" + myContextMenu.attr("rel")),
-								myElementIndex = myTmpElement.data("index");
-							myTmpElement = myTmpElement.add($("#" + myTmpElement.attr("rel")));
-							myTmpElement.remove();
-							// Remove object from global configuration
-							gCurrentConf.elements.splice(myElementIndex, 1);
-							$("#elementsOverlay image").each(function(i, el) {
-								if ($(el).data("index") > myElementIndex) {
-									$(el).data("index", $(el).data("index") - 1);
-								}
-							});
-						} else if (myContextMenu.is("#contextMenuText")) {
-							var myTmpElement = $("#" + myContextMenu.attr("rel")),
-								myElementIndex = myTmpElement.data("index");
-							myTmpElement.remove();
-							// Remove object from global configuration
-							gCurrentConf.texts.splice(myElementIndex, 1);
-							$("#textsOverlay text:not([rel])").each(function(i, el) {
-								if ($(el).data("index") > myElementIndex) {
-									$(el).data("index", $(el).data("index") - 1);
-								}
-							});
-						} else if (myContextMenu.is("#contextMenuShape")) {
-							var myTmpElement = $("#" + myContextMenu.attr("rel")),
-								myElementIndex = myTmpElement.data("index");
-							myTmpElement.remove();
-							// Remove object from global configuration
-							gCurrentConf.shapes.splice(myElementIndex, 1);
-							$("#shapesOverlay *:not([rel])").each(function(i, el) {
-								if ($(el).data("index") > myElementIndex) {
-									$(el).data("index", $(el).data("index") - 1);
-								}
-							});
-						} else if (myContextMenu.is("#contextMenuLine")) {
-							var myTmpElement = $("#" + myContextMenu.attr("rel")),
-								myElementIndex = myTmpElement.data("index");
-							myTmpElement.remove();
-							// Remove object from global configuration
-							gCurrentConf.lines.splice(myElementIndex, 1);
-						}
-						myContextMenu.hide();
-						$(this).dialog("close");
+		$('#confirmBtnYes').off('click').on('click', function(evt) {
+			if (myContextMenu.is("#contextMenuElement")) {
+				var myTmpElement = $("#" + myContextMenu.attr("rel")),
+					myElementIndex = myTmpElement.data("index");
+				myTmpElement = myTmpElement.add($("#" + myTmpElement.attr("rel")));
+				myTmpElement.remove();
+				// Remove object from global configuration
+				gCurrentConf.elements.splice(myElementIndex, 1);
+				$("#elementsOverlay image").each(function(i, el) {
+					if ($(el).data("index") > myElementIndex) {
+						$(el).data("index", $(el).data("index") - 1);
 					}
-				},
-				{
-					"text": i18n.t('btn.no'),
-					"click": function() {
-						$(this).dialog("close");
+				});
+			} else if (myContextMenu.is("#contextMenuText")) {
+				var myTmpElement = $("#" + myContextMenu.attr("rel")),
+					myElementIndex = myTmpElement.data("index");
+				myTmpElement.remove();
+				// Remove object from global configuration
+				gCurrentConf.texts.splice(myElementIndex, 1);
+				$("#textsOverlay text:not([rel])").each(function(i, el) {
+					if ($(el).data("index") > myElementIndex) {
+						$(el).data("index", $(el).data("index") - 1);
 					}
-				}
-			]
+				});
+			} else if (myContextMenu.is("#contextMenuShape")) {
+				var myTmpElement = $("#" + myContextMenu.attr("rel")),
+					myElementIndex = myTmpElement.data("index");
+				myTmpElement.remove();
+				// Remove object from global configuration
+				gCurrentConf.shapes.splice(myElementIndex, 1);
+				$("#shapesOverlay *:not([rel])").each(function(i, el) {
+					if ($(el).data("index") > myElementIndex) {
+						$(el).data("index", $(el).data("index") - 1);
+					}
+				});
+			} else if (myContextMenu.is("#contextMenuLine")) {
+				var myTmpElement = $("#" + myContextMenu.attr("rel")),
+					myElementIndex = myTmpElement.data("index");
+				myTmpElement.remove();
+				// Remove object from global configuration
+				gCurrentConf.lines.splice(myElementIndex, 1);
+			}
+			myContextMenu.hide();
 		});
 	});
 	myContextMenuText.find(".modifytext").on("click", function(e) {
@@ -853,43 +806,24 @@ var onLoad = function() {
 		} else {
 			$("#textColor").val("FFFFFF");
 		}
-		$("#textEdit").dialog({
-			"resizable": false,
-			"modal": true,
-			"buttons": [
-				{
-					"text": i18n.t('btn.ok'),
-					"click": function() {
-						if ($("#textValue").val().trim().length === 0) {
-							// The text is deleted if it's empty
-							myText.remove();
-							// Remove text from global configuration
-							var myElementIndex = myText.data("index");
-							gCurrentConf.texts.splice(myElementIndex, 1);
-							$("#textsOverlay text:not([rel])").each(function(i, el) {
-								if ($(el).data("index") > myElementIndex) {
-									$(el).data("index", $(el).data("index") - 1);
-								}
-							});
-						} else {
-							myText.text($("#textValue").val());
-							gCurrentElement.value = myText.text();
-							myText.css("stroke", "#" + $("#textColor").val()).css("fill", "#" + $("#textColor").val());
-						}
-						$(this).dialog("close");
+		$('#textEditBtnOk').off('click').on('click', function(evt) {
+			if ($("#textValue").val().trim().length === 0) {
+				// The text is deleted if it's empty
+				myText.remove();
+				// Remove text from global configuration
+				var myElementIndex = myText.data("index");
+				gCurrentConf.texts.splice(myElementIndex, 1);
+				$("#textsOverlay text:not([rel])").each(function(i, el) {
+					if ($(el).data("index") > myElementIndex) {
+						$(el).data("index", $(el).data("index") - 1);
 					}
-				},
-				{
-					"text": i18n.t('btn.cancel'),
-					"click": function() {
-						$(this).dialog("close");
-					}
-				}
-			]
+				});
+			} else {
+				myText.text($("#textValue").val());
+				gCurrentElement.value = myText.text();
+				myText.css("fill", "#" + $("#textColor").val());
+			}
 		});
-	});
-	$('#textEdit').on('hide.bs.modal', function (e) {
-		// do something...
 	});
 	myContextMenuElement.find(".modifytext").on("click", function(e) {
 		// Handle text modify
@@ -903,40 +837,22 @@ var onLoad = function() {
 		} else {
 			$("#textColor").val("FFFFFF");
 		}
-		/*
-		$("#textEdit").dialog({
-			"resizable": false,
-			"modal": true,
-			"buttons": [
-				{
-					"text": i18n.t('btn.ok'),
-					"click": function() {
-						myText.text($("#textValue").val());
-						myText.css("fill", "#" + $("#textColor").val()).css("fill", "#" + $("#textColor").val());
-						gCurrentElement.text.value = myText.text();
-						myTextWidth = myText[0].getComputedTextLength();
-						if (myText.hasClass("top")) {
-							myText.attr("x", myImagePosX + (myImageWidth / 2) - (myTextWidth / 2));
-							gCurrentElement.text.position.x = myText.attr("x") * 1;
-						} else if (myText.hasClass("bottom")) {
-							myText.attr("x", myImagePosX + (myImageWidth / 2) - (myTextWidth / 2));
-							gCurrentElement.text.position.x = myText.attr("x") * 1;
-						} else if (myText.hasClass("left")) {
-							myText.attr("x", myImagePosX - myTextWidth);
-							gCurrentElement.text.position.x = myText.attr("x") * 1;
-						}
-						$(this).dialog("close");
-					}
-				},
-				{
-					"text": i18n.t('btn.cancel'),
-					"click": function() {
-						$(this).dialog("close");
-					}
-				}
-			]
+		$('#textEditBtnOk').off('click').on('click', function(evt) {
+			myText.text($("#textValue").val());
+			myText.css("fill", "#" + $("#textColor").val());
+			gCurrentElement.text.value = myText.text();
+			myTextWidth = myText[0].getComputedTextLength();
+			if (myText.hasClass("top")) {
+				myText.attr("x", myImagePosX + (myImageWidth / 2) - (myTextWidth / 2));
+				gCurrentElement.text.position.x = myText.attr("x") * 1;
+			} else if (myText.hasClass("bottom")) {
+				myText.attr("x", myImagePosX + (myImageWidth / 2) - (myTextWidth / 2));
+				gCurrentElement.text.position.x = myText.attr("x") * 1;
+			} else if (myText.hasClass("left")) {
+				myText.attr("x", myImagePosX - myTextWidth);
+				gCurrentElement.text.position.x = myText.attr("x") * 1;
+			}
 		});
-		*/
 	});
 	myContextMenuElement.find(".textPosition").on("click", function(e) {
 		var myLink = $(this);
@@ -1250,7 +1166,6 @@ var onLoad = function() {
 			globalLoad();
 			$("#lblStratName").val(gCurrentConf.name);
 			$("#lblStratDesc").val(gCurrentConf.desc);
-			$("#selGame").val(gCurrentConf.game).change();
 		}, 'text');
 	} else {
 		globalLoad();
@@ -1266,9 +1181,10 @@ var onLoad = function() {
 				myMapObj = null,
 				myMaps = "",
 				myElementToken = null,
-				myElements0 = "";
-				myElements1 = "";
-				myElements2 = "";
+				myElements0 = '',
+				myElements1 = '',
+				myElements2 = '',
+				myElementsHtml = '';
 			// Populate the maps
 			for (myMapToken in gMaps) {
 				myMapObj = gMaps[myMapToken];
@@ -1296,7 +1212,10 @@ var onLoad = function() {
 				}
 			}
 			// Clear old elements and add the new ones
-			$("#menuEditElements div").append("<section class=\"flex flex-h\"><aside class=\"flex-start\"><ul class=\"elements\">" + myElements0 + "</ul></aside><aside class=\"flex-fluid\"><ul class=\"elements\">" + myElements1 + "</ul></aside><aside class=\"flex-end\"><ul class=\"elements\">" + myElements2 + "</ul></aside></section>");
+			myElementsHtml = '<div class="pull-left"><ul class=\"elements\">' + myElements0 + '</ul></div>';
+			myElementsHtml += '<div class="pull-left"><ul class=\"elements\">' + myElements1 + '</ul></div>';
+			myElementsHtml += '<div class="pull-left"><ul class=\"elements\">' + myElements2 + '</ul></div>';
+			$("#menuEditElements div").append(myElementsHtml);
 			$("#menuEditElements").find(".element").click(function(e) {
 				e.stopImmediatePropagation();
 				e.preventDefault();
@@ -1535,9 +1454,148 @@ var onLoad = function() {
 			gCurrentConf = $.parseJSON(decodeURIComponent(escape(atob($("#txtImportExport").val()))));
 			$("#lblStratName").val(gCurrentConf.name);
 			$("#lblStratDesc").val(gCurrentConf.desc);
-			$("#selGame").val(gCurrentConf.game).change();
 		});
 	}
 
-	afterLoad();
+	$('#menuHome a').on('click', function(evt) {
+		evt.preventDefault();
+		$('#stratEditor').hide();
+		$('#stratRecap').fadeIn('fast');
+	});
+	$('#btnNewStrat').on('click', function(evt) {
+		gStratId = -1;
+		$('#stratRecap').hide();
+		$('#stratEditor').fadeIn('fast');
+	});
+
+	// Handle editor show on load.
+	var uri = new URI(document.location.href);
+	if (uri.fragment() == 'new') {
+		$('#stratRecap').hide();
+		$('#stratEditor').fadeIn('fast');
+	}
+
+	$.post(gConfig.WG_API_URL + 'wgn/clans/info/', {
+		application_id: gConfig.WG_APP_ID,
+		language: gConfig.LANG,
+		access_token: gConfig.ACCESS_TOKEN,
+		clan_id: gPersonalInfos.clan_id
+	}, function(dataClanResponse) {
+		var dataClan = dataClanResponse.data[gPersonalInfos.clan_id],
+			membersList = '',
+			isFirst = true;
+		for (var i=0; i<dataClan.members_count; i++) {
+			if (isFirst) {
+				isFirst = false;
+			} else {
+				membersList += ',';
+			}
+			membersList += dataClan.members[i].account_id;
+		}
+		advanceProgress(i18n.t('loading.membersinfos'));
+		$.post(gConfig.WG_API_URL + 'wot/account/info/', {
+			application_id: gConfig.WG_APP_ID,
+			language: gConfig.G_API_LANG,
+			access_token: gConfig.ACCESS_TOKEN,
+			account_id: membersList
+		}, function(dataPlayersResponse) {
+			advanceProgress(i18n.t('loading.strats'));
+			var dataPlayers = dataPlayersResponse.data;
+			$.post('./server/strat.php', {
+				'action': 'list'
+			}, function(dataListStratResponse) {
+				advanceProgress(i18n.t('loading.generating'));
+				var myListStrats = dataListStratResponse.data,
+					i = 0,
+					myStrat = {},
+					myStratsTableHtml = '';
+				for (i=0; i<myListStrats.length; i++) {
+					myStrat = myListStrats[i];
+					myStratsTableHtml += '<tr data-stratid="' + myStrat.id + '">';
+					myStratsTableHtml += '<td class="stratmap">' + i18n.t('strat.maps.' + myStrat.map) + '</td>';
+					myStratsTableHtml += '<td class="stratname">' + myStrat.name + '</td>';
+					myStratsTableHtml += '<td class="stratdesc"><span style="white-space:pre">' + myStrat.description + '</span></td>';
+					myStratsTableHtml += '<td class="stratstate">' + i18n.t('strat.state.' + myStrat.state) + '</td>';
+					myStratsTableHtml += '<td class="stratdateadd">' + moment(myStrat.dateadd * 1000).format('LLL') + '</td>';
+					if (typeof(myStrat.datemod) == 'undefined') {
+						myStratsTableHtml += '<td class="stratdatemod">&nbsp;</td>';
+					} else {
+						myStratsTableHtml += '<td class="stratdatemod">' + moment(myStrat.datemod * 1000).format('LLL') + '</td>';
+					}
+					myStratsTableHtml += '<td class="stratcreator">' + dataPlayers[myStrat.creator].nickname + '</td>';
+					myStratsTableHtml += '<td><a href="#" class="btnEditStrat"><span class="glyphicon glyphicon-edit"></span></a> <a href="#" class="btnDeleteStrat"><span class="glyphicon glyphicon-remove"></span></a></td>';
+					myStratsTableHtml += '</tr>';
+				}
+				$('#tableMyStrats > tbody').empty().html(myStratsTableHtml);
+				$('#tableMyStrats').on('click', 'a.btnEditStrat', function(evt) {
+					evt.preventDefault();
+					gStratId = $(this).closest('tr').data('stratid');
+					$.post('./server/strat.php', {
+						'action': 'get',
+						'id': gStratId
+					}, function(dateGetStratResponse) {
+						gIsImporting = true;
+						gCurrentConf = dateGetStratResponse.data;
+						$("#lblStratName").val(gCurrentConf.name);
+						$("#lblStratDesc").val(gCurrentConf.desc);
+						globalLoad();
+						$('#stratRecap').hide();
+						$('#stratEditor').fadeIn('fast');
+					}, 'json');
+				}).on('click', 'a.btnDeleteStrat', function(evt) {
+					evt.preventDefault();
+					var myLink = $(this),
+						myRow = myLink.closest('tr');
+					gStratId = myRow.data('stratid');
+					$.post('./server/strat.php', {
+						'action': 'delete',
+						'id': gStratId
+					}, function(dateGetStratResponse) {
+						myRow.remove();
+					}, 'json');
+				});
+				// Save strategy
+				$('#saveOptionsBtnOk').on('click', function(evt) {
+					// Ensure name and desc presence
+					gCurrentConf['name'] = $('#lblStratName').val();
+					gCurrentConf['desc'] = $('#lblStratDesc').val();
+					// Save start to server
+					$.post('./server/strat.php', {
+						'action': 'save',
+						'data': JSON.stringify(gCurrentConf),
+						'id': gStratId
+					}, function(dataSaveStratResponse) {
+						if (dataSaveStratResponse.result == 'ok') {
+							if (gStratId >= 0) {
+								// It's a modification of an existent strategy. Update table.
+								var myRow = $('#tableMyStrats>tbody>tr[data-stratid="' + gStratId + '"]');
+								myRow.find('td.stratmap').text(i18n.t('strat.maps.' + dataSaveStratResponse.data.map));
+								myRow.find('td.stratname').text(dataSaveStratResponse.data.name);
+								myRow.find('td.stratdesc span').text(dataSaveStratResponse.data.description);
+								myRow.find('td.stratstate').text(i18n.t('strat.state.' + dataSaveStratResponse.data.state));
+								myRow.find('td.stratdatemod').text(moment(dataSaveStratResponse.data.datemod * 1000).format('LLL'));
+							} else {
+								// It's a new strategy. Add to table.
+								var myRow = '<tr data-stratid="' + dataSaveStratResponse.data.id + '">';
+								myRow += '<td class="stratmap">' + i18n.t('strat.maps.' + dataSaveStratResponse.data.map) + '</td>';
+								myRow += '<td class="stratname">' + dataSaveStratResponse.data.name + '</td>';
+								myRow += '<td class="stratdesc"><span style="white-space:pre">' + dataSaveStratResponse.data.description + '</span></td>';
+								myRow += '<td class="stratstate">' + i18n.t('strat.state.' + dataSaveStratResponse.data.state) + '</td>';
+								myRow += '<td class="stratdateadd">' + moment(dataSaveStratResponse.data.dateadd * 1000).format('LLL') + '</td>';
+								myRow += '<td class="stratdatemod">&nbsp;</td>';
+								myRow += '<td class="stratcreator">' + dataPlayers[dataSaveStratResponse.data.creator].nickname + '</td>';
+								myRow += '<td><a href="#" class="btnEditStrat"><span class="glyphicon glyphicon-edit"></span></a> <a href="#" class="btnDeleteStrat"><span class="glyphicon glyphicon-remove"></span></a></td>';
+								myRow += '</tr>';
+								$('#tableMyStrats>tbody').append(myRow);
+							}
+							$('#stratEditor').hide();
+							$('#stratRecap').fadeIn('fast');
+						}
+					}, 'json');
+				});
+				afterLoad();
+			}, 'json');
+		}, 'json');
+	}, 'json');
+
 };

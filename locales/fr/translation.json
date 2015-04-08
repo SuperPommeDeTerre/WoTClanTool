@@ -84,7 +84,9 @@
 					"other": "Autre"
 				}
 			}
-		}
+		},
+		"modify": "Modifier",
+		"delete": "Supprimer"
 	},
 	"stats": {
 		"global": {
@@ -111,7 +113,8 @@
 		"membertanksinfos": "Chargement des chars des membres...",
 		"complete": "Terminé !",
 		"playersratings": "Chargement des statistiques des membres...",
-		"tanksadditionalinfos": "Chargement d'informations complémentaires sur les chars..."
+		"tanksadditionalinfos": "Chargement d'informations complémentaires sur les chars...",
+		"strats": "Chargement des stratégies..."
 	},
 	"clan": {
 		"nbplayers": "__count__ joueur",
@@ -245,10 +248,28 @@
 				"Vous n'êtes pas autorisé à accéder à ce site.",
 				"Seul les membres des clans autorisés peuvent se connecter à ce site."
 			]
+		},
+		"strat": {
+			"title": "Stratégies"
 		}
 	},
 	"strat": {
 		"save": "Sauvegarder",
+		"new": "Nouvelle stratégie",
+		"name": "Nom",
+		"description": "Description",
+		"actions": "Actions",
+		"dateadd": "Date de création",
+		"datemod": "Date de modification",
+		"creator": "Créateur",
+		"home": "Retour",
+		"export": "Exporter",
+		"state": {
+			"title": "Etat",
+			"private": "Privée",
+			"review": "A valider",
+			"public": "Validée"
+		},
 		"menu": {
 			"elements": "Editer les éléments",
 			"lines": "Editer les lignes",
@@ -259,7 +280,22 @@
 			"modifytext": "Modifier le texte",
 			"lineoptions": "Options de le ligne",
 			"shapeoptions": "Options de la forme",
-			"confirm": "Confirmation"
+			"confirm": {
+				"title": "Confirmation",
+				"delete": "Vous allez supprimer un élément.",
+				"sure": "Etes-vous sûr ?"
+			},
+			"save": {
+				"title": "Sauvegarder",
+				"name": {
+					"placeholder": "Nom",
+					"hint": "Donnez un nom à votre stratégie"
+				},
+				"description": {
+					"placeholder": "Description",
+					"hint": "Décrivez votre stratégie"
+				}
+			}
 		},
 		"map": {
 			"select": "Carte",

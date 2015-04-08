@@ -1,10 +1,11 @@
 @font-face{font-family:'Cuprum';src:local('Cuprum'),url('./fonts/Cuprum.ttf') format('truetype')}
 @font-face{font-family:'Gunplay';src:local('Gunplay'),url('./fonts/gunplay.ttf') format('truetype')}
-@font-face{font-family:"RobotoDraft";src: local("RobotoDraft"), local("RobotoDraft-Regular"), local("Roboto-Regular"), url("./fonts/RobotoDraftRegular.woff2") format("woff2"), url("./fonts/RobotoDraftRegular.woff") format("woff");}
-@font-face{font-family:"RobotoDraft";font-weight: 500;src: local("RobotoDraft Medium"), local("RobotoDraft-Medium"), local("Roboto-Medium"), url("./fonts/RobotoDraftMedium.woff2") format("woff2"), url("./fonts/RobotoDraftMedium.woff") format("woff");}
-@font-face{font-family:"RobotoDraft";font-weight: 700;src: local("RobotoDraft Bold"), local("RobotoDraft-Bold"), local("Roboto-Bold"), url("./fonts/RobotoDraftBold.woff2") format("woff2"), url("./fonts/RobotoDraftBold.woff") format("woff");}
-@font-face{font-family:"RobotoDraft";font-style: italic;src: local("RobotoDraft Italic"), local("RobotoDraft-Italic"), local("Roboto-Italic"), url("./fonts/RobotoDraftItalic.woff2") format("woff2"), url("./fonts/RobotoDraftItalic.woff") format("woff");}
+@font-face{font-family:"RobotoDraft";src:local("RobotoDraft"),local("RobotoDraft-Regular"),local("Roboto-Regular"),url("./fonts/RobotoDraftRegular.woff2") format("woff2"),url("./fonts/RobotoDraftRegular.woff") format("woff")}
+@font-face{font-family:"RobotoDraft";font-weight:500;src:local("RobotoDraft Medium"),local("RobotoDraft-Medium"),local("Roboto-Medium"),url("./fonts/RobotoDraftMedium.woff2") format("woff2"),url("./fonts/RobotoDraftMedium.woff") format("woff")}
+@font-face{font-family:"RobotoDraft";font-weight:700;src:local("RobotoDraft Bold"),local("RobotoDraft-Bold"),local("Roboto-Bold"),url("./fonts/RobotoDraftBold.woff2") format("woff2"),url("./fonts/RobotoDraftBold.woff") format("woff")}
+@font-face{font-family:"RobotoDraft";font-style:italic;src:local("RobotoDraft Italic"),local("RobotoDraft-Italic"),local("Roboto-Italic"),url("./fonts/RobotoDraftItalic.woff2") format("woff2"),url("./fonts/RobotoDraftItalic.woff") format("woff")}
 
+#footer{text-align:center;border-top:1px dotted #CCC;padding-top:.5em}
 #index .main{position:relative;margin:auto;width:50em;text-align:left}
 #unauthorized .main{position:relative;margin:auto;width:50em;text-align:center}
 #tableClanPlayers tr.oldBattle *{color:#F00}
@@ -51,6 +52,7 @@
 .tankcontainer .tankname{padding-left:24px}
 
 /* Strats */
+#stratEditor{display:none}
 header{position:fixed;top:0;left:0;bottom:0}
 #menu{background:#EEE;position:absolute;top:60px;bottom:0;left:0}
 #menu *{color:#000;text-decoration:none}
@@ -58,13 +60,13 @@ header{position:fixed;top:0;left:0;bottom:0}
 #menu .colorpicker input{color:#898989}
 #menu > ul{display:block;margin:0;padding:0}
 #menu > ul > li{list-style:none;margin:0;padding:.5em}
-#menu > ul > li > div{display:none;position:absolute;left:32px;top:0;bottom:0;z-index:1000;padding:1em;background:#EEE}
+#menu > ul > li > div{display:none;position:absolute;left:32px;top:0;bottom:0;z-index:1000;padding:1em;background:rgba(240, 240, 240, .9)}
 #menu > ul > li:hover > div{display:block}
 #menu > ul > li > ul{display:none}
 #menu .operation{padding:0 0 0 20px}
 #menu .operation.delete{background:url('./icons/delete.png') no-repeat left top}
 #menu .operation.select{background:url('./icons/layout.png') no-repeat left top}
-#menu > ul > li > a{display:block;width:24px;height:24px;border:1px solid transparent}
+#menu > ul > li > a{display:block;width:24px;height:24px;border:1px solid transparent;line-height:24px;text-align:center}
 #menu > ul > li > a.selected{border:1px solid #999}
 #menu > ul:hover > li > a{}
 #menu label.fortext{display:inline-block;width:5em;text-align:right}
