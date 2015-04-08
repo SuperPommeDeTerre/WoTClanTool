@@ -16,7 +16,11 @@ var onLoad = function() {
 		$('#clansInfosTitle').html('<img src="' + clanEmblem + '" alt="Embl&egrave;me du clan" /> <span style="color:' + dataClan.color + '">[' + dataClan.tag + ']</span> ' + dataClan.name + ' <small>' + dataClan.motto + '</small>');
 		$('#clanTotalPlayers').text(i18n.t('clan.nbplayers', { count: dataClan.members_count }));
 		$('#clanTotalEvents').text(i18n.t('clan.nbevents', { count: 0 }));
-		$('#clanTotalStrats').text(i18n.t('clan.nbstrats', { count: 0 }));
+		$.post('./server/strat.php', {
+			'action': 'list'
+		}, function(dataListStratResponse) {
+			$('#clanTotalStrats').text(i18n.t('clan.nbstrats', { count: dataListStratResponse.data.length }));
+		}, 'json');
 		var membersList = '',
 			isFirst = true;
 		for (var i=0; i<dataClan.members_count; i++) {
