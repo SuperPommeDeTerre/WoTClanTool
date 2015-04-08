@@ -56,8 +56,7 @@ include(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 							<div class="togglebutton"><label><input type="checkbox" name="chkTexts" id="chkTexts" checked="checked" /> <span data-i18n="strat.options.texts"></span></label></div>
 							<div class="togglebutton"><label><input type="checkbox" name="chkShapes" id="chkShapes" checked="checked" /> <span data-i18n="strat.options.shapes"></span></label></div>
 						</div></li>
-					<li id="menuEditElements"><a href="./edit" data-i18n="[title]strat.menu.elements"><span class="glyphicon glyphicon-pencil"></span></a><div>
-						</div></li>
+					<li id="menuEditElements"><a href="./edit" data-i18n="[title]strat.menu.elements"><span class="glyphicon glyphicon-pencil"></span></a><div></div></li>
 					<li id="menuEditLines"><a href="edit/add/line" data-i18n="[title]strat.menu.lines;"><span class="glyphicon glyphicon-arrow-right"></span></a><div>
 							<p><label for="thicknessSelectorLine">Epaisseur&nbsp;:</label> <select id="thicknessSelectorLine" class="form-control">
 									<option value="1">1 pixel</option>

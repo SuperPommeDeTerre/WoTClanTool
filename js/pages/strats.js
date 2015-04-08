@@ -1199,35 +1199,37 @@ var onLoad = function() {
 				break;
 			}
 			// Populate the elements
-			for (myElementToken in gElements) {
-				gCountElems[myElementToken] = 0;
-				if (gElements[myElementToken].team0) {
-					myElements0 += "<li><a href=\"edit/add/element/" + myElementToken + "/0\" class=\"element " + myElementToken + "0\" rel=\"" + myElementToken + "0\" title=\"" + i18n.t('strat.elements.' + myElementToken) + "\"><span>" + i18n.t('strat.elements.' + myElementToken) + "</span></a></li>";
+			if ($("#menuEditElements div").text().trim() == '') {
+				for (myElementToken in gElements) {
+					gCountElems[myElementToken] = 0;
+					if (gElements[myElementToken].team0) {
+						myElements0 += "<li><a href=\"edit/add/element/" + myElementToken + "/0\" class=\"element " + myElementToken + "0\" rel=\"" + myElementToken + "0\" title=\"" + i18n.t('strat.elements.' + myElementToken) + "\"><span>" + i18n.t('strat.elements.' + myElementToken) + "</span></a></li>";
+					}
+					if (gElements[myElementToken].team1) {
+						myElements1 += "<li><a href=\"edit/add/element/" + myElementToken + "/1\" class=\"element " + myElementToken + "1\" rel=\"" + myElementToken + "1\" title=\"" + i18n.t('strat.elements.' + myElementToken) + "\"><span>" + i18n.t('strat.elements.' + myElementToken) + "</span></a></li>";
+					}
+					if (gElements[myElementToken].team2) {
+						myElements2 += "<li><a href=\"edit/add/element/" + myElementToken + "/2\" class=\"element " + myElementToken + "2\" rel=\"" + myElementToken + "2\" title=\"" + i18n.t('strat.elements.' + myElementToken) + "\"><span>" + i18n.t('strat.elements.' + myElementToken) + "</span></a></li>";
+					}
 				}
-				if (gElements[myElementToken].team1) {
-					myElements1 += "<li><a href=\"edit/add/element/" + myElementToken + "/1\" class=\"element " + myElementToken + "1\" rel=\"" + myElementToken + "1\" title=\"" + i18n.t('strat.elements.' + myElementToken) + "\"><span>" + i18n.t('strat.elements.' + myElementToken) + "</span></a></li>";
-				}
-				if (gElements[myElementToken].team2) {
-					myElements2 += "<li><a href=\"edit/add/element/" + myElementToken + "/2\" class=\"element " + myElementToken + "2\" rel=\"" + myElementToken + "2\" title=\"" + i18n.t('strat.elements.' + myElementToken) + "\"><span>" + i18n.t('strat.elements.' + myElementToken) + "</span></a></li>";
-				}
+				// Clear old elements and add the new ones
+				myElementsHtml = '<div class="pull-left"><ul class=\"elements\">' + myElements0 + '</ul></div>';
+				myElementsHtml += '<div class="pull-left"><ul class=\"elements\">' + myElements1 + '</ul></div>';
+				myElementsHtml += '<div class="pull-left"><ul class=\"elements\">' + myElements2 + '</ul></div>';
+				$("#menuEditElements div").append(myElementsHtml);
+				$("#menuEditElements").find(".element").click(function(e) {
+					e.stopImmediatePropagation();
+					e.preventDefault();
+					$("#menuEditElements > a").attr("class", "");
+					if (!$(this).hasClass("selected")) {
+						$("#menu .selected").removeClass("selected");
+						$("#menuEditElements > a").addClass($(this).attr("rel") + " selected").attr("rel", $(this).attr("rel"));
+					} else {
+						$("#menuEditElements > a").removeAttr("rel");
+					}
+					$(this).toggleClass("selected");
+				});
 			}
-			// Clear old elements and add the new ones
-			myElementsHtml = '<div class="pull-left"><ul class=\"elements\">' + myElements0 + '</ul></div>';
-			myElementsHtml += '<div class="pull-left"><ul class=\"elements\">' + myElements1 + '</ul></div>';
-			myElementsHtml += '<div class="pull-left"><ul class=\"elements\">' + myElements2 + '</ul></div>';
-			$("#menuEditElements div").append(myElementsHtml);
-			$("#menuEditElements").find(".element").click(function(e) {
-				e.stopImmediatePropagation();
-				e.preventDefault();
-				$("#menuEditElements > a").attr("class", "");
-				if (!$(this).hasClass("selected")) {
-					$("#menu .selected").removeClass("selected");
-					$("#menuEditElements > a").addClass($(this).attr("rel") + " selected").attr("rel", $(this).attr("rel"));
-				} else {
-					$("#menuEditElements > a").removeAttr("rel");
-				}
-				$(this).toggleClass("selected");
-			});
 			if (gIsImporting) {
 				$("#selMap").val(gCurrentConf.map);
 			}
