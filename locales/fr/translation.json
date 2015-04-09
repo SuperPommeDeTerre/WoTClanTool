@@ -352,7 +352,7 @@
 		},
 		"dialog": {
 			"modifytext": "Modifier le texte",
-			"lineoptions": "Options de le ligne",
+			"lineoptions": "Options de la ligne",
 			"shapeoptions": "Options de la forme",
 			"confirm": {
 				"title": "Confirmation",

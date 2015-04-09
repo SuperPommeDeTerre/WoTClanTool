@@ -137,35 +137,35 @@
 	"player": {
 		"name": "Name",
 		"role": {
-			"commander": "Commandant",
-			"executive_officer": "Commandant en second",
-			"personnel_officer": "Officier du personnel",
-			"intelligence_officer": "Officier du renseignement",
-			"combat_officer": "Officier de combat",
-			"junior_officer": "Officier subalterne",
-			"recruitment_officer": "Recruteur",
-			"reservist": "Réserviste",
-			"private": "Soldat",
-			"recruit": "Recrue"
+			"commander": " Commander",
+			"executive_officer": "Executive Officer",
+			"personnel_officer": "Personnel Officer",
+			"intelligence_officer": "Intelligence Officer",
+			"combat_officer": "Combat Officer",
+			"junior_officer": "Junior Officer",
+			"recruitment_officer": "Recruitment Officer",
+			"reservist": "Reservist",
+			"private": "Private",
+			"recruit": "Recruit"
 		},
 		"headers": {
-			"nickname": "Joueur",
-			"role": "Position",
-			"daysinclan": "Jours dans le clan",
-			"battles": "Nombre de batailles",
-			"personal_rating": "Côte personnelle"
+			"nickname": "Nickname",
+			"role": "Role",
+			"daysinclan": "Days in clan",
+			"battles": "Battles",
+			"personal_rating": "Personal rating"
 		},
 		"resume": {
-			"title": "Informations",
-			"lastbattletime": "Dernière bataille",
-			"personalrating": "Côte personnelle",
-			"battlescount": "Nombre de batailles",
-			"maxxp": "XP max",
-			"maxfrags": "Nb frags max",
-			"maxdamage": "Nb dommages max",
-			"treescut": "Nombre d'arbres abattus",
-			"links": "Liens",
-			"linkwargaming": "Profil officiel",
+			"title": "Player resume",
+			"lastbattletime": "Last battle time",
+			"personalrating": "Personal rating",
+			"battlescount": "Battles",
+			"maxxp": "Max XP",
+			"maxfrags": "Max kills",
+			"maxdamage": "Mas damage",
+			"treescut": "Trees cut",
+			"links": "Links",
+			"linkwargaming": "Official profile",
 			"linknoobmeter": "Noobmeter",
 			"linkwotlabs": "Wot Labs",
 			"linkwotstats": "Wot Stats",
@@ -187,33 +187,33 @@
 			"X"
 		],
 		"type": {
-			"lightTank": "Léger",
-			"lightTank_plural_0": "Léger",
-			"lightTank_plural": "Légers",
-			"mediumTank": "Moyen",
-			"mediumTank_plural_0": "Moyen",
-			"mediumTank_plural": "Moyens",
-			"heavyTank": "Lourd",
-			"heavyTank_plural_0": "Lourd",
-			"heavyTank_plural": "Lourds",
+			"lightTank": "Light",
+			"lightTank_plural_0": "Light",
+			"lightTank_plural": "Lights",
+			"mediumTank": "Medium",
+			"mediumTank_plural_0": "Medium",
+			"mediumTank_plural": "Mediums",
+			"heavyTank": "Heavy",
+			"heavyTank_plural_0": "Heavy",
+			"heavyTank_plural": "Heavies",
 			"AT-SPG": "TD",
 			"AT-SPG_plural_0": "TD",
 			"AT-SPG_plural": "TDs",
-			"SPG": "CAM",
-			"SPG_plural_0": "CAM",
-			"SPG_plural": "CAMs"
+			"SPG": "SPG",
+			"SPG_plural_0": "SPG",
+			"SPG_plural": "SPGs"
 		},
 		"infos": {
-			"name": "Nom du char",
-			"level": "Tiers",
+			"name": "Tank name",
+			"level": "Level",
 			"type": "Type",
 			"nation": "Nation",
 			"is_full": "Full ?",
-			"is_full_title": "Indique si le char possède tous les modules optimaux.",
-			"is_ready": "Prêt ?",
-			"is_ready_title": "Indique si ce char est prêt à combattre (équipage à 100%, équipements, etc.).",
-			"state": "Statut",
-			"state_title": "Stock: En cours de grind, Full: Tous les modules recherchés et installés, Prêt: Prêt à combattre (équipage, etc.)"
+			"is_full_title": "Indicates if the tank is fully researched.",
+			"is_ready": "Ready ?",
+			"is_ready_title": "Indicates if the tank is ready to fight (100% crew, consumables, equipments, etc.).",
+			"state": "Status",
+			"state_title": "Stock: Not fully evolved, Full: Fully researched and top modules installed, Ready: Ready to fight (crew, etc.)"
 		},
 		"status": [
 			"Stock",
@@ -222,92 +222,92 @@
 		],
 		"stats": {
 			"mastery": "M",
-			"battles": "Batailles",
+			"battles": "Battles",
 			"wn8": "WN8",
-			"winratio": "% victoires",
-			"owners": "Propriétaires",
-			"ownerscount": "Nombre de propriétaires"
+			"winratio": "Win ratio",
+			"owners": "Owners",
+			"ownerscount": "Owners count"
 		},
 		"resume": {
-			"chkcontour": "Silhouette des chars"
+			"chkcontour": "Tanks contour icons"
 		}
 	},
 	"filter": {
 		"tank": {
-			"in_garage": "Au garage",
+			"in_garage": "In garage",
 			"is_full": "Full",
-			"level": "Tiers",
+			"level": "Level",
 			"type": "Type",
-			"owner": "Propriétaire",
-			"status": "Statut"
+			"owner": "Owner",
+			"status": "Status"
 		}
 	},
 	"page": {
 		"my": {
-			"title": "Mes informations personnelles"
+			"title": "My personal informations"
 		},
 		"index": {
 			"lines": [
-				"Bienvenue sur cet outil de gestion de clan.",
-				"Cet outil vous permettra d'effectuer bon nombre d'op&eacute;rations concernant votre clan de World of Tanks. Notamment&nbsp;:",
-				"Pour commencer, veuillez vous connecter avec vos identifiants Wargaming&nbsp;:"
+				"Welcome on this clan managing tool.",
+				"This tool will allow you to do a lot of operations regarding your clan of World of Tanks. This includes:",
+				"To begin, please login with your Wargaming identifiers:"
 			],
 			"features": [
-				"Voir les membres",
-				"Voir les chars disponibles",
-				"Définir des évènements et gérer les inscriptions des membres à ceux-ci",
-				"Préparer des stratégies",
-				"etc."
+				"View the clan's members",
+				"View the available tanks",
+				"Define events and handle registrations to them",
+				"Prepare strategies",
+				"... And much more!"
 			]
 		},
 		"unauthorized": {
-			"title": "Non autorisé !",
+			"title": "Unauthorized !",
 			"lines": [
-				"Vous n'êtes pas autorisé à accéder à ce site.",
-				"Seul les membres des clans autorisés peuvent se connecter à ce site."
+				"You're not allowed to access this site.",
+				"Only authorized clans members can access this site."
 			]
 		},
 		"strat": {
-			"title": "Stratégies"
+			"title": "Strategies"
 		}
 	},
 	"strat": {
-		"save": "Sauvegarder",
-		"new": "Nouvelle stratégie",
-		"name": "Nom",
+		"save": "Save",
+		"new": "New strategy",
+		"name": "Name",
 		"description": "Description",
 		"actions": "Actions",
-		"dateadd": "Date de création",
-		"datemod": "Date de modification",
-		"creator": "Créateur",
-		"home": "Retour",
-		"export": "Exporter",
+		"dateadd": "Creation date",
+		"datemod": "Modification date",
+		"creator": "Creator",
+		"home": "Back",
+		"export": "Export",
 		"state": {
-			"title": "Etat",
-			"private": "Privée",
-			"review": "A valider",
-			"public": "Validée"
+			"title": "State",
+			"private": "Private",
+			"review": "To review",
+			"public": "Validated"
 		},
 		"menu": {
-			"elements": "Editer les éléments",
-			"lines": "Editer les lignes",
-			"shapes": "Editer les formes",
-			"texts": "Editer les textes"
+			"elements": "Edit elements",
+			"lines": "Edit lines",
+			"shapes": "Edit shapes",
+			"texts": "Edit texts"
 		},
 		"line": {
-			"options": "Options générales",
-			"color": "Couleur",
+			"options": "General options",
+			"color": "Color",
 			"opacity": {
-				"title": "Opacité",
-				"0": "0 % (Invisible)",
+				"title": "Opacity",
+				"0": "0 % (invisible)",
 				"25": "25 %",
 				"50": "50 %",
 				"75": "75 %",
-				"100": "100 % (Opaque)"
+				"100": "100 % (opaque)"
 			},
 			"thickness": {
-				"title": "Epaisseur",
-				"0": "0 (Aucun trait)",
+				"title": "Thickness",
+				"0": "0 (No line)",
 				"1": "1 pixel",
 				"2": "2 pixels",
 				"3": "3 pixels",
@@ -315,188 +315,188 @@
 			},
 			"type": {
 				"title": "Type",
-				"solid": "Pleine",
-				"dotted": "Pointillé",
-				"dashed": "Tirets"
+				"solid": "Full",
+				"dotted": "Dotted",
+				"dashed": "Dashed"
 			},
 			"marquee": {
-				"start": "Marqueur de début",
-				"end": "Marqueur de fin",
-				"color": "Couleur",
+				"start": "Start marker",
+				"end": "End marker",
+				"color": "Color",
 				"type": {
 					"title": "Type",
-					"none": "Aucun",
+					"none": "None",
 					"triangle": "Triangle",
-					"line": "Ligne",
-					"square": "Carré"
+					"line": "Line",
+					"square": "Square"
 				}
 			}
 		},
 		"text": {
-			"color": "Couleur",
-			"value": "Texte"
+			"color": "Color",
+			"value": "Text"
 		},
 		"action": {
-			"move": "Déplacer",
-			"delete": "Supprimer",
+			"move": "Move",
+			"delete": "Delete",
 			"options": "Options",
-			"rotate": "Tourner",
-			"resize": "Redimensionner",
-			"textmodify": "Modifier le texte",
-			"textup": "Texte en haut",
-			"textdown": "Texte en bas",
-			"textleft": "Texte à gauche",
-			"textright": "Texte à droite",
-			"textsmaller": "Texte plus petit",
-			"textbigger": "Texte plus grand"
+			"rotate": "Rotate",
+			"resize": "Resize",
+			"textmodify": "Modify text",
+			"textup": "Text on top",
+			"textdown": "Text on bottom",
+			"textleft": "Text on left",
+			"textright": "Text on right",
+			"textsmaller": "Smaller text",
+			"textbigger": "Bigger text"
 		},
 		"dialog": {
-			"modifytext": "Modifier le texte",
-			"lineoptions": "Options de le ligne",
-			"shapeoptions": "Options de la forme",
+			"modifytext": "Modify text",
+			"lineoptions": "Line options",
+			"shapeoptions": "Shape options",
 			"confirm": {
 				"title": "Confirmation",
-				"delete": "Vous allez supprimer un élément.",
-				"sure": "Etes-vous sûr ?"
+				"delete": "You'll delete an element.",
+				"sure": "Are you sure?"
 			},
 			"save": {
-				"title": "Sauvegarder",
+				"title": "Save",
 				"name": {
-					"placeholder": "Nom",
-					"hint": "Donnez un nom à votre stratégie"
+					"placeholder": "Name",
+					"hint": "Please give a name to your strategy"
 				},
 				"description": {
 					"placeholder": "Description",
-					"hint": "Décrivez votre stratégie"
+					"hint": "Briefly describe your strategy"
 				}
 			}
 		},
 		"map": {
-			"select": "Carte",
-			"selecttitle": "Sélectionner une carte",
+			"select": "Map",
+			"selecttitle": "Select a map",
 			"mode": "Mode"
 		},
 		"options": {
 			"title": "Options",
-			"inverseteams": "Inverser les équipes",
-			"grid": "Grille",
-			"windrose": "Rose des vents",
+			"inverseteams": "Inverse teams",
+			"grid": "Grid",
+			"windrose": "Wind rose",
 			"bases": "Bases",
-			"scale": "Echelle",
-			"elements": "Eléments",
-			"elementstext": "Textes des éléments",
-			"lines": "Lignes",
-			"texts": "Textes",
-			"shapes": "Formes"
+			"scale": "Scale",
+			"elements": "Elements",
+			"elementstext": "Elements text",
+			"lines": "Lines",
+			"texts": "Texts",
+			"shapes": "Shapes"
 		},
 		"modes": {
-			"standard": "Bataille standard",
-			"encounter": "Bataille de rencontre",
-			"assault": "Assaut",
+			"standard": "Standard battle",
+			"encounter": "Encounter battle",
+			"assault": "Assault",
 			"confrontation": "Confrontation"
 		},
 		"elements": {
-			"HT": "Char lourd",
-			"MT": "Char moyen",
-			"LT": "Char léger",
-			"TD": "Chasseur de chars",
-			"SPG": "Canon automoteur"
+			"HT": "Heavy tank",
+			"MT": "Medium tank",
+			"LT": "Light tank",
+			"TD": "Tank destroyer",
+			"SPG": "SPG"
 		},
 		"shape": {
 			"ellipse": "Ellipse",
 			"rectangle": "Rectangle",
-			"polygon": "Polygone",
+			"polygon": "Polygon",
 			"contour": {
 				"title": "Contour",
-				"color": "Couleur",
+				"color": "Color",
 				"linetype": {
-					"title": "Type de trait",
-					"solid": "Plein",
-					"dotted": "Pointillés",
-					"dashed": "Tirets"
+					"title": "Line type",
+					"solid": "Full",
+					"dotted": "Dotted",
+					"dashed": "Dashed"
 				},
 				"corner": {
-					"title": "Rayon",
-					"0": "Aucun",
+					"title": "Radius",
+					"0": "None",
 					"2": "2 pixels",
 					"5": "5 pixels",
 					"10": "10 pixels"
 				}
 			},
 			"fill": {
-				"title": "Remplissage",
-				"color": "Couleur",
+				"title": "Fill",
+				"color": "Color",
 				"type": {
 					"title": "Type",
-					"none": "Aucun",
+					"none": "None",
 					"zebra": "Zebra",
-					"chess": "Damier",
+					"chess": "Chess",
 					"triangle": "Triangle"
 				},
 				"opacity": {
-					"title": "Opacité",
-					"0": "0 % (Invisible)",
+					"title": "Opacity",
+					"0": "0 % (invisible)",
 					"25": "25 %",
 					"50": "50 %",
 					"75": "75 %",
-					"100": "100 % (Opaque)"
+					"100": "100 % (opaque)"
 				}
 			}
 		},
 		"maps": {
-			"Abbey": "Abbaye",
-			"Airfield": "Aérodrome",
-			"ArcticRegion": "Artique",
-			"AsiaGreatWall": "Frontière de l'Empire",
-			"Cliff": "Falaise",
-			"DragonRidge": "Crête du dragon",
+			"Abbey": "Abbey",
+			"Airfield": "Airfield",
+			"ArcticRegion": "Artic Region",
+			"AsiaGreatWall": "Asia Great Wall",
+			"Cliff": "Cliff",
+			"DragonRidge": "Dragon Ridge",
 			"ElHalluf": "El Halluf",
 			"Ensk": "Ensk",
 			"Erlenberg": "Erlenberg",
-			"FishermanBay": "Baie du pêcheur",
+			"FishermanBay": "Fisherman's Bay",
 			"Fjord": "Fjord",
-			"HiddenVillage": "Village caché",
-			"Highway": "Autoroute",
+			"HiddenVillage": "Hidden village",
+			"Highway": "Highway",
 			"Himmelsdorf": "Himmelsdorf",
-			"HimmelsdorfWinter": "Himmelsdorf en hiver",
+			"HimmelsdorfWinter": "Himmelsdorf - Winter",
 			"HimmelsdorfFootball": "Himmelsdorf - Football",
 			"Karelia": "Karelia",
 			"Kharkov": "Kharkov",
 			"Komarin": "Komarin",
 			"Lakeville": "Lakeville",
 			"LiveOaks": "Live Oaks",
-			"LostCity": "Ville fantôme",
+			"LostCity": "Lost City",
 			"Malinovka": "Malinovka",
 			"Mines": "Mines",
 			"Mittengrad": "Mittengrad",
-			"MountainPass": "Col de montagne",
+			"MountainPass": "Mountain Pass",
 			"Murovanka": "Murovanka",
-			"Northwest": "Nord-ouest",
+			"Northwest": "Northwest",
 			"Overlord": "Overlord",
-			"PearlRiver": "Rivière de perles",
+			"PearlRiver": "Pearl River",
 			"Port": "Port",
-			"PortChaffeeRace": "Course de Chaffee",
+			"PortChaffeeRace": "Chaffee Race",
 			"Prokhorovka": "Prokhorovka",
-			"ProkhorovkaDefense": "Percée Fulgurante",
+			"ProkhorovkaDefense": "Prokhorovka Defense",
 			"Province": "Province",
 			"Redshire": "Redshire",
 			"Ruinberg": "Ruinberg",
-			"RuinbergOnFire": "Ruinberg en feu",
+			"RuinbergOnFire": "Ruinberg on fire",
 			"RuinbergWinter": "Winterberg",
-			"SacredValley": "Vallée sacrée",
-			"SandRiver": "Rivère de sable",
-			"SereneCoast": "Côte sereine",
+			"SacredValley": "Sacred Valley",
+			"SandRiver": "Sand River",
+			"SereneCoast": "Serene Coast",
 			"Severogosk": "Severogosk",
-			"SiegfriedLine": "Ligne Siegfried",
-			"SouthCoast": "Côte sud",
+			"SiegfriedLine": "Siegfried Line",
+			"SouthCoast": "South Coast",
 			"Stalingrad": "Stalingrad",
 			"Steppes": "Steppes",
-			"Swamp": "Marécage",
+			"Swamp": "Swamp",
 			"Tundra": "Tundra",
-			"TrainingGround": "Camp d'entraînement",
+			"TrainingGround": "Training Ground",
 			"Westfield": "Westfield",
-			"Widepark": "Grand parc",
-			"WindStorm": "Tempête"
+			"Widepark": "Widepark",
+			"WindStorm": "Windstorm"
 		}
 	}
 }
