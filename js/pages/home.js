@@ -13,7 +13,7 @@ var onLoad = function() {
 	}, function(dataClanResponse) {
 		var dataClan = dataClanResponse.data[gPersonalInfos.clan_id],
 			clanEmblem = dataClan.emblems.x64.portal;
-		$('#clansInfosTitle').html('<img src="' + clanEmblem + '" alt="Embl&egrave;me du clan" /> <span style="color:' + dataClan.color + '">[' + dataClan.tag + ']</span> ' + dataClan.name + ' <small>' + dataClan.motto + '</small>');
+		$('#clansInfosTitle').html('<img src="' + clanEmblem + '" alt="' + i18n.t('clan.emblem') + '" /> <span style="color:' + dataClan.color + '">[' + dataClan.tag + ']</span> ' + dataClan.name + ' <small>' + dataClan.motto + '</small>');
 		$('#clanTotalPlayers').text(i18n.t('clan.nbplayers', { count: dataClan.members_count }));
 		$('#clanTotalEvents').text(i18n.t('clan.nbevents', { count: 0 }));
 		$.post('./server/strat.php', {
@@ -104,21 +104,21 @@ var onLoad = function() {
 					myContainer = myDialog.find('.modal-body');
 				// Populate dialog
 				myDialogTitle.text(myPlayerInfos.nickname);
-				myPlayerDetails = '<div class="row"><div class="col-md-8"><h4>Informations</h4>';
-				myPlayerDetails += '<p>Dernière bataille : <abbr title="' + moment(myPlayerInfos.last_battle_time * 1000).format('LLLL') + '">' + moment(myPlayerInfos.last_battle_time * 1000).fromNow() + "</abbr><br />";
-				myPlayerDetails += 'Côte personnelle : ' + myPlayerInfos.global_rating + '<br />';
-				myPlayerDetails += 'Nombre de batailles : ' + myPlayerInfos.statistics.all.battles + '<br />';
-				myPlayerDetails += 'XP max : ' + myPlayerInfos.statistics.max_xp + '<br />';
-				myPlayerDetails += 'Nb frags max : ' + myPlayerInfos.statistics.max_frags + '<br />';
-				myPlayerDetails += 'Nb dommages max : ' + myPlayerInfos.statistics.max_damage + '<br />';
-				myPlayerDetails += 'Nombre d\'arbres abattus : ' + myPlayerInfos.statistics.trees_cut + '</p>';
-				myPlayerDetails += '</div><div class="col-md-4"><h4>Liens</h4><p>';
-				myPlayerDetails += '<a href="http://worldoftanks.eu/community/accounts/' + myPlayerId + '-' + myPlayerInfos.nickname + '/">Profil officiel</a><br />';
-				myPlayerDetails += '<a href="http://wotlabs.net/eu/player/' + myPlayerInfos.nickname + '/">Wot Labs</a><br />';
-				myPlayerDetails += '<a href="http://www.wotstats.org/stats/eu/' + myPlayerInfos.nickname + '/">WoT Stats</a><br />';
-				myPlayerDetails += '<a href="http://wot-life.com/eu/player/' + myPlayerInfos.nickname + '/">WoT Life</a><br />';
-				myPlayerDetails += '<a href="http://www.noobmeter.com/player/eu/' + myPlayerInfos.nickname + '/' + myPlayerId + '">Noobmeter</a><br />';
-				myPlayerDetails += '<a href="http://wotreplays.eu/player/' + myPlayerInfos.nickname + '">WoTReplays</a>';
+				myPlayerDetails = '<div class="row"><div class="col-md-8"><h4>' + i18n.t('player.resume.title') + '</h4>';
+				myPlayerDetails += '<p>' + i18n.t('player.resume.lastbattletime') + ': <abbr title="' + moment(myPlayerInfos.last_battle_time * 1000).format('LLLL') + '">' + moment(myPlayerInfos.last_battle_time * 1000).fromNow() + "</abbr><br />";
+				myPlayerDetails += i18n.t('player.resume.personalrating') + ': ' + myPlayerInfos.global_rating + '<br />';
+				myPlayerDetails += i18n.t('player.resume.battlescount') + ': ' + myPlayerInfos.statistics.all.battles + '<br />';
+				myPlayerDetails += i18n.t('player.resume.maxxp') + ': ' + myPlayerInfos.statistics.max_xp + '<br />';
+				myPlayerDetails += i18n.t('player.resume.maxfrags') + ': ' + myPlayerInfos.statistics.max_frags + '<br />';
+				myPlayerDetails += i18n.t('player.resume.maxdamage') + ': ' + myPlayerInfos.statistics.max_damage + '<br />';
+				myPlayerDetails += i18n.t('player.resume.treescut') + ': ' + myPlayerInfos.statistics.trees_cut + '</p>';
+				myPlayerDetails += '</div><div class="col-md-4"><h4>' + i18n.t('player.resume.links') + '</h4><p>';
+				myPlayerDetails += '<a href="http://worldoftanks.eu/community/accounts/' + myPlayerId + '-' + myPlayerInfos.nickname + '/">' + i18n.t('player.resume.linkwargaming') + '</a><br />';
+				myPlayerDetails += '<a href="http://wotlabs.net/eu/player/' + myPlayerInfos.nickname + '/">' + i18n.t('player.resume.linkwotlabs') + '</a><br />';
+				myPlayerDetails += '<a href="http://www.wotstats.org/stats/eu/' + myPlayerInfos.nickname + '/">' + i18n.t('player.resume.linkwotstats') + '</a><br />';
+				myPlayerDetails += '<a href="http://wot-life.com/eu/player/' + myPlayerInfos.nickname + '/">' + i18n.t('player.resume.linkwotlife') + '</a><br />';
+				myPlayerDetails += '<a href="http://www.noobmeter.com/player/eu/' + myPlayerInfos.nickname + '/' + myPlayerId + '">' + i18n.t('player.resume.linknoobmeter') + '</a><br />';
+				myPlayerDetails += '<a href="http://wotreplays.eu/player/' + myPlayerInfos.nickname + '">' + i18n.t('player.resume.linkwotreplays') + '</a>';
 				myPlayerDetails += '</p></div></div>';
 				myContainer.html(myPlayerDetails);
 			});

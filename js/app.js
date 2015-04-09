@@ -3,7 +3,8 @@ var gTANKS_LEVEL = [ 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'
 	gTANKS_TYPES =  { 'lightTank': 1, 'mediumTank': 2, 'heavyTank': 3, 'AT-SPG': 4, 'SPG': 5 },
 	gROLE_POSITION = { 'commander': 1, 'executive_officer': 2, 'personnel_officer': 3, 'combat_officer': 4, 'intelligence_officer': 5, 'recruitment_officer': 6, 'junior_officer': 7, 'private': 8, 'recruit': 9, 'reservist': 10 },
 	gLangMapping = {
-		'fr': 'fr-FR'
+		'fr': 'fr-FR',
+		'en': 'en-US'
 	},
 	gWN8_SCALE = {
 		'very-bad':			{ min: 0,		max: 300,	color: '#000000',	cssclass: 'material-black' },
@@ -120,7 +121,7 @@ $(document).ready(function() {
 	gProgressBar = $('#progressBar');
 	gProgressMessage = $('#progressInfoMessage');
 	moment.locale(gConfig.LANG);
-	i18n.init({ lng: gConfig.LANG, fallbackLng: 'fr' }, function(t) {
+	i18n.init({ lng: gConfig.LANG, fallbackLng: 'en' }, function(t) {
 		$(document).i18n();
 	});
 	if (typeof(gConfig.PLAYER_ID) != 'undefined') {

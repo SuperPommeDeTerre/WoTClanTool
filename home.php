@@ -5,7 +5,6 @@ $gPageID = "home";
 
 require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 ?>
-<!-- Main component for a primary marketing message or call to action -->
 <div class="container-fluid">
 	<div class="row">
 		<div class="main">

@@ -117,6 +117,7 @@
 		"strats": "Chargement des stratégies..."
 	},
 	"clan": {
+		"emblem": "Emblême du clan",
 		"nbplayers": "__count__ joueur",
 		"nbplayers_plural_0" : "0 joueur",
 		"nbplayers_plural": "__count__ joueurs",
@@ -153,6 +154,23 @@
 			"daysinclan": "Jours dans le clan",
 			"battles": "Nombre de batailles",
 			"personal_rating": "Côte personnelle"
+		},
+		"resume": {
+			"title": "Informations",
+			"lastbattletime": "Dernière bataille",
+			"personalrating": "Côte personnelle",
+			"battlescount": "Nombre de batailles",
+			"maxxp": "XP max",
+			"maxfrags": "Nb frags max",
+			"maxdamage": "Nb dommages max",
+			"treescut": "Nombre d'arbres abattus",
+			"links": "Liens",
+			"linkwargaming": "Profil officiel",
+			"linknoobmeter": "Noobmeter",
+			"linkwotlabs": "Wot Labs",
+			"linkwotstats": "Wot Stats",
+			"linkwotlife": "WoT Life",
+			"linkwotreplays": "WoTReplays"
 		}
 	},
 	"tank": {
@@ -276,6 +294,62 @@
 			"shapes": "Editer les formes",
 			"texts": "Editer les textes"
 		},
+		"line": {
+			"options": "Options générales",
+			"color": "Couleur",
+			"opacity": {
+				"title": "Opacité",
+				"0": "0 % (Invisible)",
+				"25": "25 %",
+				"50": "50 %",
+				"75": "75 %",
+				"100": "100 % (Opaque)"
+			},
+			"thickness": {
+				"title": "Epaisseur",
+				"0": "0 (Aucun trait)",
+				"1": "1 pixel",
+				"2": "2 pixels",
+				"3": "3 pixels",
+				"5": "5 pixels"
+			},
+			"type": {
+				"title": "Type",
+				"solid": "Pleine",
+				"dotted": "Pointillé",
+				"dashed": "Tirets"
+			},
+			"marquee": {
+				"start": "Marqueur de début",
+				"end": "Marqueur de fin",
+				"color": "Couleur",
+				"type": {
+					"title": "Type",
+					"none": "Aucun",
+					"triangle": "Triangle",
+					"line": "Ligne",
+					"square": "Carré"
+				}
+			}
+		},
+		"text": {
+			"color": "Couleur",
+			"value": "Texte"
+		},
+		"action": {
+			"move": "Déplacer",
+			"delete": "Supprimer",
+			"options": "Options",
+			"rotate": "Tourner",
+			"resize": "Redimensionner",
+			"textmodify": "Modifier le texte",
+			"textup": "Texte en haut",
+			"textdown": "Texte en bas",
+			"textleft": "Texte à gauche",
+			"textright": "Texte à droite",
+			"textsmaller": "Texte plus petit",
+			"textbigger": "Texte plus grand"
+		},
 		"dialog": {
 			"modifytext": "Modifier le texte",
 			"lineoptions": "Options de le ligne",
@@ -331,7 +405,43 @@
 		"shape": {
 			"ellipse": "Ellipse",
 			"rectangle": "Rectangle",
-			"polygon": "Polygone"
+			"polygon": "Polygone",
+			"contour": {
+				"title": "Contour",
+				"color": "Couleur",
+				"linetype": {
+					"title": "Type de trait",
+					"solid": "Plein",
+					"dotted": "Pointillés",
+					"dashed": "Tirets"
+				},
+				"corner": {
+					"title": "Rayon",
+					"0": "Aucun",
+					"2": "2 pixels",
+					"5": "5 pixels",
+					"10": "10 pixels"
+				}
+			},
+			"fill": {
+				"title": "Remplissage",
+				"color": "Couleur",
+				"type": {
+					"title": "Type",
+					"none": "Aucun",
+					"zebra": "Zebra",
+					"chess": "Damier",
+					"triangle": "Triangle"
+				},
+				"opacity": {
+					"title": "Opacité",
+					"0": "0 % (Invisible)",
+					"25": "25 %",
+					"50": "50 %",
+					"75": "75 %",
+					"100": "100 % (Opaque)"
+				}
+			}
 		},
 		"maps": {
 			"Abbey": "Abbaye",

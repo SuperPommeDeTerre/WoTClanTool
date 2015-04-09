@@ -3,7 +3,7 @@ require(dirname(__FILE__) . '/server/global.php');
 
 $gPageID = "strats";
 
-include(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
+require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 ?>
 <div id="stratRecap">
 	<div class="container-fluid">
@@ -58,16 +58,16 @@ include(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 						</div></li>
 					<li id="menuEditElements"><a href="./edit" data-i18n="[title]strat.menu.elements"><span class="glyphicon glyphicon-pencil"></span></a><div></div></li>
 					<li id="menuEditLines"><a href="edit/add/line" data-i18n="[title]strat.menu.lines;"><span class="glyphicon glyphicon-arrow-right"></span></a><div>
-							<p><label for="thicknessSelectorLine">Epaisseur&nbsp;:</label> <select id="thicknessSelectorLine" class="form-control">
-									<option value="1">1 pixel</option>
-									<option value="2">2 pixels</option>
-									<option value="3">3 pixels</option>
-									<option value="5">5 pixels</option>
+							<p><label for="thicknessSelectorLine"><span data-i18n="strat.line.thickness.title"></span>:</label> <select id="thicknessSelectorLine" class="form-control">
+									<option value="1" data-i18n="strat.line.thickness.1"></option>
+									<option value="2" data-i18n="strat.line.thickness.2"></option>
+									<option value="3" data-i18n="strat.line.thickness.3"></option>
+									<option value="5" data-i18n="strat.line.thickness.5"></option>
 								</select></p>
-							<p><label for="typeSelectorLine">Type&nbsp;: </label><select id="typeSelectorLine" class="form-control">
-									<option value="solid">Pleine</option>
-									<option value="dotted">Pointill&eacute;</option>
-									<option value="dashed">Tirets</option>
+							<p><label for="typeSelectorLine"><span data-i18n="strat.line.type.title">: </label><select id="typeSelectorLine" class="form-control">
+									<option value="solid" data-i18n="strat.line.type.solid"></option>
+									<option value="dotted" data-i18n="strat.line.type.dotted"></option>
+									<option value="dashed" data-i18n="strat.line.type.dashed"></option>
 								</select></p>
 						</div></li>
 					<li id="menuEditShapes"><a href="edit/add/shape" data-i18n="[title]strat.menu.shapes;"><span class="glyphicon glyphicon-record"></span></a><div>
@@ -89,38 +89,38 @@ include(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 	</form>
 	<div id="contextMenuElement" class="contextMenu">
 		<ul>
-			<li><a href="/edit/move/element" class="move" title="D&eacute;placer l'&eacute;l&eacute;ment"><span>D&eacute;placer</span></a></li>
-			<li><a href="#" data-toggle="modal" data-target="#textEdit" class="modifytext" title="Modifier le texte de l'&eacute;l&eacute;ment"><span>Modifier le texte</span></a></li>
-			<li><a href="/edit/positiontext/top" class="textPosition top" title="Placer le texte en haut de l'&eacute;l&eacute;ment"><span>Texte en haut</span></a></li>
-			<li><a href="/edit/positiontext/right" class="textPosition right selected" title="Placer le texte &agrave; droite de l'&eacute;l&eacute;ment"><span>Texte &agrave; droite</span></a></li>
-			<li><a href="/edit/positiontext/bottom" class="textPosition bottom" title="Placer le texte en bas de l'&eacute;l&eacute;ment"><span>Texte en bas</span></a></li>
-			<li><a href="/edit/positiontext/left" class="textPosition left" title="Placer le texte &agrave; gauche de l'&eacute;l&eacute;ment"><span>Texte &agrave; gauche</span></a></li>
-			<li><a href="#" class="delete" data-toggle="modal" data-target="#dialog-confirm" title="Supprimer l'&eacute;l&eacute;ment"><span>Supprimer</span></a></li>
+			<li><a href="/edit/move/element" class="move" data-i18n="[title]strat.action.move;"><span data-i18n="strat.action.move"></span></a></li>
+			<li><a href="#" data-toggle="modal" data-target="#textEdit" class="modifytext" data-i18n="[title]strat.action.textmodify;"><span data-i18n="strat.action.textmodify"></span></a></li>
+			<li><a href="/edit/positiontext/top" class="textPosition top" data-i18n="[title]strat.action.textup;"><span data-i18n="strat.action.textup"></span></a></li>
+			<li><a href="/edit/positiontext/right" class="textPosition right selected" data-i18n="[title]strat.action.textright;"><span data-i18n="strat.action.textright"></span></a></li>
+			<li><a href="/edit/positiontext/bottom" class="textPosition bottom" data-i18n="[title]strat.action.textdown;"><span data-i18n="strat.action.textdown"></span></a></li>
+			<li><a href="/edit/positiontext/left" class="textPosition left" data-i18n="[title]strat.action.textleft;"><span data-i18n="strat.action.textleft"></span></a></li>
+			<li><a href="#" class="delete" data-toggle="modal" data-target="#dialog-confirm" data-i18n="[title]strat.action.delete;"><span data-i18n="strat.action.delete"></span></a></li>
 		</ul>
 	</div>
 	<div id="contextMenuText" class="contextMenu">
 		<ul>
-			<li><a href="/edit/move/text" class="move" title="D&eacute;placer le texte"><span>D&eacute;placer</span></a></li>
-			<li><a href="#" data-toggle="modal" data-target="#textEdit" class="modifytext" title="Modifier le texte"><span>Modifier le texte</span></a></li>
-			<li><a href="/edit/modifytext/smaller" class="smallertext" title="Texte plus petit"><span>Texte plus petit</span></a></li>
-			<li><a href="/edit/modifytext/bigger" class="biggertext" title="Texte plus grand"><span>Texte plus grand</span></a></li>
-			<li><a href="#t" data-toggle="modal" data-target="#dialog-confirm" class="delete" title="Supprimer le texte"><span>Supprimer</span></a></li>
+			<li><a href="/edit/move/text" class="move" data-i18n="[title]strat.action.move;"><span data-i18n="strat.action.move"></span></a></li>
+			<li><a href="#" data-toggle="modal" data-target="#textEdit" class="modifytext" data-i18n="[title]strat.action.textmodify;"><span data-i18n="strat.action.textmodify"></span></a></li>
+			<li><a href="/edit/modifytext/smaller" class="smallertext" data-i18n="[title]strat.action.textsmaller;"><span data-i18n="strat.action.textsmaller"></span></a></li>
+			<li><a href="/edit/modifytext/bigger" class="biggertext" data-i18n="[title]strat.action.textbigger;"><span data-i18n="strat.action.textbigger"></span></a></li>
+			<li><a href="#t" data-toggle="modal" data-target="#dialog-confirm" class="delete" data-i18n="[title]strat.action.delete;"><span data-i18n="strat.action.delete"></span></a></li>
 		</ul>
 	</div>
 	<div id="contextMenuShape" class="contextMenu">
 		<ul>
-			<li><a href="/edit/shape/move" class="move" title="D&eacute;placer la forme"><span>D&eacute;placer</span></a></li>
-			<li><a href="/edit/shape/rotate" class="rotate" title="Tourner"><span>Tourner</span></a></li>
-			<li><a href="/edit/shape/resize" class="resize" title="Redimensionner"><span>Redimensionner</span></a></li>
-			<li><a href="#" data-toggle="modal" data-target="#shapeOptions" class="options" title="Options de la forme"><span>Options</span></a></li>
-			<li><a href="#" data-toggle="modal" data-target="#dialog-confirm" class="delete" title="Supprimer la forme"><span>Supprimer</span></a></li>
+			<li><a href="/edit/shape/move" class="move" data-i18n="[title]strat.action.move;"><span data-i18n="strat.action.move"></span></a></li>
+			<li><a href="/edit/shape/rotate" class="rotate" data-i18n="[title]strat.action.rotate;"><span data-i18n="strat.action.rotate"></span></a></li>
+			<li><a href="/edit/shape/resize" class="resize" data-i18n="[title]strat.action.resize;"><span data-i18n="strat.action.resize"></span></a></li>
+			<li><a href="#" data-toggle="modal" data-target="#shapeOptions" class="options" data-i18n="[title]strat.action.options;"><span data-i18n="strat.action.options"></span></a></li>
+			<li><a href="#" data-toggle="modal" data-target="#dialog-confirm" class="delete" data-i18n="[title]strat.action.delete;"><span data-i18n="strat.action.delete"></span></a></li>
 		</ul>
 	</div>
 	<div id="contextMenuLine" class="contextMenu">
 		<ul>
-			<li><a href="/edit/line/move" class="move" title="D&eacute;placer le point"><span>D&eacute;placer</span></a></li>
-			<li><a href="#" data-toggle="modal" data-target="#lineOptions" class="options" title="Options de la ligne"><span>Options</span></a></li>
-			<li><a href="#" data-toggle="modal" data-target="#dialog-confirm" class="delete" title="Supprimer la ligne"><span>Supprimer</span></a></li>
+			<li><a href="/edit/line/move" class="move" data-i18n="[title]strat.action.move;"><span data-i18n="strat.action.move"></span></a></li>
+			<li><a href="#" data-toggle="modal" data-target="#lineOptions" class="options" data-i18n="[title]strat.action.options;"><span data-i18n="strat.action.options"></span></a></li>
+			<li><a href="#" data-toggle="modal" data-target="#dialog-confirm" class="delete" data-i18n="[title]strat.action.delete;"><span data-i18n="strat.action.delete"></span></a></li>
 		</ul>
 	</div>
 	<div id="dialog-confirm" class="modal fade" tabindex="-1">
@@ -152,42 +152,42 @@ include(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 				</div>
 				<div class="modal-body">
 					<fieldset>
-						<legend>Contour</legend>
-						<p class="rect ellipse polygon"><label>Couleur&nbsp;: <input id="colorSelectorShapeContour" class="colorselector form-control" type="text" value="FFFFFF" /></label></p>
-						<p class="rect ellipse polygon"><label>Epaisseur&nbsp;: <select id="shapeContourThickness" class="form-control">
-								<option value="0">0 (Aucun trait)</option>
-								<option value="1" selected="selected">1 pixel</option>
-								<option value="2">2 pixels</option>
-								<option value="3">3 pixels</option>
-								<option value="5">5 pixels</option>
+						<legend data-i18n="strat.shape.contour.title"></legend>
+						<p class="rect ellipse polygon"><label><span data-i18n="strat.shape.contour.color"></span>: <input id="colorSelectorShapeContour" class="colorselector form-control" type="text" value="FFFFFF" /></label></p>
+						<p class="rect ellipse polygon"><label><span data-i18n="strat.line.thickness.title"></span>: <select id="shapeContourThickness" class="form-control">
+								<option value="0" data-i18n="strat.line.thickness.0"></option>
+								<option value="1" data-i18n="strat.line.thickness.1" selected="selected"></option>
+								<option value="2" data-i18n="strat.line.thickness.2"></option>
+								<option value="3" data-i18n="strat.line.thickness.3"></option>
+								<option value="5" data-i18n="strat.line.thickness.5"></option>
 							</select></label></p>
-						<p class="rect ellipse polygon"><label>Type de trait&nbsp;: <select id="shapeContourType" class="form-control">
-								<option value="solid" selected="selected">Plein</option>
-								<option value="dotted">Pointill&eacute;s</option>
-								<option value="dashed">Tirets</option>
+						<p class="rect ellipse polygon"><label><span data-i18n="strat.shape.contour.linetype.title"></span>: <select id="shapeContourType" class="form-control">
+								<option value="solid" data-i18n="strat.shape.contour.linetype.solid" selected="selected"></option>
+								<option value="dotted" data-i18n="strat.shape.contour.linetype.dotted"></option>
+								<option value="dashed" data-i18n="strat.shape.contour.linetype.dashed"></option>
 							</select></label></p>
-						<p class="rect"><label>Rayon&nbsp;: <select id="shapeContourRadius" class="form-control">
-								<option value="0" selected="selected">Aucun</option>
-								<option value="2">2 pixels</option>
-								<option value="5">5 pixels</option>
-								<option value="10">10 pixels</option>
+						<p class="rect"><label><span data-i18n="strat.shape.contour.corner.title"></span>: <select id="shapeContourRadius" class="form-control">
+								<option value="0" data-i18n="strat.shape.contour.corner.0" selected="selected"></option>
+								<option value="2" data-i18n="strat.shape.contour.corner.2"></option>
+								<option value="5" data-i18n="strat.shape.contour.corner.5"></option>
+								<option value="10" data-i18n="strat.shape.contour.corner.10"></option>
 							</select></label></p>
 					</fieldset>
 					<fieldset>
-						<legend>Remplissage</legend>
-						<p class="rect ellipse polygon"><label>Couleur&nbsp;: <input id="colorSelectorShapeFill" class="colorselector form-control" type="text" value="333333" /></label></p>
-						<p class="rect ellipse polygon"><label>Type&nbsp;: <select id="shapeFillType" class="form-control">
-								<option value="none" selected="selected">Aucun</option>
-								<option value="patternZebra">Zebra</option>
-								<option value="patternChess">Damier</option>
-								<option value="patternTriangle">Triangle</option>
+						<legend data-i18n="strat.shape.fill.title"></legend>
+						<p class="rect ellipse polygon"><label><span data-i18n="strat.shape.fill.color"></span>: <input id="colorSelectorShapeFill" class="colorselector form-control" type="text" value="333333" /></label></p>
+						<p class="rect ellipse polygon"><label><span data-i18n="strat.shape.fill.type.title"></span>: <select id="shapeFillType" class="form-control">
+								<option value="none" data-i18n="strat.shape.fill.type.none" selected="selected"></option>
+								<option value="patternZebra" data-i18n="strat.shape.fill.type.zebra"></option>
+								<option value="patternChess" data-i18n="strat.shape.fill.type.chess"></option>
+								<option value="patternTriangle" data-i18n="strat.shape.fill.type.triangle"></option>
 							</select></label></p>
-						<p class="rect ellipse polygon"><label>Opacit&eacute;&nbsp;: <select id="shapeFillOpacity" class="form-control">
-								<option value="1">100 %</option>
-								<option value=".75">75 %</option>
-								<option value=".5" selected="selected">50 %</option>
-								<option value=".25">25 %</option>
-								<option value="0">0 % (Invisible)</option>
+						<p class="rect ellipse polygon"><label><span data-i18n="strat.shape.fill.opacity.title"></span>: <select id="shapeFillOpacity" class="form-control">
+								<option value="1" data-i18n="strat.shape.fill.opacity.100"></option>
+								<option value=".75" data-i18n="strat.shape.fill.opacity.75"></option>
+								<option value=".5" data-i18n="strat.shape.fill.opacity.50" selected="selected"></option>
+								<option value=".25" data-i18n="strat.shape.fill.opacity.25"></option>
+								<option value="0" data-i18n="strat.shape.fill.opacity.0"></option>
 							</select></label></p>
 					</fieldset>
 				</div>
@@ -207,49 +207,49 @@ include(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 				</div>
 				<div class="modal-body">
 					<fieldset>
-						<legend>Options g&eacute;n&eacute;rales</legend>
-						<p><label>Couleur&nbsp;: <input id="lineColor" class="colorselector form-control" type="text" value="000000" /></label></p>
-						<p><label>Epaisseur&nbsp;: <select id="lineThickness" class="form-control">
-													<option value="1">1 pixel</option>
-													<option value="2">2 pixels</option>
-													<option value="3">3 pixels</option>
-													<option value="5">5 pixels</option>
+						<legend data-i18n="strat.line.options"></legend>
+						<p><label><span data-i18n="strat.line.color"></span>: <input id="lineColor" class="colorselector form-control" type="text" value="000000" /></label></p>
+						<p><label><span data-i18n="strat.line.thickness.title"></span>: <select id="lineThickness" class="form-control">
+													<option value="1" data-i18n="strat.line.thickness.1"></option>
+													<option value="2" data-i18n="strat.line.thickness.2"></option>
+													<option value="3" data-i18n="strat.line.thickness.3"></option>
+													<option value="5" data-i18n="strat.line.thickness.5"></option>
 												</select></label></p>
-						<p><label>Type&nbsp;: <select id="lineType" class="form-control">
-								<option value="solid">Pleine</option>
-								<option value="dotted">Pointill&eacute;</option>
-								<option value="dashed">Tirets</option>
+						<p><label><span data-i18n="strat.line.type.title"></span>: <select id="lineType" class="form-control">
+								<option value="solid" data-i18n="strat.line.type.solid"></option>
+								<option value="dotted" data-i18n="strat.line.type.dotted"></option>
+								<option value="dashed" data-i18n="strat.line.type.dashed"></option>
 							</select></label></p>
-						<p><label>Opacit&eacute;&nbsp;: <select id="lineOpacity" class="form-control">
-								<option value="1" selected="selected">100 %</option>
-								<option value=".75">75 %</option>
-								<option value=".5">50 %</option>
-								<option value=".25">25 %</option>
+						<p><label><span data-i18n="strat.line.opacity.title"></span>: <select id="lineOpacity" class="form-control">
+								<option value="1" data-i18n="strat.line.opacity.100" selected="selected"></option>
+								<option value=".75" data-i18n="strat.line.opacity.75"></option>
+								<option value=".5" data-i18n="strat.line.opacity.50"></option>
+								<option value=".25" data-i18n="strat.line.opacity.25"></option>
 							</select></label></p>
 					</fieldset>
 					<section class="flex flex-h">
 						<aside class="flex-start">
 							<fieldset>
-								<legend>Marqueur de d&eacute;but</legend>
-								<p><label>Type&nbsp;: <select id="lineMarkerStartType" class="form-control">
-										<option value="none" selected="selected">Aucun</option>
-										<option value="markerTriangleStart">Triangle</option>
-										<option value="markerLineStart">Ligne</option>
-										<option value="markerSquareStart">Carr&eacute;</option>
+								<legend data-i18n="strat.line.marquee.start"></legend>
+								<p><label><span data-i18n="strat.line.marquee.type.title"></span>: <select id="lineMarkerStartType" class="form-control">
+										<option value="none" data-i18n="strat.line.marquee.type.none" selected="selected"></option>
+										<option value="markerTriangleStart" data-i18n="strat.line.marquee.type.triangle"></option>
+										<option value="markerLineStart" data-i18n="strat.line.marquee.type.line"></option>
+										<option value="markerSquareStart" data-i18n="strat.line.marquee.type.square"></option>
 									</select></label></p>
-								<p><label>Couleur&nbsp;: <input id="lineMarkerStartColor" class="colorselector form-control" type="text" value="333333" /></label></p>
+								<p><label><span data-i18n="strat.line.marquee.color"></span>: <input id="lineMarkerStartColor" class="colorselector form-control" type="text" value="333333" /></label></p>
 							</fieldset>
 						</aside>
 						<aside class="flex-fluid">
 							<fieldset>
-								<legend>Marqueur de fin</legend>
-								<p><label>Type&nbsp;: <select id="lineMarkerEndType"class="form-control">
-										<option value="none" selected="selected">Aucun</option>
-										<option value="markerTriangleEnd">Triangle</option>
-										<option value="markerLineEnd">Ligne</option>
-										<option value="markerSquareEnd">Carr&eacute;</option>
+								<legend data-i18n="strat.line.marquee.end"></legend>
+								<p><label><span data-i18n="strat.line.marquee.type.title"></span>: <select id="lineMarkerEndType"class="form-control">
+										<option value="none" data-i18n="strat.line.marquee.type.none" selected="selected"></option>
+										<option value="markerTriangleEnd" data-i18n="strat.line.marquee.type.triangle"></option>
+										<option value="markerLineEnd" data-i18n="strat.line.marquee.type.line"></option>
+										<option value="markerSquareEnd" data-i18n="strat.line.marquee.type.square"></option>
 									</select></label></p>
-								<p><label>Couleur&nbsp;: <input id="lineMarkerEndColor" class="colorselector form-control" type="text" value="333333" /></label></p>
+								<p><label><span data-i18n="strat.line.marquee.color"></span>: <input id="lineMarkerEndColor" class="colorselector form-control" type="text" value="333333" /></label></p>
 							</fieldset>
 						</aside>
 					</section>
@@ -269,8 +269,8 @@ include(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 					<h4 class="modal-title" data-i18n="strat.dialog.modifytext"></h4>
 				</div>
 				<div class="modal-body">
-					<p><label>Texte&nbsp;: <input type="text" id="textValue" value="" class="form-control" /></label></p>
-					<p><label>Couleur&nbsp;: <input id="textColor" class="colorselector form-control" type="text" value="000000" /></label></p>
+					<p><label><span data-i18n="strat.text.value"></span>: <input type="text" id="textValue" value="" class="form-control" /></label></p>
+					<p><label><span data-i18n="strat.text.color"></span>: <input id="textColor" class="colorselector form-control" type="text" value="000000" /></label></p>
 				</div>
 				<div class="modal-footer">
 					<button class="btn btn-material-grey" id="textEditBtnCancel" data-dismiss="modal" data-i18n="btn.cancel"></button>
@@ -303,5 +303,5 @@ include(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 	<div id="lineHandlers"></div>
 </div>
 <?php
-include(dirname(__FILE__) . '/themes/' . $gThemeName . '/footer.php');
+require(dirname(__FILE__) . '/themes/' . $gThemeName . '/footer.php');
 ?>
