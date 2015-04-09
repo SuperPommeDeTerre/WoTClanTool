@@ -1,0 +1,502 @@
+{
+	"app": {
+		"name": "WoT C.T.",
+		"version": "Version :",
+		"description": "Clan managing tool for World of Tanks"
+	},
+	"nav": {
+		"toggle": "Switch navigation",
+		"home": "Home",
+		"garage": "Garage",
+		"events": "Events",
+		"stronghold": "Stronghold",
+		"admin": "Administration",
+		"logout": "Logout",
+		"tscomments": "Mumble/TeamSpeak comment",
+		"tscommentimage": "Image",
+		"tscommenttext": "Text",
+		"tscommenthtml": "HTML",
+		"strats": {
+			"title": "Strategies",
+			"new": "New",
+			"shared": "Shared",
+			"valid": "Validated",
+			"review": "To review"
+		},
+		"my": {
+			"calendar": "My calendar",
+			"garage": "My garage",
+			"strats": "My strategies",
+			"stats": "My statistics"
+		}
+	},
+	"btn": {
+		"ok": "Ok",
+		"cancel": "Cancel",
+		"validate": "Validate",
+		"delete": "Delete",
+		"yes": "Yes",
+		"no": "No"
+	},
+	"elems": {
+		"calendar": "Calendar",
+		"event": "Event",
+		"strats": "Strategies",
+		"stats": "Statistics",
+		"players": "Players",
+		"garage": "Garage"
+	},
+	"action": {
+		"identification": "Login",
+		"logout": "Logout",
+		"event": {
+			"add": "Add an event"
+		},
+		"copy": "Copy to clipboard",
+		"filter": "Filter",
+		"calendar": {
+			"next": ">>",
+			"previous": "<<",
+			"today": "Today",
+			"view": {
+				"year": "Year",
+				"month": "Month",
+				"week": "Week",
+				"day": "Day"
+			},
+			"prop": {
+				"private": "Private:",
+				"periodic": "Periodic:",
+				"periodicity": "Periodicity",
+				"participants": "Participants",
+				"title": "Title",
+				"description": "Description",
+				"startdate": "Start date",
+				"enddate": "End date",
+				"type": "Type:",
+				"types": {
+					"clanwar": "Clan War",
+					"compa": "Company",
+					"stronghold": "Stronghold",
+					"training": "Training",
+					"7vs7": "Team battle",
+					"historical": "Historical battle",
+					"other": "Other"
+				}
+			}
+		},
+		"modify": "Modify",
+		"delete": "Delete"
+	},
+	"stats": {
+		"global": {
+			"tanksbylevel": "Tanks by level",
+			"tanksbyleveldescription": "Clan's tanks by level",
+			"tanksbytype": "Tanks by type",
+			"tanksbytypedescription": "Clan's tanks by type",
+			"winratio": "Victories/Defeats",
+			"winratiodescription": "Global number of victories/defeats",
+			"battles": "Battles",
+			"battlesdescription": "Daily battles fought",
+			"victories": "Victories",
+			"defeats": "Defeats",
+			"draws": "Draws"
+		}
+	},
+	"loading": {
+		"generating": "Generating...",
+		"claninfos": "Loading of clan data...",
+		"membersinfos": "Loading of clan's members data...",
+		"provinceinfos": "Loading of clan's provinces data...",
+		"mytanksinfos": "Loading of my tanks...",
+		"tanksinfos": "Loading of tanks...",
+		"membertanksinfos": "Loading of member's tanks...",
+		"complete": "Finished!",
+		"playersratings": "Loading of clan's members statistics...",
+		"tanksadditionalinfos": "Loading of additional tanks data...",
+		"strats": "Loading strategies..."
+	},
+	"clan": {
+		"emblem": "Clan's emblem",
+		"nbplayers": "__count__ player",
+		"nbplayers_plural_0" : "0 player",
+		"nbplayers_plural": "__count__ players",
+		"nbtanks": "__count__ tank",
+		"nbtanks_plural_0" : "0 tank",
+		"nbtanks_plural": "__count__ tanks",
+		"nbprovinces": "__count__ province",
+		"nbprovinces_plural_0" : "0 province",
+		"nbprovinces_plural": "__count__ provinces",
+		"nbevents": "__count__ event",
+		"nbevents_plural_0" : "0 event",
+		"nbevents_plural": "__count__ events",
+		"nbstrats": "__count__ strategy",
+		"nbstrats_plural_0" : "0 strategy",
+		"nbstrats_plural": "__count__ strategies"
+	},
+	"player": {
+		"name": "Name",
+		"role": {
+			"commander": "Commandant",
+			"executive_officer": "Commandant en second",
+			"personnel_officer": "Officier du personnel",
+			"intelligence_officer": "Officier du renseignement",
+			"combat_officer": "Officier de combat",
+			"junior_officer": "Officier subalterne",
+			"recruitment_officer": "Recruteur",
+			"reservist": "Réserviste",
+			"private": "Soldat",
+			"recruit": "Recrue"
+		},
+		"headers": {
+			"nickname": "Joueur",
+			"role": "Position",
+			"daysinclan": "Jours dans le clan",
+			"battles": "Nombre de batailles",
+			"personal_rating": "Côte personnelle"
+		},
+		"resume": {
+			"title": "Informations",
+			"lastbattletime": "Dernière bataille",
+			"personalrating": "Côte personnelle",
+			"battlescount": "Nombre de batailles",
+			"maxxp": "XP max",
+			"maxfrags": "Nb frags max",
+			"maxdamage": "Nb dommages max",
+			"treescut": "Nombre d'arbres abattus",
+			"links": "Liens",
+			"linkwargaming": "Profil officiel",
+			"linknoobmeter": "Noobmeter",
+			"linkwotlabs": "Wot Labs",
+			"linkwotstats": "Wot Stats",
+			"linkwotlife": "WoT Life",
+			"linkwotreplays": "WoTReplays"
+		}
+	},
+	"tank": {
+		"level": [
+			"I",
+			"II",
+			"III",
+			"IV",
+			"V",
+			"VI",
+			"VII",
+			"VIII",
+			"IX",
+			"X"
+		],
+		"type": {
+			"lightTank": "Léger",
+			"lightTank_plural_0": "Léger",
+			"lightTank_plural": "Légers",
+			"mediumTank": "Moyen",
+			"mediumTank_plural_0": "Moyen",
+			"mediumTank_plural": "Moyens",
+			"heavyTank": "Lourd",
+			"heavyTank_plural_0": "Lourd",
+			"heavyTank_plural": "Lourds",
+			"AT-SPG": "TD",
+			"AT-SPG_plural_0": "TD",
+			"AT-SPG_plural": "TDs",
+			"SPG": "CAM",
+			"SPG_plural_0": "CAM",
+			"SPG_plural": "CAMs"
+		},
+		"infos": {
+			"name": "Nom du char",
+			"level": "Tiers",
+			"type": "Type",
+			"nation": "Nation",
+			"is_full": "Full ?",
+			"is_full_title": "Indique si le char possède tous les modules optimaux.",
+			"is_ready": "Prêt ?",
+			"is_ready_title": "Indique si ce char est prêt à combattre (équipage à 100%, équipements, etc.).",
+			"state": "Statut",
+			"state_title": "Stock: En cours de grind, Full: Tous les modules recherchés et installés, Prêt: Prêt à combattre (équipage, etc.)"
+		},
+		"status": [
+			"Stock",
+			"Full",
+			"Prêt !"
+		],
+		"stats": {
+			"mastery": "M",
+			"battles": "Batailles",
+			"wn8": "WN8",
+			"winratio": "% victoires",
+			"owners": "Propriétaires",
+			"ownerscount": "Nombre de propriétaires"
+		},
+		"resume": {
+			"chkcontour": "Silhouette des chars"
+		}
+	},
+	"filter": {
+		"tank": {
+			"in_garage": "Au garage",
+			"is_full": "Full",
+			"level": "Tiers",
+			"type": "Type",
+			"owner": "Propriétaire",
+			"status": "Statut"
+		}
+	},
+	"page": {
+		"my": {
+			"title": "Mes informations personnelles"
+		},
+		"index": {
+			"lines": [
+				"Bienvenue sur cet outil de gestion de clan.",
+				"Cet outil vous permettra d'effectuer bon nombre d'op&eacute;rations concernant votre clan de World of Tanks. Notamment&nbsp;:",
+				"Pour commencer, veuillez vous connecter avec vos identifiants Wargaming&nbsp;:"
+			],
+			"features": [
+				"Voir les membres",
+				"Voir les chars disponibles",
+				"Définir des évènements et gérer les inscriptions des membres à ceux-ci",
+				"Préparer des stratégies",
+				"etc."
+			]
+		},
+		"unauthorized": {
+			"title": "Non autorisé !",
+			"lines": [
+				"Vous n'êtes pas autorisé à accéder à ce site.",
+				"Seul les membres des clans autorisés peuvent se connecter à ce site."
+			]
+		},
+		"strat": {
+			"title": "Stratégies"
+		}
+	},
+	"strat": {
+		"save": "Sauvegarder",
+		"new": "Nouvelle stratégie",
+		"name": "Nom",
+		"description": "Description",
+		"actions": "Actions",
+		"dateadd": "Date de création",
+		"datemod": "Date de modification",
+		"creator": "Créateur",
+		"home": "Retour",
+		"export": "Exporter",
+		"state": {
+			"title": "Etat",
+			"private": "Privée",
+			"review": "A valider",
+			"public": "Validée"
+		},
+		"menu": {
+			"elements": "Editer les éléments",
+			"lines": "Editer les lignes",
+			"shapes": "Editer les formes",
+			"texts": "Editer les textes"
+		},
+		"line": {
+			"options": "Options générales",
+			"color": "Couleur",
+			"opacity": {
+				"title": "Opacité",
+				"0": "0 % (Invisible)",
+				"25": "25 %",
+				"50": "50 %",
+				"75": "75 %",
+				"100": "100 % (Opaque)"
+			},
+			"thickness": {
+				"title": "Epaisseur",
+				"0": "0 (Aucun trait)",
+				"1": "1 pixel",
+				"2": "2 pixels",
+				"3": "3 pixels",
+				"5": "5 pixels"
+			},
+			"type": {
+				"title": "Type",
+				"solid": "Pleine",
+				"dotted": "Pointillé",
+				"dashed": "Tirets"
+			},
+			"marquee": {
+				"start": "Marqueur de début",
+				"end": "Marqueur de fin",
+				"color": "Couleur",
+				"type": {
+					"title": "Type",
+					"none": "Aucun",
+					"triangle": "Triangle",
+					"line": "Ligne",
+					"square": "Carré"
+				}
+			}
+		},
+		"text": {
+			"color": "Couleur",
+			"value": "Texte"
+		},
+		"action": {
+			"move": "Déplacer",
+			"delete": "Supprimer",
+			"options": "Options",
+			"rotate": "Tourner",
+			"resize": "Redimensionner",
+			"textmodify": "Modifier le texte",
+			"textup": "Texte en haut",
+			"textdown": "Texte en bas",
+			"textleft": "Texte à gauche",
+			"textright": "Texte à droite",
+			"textsmaller": "Texte plus petit",
+			"textbigger": "Texte plus grand"
+		},
+		"dialog": {
+			"modifytext": "Modifier le texte",
+			"lineoptions": "Options de le ligne",
+			"shapeoptions": "Options de la forme",
+			"confirm": {
+				"title": "Confirmation",
+				"delete": "Vous allez supprimer un élément.",
+				"sure": "Etes-vous sûr ?"
+			},
+			"save": {
+				"title": "Sauvegarder",
+				"name": {
+					"placeholder": "Nom",
+					"hint": "Donnez un nom à votre stratégie"
+				},
+				"description": {
+					"placeholder": "Description",
+					"hint": "Décrivez votre stratégie"
+				}
+			}
+		},
+		"map": {
+			"select": "Carte",
+			"selecttitle": "Sélectionner une carte",
+			"mode": "Mode"
+		},
+		"options": {
+			"title": "Options",
+			"inverseteams": "Inverser les équipes",
+			"grid": "Grille",
+			"windrose": "Rose des vents",
+			"bases": "Bases",
+			"scale": "Echelle",
+			"elements": "Eléments",
+			"elementstext": "Textes des éléments",
+			"lines": "Lignes",
+			"texts": "Textes",
+			"shapes": "Formes"
+		},
+		"modes": {
+			"standard": "Bataille standard",
+			"encounter": "Bataille de rencontre",
+			"assault": "Assaut",
+			"confrontation": "Confrontation"
+		},
+		"elements": {
+			"HT": "Char lourd",
+			"MT": "Char moyen",
+			"LT": "Char léger",
+			"TD": "Chasseur de chars",
+			"SPG": "Canon automoteur"
+		},
+		"shape": {
+			"ellipse": "Ellipse",
+			"rectangle": "Rectangle",
+			"polygon": "Polygone",
+			"contour": {
+				"title": "Contour",
+				"color": "Couleur",
+				"linetype": {
+					"title": "Type de trait",
+					"solid": "Plein",
+					"dotted": "Pointillés",
+					"dashed": "Tirets"
+				},
+				"corner": {
+					"title": "Rayon",
+					"0": "Aucun",
+					"2": "2 pixels",
+					"5": "5 pixels",
+					"10": "10 pixels"
+				}
+			},
+			"fill": {
+				"title": "Remplissage",
+				"color": "Couleur",
+				"type": {
+					"title": "Type",
+					"none": "Aucun",
+					"zebra": "Zebra",
+					"chess": "Damier",
+					"triangle": "Triangle"
+				},
+				"opacity": {
+					"title": "Opacité",
+					"0": "0 % (Invisible)",
+					"25": "25 %",
+					"50": "50 %",
+					"75": "75 %",
+					"100": "100 % (Opaque)"
+				}
+			}
+		},
+		"maps": {
+			"Abbey": "Abbaye",
+			"Airfield": "Aérodrome",
+			"ArcticRegion": "Artique",
+			"AsiaGreatWall": "Frontière de l'Empire",
+			"Cliff": "Falaise",
+			"DragonRidge": "Crête du dragon",
+			"ElHalluf": "El Halluf",
+			"Ensk": "Ensk",
+			"Erlenberg": "Erlenberg",
+			"FishermanBay": "Baie du pêcheur",
+			"Fjord": "Fjord",
+			"HiddenVillage": "Village caché",
+			"Highway": "Autoroute",
+			"Himmelsdorf": "Himmelsdorf",
+			"HimmelsdorfWinter": "Himmelsdorf en hiver",
+			"HimmelsdorfFootball": "Himmelsdorf - Football",
+			"Karelia": "Karelia",
+			"Kharkov": "Kharkov",
+			"Komarin": "Komarin",
+			"Lakeville": "Lakeville",
+			"LiveOaks": "Live Oaks",
+			"LostCity": "Ville fantôme",
+			"Malinovka": "Malinovka",
+			"Mines": "Mines",
+			"Mittengrad": "Mittengrad",
+			"MountainPass": "Col de montagne",
+			"Murovanka": "Murovanka",
+			"Northwest": "Nord-ouest",
+			"Overlord": "Overlord",
+			"PearlRiver": "Rivière de perles",
+			"Port": "Port",
+			"PortChaffeeRace": "Course de Chaffee",
+			"Prokhorovka": "Prokhorovka",
+			"ProkhorovkaDefense": "Percée Fulgurante",
+			"Province": "Province",
+			"Redshire": "Redshire",
+			"Ruinberg": "Ruinberg",
+			"RuinbergOnFire": "Ruinberg en feu",
+			"RuinbergWinter": "Winterberg",
+			"SacredValley": "Vallée sacrée",
+			"SandRiver": "Rivère de sable",
+			"SereneCoast": "Côte sereine",
+			"Severogosk": "Severogosk",
+			"SiegfriedLine": "Ligne Siegfried",
+			"SouthCoast": "Côte sud",
+			"Stalingrad": "Stalingrad",
+			"Steppes": "Steppes",
+			"Swamp": "Marécage",
+			"Tundra": "Tundra",
+			"TrainingGround": "Camp d'entraînement",
+			"Westfield": "Westfield",
+			"Widepark": "Grand parc",
+			"WindStorm": "Tempête"
+		}
+	}
+}
