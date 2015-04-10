@@ -292,7 +292,9 @@
 			"elements": "Edit elements",
 			"lines": "Edit lines",
 			"shapes": "Edit shapes",
-			"texts": "Edit texts"
+			"texts": "Edit texts",
+			"ping": "Ping a point on the map",
+			"comments": "Show/Hide comments"
 		},
 		"line": {
 			"options": "General options",

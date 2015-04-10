@@ -67,7 +67,7 @@ header{position:fixed;top:0;left:0;bottom:0}
 #menu .operation.delete{background:url('./icons/delete.png') no-repeat left top}
 #menu .operation.select{background:url('./icons/layout.png') no-repeat left top}
 #menu > ul > li > a{display:block;width:24px;height:24px;border:1px solid transparent;line-height:24px;text-align:center}
-#menu > ul > li > a.selected{border:1px solid #999}
+#menu > ul > li > a.selected{border:1px solid #999;background-color:#CCC}
 #menu > ul:hover > li > a{}
 #menu label.fortext{display:inline-block;width:5em;text-align:right}
 #menuMap div{min-width:20em}

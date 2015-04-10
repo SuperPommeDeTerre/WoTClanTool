@@ -78,6 +78,8 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 							</ul>
 						</div></li>
 					<li id="menuEditTexts"><a href="edit/add/text" data-i18n="[title]strat.menu.texts;"><span class="glyphicon glyphicon-text-size"></span></a></li>
+					<li id="menuPingMap"><a href="edit/add/ping" data-i18n="[title]strat.menu.ping;"><span class="glyphicon glyphicon-map-marker"></span></a></li>
+					<!-- <li id="menuComments"><a href="edit/show/comments" data-i18n="[title]strat.menu.comments;"><span class="glyphicon glyphicon-comment"></span></a></li> -->
 					<li id="menuSave"><a href="#" data-i18n="[title]strat.save;" data-toggle="modal" data-target="#saveOptions"><span class="glyphicon glyphicon-floppy-disk"></span></a></li>
 				</ul>
 			</nav>

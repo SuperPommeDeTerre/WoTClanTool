@@ -1,5 +1,49 @@
 var onLoad = function() {
 	checkConnected();
+	function Comet(pUrl) {
+		this.timestamp = 0;
+		this.url = pUrl;
+		this.dodisconnect = false;
+		this.stratid = -1;
+	};
+	Comet.prototype.initialize = function() {};
+	Comet.prototype.connect = function(pStratId) {
+		this.stratid = pStratId;
+		var myObj = this;
+		if (!myObj.dodisconnect) {
+			$.get(myObj.url, { 'timestamp': myObj.timestamp, 'stratid': myObj.stratid }, function(resultData) {
+				// handle the server response
+				myObj.timestamp = resultData.timestamp;
+				myObj.handleResponse(resultData);
+			}, 'json')
+			.fail(function() {
+				setTimeout(function() { myObj.connect(myObj.stratid) }, 5000);
+			})
+			.done(function() {
+				myObj.connect(myObj.stratid);
+			});
+		} else {
+			myObj.dodisconnect = false;
+		}
+	};
+	Comet.prototype.disconnect = function() {
+		this.dodisconnect = true;
+	};
+	Comet.prototype.handleResponse = function(response) {
+		if (typeof(response.coords) != 'undefined') {
+			var myCanvas = myCanvasContainer.svg().svg('get'),
+				myCircle = myCanvas.circle(response.coords.x, response.coords.y, 10, { 'fill': 'red', 'fill-opacity': .75, 'stroke': 'red', 'strokeWidth': 5, 'stroke-opacity': 1 });
+			$(myCircle).animate({ svgR: '+=100', svgFillOpacity: 0.1, svgStrokeOpacity: 0.1 }, 1000, function() {
+				$(this).remove();
+			});
+		}
+	};
+	Comet.prototype.doRequest = function(pCoords) {
+		$.get(this.url, { 'coords': pCoords, 'stratid': this.stratid }, function(data) {}, 'json');
+	};
+
+	var comet = new Comet('./server/stratping.php');
+
 	progressNbSteps = 4;
 	advanceProgress(i18n.t('loading.claninfos'));
 	setNavBrandWithClan();
@@ -23,6 +67,7 @@ var onLoad = function() {
 		gIsDrawingLine = false,
 		gCurrentLine = null,
 		gCurrentLineConf = null,
+		gIsReadOnly = false,
 		gStratId = -1;
 
 	// Constants
@@ -201,33 +246,35 @@ var onLoad = function() {
 		myImage.addClass("movable hasMenuElement");
 		myText.addClass("movable hasMenuElement " + pConfElement.text.position.rel);
 		myImage.add(myText).on("mouseenter", function(e) {
-			if (!$(this).hasClass("moving") && myDraggedElement === null) {
-				myContextMenuElement.css("top", ((myImage.attr("y") * 1) + myCanvasContainer[0].offsetTop + 15) + "px")
-					.css("left", ((myImage.attr("x") * 1) + myCanvasContainer[0].offsetLeft + 20) + "px")
-					.attr("rel", myImage.attr("id"));
-				// Udpate context menu with element state
-				var myLinksTextPosition = myContextMenuElement.find(".textPosition").removeClass("selected");
-				// FIXME: Fix weird bug: myLinksTextPosition.find(".textPosition.top") is not working...
-				if (myText.hasClass("top")) {
-					$(myLinksTextPosition[0]).addClass("selected");
-					pConfElement.text.position.rel = "top";
-				} else if (myText.hasClass("right")) {
-					$(myLinksTextPosition[1]).addClass("selected");
-					pConfElement.text.position.rel = "right";
-				} else if (myText.hasClass("bottom")) {
-					$(myLinksTextPosition[2]).addClass("selected");
-					pConfElement.text.position.rel = "bottom";
-				} else {
-					$(myLinksTextPosition[3]).addClass("selected");
-					pConfElement.text.position.rel = "left";
+			if (!gIsReadOnly) {
+				if (!$(this).hasClass("moving") && myDraggedElement === null) {
+					myContextMenuElement.css("top", ((myImage.attr("y") * 1) + myCanvasContainer[0].offsetTop + 15) + "px")
+						.css("left", ((myImage.attr("x") * 1) + myCanvasContainer[0].offsetLeft + 20) + "px")
+						.attr("rel", myImage.attr("id"));
+					// Udpate context menu with element state
+					var myLinksTextPosition = myContextMenuElement.find(".textPosition").removeClass("selected");
+					// FIXME: Fix weird bug: myLinksTextPosition.find(".textPosition.top") is not working...
+					if (myText.hasClass("top")) {
+						$(myLinksTextPosition[0]).addClass("selected");
+						pConfElement.text.position.rel = "top";
+					} else if (myText.hasClass("right")) {
+						$(myLinksTextPosition[1]).addClass("selected");
+						pConfElement.text.position.rel = "right";
+					} else if (myText.hasClass("bottom")) {
+						$(myLinksTextPosition[2]).addClass("selected");
+						pConfElement.text.position.rel = "bottom";
+					} else {
+						$(myLinksTextPosition[3]).addClass("selected");
+						pConfElement.text.position.rel = "left";
+					}
+					gCurrentElement = pConfElement;
+					myContextMenuElement.show();
+					// Keep menu open for 200ms
+					preventClosingContextMenu = true;
+					timeoutIdContextMenu = window.setTimeout(function() {
+						preventClosingContextMenu = false;
+					}, 200);
 				}
-				gCurrentElement = pConfElement;
-				myContextMenuElement.show();
-				// Keep menu open for 200ms
-				preventClosingContextMenu = true;
-				timeoutIdContextMenu = window.setTimeout(function() {
-					preventClosingContextMenu = false;
-				}, 200);
 			}
 		}).on("mouseleave", function(e) {
 			if (!preventClosingContextMenu) {
@@ -258,17 +305,19 @@ var onLoad = function() {
 			myText = myCanvas.text(g, pConfText.position.x, pConfText.position.y, pConfText.value, { "id": myElemTextId });
 		myText = $(myText);
 		myText.on("mouseenter", function(e) {
-			if (!$(this).hasClass("moving") && myDraggedElement === null) {
-				myContextMenuText.css("top", ((myText.attr("y") * 1) + myCanvasContainer[0].offsetTop) + "px")
-					.css("left", ((myText.attr("x") * 1) + myCanvasContainer[0].offsetLeft) + "px")
-					.attr("rel", myText.attr("id"));
-				gCurrentElement = pConfText;
-				myContextMenuText.show();
-				// Keep menu open for 200ms
-				preventClosingContextMenu = true;
-				timeoutIdContextMenu = window.setTimeout(function() {
-					preventClosingContextMenu = false;
-				}, 200);
+			if (!gIsReadOnly) {
+				if (!$(this).hasClass("moving") && myDraggedElement === null) {
+					myContextMenuText.css("top", ((myText.attr("y") * 1) + myCanvasContainer[0].offsetTop) + "px")
+						.css("left", ((myText.attr("x") * 1) + myCanvasContainer[0].offsetLeft) + "px")
+						.attr("rel", myText.attr("id"));
+					gCurrentElement = pConfText;
+					myContextMenuText.show();
+					// Keep menu open for 200ms
+					preventClosingContextMenu = true;
+					timeoutIdContextMenu = window.setTimeout(function() {
+						preventClosingContextMenu = false;
+					}, 200);
+				}
 			}
 		}).on("mouseleave", function(e) {
 			if (!preventClosingContextMenu) {
@@ -323,57 +372,60 @@ var onLoad = function() {
 				break;
 			case "ellipse":
 				myShape.on("mouseenter", function(e) {
-					if (!$(this).hasClass("moving") && myDraggedElement === null && !$(this).hasClass("resizing") && myResizedElement === null && !$(this).hasClass("rotating") && myRotatedElement === null) {
-						var myShapePositionX = myShape.data("x"),
-							myShapePositionY = myShape.data("y"),
-							myShapeRadiusX = myShape.attr("rx") * 1,
-							myShapeRadiusY = myShape.attr("ry") * 1;
-						myShapeOptionsHandler.css("top", (myShapePositionY + myCanvasContainer[0].offsetTop - 8) + "px")
-							.css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft - 8) + "px")
-							.on("mouseenter", function(e) {
-								myContextMenuShape.css("top", (myShapePositionY + myCanvasContainer[0].offsetTop - 8) + "px")
-									.css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft - 8) + "px")
-									.attr("rel", myShape.attr("id"));
-								$(this).hide();
-								myContextMenuShape.show();
-								// Keep menu open for 200ms
-								preventClosingContextMenu = true;
-								timeoutIdContextMenu = window.setTimeout(function() {
-									preventClosingContextMenu = false;
-								}, 200);
-							}).show();
-						myShapeOptionsHandler.parent().attr("rel", myShape.attr("id"));
-						gCurrentElement = pConfShape;
-						myShapeHandlers.show();
+					if (!gIsReadOnly) {
+						if (!$(this).hasClass("moving") && myDraggedElement === null && !$(this).hasClass("resizing") && myResizedElement === null && !$(this).hasClass("rotating") && myRotatedElement === null) {
+							var myShapePositionX = myShape.data("x"),
+								myShapePositionY = myShape.data("y"),
+								myShapeRadiusX = myShape.attr("rx") * 1,
+								myShapeRadiusY = myShape.attr("ry") * 1;
+							myShapeOptionsHandler.css("top", (myShapePositionY + myCanvasContainer[0].offsetTop - 8) + "px")
+								.css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft - 8) + "px")
+								.on("mouseenter", function(e) {
+									myContextMenuShape.css("top", (myShapePositionY + myCanvasContainer[0].offsetTop - 8) + "px")
+										.css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft - 8) + "px")
+										.attr("rel", myShape.attr("id"));
+									$(this).hide();
+									myContextMenuShape.show();
+									// Keep menu open for 200ms
+									preventClosingContextMenu = true;
+									timeoutIdContextMenu = window.setTimeout(function() {
+										preventClosingContextMenu = false;
+									}, 200);
+								}).show();
+							myShapeOptionsHandler.parent().attr("rel", myShape.attr("id"));
+							gCurrentElement = pConfShape;
+							myShapeHandlers.show();
+						}
 					}
 				});
-				break;
 				break;
 			case "rect":
 			default:
 				myShape.on("mouseenter", function(e) {
-					if (!$(this).hasClass("moving") && myDraggedElement === null && !$(this).hasClass("resizing") && myResizedElement === null && !$(this).hasClass("rotating") && myRotatedElement === null) {
-						var myShapePositionX = myShape.data("x"),
-							myShapePositionY = myShape.data("y"),
-							myShapeWidth = myShape.attr("width") * 1,
-							myShapeHeight = myShape.attr("height") * 1;
-						myShapeOptionsHandler.css("top", (myShapePositionY + myCanvasContainer[0].offsetTop + (myShapeHeight / 2) - 8) + "px")
-							.css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft + (myShapeWidth / 2) - 8) + "px")
-							.on("mouseenter", function(e) {
-								myContextMenuShape.css("top", (myShapePositionY + myCanvasContainer[0].offsetTop + (myShapeHeight / 2) - 8) + "px")
-									.css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft + (myShapeWidth / 2) - 8) + "px")
-									.attr("rel", myShape.attr("id"));
-								$(this).hide();
-								myContextMenuShape.show();
-								// Keep menu open for 200ms
-								preventClosingContextMenu = true;
-								timeoutIdContextMenu = window.setTimeout(function() {
-									preventClosingContextMenu = false;
-								}, 200);
-							}).show();
-						myShapeOptionsHandler.parent().attr("rel", myShape.attr("id"));
-						gCurrentElement = pConfShape;
-						myShapeHandlers.show();
+					if (!gIsReadOnly) {
+						if (!$(this).hasClass("moving") && myDraggedElement === null && !$(this).hasClass("resizing") && myResizedElement === null && !$(this).hasClass("rotating") && myRotatedElement === null) {
+							var myShapePositionX = myShape.data("x"),
+								myShapePositionY = myShape.data("y"),
+								myShapeWidth = myShape.attr("width") * 1,
+								myShapeHeight = myShape.attr("height") * 1;
+							myShapeOptionsHandler.css("top", (myShapePositionY + myCanvasContainer[0].offsetTop + (myShapeHeight / 2) - 8) + "px")
+								.css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft + (myShapeWidth / 2) - 8) + "px")
+								.on("mouseenter", function(e) {
+									myContextMenuShape.css("top", (myShapePositionY + myCanvasContainer[0].offsetTop + (myShapeHeight / 2) - 8) + "px")
+										.css("left", (myShapePositionX + myCanvasContainer[0].offsetLeft + (myShapeWidth / 2) - 8) + "px")
+										.attr("rel", myShape.attr("id"));
+									$(this).hide();
+									myContextMenuShape.show();
+									// Keep menu open for 200ms
+									preventClosingContextMenu = true;
+									timeoutIdContextMenu = window.setTimeout(function() {
+										preventClosingContextMenu = false;
+									}, 200);
+								}).show();
+							myShapeOptionsHandler.parent().attr("rel", myShape.attr("id"));
+							gCurrentElement = pConfShape;
+							myShapeHandlers.show();
+						}
 					}
 				});
 				break;
@@ -440,20 +492,22 @@ var onLoad = function() {
 			myHandlersHtml += "<div class=\"handler point" + myPointIndex + "\" rel=\"" + myPointIndex + "\" style=\"left:" + (pConfLine.points[myPointIndex][0] + myCanvasContainer[0].offsetLeft - 8) + "px;top:" + (pConfLine.points[myPointIndex][1] + myCanvasContainer[0].offsetTop - 8) + "px\"></div>";
 		}
 		myLine.on("mouseenter", function(e) {
-			if (!gIsDrawingLine) {
-				myLineHandlers = $("#lineHandlers").empty().html(myHandlersHtml).show().find(".handler");
-				myLineHandlers.on("mouseenter", function(e) {
-					myContextMenuLine.css("top", $(this).css("top")).css("left", $(this).css("left"))
-						.attr("rel", myLine.attr("id"));
-					myContextMenuLine.data("point-index", $(this).attr("rel") * 1);
-					myContextMenuLine.show();
-					// Keep menu open for 200ms
-					preventClosingContextMenu = true;
-					timeoutIdContextMenu = window.setTimeout(function() {
-						preventClosingContextMenu = false;
-					}, 200);
-				});
-				gCurrentElement = pConfLine;
+			if (!gIsReadOnly) {
+				if (!gIsDrawingLine) {
+					myLineHandlers = $("#lineHandlers").empty().html(myHandlersHtml).show().find(".handler");
+					myLineHandlers.on("mouseenter", function(e) {
+						myContextMenuLine.css("top", $(this).css("top")).css("left", $(this).css("left"))
+							.attr("rel", myLine.attr("id"));
+						myContextMenuLine.data("point-index", $(this).attr("rel") * 1);
+						myContextMenuLine.show();
+						// Keep menu open for 200ms
+						preventClosingContextMenu = true;
+						timeoutIdContextMenu = window.setTimeout(function() {
+							preventClosingContextMenu = false;
+						}, 200);
+					});
+					gCurrentElement = pConfLine;
+				}
 			}
 		}).on("mouseleave", function(e) {
 			if (!preventClosingContextMenu) {
@@ -509,7 +563,7 @@ var onLoad = function() {
 	$("#menu a").click(function(e) {
 		e.preventDefault();
 	});
-	$("#menuEditElements > a,#menuEditTexts > a,#menuEditLines > a,#menuEditShapes > a").on("click", function(e) {
+	$("#menuEditElements > a,#menuEditTexts > a,#menuEditLines > a,#menuEditShapes > a,#menuPingMap > a").on("click", function(e) {
 		e.stopImmediatePropagation();
 		e.preventDefault();
 		var myLink = $(this),
@@ -1011,6 +1065,12 @@ var onLoad = function() {
 						"style": {}
 					});
 					break;
+				case "ping":
+					comet.doRequest(JSON.stringify({
+							"x": e.pageX - myCanvasContainer[0].offsetLeft,
+							"y": e.pageY - myCanvasContainer[0].offsetTop
+						}));
+					break;
 				default:
 					break;
 			}
@@ -1159,21 +1219,23 @@ var onLoad = function() {
 	//$(".colorpicker").detach().appendTo($("#menuEditLines > div"));
 	// Load global configuration
 
-	if (getParameterByName('url') != "") {
-		$.get(getParameterByName('url'), {}, function(stratData) {
-			gIsImporting = true;
-			gCurrentConf = $.parseJSON(decodeURIComponent(escape(atob(stratData))));
-			globalLoad();
-			$("#lblStratName").val(gCurrentConf.name);
-			$("#lblStratDesc").val(gCurrentConf.desc);
-		}, 'text');
-	} else {
-		globalLoad();
-	}
+	globalLoad();
 
 	function globalLoad() {
 		var myGameToken = 'wot';
 		gCurrentConf.game = myGameToken;
+		if (gIsReadOnly) {
+			$('#menuMap, #menuEditElements, #menuEditLines, #menuEditShapes, #menuEditTexts, #menuSave').hide();
+		} else {
+			$('#menuMap, #menuEditElements, #menuEditLines, #menuEditShapes, #menuEditTexts, #menuSave').show();
+		}
+		if (gStratId != -1) {
+			$('#menuPingMap').show();
+			comet.connect(gStratId);
+		} else {
+			$('#menuPingMap').hide();
+		}
+
 		$.getJSON("./res/" + myGameToken + "/game.json", {}, function(data) {
 			gMaps = data.maps;
 			gElements = data.elements;
@@ -1461,11 +1523,13 @@ var onLoad = function() {
 
 	$('#menuHome a').on('click', function(evt) {
 		evt.preventDefault();
+		comet.disconnect();
 		$('#stratEditor').hide();
 		$('#stratRecap').fadeIn('fast');
 	});
 	$('#btnNewStrat').on('click', function(evt) {
 		gStratId = -1;
+		gIsReadOnly = false;
 		$('#stratRecap').hide();
 		$('#stratEditor').fadeIn('fast');
 	});
@@ -1513,23 +1577,35 @@ var onLoad = function() {
 					myStratsTableHtml = '';
 				for (i=0; i<myListStrats.length; i++) {
 					myStrat = myListStrats[i];
-					myStratsTableHtml += '<tr data-stratid="' + myStrat.id + '">';
-					myStratsTableHtml += '<td class="stratmap">' + i18n.t('strat.maps.' + myStrat.map) + '</td>';
-					myStratsTableHtml += '<td class="stratname">' + myStrat.name + '</td>';
-					myStratsTableHtml += '<td class="stratdesc"><span style="white-space:pre">' + myStrat.description + '</span></td>';
-					myStratsTableHtml += '<td class="stratstate">' + i18n.t('strat.state.' + myStrat.state) + '</td>';
-					myStratsTableHtml += '<td class="stratdateadd">' + moment(myStrat.dateadd * 1000).format('LLL') + '</td>';
-					if (typeof(myStrat.datemod) == 'undefined') {
-						myStratsTableHtml += '<td class="stratdatemod">&nbsp;</td>';
-					} else {
-						myStratsTableHtml += '<td class="stratdatemod">' + moment(myStrat.datemod * 1000).format('LLL') + '</td>';
+					// Only show user or public strategies
+					if (gConfig.PLAYER_ID == myStrat.creator || myStrat.state == 'public' || myStrat.state == 'review') {
+						myStratsTableHtml += '<tr data-stratid="' + myStrat.id + '">';
+						myStratsTableHtml += '<td class="stratmap">' + i18n.t('strat.maps.' + myStrat.map) + '</td>';
+						myStratsTableHtml += '<td class="stratname">' + myStrat.name + '</td>';
+						myStratsTableHtml += '<td class="stratdesc"><span style="white-space:pre">' + myStrat.description + '</span></td>';
+						myStratsTableHtml += '<td class="stratstate">' + i18n.t('strat.state.' + myStrat.state) + '</td>';
+						myStratsTableHtml += '<td class="stratdateadd">' + moment(myStrat.dateadd * 1000).format('LLL') + '</td>';
+						if (typeof(myStrat.datemod) == 'undefined') {
+							myStratsTableHtml += '<td class="stratdatemod">&nbsp;</td>';
+						} else {
+							myStratsTableHtml += '<td class="stratdatemod">' + moment(myStrat.datemod * 1000).format('LLL') + '</td>';
+						}
+						myStratsTableHtml += '<td class="stratcreator">' + dataPlayers[myStrat.creator].nickname + '</td>';
+						myStratsTableHtml += '<td><a href="#" class="btnShowStrat"><span class="glyphicon glyphicon-eye-open"></span></a>';
+						// Only the creator can modify or delete a strategy
+						if (gConfig.PLAYER_ID == myStrat.creator) {
+							myStratsTableHtml += ' <a href="#" class="btnEditStrat"><span class="glyphicon glyphicon-edit"></span></a>';
+							// Can delete only private strategies
+							if (myStrat.state == 'private') {
+								myStratsTableHtml += ' <a href="#" class="btnDeleteStrat"><span class="glyphicon glyphicon-remove"></span></a>';
+							}
+						}
+						myStratsTableHtml += '</td>';
+						myStratsTableHtml += '</tr>';
 					}
-					myStratsTableHtml += '<td class="stratcreator">' + dataPlayers[myStrat.creator].nickname + '</td>';
-					myStratsTableHtml += '<td><a href="#" class="btnEditStrat"><span class="glyphicon glyphicon-edit"></span></a> <a href="#" class="btnDeleteStrat"><span class="glyphicon glyphicon-remove"></span></a></td>';
-					myStratsTableHtml += '</tr>';
 				}
 				$('#tableMyStrats > tbody').empty().html(myStratsTableHtml);
-				$('#tableMyStrats').on('click', 'a.btnEditStrat', function(evt) {
+				$('#tableMyStrats').on('click', 'a.btnShowStrat', function(evt) {
 					evt.preventDefault();
 					gStratId = $(this).closest('tr').data('stratid');
 					$.post('./server/strat.php', {
@@ -1537,6 +1613,23 @@ var onLoad = function() {
 						'id': gStratId
 					}, function(dateGetStratResponse) {
 						gIsImporting = true;
+						gIsReadOnly = true;
+						gCurrentConf = dateGetStratResponse.data;
+						$("#lblStratName").val(gCurrentConf.name);
+						$("#lblStratDesc").val(gCurrentConf.desc);
+						globalLoad();
+						$('#stratRecap').hide();
+						$('#stratEditor').fadeIn('fast');
+					}, 'json');
+				}).on('click', 'a.btnEditStrat', function(evt) {
+					evt.preventDefault();
+					gStratId = $(this).closest('tr').data('stratid');
+					$.post('./server/strat.php', {
+						'action': 'get',
+						'id': gStratId
+					}, function(dateGetStratResponse) {
+						gIsImporting = true;
+						gIsReadOnly = false;
 						gCurrentConf = dateGetStratResponse.data;
 						$("#lblStratName").val(gCurrentConf.name);
 						$("#lblStratDesc").val(gCurrentConf.desc);

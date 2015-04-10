@@ -32,11 +32,12 @@
 		<script type="text/javascript" src="./js/colorpicker.js"></script>
 		<script type="text/javascript" src="./js/ZeroClipboard.min.js"></script>
 		<script type="text/javascript" src="./js/jquery.nouislider.all.min.js"></script>
-		<script type="text/javascript" src="./js/jquery-svg.js"></script>
-		<script type="text/javascript" src="./js/jquery-svgdom.js"></script>
-		<script type="text/javascript" src="./js/jquery-svgfilter.js"></script>
-		<script type="text/javascript" src="./js/jquery-svggraph.js"></script>
-		<script type="text/javascript" src="./js/jquery-svgplot.js"></script>
+		<script type="text/javascript" src="./js/jquery.svg.min.js"></script>
+		<script type="text/javascript" src="./js/jquery.svgdom.min.js"></script>
+		<script type="text/javascript" src="./js/jquery.svgfilter.min.js"></script>
+		<script type="text/javascript" src="./js/jquery.svggraph.min.js"></script>
+		<script type="text/javascript" src="./js/jquery.svgplot.min.js"></script>
+		<script type="text/javascript" src="./js/jquery.svganim.min.js"></script>
 		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 		<script type="text/javascript" src="./js/ie10-viewport-bug-workaround.js"></script>
 		<!-- Local scripts -->

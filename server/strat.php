@@ -43,8 +43,14 @@ case 'get':
 	$result['data'] = $data;
 	break;
 case 'list':
-	$data = $listStrats;
-	$result['data'] = $data;
+	$resultData = array();
+	foreach ($listStrats as $myStrat) {
+		// Only push personal and public strategies
+		if ($myStrat['creator'] == $_SESSION['account_id'] || $myStrat['state'] == 'public' || $myStrat['state'] == 'review') {
+			array_push($resultData, $myStrat);
+		}
+	}
+	$result['data'] = $resultData;
 	break;
 case 'save':
 	$data = json_decode($_REQUEST['data'], true);

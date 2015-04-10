@@ -292,7 +292,9 @@
 			"elements": "Editer les éléments",
 			"lines": "Editer les lignes",
 			"shapes": "Editer les formes",
-			"texts": "Editer les textes"
+			"texts": "Editer les textes",
+			"ping": "Effectuer un ping sur la carte",
+			"comments": "Afficher/Masquer les commentaires"
 		},
 		"line": {
 			"options": "Options générales",

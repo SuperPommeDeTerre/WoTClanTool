@@ -38,7 +38,7 @@ $gAdmins = $gConfig["app"]["admins"];
 
 define('WCT_DATA_DIR', dirname(__FILE__) . '/../data/');
 
-$gAuthorizedLang = array("en", "ru", "pl", "de", "fr", "es", "zh", "tr", "cs", /*"th", /* "vi",*/ "ko");
+$gAuthorizedLang = array("en", "ru", "pl", "de", "fr", "es", "zh", "tr", "cs", /*"th", "vi",*/ "ko");
 $gLang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
 if (!array_search($gLang, $gAuthorizedLang)) {
 	$gLang = $gAuthorizedLang[0];
