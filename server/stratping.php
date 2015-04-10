@@ -13,7 +13,7 @@ $response = array();
 $response['status'] = 'ok';
 if ($coords != '') {
 	// If coordinates are passed, store them.
-	$response['coords'] = $coords;
+	$response['coords'] = json_decode($coords, true);
 	file_put_contents($filename, $coords);
 } else {
 	// Response to comet service
