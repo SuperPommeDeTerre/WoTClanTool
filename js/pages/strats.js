@@ -1,17 +1,18 @@
 var onLoad = function() {
 	checkConnected();
-	function Comet(pUrl) {
+	function Comet(pUrl, pClanId) {
 		this.timestamp = 0;
 		this.url = pUrl;
 		this.dodisconnect = false;
 		this.stratid = -1;
+		this.clanid = pClanId;
 	};
 	Comet.prototype.initialize = function() {};
 	Comet.prototype.connect = function(pStratId) {
 		this.stratid = pStratId;
 		var myObj = this;
 		if (!myObj.dodisconnect) {
-			$.get(myObj.url, { 'timestamp': myObj.timestamp, 'stratid': myObj.stratid }, function(resultData) {
+			$.get(myObj.url, { 'timestamp': myObj.timestamp, 'clanid': myObj.clanid, 'stratid': myObj.stratid }, function(resultData) {
 				// handle the server response
 				myObj.timestamp = resultData.timestamp;
 				myObj.handleResponse(resultData);
@@ -39,10 +40,10 @@ var onLoad = function() {
 		}
 	};
 	Comet.prototype.doRequest = function(pCoords) {
-		$.get(this.url, { 'coords': pCoords, 'stratid': this.stratid }, function(data) {}, 'json');
+		$.get(this.url, { 'coords': pCoords, 'clanid': this.clanid, 'stratid': this.stratid }, function(data) {}, 'json');
 	};
 
-	var comet = new Comet('./server/stratping.php');
+	var comet = new Comet('./server/stratping.php', gPersonalInfos.clan_id);
 
 	progressNbSteps = 4;
 	advanceProgress(i18n.t('loading.claninfos'));
