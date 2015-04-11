@@ -1525,12 +1525,15 @@ var onLoad = function() {
 	$('#menuHome a').on('click', function(evt) {
 		evt.preventDefault();
 		comet.disconnect();
+		$('#menu .selected').removeClass('selected');
 		$('#stratEditor').hide();
 		$('#stratRecap').fadeIn('fast');
 	});
 	$('#btnNewStrat').on('click', function(evt) {
 		gStratId = -1;
 		gIsReadOnly = false;
+		$('#menuMap, #menuEditElements, #menuEditLines, #menuEditShapes, #menuEditTexts, #menuSave').show();
+		$('#menuPingMap').hide();
 		$('#stratRecap').hide();
 		$('#stratEditor').fadeIn('fast');
 	});
@@ -1538,6 +1541,7 @@ var onLoad = function() {
 	// Handle editor show on load.
 	var uri = new URI(document.location.href);
 	if (uri.fragment() == 'new') {
+		$('#menuMap, #menuEditElements, #menuEditLines, #menuEditShapes, #menuEditTexts, #menuSave').show();
 		$('#stratRecap').hide();
 		$('#stratEditor').fadeIn('fast');
 	}
@@ -1680,7 +1684,7 @@ var onLoad = function() {
 								myRow += '<td class="stratdateadd">' + moment(dataSaveStratResponse.data.dateadd * 1000).format('LLL') + '</td>';
 								myRow += '<td class="stratdatemod">&nbsp;</td>';
 								myRow += '<td class="stratcreator">' + dataPlayers[dataSaveStratResponse.data.creator].nickname + '</td>';
-								myRow += '<td><a href="#" class="btnEditStrat"><span class="glyphicon glyphicon-edit"></span></a> <a href="#" class="btnDeleteStrat"><span class="glyphicon glyphicon-remove"></span></a></td>';
+								myRow += '<td><a href="#" class="btnShowStrat"><span class="glyphicon glyphicon-eye-open"></span></a> <a href="#" class="btnEditStrat"><span class="glyphicon glyphicon-edit"></span></a> <a href="#" class="btnDeleteStrat"><span class="glyphicon glyphicon-remove"></span></a></td>';
 								myRow += '</tr>';
 								$('#tableMyStrats>tbody').append(myRow);
 							}
