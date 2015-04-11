@@ -589,9 +589,6 @@ var onLoad = function() {
 			mySelectedElement = myLink.next().find(".selected").removeClass("selected");
 		myLink.removeClass("selected " + mySelectedElement.attr("rel")).removeAttr("rel");
 	});
-	$("#menuShare").on("mouseenter", function(e) {
-		$("#txtImportExport").val(btoa(unescape(encodeURIComponent(JSON.stringify(gCurrentConf)))));
-	});
 	$("#menuEditShapes").find(".shape").click(function(e) {
 		$("#menuEditShapes > a").attr("class", "");
 		if (!$(this).hasClass("selected")) {
@@ -771,6 +768,9 @@ var onLoad = function() {
 			elemsTeam2 = myCanvasContainer.find(".team2");
 		elemsTeam1.removeClass("team1").addClass("team2");
 		elemsTeam2.removeClass("team2").addClass("team1");
+		if (!gIsImporting) {
+			gCurrentConf.inverse = !gCurrentConf.inverse;
+		}
 	});
 	$(document).on("submit", "form", function(e) {
 		e.stopImmediatePropagation();
@@ -1349,6 +1349,7 @@ var onLoad = function() {
 			myCanvas.group(null, "shapesOverlay", {});
 			myCanvas.group(null, "textsOverlay", {});
 			if (!gIsImporting) {
+				gCurrentConf.inverse = false;
 				gCurrentConf.elements = [];
 				gCurrentConf.texts = [];
 				gCurrentConf.shapes = [];
@@ -1381,7 +1382,6 @@ var onLoad = function() {
 				}
 				$("#linesOverlay .drawing").removeClass("drawing");
 				gIsDrawingLine = false;
-				gIsImporting = false;
 			}
 			$("#chkBases").change();
 		});
@@ -1464,6 +1464,13 @@ var onLoad = function() {
 			} else {
 				$("#basesOverlay").hide();
 			}
+			if (gIsImporting) {
+				$("#inverseTeams").prop('checked', gCurrentConf.inverse);
+				if (gCurrentConf.inverse) {
+					$("#inverseTeams").change();
+				}
+			}
+			gIsImporting = false;
 		});
 		$("#chkElements").click(function(e) {
 			if ($(this).is(":checked")) {
@@ -1511,14 +1518,6 @@ var onLoad = function() {
 			} else {
 				$("#scaleOverlay").hide();
 			}
-		});
-		$("#btnImport").click(function(e) {
-			e.stopImmediatePropagation();
-			e.preventDefault();
-			gIsImporting = true;
-			gCurrentConf = $.parseJSON(decodeURIComponent(escape(atob($("#txtImportExport").val()))));
-			$("#lblStratName").val(gCurrentConf.name);
-			$("#lblStratDesc").val(gCurrentConf.desc);
 		});
 	}
 
