@@ -24,6 +24,7 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 								<th class="stratdatemod" data-i18n="strat.dateadd"></th>
 								<th class="stratdatemod" data-i18n="strat.datemod"></th>
 								<th class="stratcreator" data-i18n="strat.creator"></th>
+								<th class="stratstatus" data-i18n="strat.state.title"></th>
 								<th class="stratactions" data-i18n="strat.actions" data-sortable="false"></th>
 							</tr>
 						</thead>

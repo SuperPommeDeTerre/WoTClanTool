@@ -1579,9 +1579,13 @@ var onLoad = function() {
 				var myListStrats = dataListStratResponse.data,
 					i = 0,
 					myStrat = {},
-					myStratsTableHtml = '';
+					myStratsTableHtml = '',
+					hideModify = true,
+					hideDelete = true;
 				for (i=0; i<myListStrats.length; i++) {
 					myStrat = myListStrats[i];
+					hideModify = true;
+					hideDelete = true;
 					// Only show user or public strategies
 					if (gConfig.PLAYER_ID == myStrat.creator || myStrat.state == 'public' || myStrat.state == 'review') {
 						myStratsTableHtml += '<tr data-stratid="' + myStrat.id + '">';
@@ -1596,15 +1600,18 @@ var onLoad = function() {
 							myStratsTableHtml += '<td class="stratdatemod">' + moment(myStrat.datemod * 1000).format('LLL') + '</td>';
 						}
 						myStratsTableHtml += '<td class="stratcreator">' + dataPlayers[myStrat.creator].nickname + '</td>';
+						myStratsTableHtml += '<td class="stratstate"><div data-toggle="tooltip" data-placement="top" class="slider shor slider-info" title="' + i18n.t('strat.state.' + myStrat.state) + '"></div></td>';
 						myStratsTableHtml += '<td><a href="#" class="btnShowStrat"><span class="glyphicon glyphicon-eye-open"></span></a>';
 						// Only the creator can modify or delete a strategy
 						if (gConfig.PLAYER_ID == myStrat.creator) {
-							myStratsTableHtml += ' <a href="#" class="btnEditStrat"><span class="glyphicon glyphicon-edit"></span></a>';
 							// Can delete only private strategies
+							hideModify = false;
 							if (myStrat.state == 'private') {
-								myStratsTableHtml += ' <a href="#" class="btnDeleteStrat"><span class="glyphicon glyphicon-remove"></span></a>';
+								hideDelete = false;
 							}
 						}
+						myStratsTableHtml += ' <a href="#" class="btnEditStrat"' + (hideModify?' style="display:none"':'') + '><span class="glyphicon glyphicon-edit"></span></a>';
+						myStratsTableHtml += ' <a href="#" class="btnDeleteStrat"' + (hideDelete?' style="display:none"':'') + '><span class="glyphicon glyphicon-remove"></span></a>';
 						myStratsTableHtml += '</td>';
 						myStratsTableHtml += '</tr>';
 					}
@@ -1653,6 +1660,79 @@ var onLoad = function() {
 					}, function(dateGetStratResponse) {
 						myRow.remove();
 					}, 'json');
+				}).find(".shor").each(function(index, el) {
+					var myElem = $(this),
+						myElemSilderOptions = {
+							start: 0,
+							step: 1,
+							range: {
+								min: 0,
+								max: 2
+							}
+						},
+						myStratId = myElem.closest('tr').data('stratid');
+					for (i=0; i<myListStrats.length; i++) {
+						myStrat = myListStrats[i];
+						if (myStrat.id == myStratId) {
+							break;
+						}
+					}
+					switch (myStrat.state) {
+						case 'private':
+							myElemSilderOptions.start = 0;
+							break;
+						case 'review':
+							myElemSilderOptions.start = 1;
+							break;
+						case 'public':
+							myElemSilderOptions.start = 2;
+							break;
+					}
+					myElem.noUiSlider(myElemSilderOptions);
+					myElem.on({
+						set: function(evt) {
+							var myLine = myElem.closest('tr'),
+								myNewState = '';
+							switch (parseInt(myElem.val())) {
+								case 0:
+									if (gConfig.PLAYER_ID == myStrat.creator) {
+										myNewState = 'private';
+									} else {
+										myNewState = 'review';
+										myElem.val(1);
+									}
+									break;
+								case 1:
+									myNewState = 'review';
+									break;
+								case 2:
+									myNewState = 'public';
+									break;
+							}
+							myElem.tooltip('hide')
+								.attr('data-original-title', i18n.t('strat.state.' + myNewState))
+								.tooltip('fixTitle')
+								.tooltip('show');
+							$.post('./server/strat.php', {
+								'action': 'setstratprops',
+								'id': myStratId,
+								'state': myNewState
+							}, function(dataSaveStratResponse) {
+								myStrat.state = myNewState;
+								switch (myStrat.state) {
+									case 'private':
+										myLine.find('.btnDeleteStrat').show();
+										break;
+									case 'review':
+										myLine.find('.btnDeleteStrat').hide();
+										break;
+									case 'public':
+										myLine.find('.btnDeleteStrat').hide();
+										break;
+								}
+							}, 'json');
+						}
+					});
 				});
 				// Save strategy
 				$('#saveOptionsBtnOk').on('click', function(evt) {

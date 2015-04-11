@@ -122,6 +122,18 @@ case 'delete':
 		}
 	}
 	break;
+case 'setstratprops':
+	$stratId = $_REQUEST['id'];
+	$state = $_REQUEST['state'];
+	$needSave = false;
+	foreach ($listStrats as &$myStrat) {
+		if ($stratId == intval($myStrat['id'])) {
+			$myStrat['state'] = $state;
+			$needSave = true;
+			break;
+		}
+	}
+	break;
 }
 
 // Perform save of the main strats file
