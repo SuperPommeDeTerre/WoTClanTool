@@ -26,7 +26,7 @@ if (isset($_SESSION["access_token"])) {
 	exit;
 }
 ?><!DOCTYPE html>
-<html lang="fr">
+<html lang="<?php echo($gLang); ?>">
 	<head>
 		<meta charset="utf-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />

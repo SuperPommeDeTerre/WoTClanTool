@@ -1616,7 +1616,8 @@ var onLoad = function() {
 					}
 				}
 				$('#tableMyStrats > tbody').empty().html(myStratsTableHtml);
-				$('#tableMyStrats').on('click', 'a.btnShowStrat', function(evt) {
+				$('#tableMyStrats').attr('data-sortable', 'true')
+				.on('click', 'a.btnShowStrat', function(evt) {
 					evt.preventDefault();
 					gStratId = $(this).closest('tr').data('stratid');
 					$.post('./server/strat.php', {
@@ -1659,7 +1660,7 @@ var onLoad = function() {
 					}, function(dateGetStratResponse) {
 						myRow.remove();
 					}, 'json');
-				}).find(".shor").each(function(index, el) {
+				}).find('.shor').each(function(index, el) {
 					var myElem = $(this),
 						myElemSilderOptions = {
 							start: 0,
@@ -1733,6 +1734,7 @@ var onLoad = function() {
 						}
 					});
 				});
+				Sortable.initTable($('#tableMyStrats')[0]);
 				// Save strategy
 				$('#saveOptionsBtnOk').on('click', function(evt) {
 					// Ensure name and desc presence
@@ -1751,7 +1753,6 @@ var onLoad = function() {
 								myRow.find('td.stratmap').text(i18n.t('strat.maps.' + dataSaveStratResponse.data.map));
 								myRow.find('td.stratname').text(dataSaveStratResponse.data.name);
 								myRow.find('td.stratdesc span').text(dataSaveStratResponse.data.description);
-								myRow.find('td.stratstate').text(i18n.t('strat.state.' + dataSaveStratResponse.data.state));
 								myRow.find('td.stratdatemod').text(moment(dataSaveStratResponse.data.datemod * 1000).format('LLL'));
 							} else {
 								// It's a new strategy. Add to table.
@@ -1763,6 +1764,7 @@ var onLoad = function() {
 								myRow += '<td class="stratdateadd">' + moment(dataSaveStratResponse.data.dateadd * 1000).format('LLL') + '</td>';
 								myRow += '<td class="stratdatemod">&nbsp;</td>';
 								myRow += '<td class="stratcreator">' + dataPlayers[dataSaveStratResponse.data.creator].nickname + '</td>';
+								myRow += '<td class="stratstate"><div data-toggle="tooltip" data-placement="top" class="slider shor slider-info" title="' + i18n.t('strat.state.private') + '"></div></td>';
 								myRow += '<td><a href="#" class="btnShowStrat"><span class="glyphicon glyphicon-eye-open"></span></a> <a href="#" class="btnEditStrat"><span class="glyphicon glyphicon-edit"></span></a> <a href="#" class="btnDeleteStrat"><span class="glyphicon glyphicon-remove"></span></a></td>';
 								myRow += '</tr>';
 								$('#tableMyStrats>tbody').append(myRow);

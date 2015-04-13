@@ -60,7 +60,6 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 					<div id="myTanksContainerBig" class="hidden"></div>
 				</div>
 			</div>
-			<h2 class="sub-header" id="strats" data-i18n="elems.strats"></h2>
 			<h2 class="sub-header" id="stats" data-i18n="elems.stats"></h2>
 		</div>
 	</div>

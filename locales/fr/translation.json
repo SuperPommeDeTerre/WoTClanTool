@@ -4,6 +4,20 @@
 		"version": "Version :",
 		"description": "Outil de gestion de clan pour World of Tanks"
 	},
+	"install": {
+		"title": "Installation de l'application",
+		"proceed": "Lancer l'installation",
+		"config": "Configuration",
+		"tests": "Tests",
+		"write": {
+			"ok": "[__file__] est accessible en écriture",
+			"ko": "[__file__] n'est pas accessible en écriture"
+		},
+		"modrewrite": {
+			"ok": "Module apache de réécriture d'url mod_rewrite disponible",
+			"ko": "Module apache de réécriture d'url mod_rewrite non disponible"
+		}
+	},
 	"nav": {
 		"toggle": "Basculer navigation",
 		"home": "Accueil",

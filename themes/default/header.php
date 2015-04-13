@@ -53,7 +53,6 @@ header('Content-Type: text/html; charset=utf-8');
 								<ul class="dropdown-menu" role="menu">
 									<li><a href="./my.php#calendar"><span class="glyphicon glyphicon-calendar"></span> <span data-i18n="nav.my.calendar"></span></a></li>
 									<li><a href="./my.php#garage"><span class="glyphicon glyphicon-oil"></span> <span data-i18n="nav.my.garage"></span></a></li>
-									<li><a href="./my.php#strats"><span class="glyphicon glyphicon-picture"></span> <span data-i18n="nav.my.strats"></span></a></li>
 									<li><a href="./my.php#stats"><span class="glyphicon glyphicon-signal"></span> <span data-i18n="nav.my.stats"></span></a></li>
 									<li class="divider"></li>
 									<li><a href="logout.php" id="linkLogout" data-i18n="[title]nav.logout;"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> <span data-i18n="nav.logout"></span></a></li>
@@ -66,6 +65,7 @@ header('Content-Type: text/html; charset=utf-8');
 								<a href="./strats.php" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span data-i18n="nav.strats.title"></span> <span class="caret"></span></a>
 								<ul class="dropdown-menu" role="menu">
 									<li><a href="./strats.php#new"><span class="glyphicon glyphicon-plus"></span> <span data-i18n="nav.strats.new"></span></a></li>
+									<li><a href="./strats.php#my"><span class="glyphicon glyphicon-picture"></span> <span data-i18n="nav.my.strats"></span></a></li>
 									<li class="divider"></li>
 									<li class="dropdown-header" data-i18n="nav.strats.shared"></li>
 									<li><a href="./strats.php#valid"><span class="glyphicon glyphicon-star"></span> <span data-i18n="nav.strats.valid"></span></a></li>

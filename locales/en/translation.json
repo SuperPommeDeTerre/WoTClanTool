@@ -4,6 +4,20 @@
 		"version": "Version :",
 		"description": "Clan managing tool for World of Tanks"
 	},
+	"install": {
+		"title": "Installation",
+		"proceed": "Execute install",
+		"config": "Configuration",
+		"tests": "Tests",
+		"write": {
+			"ok": "[__file__] is writable",
+			"ko": "[__file__] is not writable"
+		},
+		"modrewrite": {
+			"ok": "Apache mod_rewrite is available",
+			"ko": "Apache mod_rewrite is not available"
+		}
+	},
 	"nav": {
 		"toggle": "Switch navigation",
 		"home": "Home",
