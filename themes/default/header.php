@@ -51,10 +51,12 @@ header('Content-Type: text/html; charset=utf-8');
 							<li class="dropdown<?php if ($gPageID == 'my') { echo(' active'); } ?>">
 								<a href="./my.php" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span id="playerNickName"><?php echo($_SESSION["nickname"]); ?></span> <span class="caret"></span></a>
 								<ul class="dropdown-menu" role="menu">
-									<li><a href="./my.php#calendar" data-i18n="nav.my.calendar"></a></li>
-									<li><a href="./my.php#garage" data-i18n="nav.my.garage"></a></li>
-									<li><a href="./my.php#strats" data-i18n="nav.my.strats"></a></li>
-									<li><a href="./my.php#stats" data-i18n="nav.my.stats"></a></li>
+									<li><a href="./my.php#calendar"><span class="glyphicon glyphicon-calendar"></span> <span data-i18n="nav.my.calendar"></span></a></li>
+									<li><a href="./my.php#garage"><span class="glyphicon glyphicon-oil"></span> <span data-i18n="nav.my.garage"></span></a></li>
+									<li><a href="./my.php#strats"><span class="glyphicon glyphicon-picture"></span> <span data-i18n="nav.my.strats"></span></a></li>
+									<li><a href="./my.php#stats"><span class="glyphicon glyphicon-signal"></span> <span data-i18n="nav.my.stats"></span></a></li>
+									<li class="divider"></li>
+									<li><a href="logout.php" id="linkLogout" data-i18n="[title]nav.logout;"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> <span data-i18n="nav.logout"></span></a></li>
 								</ul>
 							</li>
 							<li<?php if ($gPageID == 'garage') { echo(' class="active"'); } ?>><a href="garage.php" data-i18n="nav.garage"></a></li>
@@ -63,18 +65,17 @@ header('Content-Type: text/html; charset=utf-8');
 							<li class="dropdown<?php if ($gPageID == 'strats') { echo(' active'); } ?>">
 								<a href="./strats.php" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span data-i18n="nav.strats.title"></span> <span class="caret"></span></a>
 								<ul class="dropdown-menu" role="menu">
-									<li><a href="./strats.php#new" data-i18n="nav.strats.new"></a></li>
+									<li><a href="./strats.php#new"><span class="glyphicon glyphicon-plus"></span> <span data-i18n="nav.strats.new"></span></a></li>
 									<li class="divider"></li>
 									<li class="dropdown-header" data-i18n="nav.strats.shared"></li>
-									<li><a href="./strats.php#valid" data-i18n="nav.strats.valid"></a></li>
-									<li><a href="./strats.php#review" data-i18n="nav.strats.review"></a></li>
+									<li><a href="./strats.php#valid"><span class="glyphicon glyphicon-star"></span> <span data-i18n="nav.strats.valid"></span></a></li>
+									<li><a href="./strats.php#review"><span class="glyphicon glyphicon-check"></span> <span data-i18n="nav.strats.review"></span></a></li>
 								</ul>
 							</li><?php
 // Show the administration only if the user is in the admins group
 if (in_array($_SESSION["account_id"], $gAdmins)) { ?>
 							<li<?php if ($gPageID == 'admin') { echo(' class="active"'); } ?>><a href="admin.php" data-i18n="[title]nav.admin;"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></li><?php
 } ?>
-							<li><a href="logout.php" id="linkLogout" data-i18n="[title]nav.logout;"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></a></li>
 						</ul>
 					</div><!--/.nav-collapse -->
 				</div><!--/.container-fluid -->
