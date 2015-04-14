@@ -82,8 +82,18 @@ function install($content, $config) {
 				<div class="main">
 					<h1 class="page-header" data-i18n="install.title"></h1>
 					<div class="row">
-						<div class="col-md-9">
+						<div class="col-md-8">
 							<h2 data-i18n="install.config"></h2>
+							<div class="form-group">
+								<label for="exampleInputEmail1">Clusters</label>
+								<div class="btn-group" aria-label="Clusters">
+									<a href="#" class="btn btn-default">RU</a>
+									<a href="#" class="btn btn-default">NA</a>
+									<a href="#" class="btn btn-default">EU</a>
+									<a href="#" class="btn btn-default">ASIA</a>
+									<a href="#" class="btn btn-default">KR</a>
+								</div>
+							</div>
 							<div class="form-group">
 								<input type="text" class="form-control floating-label" placeholder="Clan" data-hint="Entrez les restrictions de clan"/>
 							</div>
@@ -91,10 +101,10 @@ function install($content, $config) {
 								<input type="text" class="form-control floating-label" placeholder="Administrateurs" data-hint="Entrez les administrateurs de l'outil"/>
 							</div>
 							<div class="form-group">
-								<input type="text" class="form-control floating-label" placeholder="Seuil d'inactivité" data-hint="Entrez le seuil d'inactivité des membres avant qu'ils apparaissent en rouge dans la liste"/>
+								<input type="range" min="0" max="60" class="form-control floating-label" placeholder="Seuil d'inactivité" data-hint="Entrez le seuil d'inactivité des membres avant qu'ils apparaissent en rouge dans la liste"/>
 							</div>
 						</div>
-						<div class="col-md-3">
+						<div class="col-md-4">
 							<h2 data-i18n="install.tests"></h2>
 							<?php testWrite(WCT_CONFIG_DIR); ?>
 							<?php testWrite(WCT_DATA_DIR); ?>

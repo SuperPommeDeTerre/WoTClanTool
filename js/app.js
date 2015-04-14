@@ -1,7 +1,7 @@
 // Define some global variables
 var gTANKS_LEVEL = [ 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X' ],
 	gTANKS_TYPES =  { 'lightTank': 1, 'mediumTank': 2, 'heavyTank': 3, 'AT-SPG': 4, 'SPG': 5 },
-	gROLE_POSITION = { 'commander': 1, 'executive_officer': 2, 'personnel_officer': 3, 'combat_officer': 4, 'intelligence_officer': 5, 'recruitment_officer': 6, 'junior_officer': 7, 'private': 8, 'recruit': 9, 'reservist': 10 },
+	gROLE_POSITION = { 'commander': 1, 'executive_officer': 2, 'personnel_officer': 3, 'combat_officer': 4, 'intelligence_officer': 5, 'quartermaster': 6, 'recruitment_officer': 7, 'junior_officer': 8, 'private': 9, 'recruit': 10, 'reservist': 11 },
 	gLangMapping = {
 		'fr': 'fr-FR',
 		'en': 'en-US'

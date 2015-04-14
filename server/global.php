@@ -44,6 +44,15 @@ if (!array_search($gLang, $gAuthorizedLang)) {
 	$gLang = $gAuthorizedLang[0];
 }
 
+// Clusters definition
+$gClusters = array(
+	"RU"	=>	"api.worldoftanks.ru",
+	"NA"	=>	"api.worldoftanks.com",
+	"EU"	=>	"api.worldoftanks.eu",
+	"ASIA"	=>	"api.worldoftanks.asia",
+	"KR"	=>	"api.worldoftanks.kr"
+);
+
 function getUserFile($pUserId) {
 	$userFileName = WCT_DATA_DIR . 'user/' . substr($pUserId, 0, 3) . '/' . substr($pUserId, 3, 3) . '/' . $pUserId . '.json';
 	$dirName = dirname($userFileName);
