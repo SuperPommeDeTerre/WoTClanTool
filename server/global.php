@@ -11,18 +11,11 @@ session_start();
 
 // Clusters definition
 $gClusters = array(
-	"RU"	=>	"https://api.worldoftanks.ru/",
-	"NA"	=>	"https://api.worldoftanks.com/",
-	"EU"	=>	"https://api.worldoftanks.eu/",
-	"ASIA"	=>	"https://api.worldoftanks.asia/",
-	"KR"	=>	"https://api.worldoftanks.kr/"
-);
-$gWG_API_KEYS = array(
-	"RU"	=>	"09593f389cc88f0d270ef6e35c0bcd3f",
-	"NA"	=>	"c9439de189fc787041c215d2a9b2ecb9",
-	"EU"	=>	"e6ecba5f5af3a16603e38f3b40b1a84e",
-	"ASIA"	=>	"",
-	"KR"	=>	""
+	"RU"	=> array("url" => "https://api.worldoftanks.ru/",		"key" => "09593f389cc88f0d270ef6e35c0bcd3f"),
+	"NA"	=> array("url" => "https://api.worldoftanks.com/",		"key" => "c9439de189fc787041c215d2a9b2ecb9"),
+	"EU"	=> array("url" => "https://api.worldoftanks.eu/",		"key" => "e6ecba5f5af3a16603e38f3b40b1a84e"),
+	"ASIA"	=> array("url" => "https://api.worldoftanks.asia/",	"key" => ""),
+	"KR"	=> array("url" => "https://api.worldoftanks.kr/",		"key" => "")
 );
 
 // If the configuration file doesn't exists, then proceed to install...
@@ -38,10 +31,10 @@ $gConfig = is_array($gConfig) ? $gConfig : array($gConfig);
 $gCluster = isset($_SESSION["cluster"]) ? $_SESSION["cluster"] : "EU";
 
 // Define the WG application ID.
-$gWG_APP_ID_CLIENT = $gWG_API_KEYS[$gCluster];
+$gWG_APP_ID_CLIENT = $gClusters[$gCluster]["key"];
 
 // URL of WG API
-$gWG_API_URL = $gClusters[$gCluster];
+$gWG_API_URL = $gClusters[$gCluster]["url"];
 
 // List of authorized clans ID (empty for no restrictions)
 $gCLAN_ID = $gConfig["clans"]["restric_to"][$gCluster];
