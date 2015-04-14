@@ -17,6 +17,13 @@ $gClusters = array(
 	"ASIA"	=>	"https://api.worldoftanks.asia/",
 	"KR"	=>	"https://api.worldoftanks.kr/"
 );
+$gWG_API_KEYS = array(
+	"RU"	=>	"09593f389cc88f0d270ef6e35c0bcd3f",
+	"NA"	=>	"c9439de189fc787041c215d2a9b2ecb9",
+	"EU"	=>	"e6ecba5f5af3a16603e38f3b40b1a84e",
+	"ASIA"	=>	"",
+	"KR"	=>	""
+);
 
 // If the configuration file doesn't exists, then proceed to install...
 if (!file_exists(dirname(__FILE__) . '/../config/config.json')) {
@@ -26,16 +33,18 @@ if (!file_exists(dirname(__FILE__) . '/../config/config.json')) {
 
 $gConfig = json_decode(file_get_contents(dirname(__FILE__) . '/../config/config.json'), true);
 $gConfig = is_array($gConfig) ? $gConfig : array($gConfig);
+
+// Define cluster (default to EU)
 $gCluster = isset($_SESSION["cluster"]) ? $_SESSION["cluster"] : "EU";
 
 // Define the WG application ID.
-$gWG_APP_ID_CLIENT = $gConfig["WG"]["clusters"][$gCluster];
+$gWG_APP_ID_CLIENT = $gWG_API_KEYS[$gCluster];
 
 // URL of WG API
 $gWG_API_URL = $gClusters[$gCluster];
 
 // List of authorized clans ID (empty for no restrictions)
-$gCLAN_ID = $gConfig["clans"]["restric_to"];
+$gCLAN_ID = $gConfig["clans"]["restric_to"][$gCluster];
 
 // Max number of days before a player is marked as inactive
 $gMAX_BATTLE_TIME = $gConfig["player"]["max_battle_time"];;
@@ -43,10 +52,10 @@ $gMAX_BATTLE_TIME = $gConfig["player"]["max_battle_time"];;
 // Name of theme to use
 $gThemeName = $gConfig["app"]["theme"];
 
-// Adminstrators
-$gAdmins = $gConfig["app"]["admins"];
+// Administrators
+$gAdmins = $gConfig["app"]["admins"][$gCluster];
 
-define('WCT_DATA_DIR', dirname(__FILE__) . '/../data/');
+define('WCT_DATA_DIR', dirname(__FILE__) . '/../data/' . $gCluster . '/');
 
 $gAuthorizedLang = array("en", "ru", "pl", "de", "fr", "es", "zh", "tr", "cs", /*"th", "vi",*/ "ko");
 $gLang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);

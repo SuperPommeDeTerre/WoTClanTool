@@ -1,15 +1,21 @@
 {
 	"WG": {
-		"clusters": {
-			"EU": "e6ecba5f5af3a16603e38f3b40b1a84e"
-		}
+		"clusters": [ "EU", "RU", "NA" ]
 	},
 	"app": {
 		"theme": "default",
-		"admins": [ "506641783" ]
+		"admins": {
+			"EU": [ "506641783" ],
+			"RU": [],
+			"NA": []
+		}
 	},
 	"clans": {
-		"restric_to": [  ]
+		"restric_to": {
+			"EU": [],
+			"RU": [],
+			"NA": []
+		}
 	},
 	"player": {
 		"max_battle_time": 14
