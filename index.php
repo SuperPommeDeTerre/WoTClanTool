@@ -100,7 +100,7 @@ if (count($gConfig["WG"]["clusters"]) > 1) {
 							<div class="row"><?php
 	foreach ($gConfig["WG"]["clusters"] as $clusterId) {
 ?>
-								<div class="">
+								<div class="cluster <?php echo($clusterId); ?>" data-region="<?php echo($clusterId); ?>">
 									<p data-i18n="clusters.<?php echo($clusterId); ?>"></p>
 								</div><?php
 	}

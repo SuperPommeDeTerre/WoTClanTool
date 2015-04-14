@@ -5,7 +5,7 @@
 		"description": "Clan managing tool for World of Tanks"
 	},
 	"clusters": {
-		"title": "Region",
+		"title": "Choose your region to login",
 		"RU": "Russia",
 		"NA": "America",
 		"EU": "Europe",

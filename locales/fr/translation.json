@@ -5,7 +5,7 @@
 		"description": "Outil de gestion de clan pour World of Tanks"
 	},
 	"clusters": {
-		"title": "Région",
+		"title": "Choisissez votre région pour vous connecter",
 		"RU": "Russie",
 		"NA": "Amérique du nord",
 		"EU": "Europe",

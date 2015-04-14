@@ -24,6 +24,14 @@
 .dh-event-type-other,.event-type-other{background-color:#9e9e9e}
 .header-fixed > thead > tr > th{background-color: rgba(238, 238, 238, 0.9)}
 
+/* Login */
+.cluster{width:175px;height:100px;float:left;margin:.25em;vertical-align:middle;text-align:center}
+.cluster p{color:#FFF;margin:auto;line-height:100px}
+.cluster.EU{background:url('./images/im_cluster_flag_eu.jpg') no-repeat left top;background-size:100% auto}
+.cluster.RU{background:url('./images/im_cluster_flag_ru.jpg') no-repeat left top;background-size:100% auto}
+.cluster.NA{background:url('./images/im_cluster_flag_us.jpg') no-repeat left top;background-size:100% auto}
+.cluster.KR{background:url('./images/im_cluster_flag_kr.jpg') no-repeat left top;background-size:100% auto}
+.cluster.ASIA{background:url('./images/im_cluster_flag_esg.jpg') no-repeat left top;background-size:100% auto}
 /* Tanks */
 .tank:not(.ingarage) td {background-color:#CCC}
 .tableTanks thead .tankcontour{width:50px}
