@@ -230,7 +230,9 @@ var onLoad = function() {
 						$('#clanTotalVehicles').text(i18n.t('clan.nbtanks', { count: nbTotalVehicules }));
 						var myData = [];
 						for (var i=gTANKS_LEVEL.length - 1; i>=0; i--) {
-							myData.push({ label: gTANKS_LEVEL[i], value: nbClanVehiculesByTiers[i] });
+							if (nbClanVehiculesByTiers[i] > 0) {
+								myData.push({ label: gTANKS_LEVEL[i], value: nbClanVehiculesByTiers[i] });
+							}
 						}
 						new Morris.Donut({
 							element: 'chartTanksTiers',
