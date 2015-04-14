@@ -202,7 +202,7 @@ var onLoad = function() {
 					advanceProgress(i18n.t('loading.tanksadditionalinfos'));
 					var dataPlayersVehicles = dataPlayersVehiclesResponse.data,
 						nbClanVehiculesByTiers = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
-						nbClanVehiculesByType = { 'lightTank': 0, 'mediumTank': 0, 'heavyTank': 0, 'AT-SPG': 0, 'SPG': 0},
+						nbClanVehiculesByType = { 'lightTank': 0, 'mediumTank': 0, 'heavyTank': 0, 'AT-SPG': 0, 'SPG': 0 },
 						nbTotalVehicules = 0,
 						playerId = 0;
 					$.post('./server/player.php', {
@@ -216,16 +216,9 @@ var onLoad = function() {
 								playerVehicles = dataPlayersVehicles[playerId],
 								playerStoredVehicules = dataStoredPlayersTanks[playerId],
 								vehiculeDetails = null;
-							if (playerStoredVehicules.length == 0) {
-								nbTotalVehicules += playerVehicles.length;
-								for (var j = 0; j<playerVehicles.length; j++) {
-									vehiculeDetails = dataTankopedia[playerVehicles[j].tank_id];
-									nbClanVehiculesByTiers[vehiculeDetails.level - 1]++;
-									nbClanVehiculesByType[vehiculeDetails.type]++;
-								}
-							} else {
+							if (playerStoredVehicules.length > 0) {
 								for (var j=0; j<playerStoredVehicules.length; j++) {
-									if (playerStoredVehicules[j].is_full) {
+									if (playerStoredVehicules[j].in_garage) {
 										vehiculeDetails = dataTankopedia[playerStoredVehicules[j].tank_id];
 										nbTotalVehicules++;
 										nbClanVehiculesByTiers[vehiculeDetails.level - 1]++;
