@@ -7,6 +7,7 @@ if (isset($_REQUEST["access_token"])) {
 	$_SESSION["nickname"] = $_REQUEST["nickname"];
 	$_SESSION["account_id"] = $_REQUEST["account_id"];
 	$_SESSION["expires_at"] = $_REQUEST["expires_at"];
+	$_SESSION["cluster"] = "EU";
 }
 // Handle WG session expiration
 $curTime = time();

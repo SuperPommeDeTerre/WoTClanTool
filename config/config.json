@@ -1,7 +1,8 @@
 {
 	"WG": {
-		"app_id": "e6ecba5f5af3a16603e38f3b40b1a84e",
-		"api_url": "https://api.worldoftanks.eu/"
+		"clusters": {
+			"EU": "e6ecba5f5af3a16603e38f3b40b1a84e"
+		}
 	},
 	"app": {
 		"theme": "default",

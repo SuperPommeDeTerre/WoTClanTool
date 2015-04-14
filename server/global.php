@@ -9,6 +9,15 @@
 session_set_cookie_params(1209600);
 session_start();
 
+// Clusters definition
+$gClusters = array(
+	"RU"	=>	"https://api.worldoftanks.ru/",
+	"NA"	=>	"https://api.worldoftanks.com/",
+	"EU"	=>	"https://api.worldoftanks.eu/",
+	"ASIA"	=>	"https://api.worldoftanks.asia/",
+	"KR"	=>	"https://api.worldoftanks.kr/"
+);
+
 // If the configuration file doesn't exists, then proceed to install...
 if (!file_exists(dirname(__FILE__) . '/../config/config.json')) {
 	header('Location: ./install.php');
@@ -17,12 +26,13 @@ if (!file_exists(dirname(__FILE__) . '/../config/config.json')) {
 
 $gConfig = json_decode(file_get_contents(dirname(__FILE__) . '/../config/config.json'), true);
 $gConfig = is_array($gConfig) ? $gConfig : array($gConfig);
+$gCluster = isset($_SESSION["cluster"]) ? $_SESSION["cluster"] : "EU";
 
 // Define the WG application ID.
-$gWG_APP_ID_CLIENT = $gConfig["WG"]["app_id"];
+$gWG_APP_ID_CLIENT = $gConfig["WG"]["clusters"][$gCluster];
 
 // URL of WG API
-$gWG_API_URL = $gConfig["WG"]["api_url"];
+$gWG_API_URL = $gClusters[$gCluster];
 
 // List of authorized clans ID (empty for no restrictions)
 $gCLAN_ID = $gConfig["clans"]["restric_to"];
@@ -43,15 +53,6 @@ $gLang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
 if (!array_search($gLang, $gAuthorizedLang)) {
 	$gLang = $gAuthorizedLang[0];
 }
-
-// Clusters definition
-$gClusters = array(
-	"RU"	=>	"api.worldoftanks.ru",
-	"NA"	=>	"api.worldoftanks.com",
-	"EU"	=>	"api.worldoftanks.eu",
-	"ASIA"	=>	"api.worldoftanks.asia",
-	"KR"	=>	"api.worldoftanks.kr"
-);
 
 function getUserFile($pUserId) {
 	$userFileName = WCT_DATA_DIR . 'user/' . substr($pUserId, 0, 3) . '/' . substr($pUserId, 3, 3) . '/' . $pUserId . '.json';
