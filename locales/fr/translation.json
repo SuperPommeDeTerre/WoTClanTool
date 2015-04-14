@@ -4,6 +4,14 @@
 		"version": "Version :",
 		"description": "Outil de gestion de clan pour World of Tanks"
 	},
+	"clusters": {
+		"title": "Région",
+		"RU": "Russie",
+		"NA": "Amérique du nord",
+		"EU": "Europe",
+		"ASIA": "Asie",
+		"KR": "Corée"
+	},
 	"install": {
 		"title": "Installation de l'application",
 		"proceed": "Lancer l'installation",

@@ -4,6 +4,14 @@
 		"version": "Version :",
 		"description": "Clan managing tool for World of Tanks"
 	},
+	"clusters": {
+		"title": "Region",
+		"RU": "Russia",
+		"NA": "America",
+		"EU": "Europe",
+		"ASIA": "Asia",
+		"KR": "Korea"
+	},
 	"install": {
 		"title": "Installation",
 		"proceed": "Execute install",

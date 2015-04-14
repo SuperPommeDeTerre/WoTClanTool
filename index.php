@@ -77,7 +77,12 @@ if (isset($_SESSION["access_token"])) {
 						<li data-i18n="page.index.features.4"></li>
 					</ul>
 					<p data-i18n="[html]page.index.lines.2"></p>
-					<p style="text-align:center"><a href="#" class="btn btn-lg btn-primary btn-material-grey-500" id="btnLogin" data-i18n="action.identification"></a></p>
+					<p style="text-align:center"><?php
+if (count($gConfig["WG"]["clusters"]) > 1) {
+	?><a href="#" class="btn btn-lg btn-primary btn-material-grey-500" id="btnLogin" data-target="#dlgChooseCluster" data-toggle="modal" data-i18n="action.identification"></a><?php
+} else {
+	?><a href="#" class="btn btn-lg btn-primary btn-material-grey-500" id="btnLogin" data-i18n="action.identification"></a><?php
+} ?></p>
 				</div>
 			</div>
 		</div><?php
@@ -88,30 +93,20 @@ if (count($gConfig["WG"]["clusters"]) > 1) {
 				<div class="modal-content">
 					<div class="modal-header">
 						<button class="close" aria-hidden="true" data-dismiss="modal" type="button">×</button>
-						<h4 class="modal-title" data-i18n="nav.tscomments"></h4>
+						<h4 class="modal-title" data-i18n="clusters.title"></h4>
 					</div>
 					<div class="modal-body">
-						<ul class="nav nav-pills nav-pills-material-grey">
-							<li role="presentation" class="active"><a href="#tabTSCommentImage" data-toggle="tab" data-i18n="nav.tscommentimage"></a></li>
-							<li role="presentation"><a href="#tabTSCommentText" data-toggle="tab" data-i18n="nav.tscommenthtml"></a></li>
-						</ul>
-						<div id="myTabTSCommentsContent" class="tab-content">
-							<div class="tab-pane fade active in" id="tabTSCommentImage">
-								<div class="checkbox">
-									<label>
-										<input type="checkbox" id="chkContourIcons" checked="checked" /> <span data-i18n="tank.resume.chkcontour" style="left:25px;top:8px;width:200px"></span>
-									</label>
-								</div>
-								<canvas width="300" height="150" id="canvasRecapPlayer"></canvas>
-							</div>
-							<div class="tab-pane fade in" id="tabTSCommentText">
-								<pre id="textResumePlayer"></pre>
-								<button id="copy-button" class="btn btn-default btn-material-grey-500" data-clipboard-target="textResumePlayer" data-i18n="[title]action.copy;"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></button>
+						<div class="container-fluid">
+							<div class="row"><?php
+	foreach ($gConfig["WG"]["clusters"] as $clusterId) {
+?>
+								<div class="">
+									<p data-i18n="clusters.<?php echo($clusterId); ?>"></p>
+								</div><?php
+	}
+?>
 							</div>
 						</div>
-					</div>
-					<div class="modal-footer">
-						<button class="btn btn-primary" data-dismiss="modal" data-i18n="btn.ok"></button>
 					</div>
 				</div>
 			</div>
