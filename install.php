@@ -92,14 +92,21 @@ function install($content, $config) {
 									<a href="#" class="btn btn-default">ASIA</a>
 								</div>
 							</div>
-							<div class="form-group">
-								<input type="text" class="form-control floating-label" placeholder="Clan" data-hint="Entrez les restrictions de clan"/>
+							<div>
+								<div class="alert alert-info alert-dismissible" role="alert">
+									<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									<h3>VAE-V <small>Malheur aux vaincus</small></h3>
+								</div>
+								<button class="btn btn-default" data-i18n=""><span class="glyphicon glyphicon-plus"></span></button>
+							</div>
+							<div>
+								<span class="label label-default">SuperPommeDeTerre</span> <button class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></button>
 							</div>
 							<div class="form-group">
 								<input type="text" class="form-control floating-label" placeholder="Administrateurs" data-hint="Entrez les administrateurs de l'outil"/>
 							</div>
 							<div class="form-group">
-								<input type="range" min="0" max="60" class="form-control floating-label" placeholder="Seuil d'inactivité" data-hint="Entrez le seuil d'inactivité des membres avant qu'ils apparaissent en rouge dans la liste"/>
+								<input type="range" min="0" max="60" class="form-control floating-label" placeholder="Seuil d'inactivité" data-hint="Entrez le seuil d'inactivité des joueurs avant qu'ils apparaissent en rouge dans la liste" />
 							</div>
 						</div>
 						<div class="col-md-4">
@@ -110,6 +117,40 @@ function install($content, $config) {
 						</div>
 					</div>
 					<p style="text-align:center"><a href="#" class="btn btn-lg btn-primary btn-material-grey-500" id="btnExecuteInstall" data-i18n="install.proceed"></a></p>
+				</div>
+			</div>
+		</div>
+		<div id="dlgSearchClan" class="modal fade" tabindex="-1">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button class="close" aria-hidden="true" data-dismiss="modal" type="button">×</button>
+						<h4 class="modal-title" data-i18n="install.searchclan.title"></h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<input type="text" class="form-control floating-label" placeholder="Clan" data-hint="Entrez le nom du clan recherché" />
+						</div>
+						<div id="searchClanResult">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="dlgSearchPlayer" class="modal fade" tabindex="-1">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button class="close" aria-hidden="true" data-dismiss="modal" type="button">×</button>
+						<h4 class="modal-title" data-i18n="install.searchplayer.title"></h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<input type="text" class="form-control floating-label" placeholder="Joueur" data-hint="Entrez le nom du joueur recherché" />
+						</div>
+						<div id="searchPlayerResult">
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
