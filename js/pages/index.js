@@ -1,6 +1,6 @@
 var doLogin = function(pDestURI) {
-	$.post(gConfig.WG_API_URL + 'wot/auth/login/', {
-			'application_id': gConfig.WG_APP_ID,
+	$.post(gConfig.CLUSTERS[gConfig.CLUSTER].url + 'wot/auth/login/', {
+			'application_id': gConfig.CLUSTERS[gConfig.CLUSTER].key,
 			'language': gConfig.LANG,
 			'redirect_uri': pDestURI.href(),
 			'nofollow': 1,
@@ -20,6 +20,16 @@ var onLoad = function() {
 	if (myURI.search(true)['returnUrl']) {
 		destURI = URI(myURI.search(true)['returnUrl']);
 	}
+	$('.cluster').on('click', function(evt) {
+		var destCluster = $(this).data('region');
+		$.post('./server/player.php', {
+			'action': 'setcluster',
+			'cluster': destCluster
+		}, function(dataResponseSetClusterData) {
+			gConfig.CLUSTER = destCluster;
+			doLogin(destURI);
+		}, 'json');
+	});
 	$('#btnLogin').on('click', function(evt) {
 		evt.preventDefault();
 		if (typeof($(this).data('target')) == 'undefined') {

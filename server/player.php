@@ -50,11 +50,17 @@ function calcTankWN8($pTanksExpectedVals, $pTankStats) {
 }
 
 // Switch between requested action
-$userFile = getUserFile($_SESSION['account_id']);
+$userFile = '';
+if (isset($_SESSION['account_id'])) {
+	$userFile = getUserFile($_SESSION['account_id']);
+}
 $result = array();
 switch ($_REQUEST['action']) {
 	case 'setclanid':
 		$_SESSION["clan_id"] = $_REQUEST["clan_id"];
+		break;
+	case 'setcluster':
+		$_SESSION["cluster"] = $_REQUEST["cluster"];
 		break;
 	case 'purge':
 		$usersToPurge = array();

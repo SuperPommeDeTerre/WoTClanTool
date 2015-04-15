@@ -25,8 +25,8 @@
 .header-fixed > thead > tr > th{background-color: rgba(238, 238, 238, 0.9)}
 
 /* Login */
-.cluster{width:175px;height:100px;float:left;margin:.25em;vertical-align:middle;text-align:center}
-.cluster p{color:#FFF;margin:auto;line-height:100px}
+.cluster{width:175px;height:100px;float:left;margin:.25em;vertical-align:middle;text-align:center;cursor:pointer}
+.cluster p{color:#FFF;margin:auto;line-height:100px;font-size:1.25em}
 .cluster.EU{background:url('./images/im_cluster_flag_eu.jpg') no-repeat left top;background-size:100% auto}
 .cluster.RU{background:url('./images/im_cluster_flag_ru.jpg') no-repeat left top;background-size:100% auto}
 .cluster.NA{background:url('./images/im_cluster_flag_us.jpg') no-repeat left top;background-size:100% auto}

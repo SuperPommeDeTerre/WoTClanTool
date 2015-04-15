@@ -8,11 +8,13 @@ $confArray = array(
 	'THEME' => $gThemeName,
 	'CLAN_IDS' => $gCLAN_ID,
 	'LANG' => $gLang,
-	'THRESHOLDS_MAX_BATTLES' => $gMAX_BATTLE_TIME
+	'THRESHOLDS_MAX_BATTLES' => $gMAX_BATTLE_TIME,
+	'CLUSTERS' => $gClusters
 );
 if (isset($_SESSION["access_token"])) {
 	$confArray['ACCESS_TOKEN'] = $_SESSION["access_token"];
 	$confArray['PLAYER_ID'] = $_SESSION["account_id"];
+	$confArray['CLUSTER'] = $_SESSION["cluster"];
 }
 echo 'var gConfig = ' . json_encode($confArray) . ';';
 ?>
