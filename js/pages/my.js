@@ -259,8 +259,8 @@ var onLoad = function() {
 						tankInfos = dataTankopedia[myTank.tank_id];
 						tankAdditionalInfos = getTankAdditionalInfos(myTank.tank_id, dataMyTanksAdditionalInfos);
 						if (tankAdditionalInfos.in_garage
-								&& ($.inArray(tankInfos.level, gTankTiersAllowedForResume) >= 0)
-								&& tankAdditionalInfos.is_ready) {
+								&& tankAdditionalInfos.is_ready
+								&& ($.inArray(tankInfos.level, gTankTiersAllowedForResume) >= 0)) {
 							dataToDisplay[gTANKS_LEVEL[tankInfos.level - 1]][tankInfos.type].push({
 								name: tankInfos.short_name_i18n,
 								wn8: tankAdditionalInfos.wn8,
@@ -418,7 +418,7 @@ var onLoad = function() {
 						commentText += '</tbody></table>';
 					}
 					$('#textResumePlayer').text(commentText);
-				}).change();
+				});
 				$('#btnShowTanksResume').on('click', function(evt) {
 					$('#chkContourIcons').change();
 				});

@@ -85,13 +85,11 @@ function install($content, $config) {
 						<div class="col-md-8">
 							<h2 data-i18n="install.config"></h2>
 							<div class="form-group">
-								<label for="exampleInputEmail1">Clusters</label>
 								<div class="btn-group" aria-label="Clusters">
 									<a href="#" class="btn btn-default">RU</a>
 									<a href="#" class="btn btn-default">NA</a>
 									<a href="#" class="btn btn-default">EU</a>
 									<a href="#" class="btn btn-default">ASIA</a>
-									<a href="#" class="btn btn-default">KR</a>
 								</div>
 							</div>
 							<div class="form-group">
