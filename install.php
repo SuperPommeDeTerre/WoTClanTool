@@ -97,27 +97,32 @@ function install($content, $config) {
 								<label>Restrictions de clan</label>
 								<div class="alert alert-info alert-dismissible" role="alert">
 									<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-									<h3>VAE-V <small>Malheur aux vaincus</small></h3>
+									<p>VAE-V <small>Malheur aux vaincus</small></p>
 								</div>
-								<button class="btn btn-default" data-i18n=""><span class="glyphicon glyphicon-plus"></span></button>
+								<div class="alert alert-info alert-dismissible" role="alert">
+									<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									<p>BIMA <small>Bellator In MAchina</small></p>
+								</div>
+								<button class="btn btn-default" data-i18n="" data-target="#dlgSearchClan" data-toggle="modal" id="btnAddClan"><span class="glyphicon glyphicon-plus"></span></button>
 							</div>
 							<div>
 								<label>Administrateurs</label>
-								<span class="label label-default">SuperPommeDeTerre</span> <button class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></button>
-							</div>
-							<div class="form-group">
-								<input type="text" class="form-control floating-label" placeholder="Administrateurs" data-hint="Entrez les administrateurs de l'outil"/>
+								<div class="alert alert-info alert-dismissible" role="alert">
+									<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									<p>SuperPommeDeTerre</p>
+								</div>
+								<button class="btn btn-default" data-target="#dlgSearchPlayer" data-toggle="modal" id="btnAddAdmin"><span class="glyphicon glyphicon-plus"></span></button>
 							</div>
 							<div>
-								<label>Seuil d'inactivité</label>
-								<input type="range" min="0" max="60" />
+								<label>Seuil d'inactivité <span class="badge" id="badgeInactivityThreshold">14 jours</span></label>
+								<div id="sliderInactivityThreshold" style="background-color:#4caf50" class="slider shor slider-material-green"></div>
 							</div>
 						</div>
 						<div class="col-md-4">
 							<h2 data-i18n="install.tests"></h2>
 							<?php testWrite(WCT_CONFIG_DIR); ?>
 							<?php testWrite(WCT_DATA_DIR); ?>
-							<?php testModReWrite(); ?>
+							<?php //testModReWrite(); ?>
 						</div>
 					</div>
 					<p style="text-align:center"><a href="#" class="btn btn-lg btn-primary btn-material-grey-500" id="btnExecuteInstall" data-i18n="install.proceed"></a></p>
@@ -133,10 +138,21 @@ function install($content, $config) {
 					</div>
 					<div class="modal-body">
 						<div class="form-group">
+							<select class="form-control floating-label" placeholder="Cluster" data-hint="Entrez le cluster sur lequel rechercher le clan" style="margin-top:1em">
+								<option value="RU" data-i18n="clusters.RU"></option>
+								<option value="EU" data-i18n="clusters.EU"></option>
+								<option value="NA" data-i18n="clusters.NA"></option>
+								<option value="ASIA" data-i18n="clusters.ASIA"></option>
+							</select>
+						</div>
+						<div class="form-group">
 							<input type="text" class="form-control floating-label" placeholder="Clan" data-hint="Entrez le nom du clan recherché" />
 						</div>
 						<div id="searchClanResult">
 						</div>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-primary" data-i18n="btn.search" disabled="disabled" id="btnSearchClan"></button>
 					</div>
 				</div>
 			</div>
@@ -154,6 +170,9 @@ function install($content, $config) {
 						</div>
 						<div id="searchPlayerResult">
 						</div>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-primary" data-i18n="btn.search" disabled="disabled" id="btnSearchPlayer"></button>
 					</div>
 				</div>
 			</div>
@@ -174,6 +193,7 @@ function install($content, $config) {
 		<script type="text/javascript" src="./js/material.min.js"></script>
 		<script type="text/javascript" src="./js/ripples.min.js"></script>
 		<script type="text/javascript" src="./js/moment-with-locales.min.js"></script>
+		<script type="text/javascript" src="./js/jquery.nouislider.all.min.js"></script>
 		<script type="text/javascript" src="./js/URI.js"></script>
 		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 		<script type="text/javascript" src="./js/ie10-viewport-bug-workaround.js"></script>

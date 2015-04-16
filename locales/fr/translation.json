@@ -24,6 +24,12 @@
 		"modrewrite": {
 			"ok": "Module apache de réécriture d'url mod_rewrite disponible",
 			"ko": "Module apache de réécriture d'url mod_rewrite non disponible"
+		},
+		"searchclan": {
+			"title": "Ajouter un clan"
+		},
+		"searchplayer": {
+			"title": "Ajouter un joueur comme administrateur"
 		}
 	},
 	"nav": {
@@ -58,7 +64,8 @@
 		"validate": "Valider",
 		"delete": "Supprimer",
 		"yes": "Oui",
-		"no": "Non"
+		"no": "Non",
+		"search": "Rechercher"
 	},
 	"elems": {
 		"calendar": "Agenda",

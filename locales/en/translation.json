@@ -24,6 +24,12 @@
 		"modrewrite": {
 			"ok": "Apache mod_rewrite is available",
 			"ko": "Apache mod_rewrite is not available"
+		},
+		"searchclan": {
+			"title": "Add a clan"
+		},
+		"searchplayer": {
+			"title": "Add a player as an administrator"
 		}
 	},
 	"nav": {
@@ -58,7 +64,8 @@
 		"validate": "Validate",
 		"delete": "Delete",
 		"yes": "Yes",
-		"no": "No"
+		"no": "No",
+		"search": "Search"
 	},
 	"elems": {
 		"calendar": "Calendar",
