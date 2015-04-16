@@ -7,5 +7,8 @@ $(document).ready(function() {
 	if ($('.alert-danger').length != 0) {
 		$('#btnExecuteInstall').attr('disabled', 'disabled');
 	}
+	$('[data-cluster]').on('click', function(evt) {
+		$(this).toggleClass('active');
+	});
 	$.material.init();
 });

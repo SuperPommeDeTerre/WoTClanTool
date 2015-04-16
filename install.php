@@ -84,15 +84,17 @@ function install($content, $config) {
 					<div class="row">
 						<div class="col-md-8">
 							<h2 data-i18n="install.config"></h2>
+							<label>Clusters</label>
 							<div class="form-group">
 								<div class="btn-group" aria-label="Clusters">
-									<a href="#" class="btn btn-default">RU</a>
-									<a href="#" class="btn btn-default">NA</a>
-									<a href="#" class="btn btn-default">EU</a>
-									<a href="#" class="btn btn-default">ASIA</a>
+									<a href="#" class="btn btn-material-grey" data-cluster="RU">RU</a>
+									<a href="#" class="btn btn-material-grey" data-cluster="NA">NA</a>
+									<a href="#" class="btn btn-material-grey" data-cluster="EU">EU</a>
+									<a href="#" class="btn btn-material-grey" data-cluster="ASIA">ASIA</a>
 								</div>
 							</div>
 							<div>
+								<label>Restrictions de clan</label>
 								<div class="alert alert-info alert-dismissible" role="alert">
 									<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 									<h3>VAE-V <small>Malheur aux vaincus</small></h3>
@@ -100,13 +102,15 @@ function install($content, $config) {
 								<button class="btn btn-default" data-i18n=""><span class="glyphicon glyphicon-plus"></span></button>
 							</div>
 							<div>
+								<label>Administrateurs</label>
 								<span class="label label-default">SuperPommeDeTerre</span> <button class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></button>
 							</div>
 							<div class="form-group">
 								<input type="text" class="form-control floating-label" placeholder="Administrateurs" data-hint="Entrez les administrateurs de l'outil"/>
 							</div>
-							<div class="form-group">
-								<input type="range" min="0" max="60" class="form-control floating-label" placeholder="Seuil d'inactivité" data-hint="Entrez le seuil d'inactivité des joueurs avant qu'ils apparaissent en rouge dans la liste" />
+							<div>
+								<label>Seuil d'inactivité</label>
+								<input type="range" min="0" max="60" />
 							</div>
 						</div>
 						<div class="col-md-4">
