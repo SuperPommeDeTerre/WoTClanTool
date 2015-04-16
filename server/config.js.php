@@ -14,7 +14,11 @@ $confArray = array(
 if (isset($_SESSION["access_token"])) {
 	$confArray['ACCESS_TOKEN'] = $_SESSION["access_token"];
 	$confArray['PLAYER_ID'] = $_SESSION["account_id"];
+}
+if (isset($_SESSION["cluster"])) {
 	$confArray['CLUSTER'] = $_SESSION["cluster"];
+} else {
+	$confArray['CLUSTER'] = $gCluster;
 }
 echo 'var gConfig = ' . json_encode($confArray) . ';';
 ?>

@@ -371,7 +371,6 @@ var onLoad = function() {
 												commentText += ', ';
 											}
 											commentText += '<span style="color:' + getWN8Color(aTank.wn8) + '">&#9646;</span><span style="color:' + textColor + '">' + aTank.name + '</span>';
-											nbTanksOnLine++;
 											if (nbTanksOnLine >= gIMAGE_PARAMS.nbTanksByLine) {
 												nbTanksOnLine = 0;
 												basePosX = 0;
@@ -407,6 +406,7 @@ var onLoad = function() {
 											});
 											basePosX += gIMAGE_PARAMS.offsetElem;
 											countTanksInType++;
+											nbTanksOnLine++;
 										}
 										basePosY += gIMAGE_PARAMS.offsetLine;
 									}
