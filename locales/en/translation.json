@@ -17,6 +17,13 @@
 		"proceed": "Execute install",
 		"config": "Configuration",
 		"tests": "Tests",
+		"clusters": "Clusters",
+		"admins": "Application administrators",
+		"inactivitythreshold": {
+			"title": "Inactivity threshold",
+			"value": "__count__ day",
+			"value_plural": "__count__ days"
+		},
 		"write": {
 			"ok": "[__file__] is writable",
 			"ko": "[__file__] is not writable"
@@ -30,6 +37,9 @@
 		},
 		"searchplayer": {
 			"title": "Add a player as an administrator"
+		},
+		"clan": {
+			"restrictions": "Clan's restrictions"
 		}
 	},
 	"nav": {
@@ -65,7 +75,8 @@
 		"delete": "Delete",
 		"yes": "Yes",
 		"no": "No",
-		"search": "Search"
+		"search": "Search",
+		"close": "Close"
 	},
 	"elems": {
 		"calendar": "Calendar",

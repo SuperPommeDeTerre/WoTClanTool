@@ -39,9 +39,9 @@ require(dirname(__FILE__) . "/server/global.php");
 		<div class="container-fluid">
 			<div class="row">
 				<div class="main">
-					<h1 data-i18n="unauthorized.title"></h1>
-					<p data-i18n="unauthorized.lines.0"></p>
-					<p data-i18n="unauthorized.lines.1"></p>
+					<h1 data-i18n="page.unauthorized.title"></h1>
+					<p data-i18n="page.unauthorized.lines.0"></p>
+					<p data-i18n="page.unauthorized.lines.1"></p>
 					<p style="text-align:center"><a href="#" class="btn btn-lg btn-primary btn-material-grey-500" id="linkLogout" data-i18n="action.logout"></a></p>
 				</div>
 			</div>

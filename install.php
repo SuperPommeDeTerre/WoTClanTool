@@ -1,32 +1,50 @@
 <?php
-define('WCT_ROOT', './');
-define('WCT_DATA_DIR', WCT_ROOT . 'data/');
-define('WCT_CONFIG_DIR', WCT_ROOT . 'config/');
+define('WCT_ROOT', dirname(__FILE__));
+define('WCT_DATA_DIR', WCT_ROOT . '/data/');
+define('WCT_CONFIG_DIR', WCT_ROOT . '/config/');
+
+// If the config file exists, redirect to login page
+// this is to prevent multiple call to install.php
+if (file_exists(WCT_CONFIG_DIR . 'config.json')) {
+	header('Location: ./index.php');
+	exit;
+}
 
 // Start session
 session_start();
 
+// Include clusters configuration
+require(dirname(__FILE__) . '/server/config/clusters.php');
+
+// Langs definition
+require(dirname(__FILE__) . '/server/config/langs.php');
+
 // Initialize some variables
-$gAuthorizedLang = array("en", "ru", "pl", "de", "fr", "es", "zh", "tr", "cs", "ko");
-$gLang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
-if (!array_search($gLang, $gAuthorizedLang)) {
-	$gLang = $gAuthorizedLang[0];
-}
+// Use default theme
 $gThemeName = 'default';
 
-function testModRewrite($io=true) {
-	if(function_exists('apache_get_modules')) {
+/**
+ * Function to test if mod_rewrite is available.
+ *
+ * @param io
+ *     Indicates if the function must output an html result.
+ * @return <code>true</code> if mod_rewrite is present and <code>false</code> elsewhere.
+ */
+function testModRewrite($io = true) {
+	if (function_exists('apache_get_modules')) {
 		$test = in_array("mod_rewrite", apache_get_modules());
-		if($io==true) {
-			if($test) {
+		if ($io == true) {
+			if ($test) {
 				echo('<div class="alert alert-success" role="alert"><span class="glyphicon glyphicon-check"></span> <span data-i18n="install.modrewrite.ok"></span></div>');
 			} else {
 				echo('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-unchecked"></span> <span data-i18n="install.modrewrite.ko"></span></div>');
 			}
 		}
 		return $test;
+	} else {
+		// Apache not present. Assume yes.
+		return true;
 	}
-	else return true;
 }
 
 function testWrite($file) {
@@ -37,10 +55,72 @@ function testWrite($file) {
 	}
 }
 
-function install($content, $config) {
-	$DEFAULT_WG_API_KEY = "e6ecba5f5af3a16603e38f3b40b1a84e";
-	$DEFAULT_WG_API_URL = "https://api.worldoftanks.eu/";
+/**
+ * Perform the real installation of the application (writes the configuration file)
+ */
+function install($pClusters, $pDefaultCluster) {
+	header('Content-Type: application/json');
+	$DEFAULT_WG_API_KEY = $pClusters[$pDefaultCluster]["key"];
+	$DEFAULT_WG_API_URL = $pClusters[$pDefaultCluster]["url"];
+	$configFile = dirname(__FILE__) . '/config/config.json';
+	// Init config
+	$configToWrite = array(
+		"WG" => array(
+			"clusters" => array()
+		),
+		"app" => array(
+			"theme" => "default",
+			"admins" => array()
+		),
+		"clans" => array(
+			"restric_to" => array()
+		),
+		"player" => array(
+			"max_battle_time" => $_POST['inactivitythreshold']
+		)
+	);
+	// Parse POST data
+	$clusterArray = array();
+	if (!isset($_POST['clusters'])) {
+		foreach ($pClusters as $lClusterId => $lClusterProps) {
+			array_push($clusterArray, $lClusterId);
+		}
+	} else {
+		$clusterArray = $_POST['clusters'];
+	}
+	$configToWrite["WG"]["clusters"] = $clusterArray;
+	$configToWrite["app"]["admins"] = array();
+	$configToWrite["clans"]["restric_to"] = array();
+	foreach ($clusterArray as $lClusterId) {
+		$configToWrite["app"]["admins"][$lClusterId] = array();
+		if (isset($_POST['admins' . $lClusterId])) {
+			foreach($_POST['admins' . $lClusterId] as $playerId) {
+				array_push($configToWrite["app"]["admins"][$lClusterId], $playerId);
+			}
+		}
+		$configToWrite["clans"]["restric_to"][$lClusterId] = array();
+		if (isset($_POST['clans' . $lClusterId])) {
+			foreach($_POST['clans' . $lClusterId] as $clanId) {
+				array_push($configToWrite["clans"]["restric_to"][$lClusterId], $clanId);
+			}
+		}
+	}
+
+	$result = array(
+		"status" => "ok",
+		"data" => $configToWrite
+	);
+	if (!file_put_contents($configFile, json_encode($configToWrite, true), LOCK_EX)) {
+		// Error while writing config file
+		$result["status"] = "error";
+		$result["message"] = "Error while writing configuration file [" . $configFile . "].";
+	}
+	// Everything has running fine. Proceed...
+	echo(json_encode($result, true));
 }
+if (isset($_POST['inactivitythreshold'])) {
+	install($gClusters, $gDefaultCluster);
+} else {
 ?><!DOCTYPE html>
 <html lang="<?php echo($gLang); ?>">
 	<head>
@@ -59,9 +139,14 @@ function install($content, $config) {
 			<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 			<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
+		<script type="text/javascript">
+			var gConfig = {
+				'clusters': <?php echo(json_encode($gClusters)); ?>
+			}
+		</script>
 	</head>
 	<body id="install">
-		<form id="frmInstall" method="POST" action="./">
+		<form id="frmInstall" method="POST" action="./install.php">
 		<nav class="navbar navbar-default navbar-fixed-top navbar-material-grey-700 shadow-z-2">
 			<div class="container-fluid">
 				<div class="navbar-header">
@@ -84,37 +169,30 @@ function install($content, $config) {
 					<div class="row">
 						<div class="col-md-8">
 							<h2 data-i18n="install.config"></h2>
-							<label>Clusters</label>
+							<label data-i18n="install.clusters"></label>
 							<div class="form-group">
-								<div class="btn-group" aria-label="Clusters">
-									<a href="#" class="btn btn-material-grey" data-cluster="RU">RU</a>
-									<a href="#" class="btn btn-material-grey" data-cluster="NA">NA</a>
-									<a href="#" class="btn btn-material-grey" data-cluster="EU">EU</a>
-									<a href="#" class="btn btn-material-grey" data-cluster="ASIA">ASIA</a>
+								<div class="btn-group" data-i18n="[aria-label]install.clusters;" id="btnClusters"><?php
+foreach ($gClusters as $clusterId => $clusterProps) {
+?>
+									<a href="#" class="btn btn-material-grey" data-cluster="<?php echo($clusterId); ?>" data-i18n="clusters.<?php echo($clusterId); ?>"></a><?php
+}
+?>
 								</div>
 							</div>
 							<div>
-								<label>Restrictions de clan</label>
-								<div class="alert alert-info alert-dismissible" role="alert">
-									<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-									<p>VAE-V <small>Malheur aux vaincus</small></p>
-								</div>
-								<div class="alert alert-info alert-dismissible" role="alert">
-									<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-									<p>BIMA <small>Bellator In MAchina</small></p>
+								<label data-i18n="install.clan.restrictions"></label>
+								<div id="restrictedClans">
 								</div>
 								<button class="btn btn-default" data-i18n="" data-target="#dlgSearchClan" data-toggle="modal" id="btnAddClan"><span class="glyphicon glyphicon-plus"></span></button>
 							</div>
 							<div>
-								<label>Administrateurs</label>
-								<div class="alert alert-info alert-dismissible" role="alert">
-									<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-									<p>SuperPommeDeTerre</p>
+								<label data-i18n="install.admins"></label>
+								<div id="listAdmins">
 								</div>
 								<button class="btn btn-default" data-target="#dlgSearchPlayer" data-toggle="modal" id="btnAddAdmin"><span class="glyphicon glyphicon-plus"></span></button>
 							</div>
 							<div>
-								<label>Seuil d'inactivité <span class="badge" id="badgeInactivityThreshold">14 jours</span></label>
+								<label><span data-i18n="install.inactivitythreshold.title"></span> <span class="badge" id="badgeInactivityThreshold" data-i18n="install.inactivitythreshold.value" data-i18n-options="{&quot;count&quot;:14}"></span></label>
 								<div id="sliderInactivityThreshold" style="background-color:#4caf50" class="slider shor slider-material-green"></div>
 							</div>
 						</div>
@@ -137,22 +215,23 @@ function install($content, $config) {
 						<h4 class="modal-title" data-i18n="install.searchclan.title"></h4>
 					</div>
 					<div class="modal-body">
-						<div class="form-group">
-							<select class="form-control floating-label" placeholder="Cluster" data-hint="Entrez le cluster sur lequel rechercher le clan" style="margin-top:1em">
-								<option value="RU" data-i18n="clusters.RU"></option>
-								<option value="EU" data-i18n="clusters.EU"></option>
-								<option value="NA" data-i18n="clusters.NA"></option>
-								<option value="ASIA" data-i18n="clusters.ASIA"></option>
+						<div class="form-group selCluster">
+							<select class="form-control floating-label" placeholder="Cluster" data-hint="Entrez le cluster sur lequel rechercher le clan" style="margin-top:1em"><?php
+foreach ($gClusters as $clusterId => $clusterProps) {
+?>
+								<option value="<?php echo($clusterId); ?>" data-i18n="clusters.<?php echo($clusterId); ?>"></option><?php
+}
+?>
 							</select>
 						</div>
 						<div class="form-group">
-							<input type="text" class="form-control floating-label" placeholder="Clan" data-hint="Entrez le nom du clan recherché" />
+							<input type="text" id="txtSearchClan" class="form-control floating-label" placeholder="Clan" data-hint="Entrez le nom du clan recherché" />
 						</div>
-						<div id="searchClanResult">
-						</div>
+						<ul id="searchClanResult" class="searchresult">
+						</ul>
 					</div>
 					<div class="modal-footer">
-						<button class="btn btn-primary" data-i18n="btn.search" disabled="disabled" id="btnSearchClan"></button>
+						<button class="btn btn-primary" data-i18n="btn.search" id="btnSearchClan"></button>
 					</div>
 				</div>
 			</div>
@@ -165,14 +244,23 @@ function install($content, $config) {
 						<h4 class="modal-title" data-i18n="install.searchplayer.title"></h4>
 					</div>
 					<div class="modal-body">
+						<div class="form-group selCluster">
+							<select class="form-control floating-label" placeholder="Cluster" data-hint="Entrez le cluster sur lequel rechercher le clan" style="margin-top:1em"><?php
+foreach ($gClusters as $clusterId => $clusterProps) {
+?>
+								<option value="<?php echo($clusterId); ?>" data-i18n="clusters.<?php echo($clusterId); ?>"></option><?php
+}
+?>
+							</select>
+						</div>
 						<div class="form-group">
-							<input type="text" class="form-control floating-label" placeholder="Joueur" data-hint="Entrez le nom du joueur recherché" />
+							<input type="text" id="txtSearchPlayer" class="form-control floating-label" placeholder="Joueur" data-hint="Entrez le nom du joueur recherché" />
 						</div>
-						<div id="searchPlayerResult">
-						</div>
+						<ul id="searchPlayerResult" class="searchresult">
+						</ul>
 					</div>
 					<div class="modal-footer">
-						<button class="btn btn-primary" data-i18n="btn.search" disabled="disabled" id="btnSearchPlayer"></button>
+						<button class="btn btn-primary" data-i18n="btn.search" id="btnSearchPlayer"></button>
 					</div>
 				</div>
 			</div>
@@ -200,4 +288,6 @@ function install($content, $config) {
 		<script type="text/javascript" src="./js/pages/install.js"></script>
 		</form>
 	</body>
-</html>
+</html><?php
+}
+?>

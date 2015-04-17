@@ -17,6 +17,13 @@
 		"proceed": "Lancer l'installation",
 		"config": "Configuration",
 		"tests": "Tests",
+		"clusters": "Clusters",
+		"admins": "Administrateurs",
+		"inactivitythreshold": {
+			"title": "Seuil d'inactivité",
+			"value": "__count__ jour",
+			"value_plural": "__count__ jours"
+		},
 		"write": {
 			"ok": "[__file__] est accessible en écriture",
 			"ko": "[__file__] n'est pas accessible en écriture"
@@ -30,6 +37,9 @@
 		},
 		"searchplayer": {
 			"title": "Ajouter un joueur comme administrateur"
+		},
+		"clan": {
+			"restrictions": "Restrictions de clan"
 		}
 	},
 	"nav": {
@@ -65,7 +75,8 @@
 		"delete": "Supprimer",
 		"yes": "Oui",
 		"no": "Non",
-		"search": "Rechercher"
+		"search": "Rechercher",
+		"close": "Fermer"
 	},
 	"elems": {
 		"calendar": "Agenda",
