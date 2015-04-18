@@ -19,41 +19,12 @@ require(dirname(__FILE__) . '/server/config/clusters.php');
 // Langs definition
 require(dirname(__FILE__) . '/server/config/langs.php');
 
+// Utility functions
+require(dirname(__FILE__) . '/server/classes/utils.php');
+
 // Initialize some variables
 // Use default theme
 $gThemeName = 'default';
-
-/**
- * Function to test if mod_rewrite is available.
- *
- * @param io
- *     Indicates if the function must output an html result.
- * @return <code>true</code> if mod_rewrite is present and <code>false</code> elsewhere.
- */
-function testModRewrite($io = true) {
-	if (function_exists('apache_get_modules')) {
-		$test = in_array("mod_rewrite", apache_get_modules());
-		if ($io == true) {
-			if ($test) {
-				echo('<div class="alert alert-success" role="alert"><span class="glyphicon glyphicon-check"></span> <span data-i18n="install.modrewrite.ok"></span></div>');
-			} else {
-				echo('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-unchecked"></span> <span data-i18n="install.modrewrite.ko"></span></div>');
-			}
-		}
-		return $test;
-	} else {
-		// Apache not present. Assume yes.
-		return true;
-	}
-}
-
-function testWrite($file) {
-	if(is_writable($file)) {
-		echo('<div class="alert alert-success" role="alert"><span class="glyphicon glyphicon-check"></span> <span data-i18n="install.write.ok" data-i18n-options="{&quot;file&quot;:&quot;' . $file . '&quot;}"></span></div>');
-	} else {
-		echo('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-unchecked"></span> <span data-i18n="install.write.ko" data-i18n-options="{&quot;file&quot;:&quot;' . $file . '&quot;}"></span></div>');
-	}
-}
 
 /**
  * Perform the real installation of the application (writes the configuration file)
@@ -214,9 +185,9 @@ foreach ($gClusters as $clusterId => $clusterProps) {
 						<button class="close" aria-hidden="true" data-dismiss="modal" type="button">×</button>
 						<h4 class="modal-title" data-i18n="install.searchclan.title"></h4>
 					</div>
-					<div class="modal-body">
+					<div class="modal-body" style="padding-top:1em">
 						<div class="form-group selCluster">
-							<select class="form-control floating-label" placeholder="Cluster" data-hint="Entrez le cluster sur lequel rechercher le clan" style="margin-top:1em"><?php
+							<select class="form-control floating-label" data-i18n="[placeholder]install.cluster.title;[data-hint]install.cluster.hint;"><?php
 foreach ($gClusters as $clusterId => $clusterProps) {
 ?>
 								<option value="<?php echo($clusterId); ?>" data-i18n="clusters.<?php echo($clusterId); ?>"></option><?php
@@ -225,7 +196,7 @@ foreach ($gClusters as $clusterId => $clusterProps) {
 							</select>
 						</div>
 						<div class="form-group">
-							<input type="text" id="txtSearchClan" class="form-control floating-label" placeholder="Clan" data-hint="Entrez le nom du clan recherché" />
+							<input type="text" id="txtSearchClan" class="form-control floating-label" data-i18n="[placeholder]install.clan.title;[data-hint]install.clan.hint;" />
 						</div>
 						<ul id="searchClanResult" class="searchresult">
 						</ul>
@@ -243,9 +214,9 @@ foreach ($gClusters as $clusterId => $clusterProps) {
 						<button class="close" aria-hidden="true" data-dismiss="modal" type="button">×</button>
 						<h4 class="modal-title" data-i18n="install.searchplayer.title"></h4>
 					</div>
-					<div class="modal-body">
+					<div class="modal-body" style="padding-top:1em">
 						<div class="form-group selCluster">
-							<select class="form-control floating-label" placeholder="Cluster" data-hint="Entrez le cluster sur lequel rechercher le clan" style="margin-top:1em"><?php
+							<select class="form-control floating-label" data-i18n="[placeholder]install.cluster.title;[data-hint]install.cluster.hint;"><?php
 foreach ($gClusters as $clusterId => $clusterProps) {
 ?>
 								<option value="<?php echo($clusterId); ?>" data-i18n="clusters.<?php echo($clusterId); ?>"></option><?php
@@ -254,7 +225,7 @@ foreach ($gClusters as $clusterId => $clusterProps) {
 							</select>
 						</div>
 						<div class="form-group">
-							<input type="text" id="txtSearchPlayer" class="form-control floating-label" placeholder="Joueur" data-hint="Entrez le nom du joueur recherché" />
+							<input type="text" id="txtSearchPlayer" class="form-control floating-label" data-i18n="[placeholder]install.player.title;[data-hint]install.player.hint;" />
 						</div>
 						<ul id="searchPlayerResult" class="searchresult">
 						</ul>

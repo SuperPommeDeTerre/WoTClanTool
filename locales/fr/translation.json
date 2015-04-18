@@ -39,7 +39,17 @@
 			"title": "Ajouter un joueur comme administrateur"
 		},
 		"clan": {
-			"restrictions": "Restrictions de clan"
+			"restrictions": "Restrictions de clan",
+			"name": "Clan",
+			"hint": "Entrez le nom du clan recherché"
+		},
+		"cluster": {
+			"title": "Cluster",
+			"hint": "Entrez le cluster sur lequel rechercher"
+		},
+		"player": {
+			"title": "Joueur",
+			"hint": "Entrez le nom du joueur recherché"
 		}
 	},
 	"nav": {

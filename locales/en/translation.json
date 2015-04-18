@@ -39,7 +39,17 @@
 			"title": "Add a player as an administrator"
 		},
 		"clan": {
-			"restrictions": "Clan's restrictions"
+			"restrictions": "Clan's restrictions",
+			"name": "Clan",
+			"hint": "Enter the name of the researched clan"
+		},
+		"cluster": {
+			"title": "Cluster",
+			"hint": "Select the cluster to search into"
+		},
+		"player": {
+			"title": "Player",
+			"hint": "Enter the name of player to search"
 		}
 	},
 	"nav": {
