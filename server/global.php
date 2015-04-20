@@ -5,20 +5,22 @@
 // indique à PHP que nous allons afficher du texte UTF-8 dans le navigateur web
 //mb_http_output('UTF-8');
 
+require_once(dirname(__FILE__) . '/version.php');
+
 // Session lifetime (14 days = 14*24*3600 seconds = 1209600)
 session_set_cookie_params(1209600);
 session_start();
 
 // Clusters definition
-require(dirname(__FILE__) . '/config/clusters.php');
+require_once(WCT_SERVER_DIR . '/config/clusters.php');
 
 // If the configuration file doesn't exists, then proceed to install...
-if (!file_exists(dirname(__FILE__) . '/../config/config.json')) {
+if (!file_exists(WCT_CONFIG_DIR . '/config.json')) {
 	header('Location: ./install.php');
 	exit;
 }
 
-$gConfig = json_decode(file_get_contents(dirname(__FILE__) . '/../config/config.json'), true);
+$gConfig = json_decode(file_get_contents(WCT_CONFIG_DIR . '/config.json'), true);
 $gConfig = is_array($gConfig) ? $gConfig : array($gConfig);
 
 // Define cluster (default to EU)
@@ -42,10 +44,10 @@ $gThemeName = $gConfig["app"]["theme"];
 // Administrators
 $gAdmins = $gConfig["app"]["admins"][$gCluster];
 
-define('WCT_DATA_DIR', dirname(__FILE__) . '/../data/' . $gCluster . '/');
+define('WCT_DATA_DIR', WCT_BASE_DATA_DIR . '/' . $gCluster . '/');
 
 // Langs definition
-require(dirname(__FILE__) . '/config/langs.php');
+require_once(WCT_SERVER_DIR . '/config/langs.php');
 
 function getUserFile($pUserId) {
 	$userFileName = WCT_DATA_DIR . 'user/' . substr($pUserId, 0, 3) . '/' . substr($pUserId, 3, 3) . '/' . $pUserId . '.json';

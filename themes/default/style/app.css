@@ -5,7 +5,7 @@
 @font-face{font-family:"RobotoDraft";font-weight:700;src:local("RobotoDraft Bold"),local("RobotoDraft-Bold"),local("Roboto-Bold"),url("./fonts/RobotoDraftBold.woff2") format("woff2"),url("./fonts/RobotoDraftBold.woff") format("woff")}
 @font-face{font-family:"RobotoDraft";font-style:italic;src:local("RobotoDraft Italic"),local("RobotoDraft-Italic"),local("Roboto-Italic"),url("./fonts/RobotoDraftItalic.woff2") format("woff2"),url("./fonts/RobotoDraftItalic.woff") format("woff")}
 
-#footer{text-align:center;border-top:1px dotted #CCC;padding-top:.5em}
+#footer{text-align:center;border-top:1px dotted #CCC;padding-top:.5em;font-size:.75em;color:#999}
 #index .main{position:relative;margin:auto;width:50em;text-align:left}
 #unauthorized .main{position:relative;margin:auto;width:50em;text-align:center}
 #tableClanPlayers tr.oldBattle *{color:#F00}
