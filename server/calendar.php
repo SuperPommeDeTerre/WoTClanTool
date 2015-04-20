@@ -1,22 +1,27 @@
 <?php
 // Calendar service
-require(dirname(__FILE__) . '/global.php');
+require(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'global.php');
 
-require(dirname(__FILE__) . '/classes/event.inc');
+require(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'classes' . DIRECTORY_SEPARATOR . 'event.inc');
 
-// This service must return JSON to page
-header('Content-Type: application/json');
+$baseEventsDir = WCT_DATA_DIR . 'clan' . DIRECTORY_SEPARATOR . $_SESSION['clan_id'] . DIRECTORY_SEPARATOR . 'events';
+if (!is_dir($baseEventsDir)) {
+	mkdir($baseEventsDir, 0755, true);
+}
 
 // Switch between requested action
+$isJsonResult = true;
 $result = array();
 switch ($_REQUEST['a']) {
 	case 'list':
+		// This service must return JSON to page
+		header('Content-Type: application/json');
 		$out = array();
 		for($i=1; $i<=13; $i++){   //from day 01 to day 15
 			$date = date('Y-m-d', strtotime("+".$i." days"));
 			$data = new Event();
 			$data->setId($i);
-			$data->setDateStart(strtotime(date('Y-m-d', strtotime("+".$i." days"))) + (12*3600));
+			$data->setDateStart(strtotime(date('Y-m-d', strtotime("+" . $i . " days"))) + (12*3600));
 			$data->setDateEnd($data->getDateStart() + 7200);
 			if ($i < 2) {
 				$data->setType('compa');
@@ -49,19 +54,20 @@ switch ($_REQUEST['a']) {
 		exit;
 		break;
 	case 'add':
-		// Parse event frm request
-		$myEvent = array();
-		$myEvent['title'] = $_REQUEST['eventTitle'];
-		$myEvent['type'] = $_REQUEST['eventType'];
+		// This service must return JSON to page
+		header('Content-Type: application/json');
+		// Parse event from request
+		$myEvent = new Event();
+		$myEvent->setTitle($_REQUEST['eventTitle']);
+		$myEvent->setType($_REQUEST['eventType']);
 		if (isset($_REQUEST['eventDescription'])) {
-			$myEvent['description'] = $_REQUEST['eventDescription'];
+			$myEvent->setDescription($_REQUEST['eventDescription']);
 		}
-		if (isset($_REQUEST['eventStartDate'])) {
-			$myEvent['start'] = $_REQUEST['eventStartDate'];
-		}
+		$myEvent->setDateStart(intval($_REQUEST['eventStartDate']));
 		if (isset($_REQUEST['eventEndDate'])) {
-			$myEvent['end'] = $_REQUEST['eventEndDate'];
+			$myEvent->setDateEnd(intval($_REQUEST['eventEndDate']));
 		}
+		/*
 		if (isset($_REQUEST['eventPrivate'])) {
 			$myEvent['private'] = $_REQUEST['eventPrivate'];
 		}
@@ -72,9 +78,13 @@ switch ($_REQUEST['a']) {
 		if (isset($_REQUEST['eventPeriodicityDays'])) {
 			$myEvent['periodicity']['days'] = $_REQUEST['eventPeriodicityDays'];
 		}
+		*/
 		$result['result'] = 'ok';
+		$result['data'] = $myEvent->toCalendarArray();
 		break;
 	case 'modify':
+		// This service must return JSON to page
+		header('Content-Type: application/json');
 		$result['result'] = 'ok';
 		if (isset($_REQUEST['eventId'])) {
 			$myEventId = $_REQUEST['eventId'];
@@ -84,7 +94,21 @@ switch ($_REQUEST['a']) {
 		}
 		break;
 	case 'delete':
+		// This service must return JSON to page
+		header('Content-Type: application/json');
+		$result['result'] = 'ok';
+		break;
+	case 'get':
+		// This service must return HTML to page
+		header('Content-Type: text/html');
+		$isJsonResult = false;
+		$myEventId = $_REQUEST['id'];
+		$result = "<p data-i18n=\"\">Contenu de l'évènement " . $myEventId . "</p>";
 		break;
 }
-echo json_encode($result);
+if ($isJsonResult) {
+	echo json_encode($result);
+} else {
+	echo ($result);
+}
 ?>

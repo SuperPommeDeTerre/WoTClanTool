@@ -1,9 +1,9 @@
 <?php
-require(dirname(__FILE__) . "/server/global.php");
+require(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'server' . DIRECTORY_SEPARATOR . 'global.php');
 
 $gPageID = "events";
 
-require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
+require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR . 'header.php');
 ?>
 <!-- Main component for a primary marketing message or call to action -->
 <div class="container-fluid">
@@ -29,15 +29,31 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 		</div>
 	</div>
 </div>
+<div class="modal fade" id="events-modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h3></h3>
+			</div>
+			<div class="modal-body" style="height: 400px">
+			</div>
+			<div class="modal-footer">
+				<a href="#" data-dismiss="modal" class="btn" data-i18n="btn.close"></a>
+			</div>
+		</div>
+	</div>
+</div>
 <form id="frmEvent" method="post" action="./server/calendar.php?a=add">
 	<div id="eventDialog" class="modal fade" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button class="close" aria-hidden="true" data-dismiss="modal" type="button">×</button>
+					<button class="close" aria-hidden="true" data-dismiss="modal" type="button">&times;</button>
 					<h4 class="modal-title" data-i18n="elems.event"></h4>
 				</div>
 				<div class="modal-body">
+				<!--
 					<nav class="navbar navbar-default navbar-material-indigo-600">
 						<div class="container-fluid">
 							<div class="collapse navbar-collapse">
@@ -49,6 +65,7 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 							</div>
 						</div>
 					</nav>
+				-->
 					<div id="containerEventMain">
 						<div class="input-group">
 							<input id="eventTitle" type="text" class="form-control" data-i18n="[placeholder]action.calendar.prop.title;"  placeholder="" aria-describedby="sizing-addon1">
@@ -61,6 +78,7 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 								<input type="text" id="eventEndDate" class="form-control" data-i18n="[placeholder]action.calendar.prop.enddate;" placeholder="" />
 								<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 							</div>
+				<!--
 							<div class="togglebutton">
 								<label><span data-i18n="action.calendar.prop.periodic"></span>
 									<input type="checkbox" id="eventRecurrent" value="true" />
@@ -71,10 +89,13 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 									<input type="checkbox" id="eventPrivate" value="true" />
 								</label>
 							</div>
+				-->
 						</div>
 					</div>
+				<!--
 					<div id="containerEventPeriodicity">
 					</div>
+				-->
 					<div id="containerEventType">
 						<div class="input-group">
 							<div class="eventType">
@@ -121,12 +142,12 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 				</div>
 				<div class="modal-footer">
 					<button class="btn btn-default" data-dismiss="modal" data-i18n="btn.cancel"></button>
-					<button class="btn btn-primary" data-dismiss="modal" data-i18n="btn.ok"></button>
+					<button class="btn btn-primary" id="btnEventOk" data-dismiss="modal" data-i18n="btn.ok"></button>
 				</div>
 			</div>
 		</div>
 	</div>
 </form>
 <?php
-require(dirname(__FILE__) . '/themes/' . $gThemeName . '/footer.php');
+require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR . 'footer.php');
 ?>

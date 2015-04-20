@@ -1,5 +1,5 @@
 <?php
-require(dirname(__FILE__) . '/eventType.inc');
+require(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'eventType.inc');
 
 class Event {
 	var $id;
@@ -13,6 +13,7 @@ class Event {
 	var $dateCreation;
 	var $dateModification;
 	var $isRecurrent;
+	var $participants;
 
 	public function __construct() {
 		$this->id = -1;
@@ -24,6 +25,7 @@ class Event {
 		$this->dateCreation = -1;
 		$this->dateModification = -1;
 		$this->isRecurrent = false;
+		$this->participants = array("50000000" => "unsure", "50000001" => "sure", "50000002" => "no");
 	}
 
 	public static function fromJson($json) {
@@ -37,22 +39,11 @@ class Event {
 		$result['id'] = $this->id;
 		$result['title'] = $this->title;
 		$result['description'] = $this->description;
-		$result['start'] = $this->dateStart .'000';
-		$result['end'] = $this->dateEnd .'000';
+		$result['start'] = $this->dateStart . '000';
+		$result['end'] = $this->dateEnd . '000';
 		$result['class'] = 'event-type-' . $this->type;
-		$result['url'] = './event.php?id=' . $this->id;
-		return $result;
-	}
-
-	public function toCalendarJson() {
-		$result = '{';
-		$result .= '"id":' . $this->id . ',';
-		$result .= '"title":' . json_encode($this->title) . '",';
-		$result .= '"url":' . json_encode('./event.php?a=get&id=' . $this->id) . ',';
-		$result .= '"class":' . json_encode('event-warning') . ',';
-		$result .= '"start":' . '' . ',';
-		$result .= '"end":' . '';
-		$result .= '}';
+		$result['participants'] = $this->participants;
+		$result['url'] = './server/calendar.php?a=get&id=' . $this->id;
 		return $result;
 	}
 

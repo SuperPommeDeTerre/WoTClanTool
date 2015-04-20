@@ -1,5 +1,5 @@
 <?php
-require(dirname(__FILE__) . "/server/global.php");
+require(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'server' . DIRECTORY_SEPARATOR . 'global.php');
 ?><!DOCTYPE html>
 <html lang="<?php echo($gLang); ?>">
 	<head>

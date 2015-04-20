@@ -1,9 +1,9 @@
 <?php
-require(dirname(__FILE__) . '/server/global.php');
+require(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'server' . DIRECTORY_SEPARATOR . 'global.php');
 
 $gPageID = "home";
 
-require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
+require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR . 'header.php');
 ?>
 <div class="container-fluid">
 	<div class="row">
@@ -83,6 +83,21 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 		</div>
 	</div>
 </div>
+<div class="modal fade" id="events-modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h3></h3>
+			</div>
+			<div class="modal-body" style="height: 400px">
+			</div>
+			<div class="modal-footer">
+				<a href="#" data-dismiss="modal" class="btn" data-i18n="btn.close"></a>
+			</div>
+		</div>
+	</div>
+</div>
 <div id="my-dialog" class="modal fade" tabindex="-1">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -98,5 +113,5 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 	</div>
 </div>
 <?php
-require(dirname(__FILE__) . '/themes/' . $gThemeName . '/footer.php');
+require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR . 'footer.php');
 ?>

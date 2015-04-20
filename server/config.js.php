@@ -1,5 +1,5 @@
 <?php
-require(dirname(__FILE__) . '/global.php');
+require(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'global.php');
 
 header('Content-Type: text/javascript');
 $confArray = array(

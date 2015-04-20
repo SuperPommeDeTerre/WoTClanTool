@@ -6,10 +6,15 @@ var onLoad = function() {
 		tmpl_path: './js/calendar-tmpls/',
 		language: gLangMapping[gConfig.LANG],
 		view: 'month',
+		modal: '#events-modal',
+		modal_type: 'ajax',
+		modal_title : function (e) { return e.title },
 		onAfterViewLoad: function(view) {
 			$('#agendaTitle').text(this.getTitle());
 		},
-		//events_source: './server/calendar.php?a=list'
+		onAfterModalShown: function(events) {
+			// Fill the event window and add event handlers
+		},
 		events_source: './server/calendar.php?a=list'
 	});
 	$('.btn-group button[data-calendar-nav]').each(function() {
@@ -36,6 +41,10 @@ var onLoad = function() {
 		locale: gConfig.LANG,
 		stepping: 5,
 		sideBySide: true
+	});
+
+	$('#btnEventOk').on('click', function(evt) {
+		alert('Add event');
 	});
 	afterLoad();
 };

@@ -138,6 +138,13 @@
 		"modify": "Modify",
 		"delete": "Delete"
 	},
+	"event": {
+		"title": "Title",
+		"description": "Description",
+		"startdate": "Start date",
+		"enddate": "End date",
+		"participants": "Participants"
+	},
 	"stats": {
 		"global": {
 			"tanksbylevel": "Tanks by level",

@@ -138,6 +138,13 @@
 		"modify": "Modifier",
 		"delete": "Supprimer"
 	},
+	"event": {
+		"title": "Titre",
+		"description": "Description",
+		"startdate": "Date de début",
+		"enddate": "Date de fin",
+		"participants": "Participants"
+	},
 	"stats": {
 		"global": {
 			"tanksbylevel": "Chars par tiers",
