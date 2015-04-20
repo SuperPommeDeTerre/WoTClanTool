@@ -68,14 +68,14 @@ require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR
 				-->
 					<div id="containerEventMain">
 						<div class="input-group">
-							<input id="eventTitle" type="text" class="form-control" data-i18n="[placeholder]action.calendar.prop.title;"  placeholder="" aria-describedby="sizing-addon1">
-							<textarea id="eventDescription" class="form-control" data-i18n="[placeholder]action.calendar.prop.description;" placeholder="" aria-describedby="sizing-addon1"></textarea>
+							<input id="eventTitle" type="text" class="form-control" data-i18n="[placeholder]action.calendar.prop.title;" aria-describedby="sizing-addon1">
+							<textarea id="eventDescription" class="form-control" data-i18n="[placeholder]action.calendar.prop.description;" aria-describedby="sizing-addon1"></textarea>
 							<div class="input-group date eventDateTimePicker">
-								<input type="text" id="eventStartDate" class="form-control" data-i18n="[placeholder]action.calendar.prop.startdate;" placeholder="" />
+								<input type="text" id="eventStartDate" class="form-control" data-i18n="[placeholder]action.calendar.prop.startdate;" />
 								<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 							</div>
 							<div class="input-group date eventDateTimePicker">
-								<input type="text" id="eventEndDate" class="form-control" data-i18n="[placeholder]action.calendar.prop.enddate;" placeholder="" />
+								<input type="text" id="eventEndDate" class="form-control" data-i18n="[placeholder]action.calendar.prop.enddate;" />
 								<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 							</div>
 				<!--
@@ -102,7 +102,7 @@ require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR
 								<h5 data-i18n="action.calendar.prop.type"></h5>
 								<div class="radio radio-material-indigo-600">
 									<label>
-										<input type="radio" checked="" value="clanwar" name="eventType">
+										<input type="radio" checked="checked" value="clanwar" name="eventType">
 										<abbr data-i18n="action.calendar.prop.types.clanwar"></abbr>
 									</label>
 								</div>
