@@ -3,8 +3,16 @@ var gTANKS_LEVEL = [ 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'
 	gTANKS_TYPES =  { 'lightTank': 1, 'mediumTank': 2, 'heavyTank': 3, 'AT-SPG': 4, 'SPG': 5 },
 	gROLE_POSITION = { 'commander': 1, 'executive_officer': 2, 'personnel_officer': 3, 'combat_officer': 4, 'intelligence_officer': 5, 'quartermaster': 6, 'recruitment_officer': 7, 'junior_officer': 8, 'private': 9, 'recruit': 10, 'reservist': 11 },
 	gLangMapping = {
+		'cs': 'cs-CZ',
+		'de': 'de-DE',
+		'en': 'en-US',
+		'es': 'es-ES',
 		'fr': 'fr-FR',
-		'en': 'en-US'
+		'ko': 'ko-KR',
+		'pl': 'pl-PL',
+		'ru': 'ru-RU',
+		'tr': 'tr-TR',
+		'zh': 'zh-CN'
 	},
 	gWN8_SCALE = {
 		'very-bad':			{ min: 0,		max: 300,	color: '#000000',	cssclass: 'material-black' },
