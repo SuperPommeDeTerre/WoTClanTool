@@ -35,7 +35,7 @@ var onLoad = function() {
 			i = 0,
 			myFilter = '';
 		myRows.hide();
-		myRows.find('span[data-value] .ign').removeClass('active');
+		myRows.find('.ign.active').removeClass('active');
 		// Filter rows by level
 		if (myFilterLevels.length != 0 && myFilterLevels.length != 10) {
 			for (i=0; i<myFilterLevels.length; i++) {
