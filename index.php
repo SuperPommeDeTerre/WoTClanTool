@@ -58,6 +58,12 @@ if (isset($_SESSION["access_token"])) {
 					<a class="navbar-brand" href="./" data-i18n="app.name"></a>
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
+					<nav class="social pull-right">
+						<ul class="list-unstyled">
+							<li class="facebook"><a href="http://www.facebook.com/share.php?u=[URL]&title=[TITLE]" data-toggle="tooltip" data-placement="bottom" data-i18n="[title]share.facebook;"><span>Facebook</span></a></li>
+							<li class="twitter"><a href="https://twitter.com/share" data-toggle="tooltip" data-placement="bottom" data-i18n="[title]share.tweeter;"><span>Tweet</span></a></li>
+						</ul>
+					</nav>
 				</div>
 			</div>
 		</nav>
@@ -102,7 +108,7 @@ if (count($gConfig["WG"]["clusters"]) > 1) {
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<button class="close" aria-hidden="true" data-dismiss="modal" type="button">×</button>
+						<button class="close" aria-hidden="true" data-dismiss="modal" type="button">&times;</button>
 						<h4 class="modal-title" data-i18n="clusters.title"></h4>
 					</div>
 					<div class="modal-body">
@@ -144,6 +150,7 @@ if (count($gConfig["WG"]["clusters"]) > 1) {
 		<script type="text/javascript" src="./js/ripples.min.js"></script>
 		<script type="text/javascript" src="./js/moment-with-locales.min.js"></script>
 		<script type="text/javascript" src="./js/URI.js"></script>
+		<script type="text/javascript" src="./js/jquery.stickytableheaders.min.js"></script>
 		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 		<script type="text/javascript" src="./js/ie10-viewport-bug-workaround.js"></script>
 		<script type="text/javascript" src="./js/pages/index.js"></script>

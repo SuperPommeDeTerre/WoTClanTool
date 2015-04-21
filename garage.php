@@ -76,6 +76,8 @@ require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR
 					</tbody>
 				</table>
 			</div>
+			<div id="playersDetails">
+			</div>
 		</div>
 	</div>
 </div>

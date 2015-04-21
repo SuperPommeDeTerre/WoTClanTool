@@ -4,6 +4,10 @@
 		"version": "Version :",
 		"description": "Outil de gestion de clan pour World of Tanks"
 	},
+	"share": {
+		"facebook": "Partager sur Facebook",
+		"tweeter": "Tweeter cette page"
+	},
 	"clusters": {
 		"title": "Choisissez votre région pour vous connecter",
 		"RU": "Russie",

@@ -180,7 +180,7 @@ foreach ($gClusters as $clusterId => $clusterProps) {
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<button class="close" aria-hidden="true" data-dismiss="modal" type="button">×</button>
+						<button class="close" aria-hidden="true" data-dismiss="modal" type="button">&times;</button>
 						<h4 class="modal-title" data-i18n="install.searchclan.title"></h4>
 					</div>
 					<div class="modal-body" style="padding-top:1em">
@@ -209,7 +209,7 @@ foreach ($gClusters as $clusterId => $clusterProps) {
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<button class="close" aria-hidden="true" data-dismiss="modal" type="button">×</button>
+						<button class="close" aria-hidden="true" data-dismiss="modal" type="button">&times;</button>
 						<h4 class="modal-title" data-i18n="install.searchplayer.title"></h4>
 					</div>
 					<div class="modal-body" style="padding-top:1em">

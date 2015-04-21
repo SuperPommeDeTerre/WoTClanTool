@@ -140,7 +140,7 @@ require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true" data-i18n="[aria-label]btn.close;">&times;</button>
 					<h4 class="modal-title" data-i18n="strat.dialog.confirm.title"></h4>
 				</div>
 				<div class="modal-body">
@@ -160,7 +160,7 @@ require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true" data-i18n="[aria-label]btn.close;">&times;</button>
 					<h4 class="modal-title" data-i18n="strat.dialog.shapeoptions"></h4>
 				</div>
 				<div class="modal-body">
@@ -215,7 +215,7 @@ require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true" data-i18n="[aria-label]btn.close;">&times;</button>
 					<h4 class="modal-title" data-i18n="strat.dialog.lineoptions"></h4>
 				</div>
 				<div class="modal-body">
@@ -278,7 +278,7 @@ require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true" data-i18n="[aria-label]btn.close;">&times;</button>
 					<h4 class="modal-title" data-i18n="strat.dialog.modifytext"></h4>
 				</div>
 				<div class="modal-body">
@@ -296,7 +296,7 @@ require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true" data-i18n="[aria-label]btn.close;">&times;</button>
 					<h4 class="modal-title" data-i18n="strat.dialog.save.title"></h4>
 				</div>
 				<div class="modal-body">
