@@ -296,7 +296,7 @@ var onLoad = function() {
 								userId = myLink.closest('span').data('value'),
 								playersDetailsHtml = '';
 							if (myPlayersDetailsContainer.find('#playerDetails' + userId).length == 0) {
-								playersDetailsHtml += '<div class="pull-left playerdetails" id="playerDetails' + userId + '">';
+								playersDetailsHtml += '<div class="pull-left playerdetails shadow-z-1" id="playerDetails' + userId + '">';
 								playersDetailsHtml += '<button class="close" aria-hidden="true" data-dismiss="modal" type="button" aria-label="' + i18n.t('btn.close') + '">&times;</button>';
 								playersDetailsHtml += '<h4>' + $(this).text() + '</h4>';
 								playersDetailsHtml += '<ul class="list-unstyled">';
@@ -305,8 +305,9 @@ var onLoad = function() {
 									for (var tankOwnerId in myElemToDisplay.owners) {
 										if (tankOwnerId == userId) {
 											// The player owns this tanks. Process it.
+											playerTankAdditionalInfos = myElemToDisplay.owners[userId];
 											playersDetailsHtml += '<li class="' + (myElemToDisplay.is_premium?'ispremium':'') + '">';
-											playersDetailsHtml += '<img src="' + myElemToDisplay.contour_image + '"  alt="' + myElemToDisplay.short_name_i18n + '" /> ' + myElemToDisplay.short_name_i18n;
+											playersDetailsHtml += '<img src="' + myElemToDisplay.contour_image + '"  alt="' + myElemToDisplay.short_name_i18n + '" /><span class="label label-' + getWN8Class(playerTankAdditionalInfos.wn8) + '">' + (Math.round(playerTankAdditionalInfos.wn8 * 100) / 100) + '</span>&nbsp;<span class="tankname">' + myElemToDisplay.short_name_i18n + '</span>';
 											playersDetailsHtml += '</li>';
 											// Exit loop. We don't need to look up further owners...
 											break;

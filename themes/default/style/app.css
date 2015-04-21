@@ -75,7 +75,7 @@
 .tankcontainer.small{padding-left:10px}
 .tankcontainer .tankname{padding-left:24px}
 td.tankowners .ign.active{font-weight:bold}
-.playerdetails{width:30%;margin:.5em;border:1px dotted #CCC}
+.playerdetails{width:30%;margin:.5em}
 /* Strats */
 #stratEditor{display:none}
 header{position:fixed;top:0;left:0;bottom:0}
