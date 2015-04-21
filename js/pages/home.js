@@ -269,6 +269,9 @@ var onLoad = function() {
 		tmpl_path: './js/calendar-tmpls/',
 		language: gLangMapping[gConfig.LANG],
 		view: 'month',
+		modal: '#events-modal',
+		modal_type: 'ajax',
+		modal_title : function (e) { return e.title },
 		onAfterViewLoad: function(view) {
 			$('#agendaTitle').text(this.getTitle());
 		},

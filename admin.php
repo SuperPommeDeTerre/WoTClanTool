@@ -1,5 +1,5 @@
 <?php
-require(dirname(__FILE__) . '/server/global.php');
+require(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'server' . DIRECTORY_SEPARATOR . 'global.php');
 
 // If the connected user is not an admin, redirect to home page
 if (!in_array($_SESSION["account_id"], $gAdmins)) {
@@ -8,7 +8,7 @@ if (!in_array($_SESSION["account_id"], $gAdmins)) {
 
 $gPageID = "admin";
 
-require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
+require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR . 'header.php');
 ?>
 <div class="container-fluid">
 	<div class="row">
@@ -129,5 +129,5 @@ foreach ($gClusters as $clusterId => $clusterProps) {
 	</div>
 </div>
 <?php
-require(dirname(__FILE__) . '/themes/' . $gThemeName . '/footer.php');
+require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR . 'footer.php');
 ?>

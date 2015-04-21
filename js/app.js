@@ -3,8 +3,16 @@ var gTANKS_LEVEL = [ 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'
 	gTANKS_TYPES =  { 'lightTank': 1, 'mediumTank': 2, 'heavyTank': 3, 'AT-SPG': 4, 'SPG': 5 },
 	gROLE_POSITION = { 'commander': 1, 'executive_officer': 2, 'personnel_officer': 3, 'combat_officer': 4, 'intelligence_officer': 5, 'quartermaster': 6, 'recruitment_officer': 7, 'junior_officer': 8, 'private': 9, 'recruit': 10, 'reservist': 11 },
 	gLangMapping = {
+		'cs': 'cs-CZ',
+		'de': 'de-DE',
+		'en': 'en-US',
+		'es': 'es-ES',
 		'fr': 'fr-FR',
-		'en': 'en-US'
+		'ko': 'ko-KR',
+		'pl': 'pl-PL',
+		'ru': 'ru-RU',
+		'tr': 'tr-TR',
+		'zh': 'zh-CN'
 	},
 	gWN8_SCALE = {
 		'very-bad':			{ min: 0,		max: 300,	color: '#000000',	cssclass: 'material-black' },
@@ -123,58 +131,58 @@ $(document).ready(function() {
 	moment.locale(gConfig.LANG);
 	i18n.init({ lng: gConfig.LANG, fallbackLng: 'en', useDataAttrOptions: true }, function(t) {
 		$(document).i18n();
-	});
-	if (typeof(gConfig.PLAYER_ID) != 'undefined') {
-		// Verify that user is member of one of the handled clans...
-		$.post(gConfig.WG_API_URL + 'wot/account/info/', {
-			application_id: gConfig.WG_APP_ID,
-			language: gConfig.LANG,
-			access_token: gConfig.ACCESS_TOKEN,
-			account_id: gConfig.PLAYER_ID
-		}, function(dataPlayersResponse) {
-			if (dataPlayersResponse.status == 'error') {
-				document.location = 'logout.php';
-				return;
-			}
-			var me = dataPlayersResponse.data[gConfig.PLAYER_ID],
-				isClanFound = false;
-			$.post('./server/player.php', {
-				'action': 'setclanid',
-				'clan_id': me.clan_id
-			}, function(dataSetClanID) {
-			}, 'json');
-			if (me.clan_id != null) {
-				if (gConfig.CLAN_IDS.length == 0) {
-					isClanFound = true;
-					gPersonalInfos = me;
-					onLoad();
-				} else {
-					for (var i=0; i<gConfig.CLAN_IDS.length; i++) {
-						if (me.clan_id == gConfig.CLAN_IDS[i]) {
-							isClanFound = true;
-							gPersonalInfos = me;
-							onLoad();
-							break;
+		if (typeof(gConfig.PLAYER_ID) != 'undefined') {
+			// Verify that user is member of one of the handled clans...
+			$.post(gConfig.WG_API_URL + 'wot/account/info/', {
+				application_id: gConfig.WG_APP_ID,
+				language: gConfig.LANG,
+				access_token: gConfig.ACCESS_TOKEN,
+				account_id: gConfig.PLAYER_ID
+			}, function(dataPlayersResponse) {
+				if (dataPlayersResponse.status == 'error') {
+					document.location = 'logout.php';
+					return;
+				}
+				var me = dataPlayersResponse.data[gConfig.PLAYER_ID],
+					isClanFound = false;
+				$.post('./server/player.php', {
+					'action': 'setclanid',
+					'clan_id': me.clan_id
+				}, function(dataSetClanID) {
+				}, 'json');
+				if (me.clan_id != null) {
+					if (gConfig.CLAN_IDS.length == 0) {
+						isClanFound = true;
+						gPersonalInfos = me;
+						onLoad();
+					} else {
+						for (var i=0; i<gConfig.CLAN_IDS.length; i++) {
+							if (me.clan_id == gConfig.CLAN_IDS[i]) {
+								isClanFound = true;
+								gPersonalInfos = me;
+								onLoad();
+								break;
+							}
 						}
 					}
 				}
-			}
-			if (!isClanFound) {
-				// Clan is not found. Redirect to unauthorized
-				window.location = 'unauthorized.php';
-			}
-		}, 'json');
-	} else {
-		onLoad();
-	}
-	$('#linkLogout').on('click', function(evt) {
-		evt.preventDefault();
-		$.post(gConfig.WG_API_URL + 'wot/auth/logout/', {
-			application_id: gConfig.WG_APP_ID,
-			access_token: gConfig.ACCESS_TOKEN
-		}, function(data) {
-			document.location = './logout.php';
-		}, 'json');
+				if (!isClanFound) {
+					// Clan is not found. Redirect to unauthorized
+					window.location = 'unauthorized.php';
+				}
+			}, 'json');
+		} else {
+			onLoad();
+		}
+		$('#linkLogout').on('click', function(evt) {
+			evt.preventDefault();
+			$.post(gConfig.WG_API_URL + 'wot/auth/logout/', {
+				application_id: gConfig.WG_APP_ID,
+				access_token: gConfig.ACCESS_TOKEN
+			}, function(data) {
+				document.location = './logout.php';
+			}, 'json');
+		});
 	});
 });
 

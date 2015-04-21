@@ -1,14 +1,24 @@
 <?php
-require(dirname(__FILE__) . "/server/global.php");
+require(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'server' . DIRECTORY_SEPARATOR . 'global.php');
 
 $gPageID = "events";
 
-require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
+require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR . 'header.php');
 ?>
 <!-- Main component for a primary marketing message or call to action -->
 <div class="container-fluid">
 	<div class="row">
 		<div class="main">
+			<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+			<!-- WoT Clan Tool -->
+			<ins class="adsbygoogle"
+				 style="display:block"
+				 data-ad-client="ca-pub-2557330068328405"
+				 data-ad-slot="5125006902"
+				 data-ad-format="auto"></ins>
+			<script>
+			(adsbygoogle = window.adsbygoogle || []).push({});
+			</script>
 			<h1 class="page-header"data-i18n="elems.calendar"></h1>
 			<div class="pull-right form-inline">
 				<div class="btn-group btn-group-agenda">
@@ -25,7 +35,22 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 			</div>
 			<h3 id="agendaTitle"></h3>
 			<div id="clanCalendar"></div>
-			<p><a class="btn btn-lg btn-primary btn-material-grey-500" href="#" role="button" id="addEvent" data-id="-1" data-target="#eventDialog" data-toggle="modal" data-i18n="action.event.add"></a></p>
+			<div style="text-align:center"><a class="btn btn-lg btn-primary btn-material-grey-500" href="#" role="button" id="addEvent" data-id="-1" data-target="#eventDialog" data-toggle="modal" data-i18n="action.event.add"></a></div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="events-modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h3></h3>
+			</div>
+			<div class="modal-body" style="height: 400px">
+			</div>
+			<div class="modal-footer">
+				<a href="#" data-dismiss="modal" class="btn" data-i18n="btn.close"></a>
+			</div>
 		</div>
 	</div>
 </div>
@@ -34,10 +59,11 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button class="close" aria-hidden="true" data-dismiss="modal" type="button">×</button>
+					<button class="close" aria-hidden="true" data-dismiss="modal" type="button">&times;</button>
 					<h4 class="modal-title" data-i18n="elems.event"></h4>
 				</div>
 				<div class="modal-body">
+				<!--
 					<nav class="navbar navbar-default navbar-material-indigo-600">
 						<div class="container-fluid">
 							<div class="collapse navbar-collapse">
@@ -49,18 +75,20 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 							</div>
 						</div>
 					</nav>
+				-->
 					<div id="containerEventMain">
 						<div class="input-group">
-							<input id="eventTitle" type="text" class="form-control" data-i18n="[placeholder]action.calendar.prop.title;"  placeholder="" aria-describedby="sizing-addon1">
-							<textarea id="eventDescription" class="form-control" data-i18n="[placeholder]action.calendar.prop.description;" placeholder="" aria-describedby="sizing-addon1"></textarea>
+							<input id="eventTitle" type="text" class="form-control" data-i18n="[placeholder]action.calendar.prop.title;" aria-describedby="sizing-addon1">
+							<textarea id="eventDescription" class="form-control" data-i18n="[placeholder]action.calendar.prop.description;" aria-describedby="sizing-addon1"></textarea>
 							<div class="input-group date eventDateTimePicker">
-								<input type="text" id="eventStartDate" class="form-control" data-i18n="[placeholder]action.calendar.prop.startdate;" placeholder="" />
+								<input type="text" id="eventStartDate" class="form-control" data-i18n="[placeholder]action.calendar.prop.startdate;" />
 								<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 							</div>
 							<div class="input-group date eventDateTimePicker">
-								<input type="text" id="eventEndDate" class="form-control" data-i18n="[placeholder]action.calendar.prop.enddate;" placeholder="" />
+								<input type="text" id="eventEndDate" class="form-control" data-i18n="[placeholder]action.calendar.prop.enddate;" />
 								<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 							</div>
+				<!--
 							<div class="togglebutton">
 								<label><span data-i18n="action.calendar.prop.periodic"></span>
 									<input type="checkbox" id="eventRecurrent" value="true" />
@@ -71,17 +99,20 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 									<input type="checkbox" id="eventPrivate" value="true" />
 								</label>
 							</div>
+				-->
 						</div>
 					</div>
+				<!--
 					<div id="containerEventPeriodicity">
 					</div>
+				-->
 					<div id="containerEventType">
 						<div class="input-group">
 							<div class="eventType">
 								<h5 data-i18n="action.calendar.prop.type"></h5>
 								<div class="radio radio-material-indigo-600">
 									<label>
-										<input type="radio" checked="" value="clanwar" name="eventType">
+										<input type="radio" checked="checked" value="clanwar" name="eventType">
 										<abbr data-i18n="action.calendar.prop.types.clanwar"></abbr>
 									</label>
 								</div>
@@ -121,12 +152,12 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 				</div>
 				<div class="modal-footer">
 					<button class="btn btn-default" data-dismiss="modal" data-i18n="btn.cancel"></button>
-					<button class="btn btn-primary" data-dismiss="modal" data-i18n="btn.ok"></button>
+					<button class="btn btn-primary" id="btnEventOk" data-dismiss="modal" data-i18n="btn.ok"></button>
 				</div>
 			</div>
 		</div>
 	</div>
 </form>
 <?php
-require(dirname(__FILE__) . '/themes/' . $gThemeName . '/footer.php');
+require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR . 'footer.php');
 ?>

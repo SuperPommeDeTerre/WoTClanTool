@@ -1,7 +1,7 @@
 <?php
-require(dirname(__FILE__) . '/global.php');
+require(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'global.php');
 
-define('WCT_STRAT_DIR', WCT_DATA_DIR . 'clan/' . $_SESSION['clan_id'] . '/strats/');
+define('WCT_STRAT_DIR', WCT_DATA_DIR . 'clan' . DIRECTORY_SEPARATOR . $_SESSION['clan_id'] . DIRECTORY_SEPARATOR . 'strats' . DIRECTORY_SEPARATOR);
 
 if (!is_dir(WCT_STRAT_DIR)) {
 	mkdir(WCT_STRAT_DIR, 0755, true);

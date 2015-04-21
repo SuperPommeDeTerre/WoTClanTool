@@ -4,6 +4,10 @@
 		"version": "Version :",
 		"description": "Clan managing tool for World of Tanks"
 	},
+	"share": {
+		"facebook": "Share on Facebook",
+		"tweeter": "Tweet this page"
+	},
 	"clusters": {
 		"title": "Choose your region to login",
 		"RU": "Russia",
@@ -137,6 +141,13 @@
 		},
 		"modify": "Modify",
 		"delete": "Delete"
+	},
+	"event": {
+		"title": "Title",
+		"description": "Description",
+		"startdate": "Start date",
+		"enddate": "End date",
+		"participants": "Participants"
 	},
 	"stats": {
 		"global": {

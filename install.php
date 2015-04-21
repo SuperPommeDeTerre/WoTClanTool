@@ -1,7 +1,5 @@
 <?php
-define('WCT_ROOT', dirname(__FILE__));
-define('WCT_DATA_DIR', WCT_ROOT . '/data/');
-define('WCT_CONFIG_DIR', WCT_ROOT . '/config/');
+require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'server' . DIRECTORY_SEPARATOR . 'version.php');
 
 // If the config file exists, redirect to login page
 // this is to prevent multiple call to install.php
@@ -14,13 +12,13 @@ if (file_exists(WCT_CONFIG_DIR . 'config.json')) {
 session_start();
 
 // Include clusters configuration
-require(dirname(__FILE__) . '/server/config/clusters.php');
+require(WCT_SERVER_DIR . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'clusters.php');
 
 // Langs definition
-require(dirname(__FILE__) . '/server/config/langs.php');
+require(WCT_SERVER_DIR . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'langs.php');
 
 // Utility functions
-require(dirname(__FILE__) . '/server/classes/utils.php');
+require(WCT_SERVER_DIR . DIRECTORY_SEPARATOR . 'classes' . DIRECTORY_SEPARATOR . 'utils.php');
 
 // Initialize some variables
 // Use default theme
@@ -33,7 +31,7 @@ function install($pClusters, $pDefaultCluster) {
 	header('Content-Type: application/json');
 	$DEFAULT_WG_API_KEY = $pClusters[$pDefaultCluster]["key"];
 	$DEFAULT_WG_API_URL = $pClusters[$pDefaultCluster]["url"];
-	$configFile = dirname(__FILE__) . '/config/config.json';
+	$configFile = WCT_CONFIG_DIR . DIRECTORY_SEPARATOR . 'config.json';
 	// Init config
 	$configToWrite = array(
 		"WG" => array(
@@ -170,7 +168,7 @@ foreach ($gClusters as $clusterId => $clusterProps) {
 						<div class="col-md-4">
 							<h2 data-i18n="install.tests"></h2>
 							<?php testWrite(WCT_CONFIG_DIR); ?>
-							<?php testWrite(WCT_DATA_DIR); ?>
+							<?php testWrite(WCT_BASE_DATA_DIR); ?>
 							<?php //testModReWrite(); ?>
 						</div>
 					</div>
@@ -182,7 +180,7 @@ foreach ($gClusters as $clusterId => $clusterProps) {
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<button class="close" aria-hidden="true" data-dismiss="modal" type="button">×</button>
+						<button class="close" aria-hidden="true" data-dismiss="modal" type="button">&times;</button>
 						<h4 class="modal-title" data-i18n="install.searchclan.title"></h4>
 					</div>
 					<div class="modal-body" style="padding-top:1em">
@@ -211,7 +209,7 @@ foreach ($gClusters as $clusterId => $clusterProps) {
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<button class="close" aria-hidden="true" data-dismiss="modal" type="button">×</button>
+						<button class="close" aria-hidden="true" data-dismiss="modal" type="button">&times;</button>
 						<h4 class="modal-title" data-i18n="install.searchplayer.title"></h4>
 					</div>
 					<div class="modal-body" style="padding-top:1em">

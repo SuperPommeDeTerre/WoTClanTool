@@ -1,19 +1,6 @@
 		</div>
-<?php
-/*
-		<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-		<!-- WoT Clan Tool -->
-		<ins class="adsbygoogle"
-			 style="display:block"
-			 data-ad-client="ca-pub-2557330068328405"
-			 data-ad-slot="5125006902"
-			 data-ad-format="auto"></ins>
-		<script>
-		(adsbygoogle = window.adsbygoogle || []).push({});
-		</script>
-*/
-?>
 		<div id="footer">
+			<p><span data-i18n="app.name"></span> <span>v<?php echo(WCT_VERSION); ?></span></p>
 			<div id="footerPayPalDonate">
 				<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
 					<input type="hidden" name="cmd" value="_s-xclick" />

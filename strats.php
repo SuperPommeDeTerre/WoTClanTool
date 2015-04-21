@@ -1,14 +1,24 @@
 <?php
-require(dirname(__FILE__) . '/server/global.php');
+require(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'server' . DIRECTORY_SEPARATOR . 'global.php');
 
 $gPageID = "strats";
 
-require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
+require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR . 'header.php');
 ?>
 <div id="stratRecap">
 	<div class="container-fluid">
 		<div class="row">
 			<div class="main">
+				<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+				<!-- WoT Clan Tool -->
+				<ins class="adsbygoogle"
+					 style="display:block"
+					 data-ad-client="ca-pub-2557330068328405"
+					 data-ad-slot="5125006902"
+					 data-ad-format="auto"></ins>
+				<script>
+				(adsbygoogle = window.adsbygoogle || []).push({});
+				</script>
 				<h1 class="page-header" data-i18n="page.strat.title"></h1>
 				<div class="btn-group" role="group">
 					<button type="button" id="btnNewStrat" class="btn btn-default btn-material-green-300" data-target="#my-dialog" data-toggle="modal"><span data-i18n="strat.new"></span></button>
@@ -130,7 +140,7 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true" data-i18n="[aria-label]btn.close;">&times;</button>
 					<h4 class="modal-title" data-i18n="strat.dialog.confirm.title"></h4>
 				</div>
 				<div class="modal-body">
@@ -150,7 +160,7 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true" data-i18n="[aria-label]btn.close;">&times;</button>
 					<h4 class="modal-title" data-i18n="strat.dialog.shapeoptions"></h4>
 				</div>
 				<div class="modal-body">
@@ -205,7 +215,7 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true" data-i18n="[aria-label]btn.close;">&times;</button>
 					<h4 class="modal-title" data-i18n="strat.dialog.lineoptions"></h4>
 				</div>
 				<div class="modal-body">
@@ -268,7 +278,7 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true" data-i18n="[aria-label]btn.close;">&times;</button>
 					<h4 class="modal-title" data-i18n="strat.dialog.modifytext"></h4>
 				</div>
 				<div class="modal-body">
@@ -286,7 +296,7 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true" data-i18n="[aria-label]btn.close;">&times;</button>
 					<h4 class="modal-title" data-i18n="strat.dialog.save.title"></h4>
 				</div>
 				<div class="modal-body">
@@ -306,5 +316,5 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 	<div id="lineHandlers"></div>
 </div>
 <?php
-require(dirname(__FILE__) . '/themes/' . $gThemeName . '/footer.php');
+require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR . 'footer.php');
 ?>

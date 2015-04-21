@@ -5,7 +5,7 @@
 @font-face{font-family:"RobotoDraft";font-weight:700;src:local("RobotoDraft Bold"),local("RobotoDraft-Bold"),local("Roboto-Bold"),url("./fonts/RobotoDraftBold.woff2") format("woff2"),url("./fonts/RobotoDraftBold.woff") format("woff")}
 @font-face{font-family:"RobotoDraft";font-style:italic;src:local("RobotoDraft Italic"),local("RobotoDraft-Italic"),local("Roboto-Italic"),url("./fonts/RobotoDraftItalic.woff2") format("woff2"),url("./fonts/RobotoDraftItalic.woff") format("woff")}
 
-#footer{text-align:center;border-top:1px dotted #CCC;padding-top:.5em}
+#footer{text-align:center;border-top:1px dotted #CCC;padding-top:.5em;font-size:.75em;color:#999}
 #index .main{position:relative;margin:auto;width:50em;text-align:left}
 #unauthorized .main{position:relative;margin:auto;width:50em;text-align:center}
 #tableClanPlayers tr.oldBattle *{color:#F00}
@@ -13,6 +13,15 @@
 #progressInfoMessage{text-align:center;font-size:1.5em}
 /* Header */
 .navbar-brand small{position:absolute;left:52px;top:38px;font-size:0.4em;color:#999}
+/* Login page */
+.social ul{margin:0;padding:0;height:60px}
+.social li{display:inline-block;width:60px;height:60px;margin:0;padding:0}
+.social li a{display:block;width:60px;height:60px;margin:0;padding:0}
+.social li a span{display:none}
+.social li.facebook{background-color:#3d5b95}
+.social li.twitter{background-color:#37a7df}
+.social li.facebook a{background-image:url('./images/share-fb.png');background-position:center center;background-repeat:no-repeat}
+.social li.twitter a{background-image:url('./images/share-tweeter.png');background-position:center center;background-repeat:no-repeat}
 /* Calendar */
 .cal-context{margin-top:2em !important;max-width:1000px;margin:auto}
 .dh-event-type-clanwar,.event-type-clanwar{background-color:#000}.dh-event-type-clanwar a{color:#FFF}
@@ -65,7 +74,8 @@
 .tankcontainer.big img{width:160px;height:100px}
 .tankcontainer.small{padding-left:10px}
 .tankcontainer .tankname{padding-left:24px}
-
+td.tankowners .ign.active{font-weight:bold}
+.playerdetails{width:30%;margin:.5em}
 /* Strats */
 #stratEditor{display:none}
 header{position:fixed;top:0;left:0;bottom:0}

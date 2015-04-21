@@ -1,13 +1,23 @@
 <?php
-require(dirname(__FILE__) . '/server/global.php');
+require(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'server' . DIRECTORY_SEPARATOR . 'global.php');
 
 $gPageID = "home";
 
-require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
+require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR . 'header.php');
 ?>
 <div class="container-fluid">
 	<div class="row">
 		<div class="main">
+			<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+			<!-- WoT Clan Tool -->
+			<ins class="adsbygoogle"
+				 style="display:block"
+				 data-ad-client="ca-pub-2557330068328405"
+				 data-ad-slot="5125006902"
+				 data-ad-format="auto"></ins>
+			<script>
+			(adsbygoogle = window.adsbygoogle || []).push({});
+			</script>
 			<h1 class="page-header" id="clansInfosTitle"></h1>
 			<h3><a class="btn btn-lg btn-primary btn-material-blue-500" href="#navPlayers" role="button" id="clanTotalPlayers"></a>
 				<a class="btn btn-lg btn-primary btn-material-teal-500" href="./garage.php" role="button" id="clanTotalVehicles"></a>
@@ -83,6 +93,21 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 		</div>
 	</div>
 </div>
+<div class="modal fade" id="events-modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h3></h3>
+			</div>
+			<div class="modal-body" style="height: 400px">
+			</div>
+			<div class="modal-footer">
+				<a href="#" data-dismiss="modal" class="btn" data-i18n="btn.close"></a>
+			</div>
+		</div>
+	</div>
+</div>
 <div id="my-dialog" class="modal fade" tabindex="-1">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -98,5 +123,5 @@ require(dirname(__FILE__) . '/themes/' . $gThemeName . '/header.php');
 	</div>
 </div>
 <?php
-require(dirname(__FILE__) . '/themes/' . $gThemeName . '/footer.php');
+require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR . 'footer.php');
 ?>
