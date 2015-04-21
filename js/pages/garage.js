@@ -34,6 +34,7 @@ var onLoad = function() {
 			i = 0,
 			myFilter = '';
 		myRows.hide();
+		myRows.find('span[data-value] .ign').removeClass('active');
 		// Filter rows by level
 		if (myFilterLevels.length != 0 && myFilterLevels.length != 10) {
 			for (i=0; i<myFilterLevels.length; i++) {
@@ -73,6 +74,7 @@ var onLoad = function() {
 			myRows = myRows.has(myFilter);
 		}
 		myRows.show();
+		myRows.find(myFilter).find('.ign').addClass('active');
 	};
 	$('#linkFilter').on('click', function(evt) {
 		evt.preventDefault();
@@ -279,7 +281,7 @@ var onLoad = function() {
 								} else {
 									tanksListHtml += ', ';
 								}
-								tanksListHtml += '<span data-value="' + userId + '"><span class="label label-' + getWN8Class(playerTankAdditionalInfos.wn8) + '">' + (Math.round(playerTankAdditionalInfos.wn8 * 100) / 100) + '</span>&nbsp;' + dataPlayers[userId].nickname + '</span>';
+								tanksListHtml += '<span data-value="' + userId + '"><span class="label label-' + getWN8Class(playerTankAdditionalInfos.wn8) + '">' + (Math.round(playerTankAdditionalInfos.wn8 * 100) / 100) + '</span>&nbsp;<span class="ign">' + dataPlayers[userId].nickname + '</span></span>';
 							}
 							tanksListHtml += '</td>';
 							tanksListHtml += '</tr>';

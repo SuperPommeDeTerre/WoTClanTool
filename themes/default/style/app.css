@@ -65,7 +65,7 @@
 .tankcontainer.big img{width:160px;height:100px}
 .tankcontainer.small{padding-left:10px}
 .tankcontainer .tankname{padding-left:24px}
-
+td.tankowners .ign.active{font-weight:bold}
 /* Strats */
 #stratEditor{display:none}
 header{position:fixed;top:0;left:0;bottom:0}
