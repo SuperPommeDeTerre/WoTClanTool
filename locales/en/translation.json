@@ -40,7 +40,7 @@
 		},
 		"clan": {
 			"restrictions": "Clan's restrictions",
-			"name": "Clan",
+			"title": "Clan",
 			"hint": "Enter the name of the researched clan"
 		},
 		"cluster": {
