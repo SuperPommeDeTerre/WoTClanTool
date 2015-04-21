@@ -6,7 +6,7 @@ require(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'global.php');
 header('Content-Type: application/json');
 
 // Gets the WN8 expected vals as requested by the algorithm
-$WN8_EXPECTED_VALS = json_decode(file_get_contents(WCT_DATA_DIR . '..' . DIRECTORY_SEPARATOR . 'WN8_expected_tank_values.json'), true);
+$WN8_EXPECTED_VALS = json_decode(file_get_contents(WCT_BASE_DATA_DIR . DIRECTORY_SEPARATOR . 'WN8_expected_tank_values.json'), true);
 $tanksExpectedVals = is_array($WN8_EXPECTED_VALS['data']) ? $WN8_EXPECTED_VALS['data'] : array($WN8_EXPECTED_VALS['data']);
 
 /**

@@ -168,7 +168,7 @@ foreach ($gClusters as $clusterId => $clusterProps) {
 						<div class="col-md-4">
 							<h2 data-i18n="install.tests"></h2>
 							<?php testWrite(WCT_CONFIG_DIR); ?>
-							<?php testWrite(WCT_DATA_DIR); ?>
+							<?php testWrite(WCT_BASE_DATA_DIR); ?>
 							<?php //testModReWrite(); ?>
 						</div>
 					</div>

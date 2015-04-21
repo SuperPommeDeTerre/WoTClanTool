@@ -44,6 +44,7 @@ $gThemeName = $gConfig["app"]["theme"];
 // Administrators
 $gAdmins = $gConfig["app"]["admins"][$gCluster];
 
+// Define the data dir (depends on cluster)
 define('WCT_DATA_DIR', WCT_BASE_DATA_DIR . DIRECTORY_SEPARATOR . $gCluster . DIRECTORY_SEPARATOR);
 
 // Langs definition
