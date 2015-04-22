@@ -2,6 +2,7 @@
 	"app": {
 		"name": "WoT C.T.",
 		"version": "Version :",
+		"title": "WoT C.T. :: $t(page.__page__.title)",
 		"description": "Outil de gestion de clan pour World of Tanks"
 	},
 	"share": {
@@ -310,6 +311,7 @@
 			"title": "Mes informations personnelles"
 		},
 		"index": {
+			"title": "Connexion",
 			"lines": [
 				"Bienvenue sur cet outil de gestion de clan.",
 				"Cet outil vous permettra d'effectuer bon nombre d'op&eacute;rations concernant votre clan de World of Tanks. Notamment&nbsp;:",
@@ -330,7 +332,16 @@
 				"Seul les membres des clans autorisés peuvent se connecter à ce site."
 			]
 		},
-		"strat": {
+		"garage": {
+			"title": "Garage"
+		},
+		"events": {
+			"title": "Evènements"
+		},
+		"admin": {
+			"title": "Administration"
+		},
+		"strats": {
 			"title": "Stratégies"
 		}
 	},

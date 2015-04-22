@@ -2,6 +2,7 @@
 	"app": {
 		"name": "WoT C.T.",
 		"version": "Version :",
+		"title": "WoT C.T. :: $t(page.__page__.title)",
 		"description": "Clan managing tool for World of Tanks"
 	},
 	"share": {
@@ -310,6 +311,7 @@
 			"title": "My personal informations"
 		},
 		"index": {
+			"title": "Login",
 			"lines": [
 				"Welcome on this clan managing tool.",
 				"This tool will allow you to do a lot of operations regarding your clan of World of Tanks. This includes:",
@@ -330,7 +332,16 @@
 				"Only authorized clans members can access this site."
 			]
 		},
-		"strat": {
+		"garage": {
+			"title": "Garage"
+		},
+		"events": {
+			"title": "Events"
+		},
+		"admin": {
+			"title": "Administration"
+		},
+		"strats": {
 			"title": "Strategies"
 		}
 	},

@@ -36,7 +36,7 @@ if (isset($_SESSION["access_token"])) {
 		<meta name="author" content="J&eacute;r&eacute;mie Langlade &lt;jlanglade@pixbuf.net&gt;" />
 		<link rel="icon" href="./themes/<?php echo($gThemeName); ?>/style/favicon.ico" />
 		<link href="./themes/<?php echo($gThemeName); ?>/style/favicon.png" type="image/x-icon" rel="icon" />
-		<title data-i18n="app.name"></title>
+		<title data-i18n="app.title" data-i18n-options="{&quot;page&quot;:&quot;index&quot;}"></title>
 		<!-- CSS -->
 		<link href="./themes/<?php echo($gThemeName); ?>/style/style.css" rel="stylesheet" />
 		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->

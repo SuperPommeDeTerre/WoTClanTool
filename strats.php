@@ -11,7 +11,7 @@ require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR
 			<div class="main"><?php
 include(WCT_INC_DIR . 'ads.php');
 ?>
-				<h1 class="page-header" data-i18n="page.strat.title"></h1>
+				<h1 class="page-header" data-i18n="page.strats.title"></h1>
 				<div class="btn-group" role="group">
 					<button type="button" id="btnNewStrat" class="btn btn-default btn-material-green-300" data-target="#my-dialog" data-toggle="modal"><span data-i18n="strat.new"></span></button>
 				</div>
