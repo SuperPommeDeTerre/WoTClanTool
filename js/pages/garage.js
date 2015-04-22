@@ -296,9 +296,12 @@ var onLoad = function() {
 								userId = myLink.closest('span').data('value'),
 								playersDetailsHtml = '';
 							if (myPlayersDetailsContainer.find('#playerDetails' + userId).length == 0) {
-								playersDetailsHtml += '<div class="pull-left playerdetails shadow-z-1" id="playerDetails' + userId + '">';
-								playersDetailsHtml += '<button class="close" aria-hidden="true" data-dismiss="modal" type="button" aria-label="' + i18n.t('btn.close') + '">&times;</button>';
-								playersDetailsHtml += '<h4>' + $(this).text() + '</h4>';
+								playersDetailsHtml += '<div class="panel panel-default pull-left playerdetails" id="playerDetails' + userId + '">';
+								playersDetailsHtml += '<div class="panel-heading">';
+								playersDetailsHtml += '<button class="close" aria-hidden="true" data-dismiss="alert" data-target="#playerDetails' + userId + '" type="button" aria-label="' + i18n.t('btn.close') + '">&times;</button>';
+								playersDetailsHtml += '<h3 class="panel-title">' + myLink.text() + '</h3>';
+								playersDetailsHtml += '</div>';
+								playersDetailsHtml += '<div class="panel-body">';
 								playersDetailsHtml += '<ul class="list-unstyled">';
 								for (i=0; i<listToDisplay.length; i++) {
 									myElemToDisplay = listToDisplay[i];
@@ -315,6 +318,7 @@ var onLoad = function() {
 									}
 								}
 								playersDetailsHtml += '</ul>';
+								playersDetailsHtml += '</div>';
 								playersDetailsHtml += '</div>';
 								myPlayersDetailsContainer.append(playersDetailsHtml);
 							}
