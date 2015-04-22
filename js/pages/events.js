@@ -33,10 +33,12 @@ var onLoad = function() {
 		});
 	});
 
+	// Prevent default action on add event button
 	$('#addEvent').on('click', function(evt) {
 		evt.preventDefault();
 	});
 
+	// Init date time pickers
 	$('.eventDateTimePicker').datetimepicker({
 		locale: gConfig.LANG,
 		stepping: 5,
@@ -52,7 +54,9 @@ var onLoad = function() {
 	});
 
 	$('#btnEventOk').on('click', function(evt) {
+		// Prevent default action of button
 		evt.preventDefault();
+		// Post data to server
 		$.post('./server/calendar.php', {
 			a: 'add',
 			eventTitle: $('#eventTitle').val(),
@@ -61,8 +65,12 @@ var onLoad = function() {
 			eventStartDate: moment($('#eventStartDate input').val(), 'LLL').unix(),
 			eventEndDate: moment($('#eventEndDate input').val(), 'LLL').unix()
 		}, function(addEventResult) {
+			// Handle result
 			if (addEventResult.result == 'ok') {
+				// Hide dialog
 				$('#eventDialog').modal('hide');
+				// Refresh calendar
+				myCalendar.view();
 			}
 		}, 'json');
 	});
