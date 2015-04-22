@@ -63,6 +63,7 @@ switch ($_REQUEST['a']) {
 		if (isset($_REQUEST['eventDescription'])) {
 			$myEvent->setDescription($_REQUEST['eventDescription']);
 		}
+		// Dates are passed as UNIX timestamps
 		$myEvent->setDateStart(intval($_REQUEST['eventStartDate']));
 		if (isset($_REQUEST['eventEndDate'])) {
 			$myEvent->setDateEnd(intval($_REQUEST['eventEndDate']));

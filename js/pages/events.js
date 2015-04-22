@@ -40,11 +40,31 @@ var onLoad = function() {
 	$('.eventDateTimePicker').datetimepicker({
 		locale: gConfig.LANG,
 		stepping: 5,
+		format: 'LLL',
 		sideBySide: true
+	});
+	// Handle min and max dates
+	$('#eventStartDate').on('dp.change', function (e) {
+		$('#eventEndDate').data('DateTimePicker').minDate(e.date);
+	});
+	$('#eventEndDate').on('dp.change', function (e) {
+		$('#eventStartDate').data('DateTimePicker').maxDate(e.date);
 	});
 
 	$('#btnEventOk').on('click', function(evt) {
-		alert('Add event');
+		evt.preventDefault();
+		$.post('./server/calendar.php', {
+			a: 'add',
+			eventTitle: $('#eventTitle').val(),
+			eventType: $('[name=eventType]:checked').val(),
+			eventDescription: $('#eventDescription').val(),
+			eventStartDate: moment($('#eventStartDate input').val(), 'LLL').unix(),
+			eventEndDate: moment($('#eventEndDate input').val(), 'LLL').unix()
+		}, function(addEventResult) {
+			if (addEventResult.result == 'ok') {
+				$('#eventDialog').modal('hide');
+			}
+		}, 'json');
 	});
 	afterLoad();
 };

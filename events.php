@@ -51,7 +51,7 @@ include(WCT_INC_DIR . 'ads.php');
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button class="close" aria-hidden="true" data-dismiss="modal" type="button">&times;</button>
+					<button class="close" aria-hidden="true" data-dismiss="modal" type="button" data-i18n="[aria-label]btn.close;">&times;</button>
 					<h4 class="modal-title" data-i18n="elems.event"></h4>
 				</div>
 				<div class="modal-body">
@@ -69,30 +69,28 @@ include(WCT_INC_DIR . 'ads.php');
 					</nav>
 				-->
 					<div id="containerEventMain">
-						<div class="input-group">
-							<input id="eventTitle" type="text" class="form-control" data-i18n="[placeholder]action.calendar.prop.title;" aria-describedby="sizing-addon1">
-							<textarea id="eventDescription" class="form-control" data-i18n="[placeholder]action.calendar.prop.description;" aria-describedby="sizing-addon1"></textarea>
-							<div class="input-group date eventDateTimePicker">
-								<input type="text" id="eventStartDate" class="form-control" data-i18n="[placeholder]action.calendar.prop.startdate;" />
-								<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-							</div>
-							<div class="input-group date eventDateTimePicker">
-								<input type="text" id="eventEndDate" class="form-control" data-i18n="[placeholder]action.calendar.prop.enddate;" />
-								<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-							</div>
-				<!--
-							<div class="togglebutton">
-								<label><span data-i18n="action.calendar.prop.periodic"></span>
-									<input type="checkbox" id="eventRecurrent" value="true" />
-								</label>
-							</div>
-							<div class="togglebutton">
-								<label><span data-i18n="action.calendar.prop.private"></span>
-									<input type="checkbox" id="eventPrivate" value="true" />
-								</label>
-							</div>
-				-->
+						<input id="eventTitle" type="text" class="form-control" data-i18n="[placeholder]action.calendar.prop.title;" aria-describedby="sizing-addon1">
+						<textarea id="eventDescription" class="form-control" data-i18n="[placeholder]action.calendar.prop.description;" aria-describedby="sizing-addon1"></textarea>
+						<div class="input-group date eventDateTimePicker" id="eventStartDate">
+							<input type="text" class="form-control" data-i18n="[placeholder]action.calendar.prop.startdate;" />
+							<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 						</div>
+						<div class="input-group date eventDateTimePicker" id="eventEndDate">
+							<input type="text" class="form-control" data-i18n="[placeholder]action.calendar.prop.enddate;" />
+							<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+						</div>
+			<!--
+						<div class="togglebutton">
+							<label><span data-i18n="action.calendar.prop.periodic"></span>
+								<input type="checkbox" id="eventRecurrent" value="true" />
+							</label>
+						</div>
+						<div class="togglebutton">
+							<label><span data-i18n="action.calendar.prop.private"></span>
+								<input type="checkbox" id="eventPrivate" value="true" />
+							</label>
+						</div>
+			-->
 					</div>
 				<!--
 					<div id="containerEventPeriodicity">
@@ -144,7 +142,7 @@ include(WCT_INC_DIR . 'ads.php');
 				</div>
 				<div class="modal-footer">
 					<button class="btn btn-default" data-dismiss="modal" data-i18n="btn.cancel"></button>
-					<button class="btn btn-primary" id="btnEventOk" data-dismiss="modal" data-i18n="btn.ok"></button>
+					<button class="btn btn-primary" id="btnEventOk" data-i18n="btn.ok"></button>
 				</div>
 			</div>
 		</div>
