@@ -64,12 +64,11 @@ require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR
 								<button class="btn btn-warning" data-calendar-view="year" data-i18n="action.calendar.view.year"></button>
 								<button class="btn btn-warning active" data-calendar-view="month" data-i18n="action.calendar.view.month"></button>
 								<button class="btn btn-warning" data-calendar-view="week" data-i18n="action.calendar.view.week"></button>
-								<button class="btn btn-warning" data-calendar-view="day" data-i18n="action.calendar.view.day"></button>
 							</div>
 						</div>
 						<h3 id="agendaTitleTody" data-i18n="action.calendar.today"></h3>
 						<h4><span class="label label-default">20:00</span> Clan War</h4>
-						<p>Description de l'évènement</p>
+						<p>Description de l'&eacute;v&egrave;nement</p>
 						<h5 data-i18n="action.calendar.prop.participants"></p>
 					</div>
 				</div>
