@@ -9,4 +9,7 @@
 	<script>
 	(adsbygoogle = window.adsbygoogle || []).push({});
 	</script>
+	<noscript>
+		<div class="alert alert-danger" role="alert">This site require Javascript. Please activates it.</div>
+	</noscript>
 </div>
