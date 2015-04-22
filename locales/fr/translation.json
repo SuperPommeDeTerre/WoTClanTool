@@ -44,7 +44,7 @@
 		},
 		"clan": {
 			"restrictions": "Restrictions de clan",
-			"name": "Clan",
+			"title": "Clan",
 			"hint": "Entrez le nom du clan recherché"
 		},
 		"cluster": {

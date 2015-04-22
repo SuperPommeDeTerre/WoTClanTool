@@ -82,7 +82,7 @@ switch ($_REQUEST['action']) {
 		if (array_key_exists('account_id', $_REQUEST)) {
 			$usersToGet = explode(',', $_REQUEST['account_id']);
 		} else {
-			$usersToGet[] = $_SESSION['account_id'];
+			array_push($usersToGet, $_SESSION['account_id']);
 		}
 		// If the request passes data, then we are also setting data
 		$doParseData = false;

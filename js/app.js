@@ -129,7 +129,7 @@ $(document).ready(function() {
 	gProgressBar = $('#progressBar');
 	gProgressMessage = $('#progressInfoMessage');
 	moment.locale(gConfig.LANG);
-	i18n.init({ lng: gConfig.LANG, fallbackLng: 'en' }, function(t) {
+	i18n.init({ lng: gConfig.LANG, fallbackLng: 'en', useDataAttrOptions: true }, function(t) {
 		$(document).i18n();
 		if (typeof(gConfig.PLAYER_ID) != 'undefined') {
 			// Verify that user is member of one of the handled clans...
