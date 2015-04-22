@@ -114,7 +114,9 @@ if (isset($_POST['inactivitythreshold'])) {
 			}
 		</script>
 	</head>
-	<body id="install">
+	<body id="install"><?php
+include_once(WCT_INC_DIR . 'analyticstracking.php');
+?>
 		<form id="frmInstall" method="POST" action="./install.php">
 		<nav class="navbar navbar-default navbar-fixed-top navbar-material-grey-700 shadow-z-2">
 			<div class="container-fluid">

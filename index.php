@@ -45,7 +45,9 @@ if (isset($_SESSION["access_token"])) {
 			<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
 	</head>
-	<body id="index">
+	<body id="index"><?php
+include_once(WCT_INC_DIR . 'analyticstracking.php');
+?>
 		<nav class="navbar navbar-default navbar-fixed-top navbar-material-grey-700 shadow-z-2">
 			<div class="container-fluid">
 				<div class="navbar-header">

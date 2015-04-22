@@ -6,7 +6,8 @@
 	},
 	"share": {
 		"facebook": "Share on Facebook",
-		"tweeter": "Tweet this page"
+		"tweeter": "Tweet this page",
+		"adblock": "We have detected that you use an ad blocker. Please consider remove it to help us."
 	},
 	"clusters": {
 		"title": "Choose your region to login",
