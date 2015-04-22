@@ -16,4 +16,7 @@ define('WCT_BASE_DATA_DIR', WCT_ROOT_DIR . DIRECTORY_SEPARATOR . 'data');
 
 // Define base config directory
 define('WCT_CONFIG_DIR', WCT_ROOT_DIR . DIRECTORY_SEPARATOR . 'config');
+
+// Define includes directory
+define('WCT_INC_DIR', WCT_ROOT_DIR . DIRECTORY_SEPARATOR . 'res' . DIRECTORY_SEPARATOR . 'inc' . DIRECTORY_SEPARATOR);
 ?>

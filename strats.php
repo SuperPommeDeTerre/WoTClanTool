@@ -8,17 +8,9 @@ require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR
 <div id="stratRecap">
 	<div class="container-fluid">
 		<div class="row">
-			<div class="main">
-				<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-				<!-- WoT Clan Tool -->
-				<ins class="adsbygoogle"
-					 style="display:block"
-					 data-ad-client="ca-pub-2557330068328405"
-					 data-ad-slot="5125006902"
-					 data-ad-format="auto"></ins>
-				<script>
-				(adsbygoogle = window.adsbygoogle || []).push({});
-				</script>
+			<div class="main"><?php
+include(WCT_INC_DIR . 'ads.php');
+?>
 				<h1 class="page-header" data-i18n="page.strat.title"></h1>
 				<div class="btn-group" role="group">
 					<button type="button" id="btnNewStrat" class="btn btn-default btn-material-green-300" data-target="#my-dialog" data-toggle="modal"><span data-i18n="strat.new"></span></button>
