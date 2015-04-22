@@ -138,7 +138,7 @@ switch ($_REQUEST['action']) {
 							$valueToStore['in_garage'] = $valueWG['in_garage'] != null?$valueWG['in_garage']:false;
 							$valueToStore['is_full'] = false;
 							$valueToStore['is_ready'] = false;
-							$valueToStore['wn8'] = calcTankWN8($tanksExpectedVals, $valueToStore);
+							$valueToStore['wn8'] = calcTankWN8($tanksExpectedVals, $valueWG);
 						}
 						$playerTanksStatsToStore[$userId][] = $valueToStore;
 					}
