@@ -332,6 +332,9 @@
 				"Seul les membres des clans autorisés peuvent se connecter à ce site."
 			]
 		},
+		"home": {
+			"title": "Accueil"
+		},
 		"garage": {
 			"title": "Garage"
 		},

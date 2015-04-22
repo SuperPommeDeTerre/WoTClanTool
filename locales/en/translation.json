@@ -332,6 +332,9 @@
 				"Only authorized clans members can access this site."
 			]
 		},
+		"home": {
+			"title": "Home"
+		},
 		"garage": {
 			"title": "Garage"
 		},
