@@ -3,7 +3,7 @@ require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'server' . DIRECTORY_SEPA
 
 // If the config file exists, redirect to login page
 // this is to prevent multiple call to install.php
-if (file_exists(WCT_CONFIG_DIR . 'config.json')) {
+if (file_exists(WCT_CONFIG_DIR . DIRECTORY_SEPARATOR . 'config.json')) {
 	header('Location: ./index.php');
 	exit;
 }
@@ -12,13 +12,13 @@ if (file_exists(WCT_CONFIG_DIR . 'config.json')) {
 session_start();
 
 // Include clusters configuration
-require(WCT_SERVER_DIR . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'clusters.php');
+require_once(WCT_SERVER_DIR . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'clusters.php');
 
 // Langs definition
-require(WCT_SERVER_DIR . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'langs.php');
+require_once(WCT_SERVER_DIR . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'langs.php');
 
 // Utility functions
-require(WCT_SERVER_DIR . DIRECTORY_SEPARATOR . 'classes' . DIRECTORY_SEPARATOR . 'utils.php');
+require_once(WCT_SERVER_DIR . DIRECTORY_SEPARATOR . 'classes' . DIRECTORY_SEPARATOR . 'wct.utils.inc');
 
 // Initialize some variables
 // Use default theme
@@ -169,9 +169,9 @@ foreach ($gClusters as $clusterId => $clusterProps) {
 						</div>
 						<div class="col-md-4">
 							<h2 data-i18n="install.tests"></h2>
-							<?php testWrite(WCT_CONFIG_DIR); ?>
-							<?php testWrite(WCT_BASE_DATA_DIR); ?>
-							<?php //testModReWrite(); ?>
+							<?php wctUtils::testWrite(WCT_CONFIG_DIR); ?>
+							<?php wctUtils::testWrite(WCT_BASE_DATA_DIR); ?>
+							<?php //wctUtils::testModReWrite(); ?>
 						</div>
 					</div>
 					<p style="text-align:center"><a href="#" class="btn btn-lg btn-primary btn-material-grey-500" id="btnExecuteInstall" data-i18n="install.proceed"></a></p>

@@ -2,7 +2,7 @@
 // Calendar service
 require(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'global.php');
 
-require(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'classes' . DIRECTORY_SEPARATOR . 'event.inc');
+require(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'classes' . DIRECTORY_SEPARATOR . 'wct.event.inc');
 
 $baseEventsDir = WCT_DATA_DIR . 'clan' . DIRECTORY_SEPARATOR . $_SESSION['clan_id'] . DIRECTORY_SEPARATOR . 'events';
 if (!is_dir($baseEventsDir)) {

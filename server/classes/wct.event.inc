@@ -1,5 +1,5 @@
 <?php
-require(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'eventType.inc');
+require(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'wct.eventType.inc');
 
 class Event {
 	var $id;
