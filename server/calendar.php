@@ -2,11 +2,11 @@
 // Calendar service
 require(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'global.php');
 
-require(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'classes' . DIRECTORY_SEPARATOR . 'wct.event.inc');
+require(WCT_SERVER_DIR . DIRECTORY_SEPARATOR . 'classes' . DIRECTORY_SEPARATOR . 'wct.event.inc');
 
-$baseEventsDir = WCT_DATA_DIR . 'clan' . DIRECTORY_SEPARATOR . $_SESSION['clan_id'] . DIRECTORY_SEPARATOR . 'events';
-if (!is_dir($baseEventsDir)) {
-	mkdir($baseEventsDir, 0755, true);
+define('WCT_BASE_EVENT_DIR', WCT_DATA_DIR . 'clan' . DIRECTORY_SEPARATOR . $_SESSION['clan_id'] . DIRECTORY_SEPARATOR . 'events');
+if (!is_dir(WCT_BASE_EVENT_DIR)) {
+	mkdir(WCT_BASE_EVENT_DIR, 0755, true);
 }
 
 // Switch between requested action
@@ -16,10 +16,16 @@ switch ($_REQUEST['a']) {
 	case 'list':
 		// This service must return JSON to page
 		header('Content-Type: application/json');
+		$files = wctEvent::getFilesFromRange(floor($_REQUEST['from'] / 1000), floor($_REQUEST['to'] / 1000));
 		$out = array();
+		foreach ($files as $eventsFile) {
+			$fileContent = json_decode(file_get_contents($eventsFile), true);
+			$fileContent = is_array($fileContent) ? $fileContent : array($fileContent);
+		}
+		/*
 		for($i=1; $i<=13; $i++){   //from day 01 to day 15
 			$date = date('Y-m-d', strtotime("+".$i." days"));
-			$data = new Event();
+			$data = new wctEvent();
 			$data->setId($i);
 			$data->setDateStart(strtotime(date('Y-m-d', strtotime("+" . $i . " days"))) + (12*3600));
 			$data->setDateEnd($data->getDateStart() + 7200);
@@ -50,6 +56,7 @@ switch ($_REQUEST['a']) {
 			}
 			$out[] = $data->toCalendarArray();
 		}
+		*/
 		echo json_encode(array('success' => 1, 'result' => $out));
 		exit;
 		break;
@@ -57,7 +64,7 @@ switch ($_REQUEST['a']) {
 		// This service must return JSON to page
 		header('Content-Type: application/json');
 		// Parse event from request
-		$myEvent = new Event();
+		$myEvent = new wctEvent();
 		$myEvent->setTitle($_REQUEST['eventTitle']);
 		$myEvent->setType($_REQUEST['eventType']);
 		if (isset($_REQUEST['eventDescription'])) {
@@ -80,6 +87,7 @@ switch ($_REQUEST['a']) {
 			$myEvent['periodicity']['days'] = $_REQUEST['eventPeriodicityDays'];
 		}
 		*/
+		$saveFile = wctEvent::getFileFromDate($myEvent->getDateStart());
 		$result['result'] = 'ok';
 		$result['data'] = $myEvent->toCalendarArray();
 		break;

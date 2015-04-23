@@ -85,7 +85,7 @@ include(WCT_INC_DIR . 'ads.php');
 	</div>
 </div>
 <div class="modal fade" id="events-modal">
-	<div class="modal-dialog">
+	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -103,7 +103,7 @@ include(WCT_INC_DIR . 'ads.php');
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<button class="close" aria-hidden="true" data-dismiss="modal" type="button">×</button>
+				<button class="close" aria-hidden="true" data-dismiss="modal" type="button">&times;</button>
 				<h4 class="modal-title"></h4>
 			</div>
 			<div class="modal-body"></div>

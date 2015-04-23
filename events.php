@@ -22,7 +22,6 @@ include(WCT_INC_DIR . 'ads.php');
 					<button class="btn btn-warning" data-calendar-view="year" data-i18n="action.calendar.view.year"></button>
 					<button class="btn btn-warning active" data-calendar-view="month" data-i18n="action.calendar.view.month"></button>
 					<button class="btn btn-warning" data-calendar-view="week" data-i18n="action.calendar.view.week"></button>
-					<button class="btn btn-warning" data-calendar-view="day" data-i18n="action.calendar.view.day"></button>
 				</div>
 			</div>
 			<h3 id="agendaTitle"></h3>

@@ -1,7 +1,7 @@
 <?php
 require(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'wct.eventType.inc');
 
-class Event {
+class wctEvent {
 	var $id;
 	var $title;
 	var $description;
@@ -15,6 +15,64 @@ class Event {
 	var $isRecurrent;
 	var $participants;
 
+	/**
+	 * Get a list of files used in an interval.
+	 *
+	 * @param pStartDate
+	 *     Start date of the interval
+	 * @param pEndDate
+	 *     End date of the interval
+	 * @return An <code>array</code> containing the list of the files path.
+	 */
+	public static function getFilesFromRange($pStartDate, $pEndDate) {
+		$listFiles = array();
+		$tmpFile = '';
+		// Add first file
+		array_push($listFiles, wctEvent::getFileFromDate($pStartDate));
+		// Add files between start and end date
+		// Files are stored by month
+		$interval = new DateInterval('P1M');
+		// Initialize date object
+		$date = new DateTime('@' . $pStartDate);
+		// Add first interval
+		$date->add($interval);
+		// Loop until end date
+		while ($date->getTimeStamp() < $pEndDate) {
+			$tmpFile = Event::getFileFromDate($date->getTimeStamp());
+			if (!in_array($tmpFile, $listFiles)) {
+				array_push($listFiles, $tmpFile);
+			}
+			$date->add($interval);
+		}
+		// Add last file if needed
+		$tmpFile = wctEvent::getFileFromDate($pEndDate);
+		if (!in_array($tmpFile, $listFiles)) {
+			array_push($listFiles, $tmpFile);
+		}
+		return $listFiles;
+	}
+
+	/**
+	 * Get the file path from a timestamp. The directory structure and file are created if they don't exists.
+	 *
+	 * @param pDate
+	 *     Timestamp to get the file for.
+	 * @return A file path.
+	 */
+	public static function getFileFromDate($pDate) {
+		$filePath = WCT_BASE_EVENT_DIR . DIRECTORY_SEPARATOR;
+		$filePath .= date(addslashes('Y' . DIRECTORY_SEPARATOR . 'm'), $pDate) . '.json';
+		// Create file if it doesn't exist
+		$fileDir = dirname($filePath);
+		if (!is_dir($fileDir)) {
+			mkdir($fileDir, 0755, true);
+		}
+		if (!file_exists($filePath)) {
+			touch($filePath);
+		}
+		return $filePath;
+	}
+
 	public function __construct() {
 		$this->id = -1;
 		$this->title = '';
@@ -25,7 +83,7 @@ class Event {
 		$this->dateCreation = -1;
 		$this->dateModification = -1;
 		$this->isRecurrent = false;
-		$this->participants = array("50000000" => "unsure", "50000001" => "sure", "50000002" => "no");
+		$this->participants = array("50000000" => "spare", "50000001" => "yes", "50000002" => "no");
 	}
 
 	public static function fromJson($json) {
