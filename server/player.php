@@ -24,25 +24,27 @@ function calcTankWN8($pTanksExpectedVals, $pTankStats) {
 	foreach ($pTanksExpectedVals as $tankExpectedVals) {
 		if ($tankExpectedVals['IDNum'] == $pTankStats['tank_id']) {
 			$lTankBattles = $pTankStats['all']['battles'];
-			$avgDmg = $pTankStats['all']['damage_dealt'] / $lTankBattles;
-			$avgSpot = $pTankStats['all']['spotted'] / $lTankBattles;
-			$avgFrag = $pTankStats['all']['frags'] / $lTankBattles;
-			$avgDef = $pTankStats['all']['dropped_capture_points'] / $lTankBattles;
-			$avgWinRate = $pTankStats['all']['wins'] * 100 / $lTankBattles;
-			// STEP 1
-			$rDAMAGE = $avgDmg     / $tankExpectedVals['expDamage'];
-			$rSPOT   = $avgSpot    / $tankExpectedVals['expSpot'];
-			$rFRAG   = $avgFrag    / $tankExpectedVals['expFrag'];
-			$rDEF    = $avgDef     / $tankExpectedVals['expDef'];
-			$rWIN    = $avgWinRate / $tankExpectedVals['expWinRate'];
-			// STEP 2
-			$rWINc    = max(0,                      ($rWIN    - 0.71) / (1 - 0.71) );
-			$rDAMAGEc = max(0,                      ($rDAMAGE - 0.22) / (1 - 0.22) );
-			$rFRAGc   = max(0, min($rDAMAGEc + 0.2, ($rFRAG   - 0.12) / (1 - 0.12)));
-			$rSPOTc   = max(0, min($rDAMAGEc + 0.1, ($rSPOT   - 0.38) / (1 - 0.38)));
-			$rDEFc    = max(0, min($rDAMAGEc + 0.1, ($rDEF    - 0.10) / (1 - 0.10)));
-			// STEP 3
-			$returnVal = 980*$rDAMAGEc + 210*$rDAMAGEc*$rFRAGc + 155*$rFRAGc*$rSPOTc + 75*$rDEFc*$rFRAGc + 145*min(1.8, $rWINc);
+			if ($lTankBattles > 0) {
+				$avgDmg = $pTankStats['all']['damage_dealt'] / $lTankBattles;
+				$avgSpot = $pTankStats['all']['spotted'] / $lTankBattles;
+				$avgFrag = $pTankStats['all']['frags'] / $lTankBattles;
+				$avgDef = $pTankStats['all']['dropped_capture_points'] / $lTankBattles;
+				$avgWinRate = $pTankStats['all']['wins'] * 100 / $lTankBattles;
+				// STEP 1
+				$rDAMAGE = $avgDmg     / $tankExpectedVals['expDamage'];
+				$rSPOT   = $avgSpot    / $tankExpectedVals['expSpot'];
+				$rFRAG   = $avgFrag    / $tankExpectedVals['expFrag'];
+				$rDEF    = $avgDef     / $tankExpectedVals['expDef'];
+				$rWIN    = $avgWinRate / $tankExpectedVals['expWinRate'];
+				// STEP 2
+				$rWINc    = max(0,                      ($rWIN    - 0.71) / (1 - 0.71) );
+				$rDAMAGEc = max(0,                      ($rDAMAGE - 0.22) / (1 - 0.22) );
+				$rFRAGc   = max(0, min($rDAMAGEc + 0.2, ($rFRAG   - 0.12) / (1 - 0.12)));
+				$rSPOTc   = max(0, min($rDAMAGEc + 0.1, ($rSPOT   - 0.38) / (1 - 0.38)));
+				$rDEFc    = max(0, min($rDAMAGEc + 0.1, ($rDEF    - 0.10) / (1 - 0.10)));
+				// STEP 3
+				$returnVal = 980*$rDAMAGEc + 210*$rDAMAGEc*$rFRAGc + 155*$rFRAGc*$rSPOTc + 75*$rDEFc*$rFRAGc + 145*min(1.8, $rWINc);
+			}
 			break;
 		}
 	}
