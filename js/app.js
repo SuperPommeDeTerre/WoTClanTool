@@ -88,8 +88,8 @@ var checkConnected = function() {
 			for (var i=0; i<gConfig.CLAN_IDS.length; i++) {
 				if (gPersonalInfos.clan_id == gConfig.CLAN_IDS[i]) {
 					isUserValid = true;
+					break;
 				}
-				break;
 			}
 		}
 		if (!isUserValid) {
