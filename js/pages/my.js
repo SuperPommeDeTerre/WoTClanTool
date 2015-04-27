@@ -144,7 +144,6 @@ var onLoad = function() {
 					tableContent += '<td><span class="label label-' + getWN8Class(tankAdditionalInfos.wn8) + '">' + (Math.round(tankAdditionalInfos.wn8 * 100) / 100) + '</span></td>';
 					tableContent += '<td data-value="' + winRatio + '">' + (winRatio > -1?(Math.round(winRatio * 100) / 100) + ' %':'-') + '</td>';
 					tableContent += '<td><div data-toggle="tooltip" data-placement="top" class="slider shor slider-info" title="' + (tankAdditionalInfos.is_ready?i18n.t('tank.status.2'):tankAdditionalInfos.is_full||tankInfos.is_premium?i18n.t('tank.status.1'):i18n.t('tank.status.0')) + '"></div></td>';
-					tableContent += '<td>&nbsp;</td>';
 					tableContent += '</tr>';
 					listContent += '<div class="small tank tankcontainer tankmastery' + myTank.mark_of_mastery +  (tankAdditionalInfos.in_garage?' ingarage':' hidden') + (tankInfos.is_premium?' ispremium':'') + (tankInfos.is_premium||tankAdditionalInfos.is_full?' isfull':'') +'">';
 					listContent += '<div class="tanklevel' + tankInfos.level + '"><img src="' + tankInfos.image_small + '" /></div>';
