@@ -275,6 +275,10 @@ var onLoad = function() {
 		onAfterViewLoad: function(view) {
 			$('#agendaTitle').text(this.getTitle());
 		},
+		onAfterModalShown: function(events) {
+			// Fill the event window and add event handlers
+			$("#events-modal").i18n();
+		},
 		//events_source: './server/calendar.php?a=list'
 		events_source: './server/calendar.php?a=list'
 	});

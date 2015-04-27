@@ -21,50 +21,29 @@ switch ($_REQUEST['a']) {
 		foreach ($files as $eventsFile) {
 			$fileContent = json_decode(file_get_contents($eventsFile), true);
 			$fileContent = is_array($fileContent) ? $fileContent : array($fileContent);
-		}
-		/*
-		for($i=1; $i<=13; $i++){   //from day 01 to day 15
-			$date = date('Y-m-d', strtotime("+".$i." days"));
-			$data = new wctEvent();
-			$data->setId($i);
-			$data->setDateStart(strtotime(date('Y-m-d', strtotime("+" . $i . " days"))) + (12*3600));
-			$data->setDateEnd($data->getDateStart() + 7200);
-			if ($i < 2) {
-				$data->setType('compa');
-				$data->setTitle('Compagnie '.$i);
-				$data->setDescription('Compagnie description '.$i);
-			} else if ($i < 6) {
-				$data->setType('clanwar');
-				$data->setTitle('Clan War '.$i);
-				$data->setDescription('Clan War description '.$i);
-			} else if ($i < 8) {
-				$data->setType('stronghold');
-				$data->setTitle('Bastion '.$i);
-				$data->setDescription('Bastion description '.$i);
-			} else if ($i < 10) {
-				$data->setType('training');
-				$data->setTitle('Entraînement '.$i);
-				$data->setDescription('Entraînement description '.$i);
-			} else if ($i < 12) {
-				$data->setType('7vs7');
-				$data->setTitle('7vs7 '.$i);
-				$data->setDescription('7vs7 description '.$i);
-			} else if ($i < 14) {
-				$data->setType('other');
-				$data->setTitle('Autre '.$i);
-				$data->setDescription('Autre description '.$i);
+			foreach ($fileContent as $eventData) {
+				array_push($out, wctEvent::fromJson($eventData)->toCalendarArray());
 			}
-			$out[] = $data->toCalendarArray();
 		}
-		*/
 		echo json_encode(array('success' => 1, 'result' => $out));
 		exit;
 		break;
-	case 'add':
+	case 'save':
 		// This service must return JSON to page
 		header('Content-Type: application/json');
 		// Parse event from request
 		$myEvent = new wctEvent();
+		$eventId = '';
+		if (isset($_REQUEST['eventId'])) {
+			$eventId = $_REQUEST['eventId'];
+		}
+		if ($eventId != '') {
+			$myEvent->setId($eventId);
+		} else {
+			$myEvent->setOwner($_SESSION['account_id']);
+			$myEvent->setDateCreation(time());
+			$myEvent->setDateModification(time());
+		}
 		$myEvent->setTitle($_REQUEST['eventTitle']);
 		$myEvent->setType($_REQUEST['eventType']);
 		if (isset($_REQUEST['eventDescription'])) {
@@ -75,32 +54,38 @@ switch ($_REQUEST['a']) {
 		if (isset($_REQUEST['eventEndDate'])) {
 			$myEvent->setDateEnd(intval($_REQUEST['eventEndDate']));
 		}
-		/*
-		if (isset($_REQUEST['eventPrivate'])) {
-			$myEvent['private'] = $_REQUEST['eventPrivate'];
-		}
-		if (isset($_REQUEST['eventPeriodic'])) {
-			$myEvent['periodic'] = $_REQUEST['eventPeriodic'];
-			$myEvent['periodicity'] = array();
-		}
-		if (isset($_REQUEST['eventPeriodicityDays'])) {
-			$myEvent['periodicity']['days'] = $_REQUEST['eventPeriodicityDays'];
-		}
-		*/
+		// Load events from data file
 		$saveFile = wctEvent::getFileFromDate($myEvent->getDateStart());
+		$fileContents = json_decode(file_get_contents($saveFile), true);
+		$fileContents = is_array($fileContents) ? $fileContents : array($fileContents);
+		if (count($fileContents) == 1 && $fileContents[0] == NULL) {
+			array_splice($fileContents, 0, 1);
+		}
+		// Find a free id or locate actual event to update it.
+		$localId = 0;
+		$tmpEvent = array();
+		foreach ($fileContents as $eventIndex => &$eventData) {
+			$tmpEvent = wctEvent::fromJson($eventData);
+			if ($eventId != '') {
+				if ($eventId == $eventData->getId()) {
+					// The actual event is found. Update it.
+					array_splice($fileContents, $eventIndex, 1);
+					break;
+				}
+			} else {
+				$localId = $tmpEvent->getLocalId();
+			}
+		}
+		// Add event if it's a new event
+		if ($eventId == '') {
+			$eventId = wctEvent::computeBaseId($myEvent->getDateStart()) . ($localId + 1);
+			$myEvent->setId($eventId);
+		}
+		// Replace event
+		array_push($fileContents, $myEvent->toCalendarArray(true));
+		file_put_contents($saveFile, json_encode($fileContents));
 		$result['result'] = 'ok';
 		$result['data'] = $myEvent->toCalendarArray();
-		break;
-	case 'modify':
-		// This service must return JSON to page
-		header('Content-Type: application/json');
-		$result['result'] = 'ok';
-		if (isset($_REQUEST['eventId'])) {
-			$myEventId = $_REQUEST['eventId'];
-		} else {
-			$result['result'] = 'error';
-			$result['code'] = 'error.idrequired';
-		}
 		break;
 	case 'delete':
 		// This service must return JSON to page
@@ -112,7 +97,11 @@ switch ($_REQUEST['a']) {
 		header('Content-Type: text/html');
 		$isJsonResult = false;
 		$myEventId = $_REQUEST['id'];
-		$result = "<p data-i18n=\"\">Contenu de l'évènement " . $myEventId . "</p>";
+		$myEvent = wctEvent::fromId($_REQUEST['id']);
+		$result = "<p><span data-i18n=\"event.description\"></span>: <span>" . $myEvent->getDescription() . "</span></p>";
+		$result .= "<p><span data-i18n=\"event.startdate\" data-date=\"" . $myEvent->getDateStart() . "000\"></span>: <span class=\"date\"></span></p>";
+		$result .= "<p><span data-i18n=\"event.enddate\" data-date=\"" . $myEvent->getDateEnd() . "000\"></span>: <span class=\"date\"></span></p>";
+		$result .= "<p><span data-i18n=\"event.participants\"></span>:</p>";
 		break;
 }
 if ($isJsonResult) {

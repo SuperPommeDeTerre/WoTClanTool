@@ -60,49 +60,96 @@ class wctEvent {
 	 * @return A file path.
 	 */
 	public static function getFileFromDate($pDate) {
-		$filePath = WCT_BASE_EVENT_DIR . DIRECTORY_SEPARATOR;
-		$filePath .= date(addslashes('Y' . DIRECTORY_SEPARATOR . 'm'), $pDate) . '.json';
+		$filePath = WCT_BASE_EVENT_DIR . DIRECTORY_SEPARATOR . date(addslashes('Y' . DIRECTORY_SEPARATOR . 'm'), $pDate) . '.json';
 		// Create file if it doesn't exist
 		$fileDir = dirname($filePath);
 		if (!is_dir($fileDir)) {
 			mkdir($fileDir, 0755, true);
 		}
 		if (!file_exists($filePath)) {
-			touch($filePath);
+			file_put_contents($filePath, json_encode(array()));
 		}
 		return $filePath;
 	}
 
+	public static function computeBaseId($pDate) {
+		return date(addslashes('Y-m-'), $pDate);
+	}
+
+	public static function fromId($pEventId) {
+		$idParts = explode('-', $pEventId);
+		$eventDate = mktime(12, 0, 0, $idParts[1], 1, $idParts[0]);
+		$eventsFile = self::getFileFromDate($eventDate);
+		$fileContents = json_decode(file_get_contents($eventsFile), true);
+		$returnVal = new self();
+		foreach ($fileContents as $eventData) {
+			if ($eventData['id'] == $pEventId) {
+				$returnVal = self::fromJson($eventData);
+				break;
+			}
+		}
+		return $returnVal;
+	}
+
+	/**
+	 * Constructor.
+	 */
 	public function __construct() {
-		$this->id = -1;
+		$this->id = '';
 		$this->title = '';
 		$this->description = '';
 		$this->dateStart = -1;
 		$this->dateEnd = -1;
+		$this->owner = '';
 		$this->isPrivate = false;
 		$this->dateCreation = -1;
 		$this->dateModification = -1;
 		$this->isRecurrent = false;
-		$this->participants = array("50000000" => "spare", "50000001" => "yes", "50000002" => "no");
+		$this->participants = array();
 	}
 
 	public static function fromJson($json) {
 		$instance = new self();
-		$instance->loadByID( $id );
+		$instance->id = $json['id'];
+		$instance->title = $json['title'];
+		$instance->description = $json['description'];
+		$instance->dateStart = $json['start'];
+		$instance->dateEnd = $json['end'];
+		$instance->type = $json['type'];
+		$instance->owner = $json['owner'];
+		$instance->participants = $json['participants'];
 		return $instance;
 	}
 
-	public function toCalendarArray() {
+	public function toCalendarArray($pForStorage = false) {
 		$result = array();
 		$result['id'] = $this->id;
 		$result['title'] = $this->title;
 		$result['description'] = $this->description;
-		$result['start'] = $this->dateStart . '000';
-		$result['end'] = $this->dateEnd . '000';
-		$result['class'] = 'event-type-' . $this->type;
+		$result['start'] = $this->dateStart . ($pForStorage == false?'000':'');
+		$result['end'] = $this->dateEnd . ($pForStorage == false?'000':'');
+		$result['owner'] = $this->owner;
 		$result['participants'] = $this->participants;
-		$result['url'] = './server/calendar.php?a=get&id=' . $this->id;
+		$result['type'] = $this->type;
+		if ($pForStorage == false) {
+			$result['class'] = 'event-type-' . $this->type;
+			$result['url'] = './server/calendar.php?a=get&id=' . $this->id;
+		}
 		return $result;
+	}
+
+	public function getBaseId() {
+		$returnVal = '';
+		$idParts = explode('-', $this->id);
+		$returnVal = $idParts[0] + '-' + $idParts[1] + '-';
+		return $returnVal;
+	}
+
+	public function getLocalId() {
+		$returnVal = '';
+		$idParts = explode('-', $this->id);
+		$returnVal = intval($idParts[2]);
+		return $returnVal;
 	}
 
 	public function getId() {
@@ -167,6 +214,14 @@ class wctEvent {
 
 	public function setDateModification($dateModification) {
 		$this->dateModification = $dateModification;
+	}
+
+	public function getOwner() {
+		return $this->owner;
+	}
+
+	public function setOwner($pOwner) {
+		$this->owner = $pOwner;
 	}
 
 	public function isPrivate() {

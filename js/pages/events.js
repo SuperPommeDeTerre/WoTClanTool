@@ -14,6 +14,11 @@ var onLoad = function() {
 		},
 		onAfterModalShown: function(events) {
 			// Fill the event window and add event handlers
+			$("#events-modal").i18n();
+			$("[data-date]").each(function(idx, elem) {
+				var myElem = $(elem);
+				myElem.siblings('.date').text(moment(myElem.data('date')).format('LLL'));
+			});
 		},
 		events_source: './server/calendar.php?a=list'
 	});
@@ -58,7 +63,7 @@ var onLoad = function() {
 		evt.preventDefault();
 		// Post data to server
 		$.post('./server/calendar.php', {
-			a: 'add',
+			a: 'save',
 			eventTitle: $('#eventTitle').val(),
 			eventType: $('[name=eventType]:checked').val(),
 			eventDescription: $('#eventDescription').val(),

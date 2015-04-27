@@ -36,7 +36,7 @@ $gWG_API_URL = $gClusters[$gCluster]["url"];
 $gCLAN_ID = $gConfig["clans"]["restric_to"][$gCluster];
 
 // Max number of days before a player is marked as inactive
-$gMAX_BATTLE_TIME = $gConfig["player"]["max_battle_time"];;
+$gMAX_BATTLE_TIME = $gConfig["player"]["max_battle_time"];
 
 // Name of theme to use
 $gThemeName = $gConfig["app"]["theme"];
