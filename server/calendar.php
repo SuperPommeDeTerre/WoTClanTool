@@ -16,13 +16,18 @@ switch ($_REQUEST['a']) {
 	case 'list':
 		// This service must return JSON to page
 		header('Content-Type: application/json');
-		$files = wctEvent::getFilesFromRange(floor($_REQUEST['from'] / 1000), floor($_REQUEST['to'] / 1000));
+		$dateStart = floor($_REQUEST['from'] / 1000);
+		$dateEnd = floor($_REQUEST['to'] / 1000);
+		$files = wctEvent::getFilesFromRange($dateStart, $dateEnd);
 		$out = array();
 		foreach ($files as $eventsFile) {
 			$fileContent = json_decode(file_get_contents($eventsFile), true);
 			$fileContent = is_array($fileContent) ? $fileContent : array($fileContent);
 			foreach ($fileContent as $eventData) {
-				array_push($out, wctEvent::fromJson($eventData)->toCalendarArray());
+				$myEvent = wctEvent::fromJson($eventData);
+				if ($myEvent->getDateStart() < $dateEnd && $myEvent->getDateEnd() > $dateStart) {
+					array_push($out, $myEvent->toCalendarArray());
+				}
 			}
 		}
 		echo json_encode(array('success' => 1, 'result' => $out));
@@ -92,13 +97,27 @@ switch ($_REQUEST['a']) {
 		header('Content-Type: application/json');
 		$result['result'] = 'ok';
 		break;
+	// Enrolment to an event
+	case 'enrol':
+		// This service must return JSON to page
+		header('Content-Type: application/json');
+		$result['result'] = 'ok';
+		break;
 	case 'get':
 		// This service must return HTML to page
 		header('Content-Type: text/html');
+		$result = '';
 		$isJsonResult = false;
 		$myEventId = $_REQUEST['id'];
 		$myEvent = wctEvent::fromId($_REQUEST['id']);
-		$result = "<p><span data-i18n=\"event.description\"></span>: <span>" . $myEvent->getDescription() . "</span></p>";
+		if ($_SESSION['account_id'] == $myEvent->getOwner()) {
+			// Add modify / Delete buttons only for owner
+			$result .= '<div class="btn-group pull-right" role="group">';
+			$result .= '<button type="button" id="btnModifyEvent" class="btn btn-default btn-material-grey-500" data-i18n="[title]action.modify;"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>';
+			$result .= '<button type="button" id="btnDeleteEvent" class="btn btn-default btn-material-grey-500" data-i18n="[title]action.delete;"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>';
+			$result .= '</div>';
+		}
+		$result .= "<p>" . $myEvent->getDescription() . "</p>";
 		$result .= "<p><span data-i18n=\"event.startdate\" data-date=\"" . $myEvent->getDateStart() . "000\"></span>: <span class=\"date\"></span></p>";
 		$result .= "<p><span data-i18n=\"event.enddate\" data-date=\"" . $myEvent->getDateEnd() . "000\"></span>: <span class=\"date\"></span></p>";
 		$result .= "<p><span data-i18n=\"event.participants\"></span>:</p>";

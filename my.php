@@ -12,7 +12,28 @@ include(WCT_INC_DIR . 'ads.php');
 ?>
 			<h1 class="page-header" data-i18n="page.my.title"></h1>
 			<h2 class="sub-header" id="calendar" data-i18n="elems.calendar"></h2>
-			<div id="myCalendar"></div>
+			<div id="myCalendar" class="container-fluid">
+				<div class="row">
+					<div class="col-xs-6 col-md-4 col-ld-2 placeholder">
+						<h3 data-i18n="action.calendar.today"></h3>
+					</div>
+					<div class="col-xs-6 col-md-4 col-ld-2 placeholder">
+						<h3></h3>
+					</div>
+					<div class="col-xs-6 col-md-4 col-ld-2 placeholder">
+						<h3></h3>
+					</div>
+					<div class="col-xs-6 col-md-4 col-ld-2 placeholder">
+						<h3></h3>
+					</div>
+					<div class="col-xs-6 col-md-4 col-ld-2 placeholder">
+						<h3></h3>
+					</div>
+					<div class="col-xs-6 col-md-4 col-ld-2 placeholder">
+						<h3></h3>
+					</div>
+				</div>
+			</div>
 			<h2 class="sub-header" id="garage" data-i18n="elems.garage"></h2>
 			<div class="btn-group" role="group">
 				<button type="button" id="btnShowTanksTable" class="btn btn-default btn-material-grey-500 active"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span></button>

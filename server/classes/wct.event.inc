@@ -28,7 +28,7 @@ class wctEvent {
 		$listFiles = array();
 		$tmpFile = '';
 		// Add first file
-		array_push($listFiles, wctEvent::getFileFromDate($pStartDate));
+		array_push($listFiles, self::getFileFromDate($pStartDate));
 		// Add files between start and end date
 		// Files are stored by month
 		$interval = new DateInterval('P1M');
@@ -38,14 +38,14 @@ class wctEvent {
 		$date->add($interval);
 		// Loop until end date
 		while ($date->getTimeStamp() < $pEndDate) {
-			$tmpFile = Event::getFileFromDate($date->getTimeStamp());
+			$tmpFile = self::getFileFromDate($date->getTimeStamp());
 			if (!in_array($tmpFile, $listFiles)) {
 				array_push($listFiles, $tmpFile);
 			}
 			$date->add($interval);
 		}
 		// Add last file if needed
-		$tmpFile = wctEvent::getFileFromDate($pEndDate);
+		$tmpFile = self::getFileFromDate($pEndDate);
 		if (!in_array($tmpFile, $listFiles)) {
 			array_push($listFiles, $tmpFile);
 		}

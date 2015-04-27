@@ -149,7 +149,10 @@
 		"description": "Description",
 		"startdate": "Date de début",
 		"enddate": "Date de fin",
-		"participants": "Participants"
+		"participants": "Participants",
+		"enrol": "S'inscrire",
+		"noevent": "Aucun évènement",
+		"noparticipant": "Aucun participant"
 	},
 	"stats": {
 		"global": {

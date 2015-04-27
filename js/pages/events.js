@@ -41,6 +41,10 @@ var onLoad = function() {
 	// Prevent default action on add event button
 	$('#addEvent').on('click', function(evt) {
 		evt.preventDefault();
+		$('#eventTitle').val('');
+		$('#eventDescription').val('');
+		$('#eventStartDate input').val('');
+		$('#eventEndDate input').val('');
 	});
 
 	// Init date time pickers

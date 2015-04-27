@@ -15,7 +15,6 @@ var onLoad = function() {
 			clanEmblem = dataClan.emblems.x64.portal;
 		$('#clansInfosTitle').html('<img src="' + clanEmblem + '" alt="' + i18n.t('clan.emblem') + '" /> <span style="color:' + dataClan.color + '">[' + dataClan.tag + ']</span> ' + dataClan.name + ' <small>' + dataClan.motto + '</small>');
 		$('#clanTotalPlayers').text(i18n.t('clan.nbplayers', { count: dataClan.members_count }));
-		$('#clanTotalEvents').text(i18n.t('clan.nbevents', { count: 0 }));
 		$.post('./server/strat.php', {
 			'action': 'list'
 		}, function(dataListStratResponse) {
@@ -249,6 +248,82 @@ var onLoad = function() {
 								{ label: i18n.t('tank.type.lightTank', { count: nbClanVehiculesByType['lightTank'] }), value: nbClanVehiculesByType['lightTank'] }
 							]
 						});
+						var myCalendar = $('#clanCalendar').calendar({
+							tmpl_path: './js/calendar-tmpls/',
+							language: gLangMapping[gConfig.LANG],
+							view: 'month',
+							time_start: '00:00',
+							time_end: '23:59',
+							modal: '#events-modal',
+							modal_type: 'ajax',
+							modal_title : function (e) { return e.title },
+							onAfterViewLoad: function(view) {
+								$('#agendaTitle').text(this.getTitle());
+							},
+							onAfterEventsLoad: function(events) {
+								$('#agendaTitleTody').nextAll().remove();
+								var myTodayEventsHtml = '',
+									startOfDay = moment().startOf('day'),
+									endOfDay = moment(startOfDay).add(1, 'days'),
+									startOfPeriod = startOfDay,
+									endOfPeriod = moment(startOfDay).add(7, 'days'),
+									nbEventsOnPeriod = 0;
+								for (var i=0; i<events.length; i++) {
+									var myEvent = events[i],
+										myEventStartDate = moment(myEvent.start * 1),
+										myEventEndDate = moment(myEvent.end * 1);
+									if (myEventStartDate.isBetween(startOfDay, endOfDay) || myEventEndDate.isBetween(startOfDay, endOfDay)) {
+										myTodayEventsHtml += '<h4><span class="label label-default">' + myEventStartDate.format('LT') + '</span> ' + myEvent.title + '</h4>';
+										myTodayEventsHtml += '<p>' + myEvent.description + '</p>';
+										myTodayEventsHtml += '<h5 data-i18n="action.calendar.prop.participants"></h5>';
+										if (myEvent.participants.length == 0) {
+											myTodayEventsHtml += '<p data-i18n="event.noparticipant"></p>';
+										} else {
+											myTodayEventsHtml += '<ul class="list-unstyled participants">';
+											for (var myParticipantId in myEvent.participants) {
+												myParticipantAttendance = myEvent.participants[myParticipantId];
+												myTodayEventsHtml += '<li data-id="' + myParticipantId + '" class="attendance-' + myParticipantAttendance + '">' + dataPlayers[myParticipantId].nickname + '</li>';
+											}
+											myTodayEventsHtml += '</ul>';
+										}
+									}
+									if (myEventStartDate.isBetween(startOfPeriod, endOfPeriod) || myEventEndDate.isBetween(startOfPeriod, endOfPeriod)) {
+										nbEventsOnPeriod++;
+									}
+								}
+								if (myTodayEventsHtml == '') {
+									// No events for this day.
+									myTodayEventsHtml = '<p data-i18n="event.noevent"></p>';
+								}
+								$('#clanTotalEvents').text(i18n.t('clan.nbevents', { count: nbEventsOnPeriod }));
+								$('#agendaTitleTody').after(myTodayEventsHtml).parent().i18n();
+							},
+							onAfterModalShown: function(events) {
+								// Fill the event window and add event handlers
+								$("#events-modal").i18n();
+								$("[data-date]").each(function(idx, elem) {
+									var myElem = $(elem);
+									myElem.siblings('.date').text(moment(myElem.data('date')).format('LLL'));
+								});
+							},
+							//events_source: './server/calendar.php?a=list'
+							events_source: './server/calendar.php?a=list'
+						});
+						$('.btn-group button[data-calendar-nav]').each(function() {
+							var $this = $(this);
+							$this.click(function() {
+								myCalendar.navigate($this.data('calendar-nav'));
+							});
+						});
+
+						$('.btn-group button[data-calendar-view]').each(function() {
+							var $this = $(this);
+							$this.click(function() {
+								$this.siblings('.active').removeClass('active');
+								$this.addClass('active');
+								myCalendar.view($this.data('calendar-view'));
+							});
+						});
 						advanceProgress(i18n.t('loading.complete'));
 						afterLoad();
 					}, 'json');
@@ -263,38 +338,6 @@ var onLoad = function() {
 		access_token: gConfig.ACCESS_TOKEN,
 		clan_id: gPersonalInfos.clan_id
 	}, function(dataClanProvincesResponse) {
-		$('#clanTotalProvinces').text(i18n.t("clan.nbprovinces", { count: dataClanProvincesResponse.count }));
+		$('#clanTotalProvinces').text(i18n.t('clan.nbprovinces', { count: dataClanProvincesResponse.count }));
 	}, 'json');
-	var myCalendar = $('#clanCalendar').calendar({
-		tmpl_path: './js/calendar-tmpls/',
-		language: gLangMapping[gConfig.LANG],
-		view: 'month',
-		modal: '#events-modal',
-		modal_type: 'ajax',
-		modal_title : function (e) { return e.title },
-		onAfterViewLoad: function(view) {
-			$('#agendaTitle').text(this.getTitle());
-		},
-		onAfterModalShown: function(events) {
-			// Fill the event window and add event handlers
-			$("#events-modal").i18n();
-		},
-		//events_source: './server/calendar.php?a=list'
-		events_source: './server/calendar.php?a=list'
-	});
-	$('.btn-group button[data-calendar-nav]').each(function() {
-		var $this = $(this);
-		$this.click(function() {
-			myCalendar.navigate($this.data('calendar-nav'));
-		});
-	});
-
-	$('.btn-group button[data-calendar-view]').each(function() {
-		var $this = $(this);
-		$this.click(function() {
-			$this.siblings('.active').removeClass('active');
-			$this.addClass('active');
-			myCalendar.view($this.data('calendar-view'));
-		});
-	});
 };

@@ -59,9 +59,6 @@ include(WCT_INC_DIR . 'ads.php');
 							</div>
 						</div>
 						<h3 id="agendaTitleTody" data-i18n="action.calendar.today"></h3>
-						<h4><span class="label label-default">20:00</span> Clan War</h4>
-						<p>Description de l'&eacute;v&egrave;nement</p>
-						<h5 data-i18n="action.calendar.prop.participants"></p>
 					</div>
 				</div>
 			</div>
