@@ -110,8 +110,8 @@ var onLoad = function() {
 			var myButton = $(this);
 			$.post('./server/calendar.php', {
 				a: 'enrol',
-				id: myButton.closest('div').data('event-id'),
-				attendance: 'sure'
+				eventId: myButton.closest('div').data('event-id'),
+				attendance: 'yes'
 			}, function(enrolResponse) {
 				if (enrolResponse.result == 'ok') {
 					var myEventContainer = myButton.closest('div');

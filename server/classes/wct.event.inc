@@ -224,6 +224,14 @@ class wctEvent {
 		$this->owner = $pOwner;
 	}
 
+	public function getParticipants() {
+		return $this->participants;
+	}
+
+	public function setParticipants($pParticipants) {
+		$this->participants = $pParticipants;
+	}
+
 	public function isPrivate() {
 		return $this->isPrivate;
 	}

@@ -101,6 +101,29 @@ switch ($_REQUEST['a']) {
 	case 'enrol':
 		// This service must return JSON to page
 		header('Content-Type: application/json');
+		if (isset($_REQUEST['eventId'])) {
+			$eventId = $_REQUEST['eventId'];
+			$myEvent = wctEvent::fromId($eventId);
+			$myParticipants = $myEvent->getParticipants();
+			if (!array_key_exists($_SESSION['account_id'], $myParticipants)) {
+				$myParticipants[$_SESSION['account_id']] = $_REQUEST['attendance'];
+				$myEvent->setParticipants($myParticipants);
+				// Perform save...
+				$myEventsFile = wctEvent::getFileFromDate($myEvent->getDateStart());
+				$fileContents = json_decode(file_get_contents($myEventsFile), true);
+				$fileContents = is_array($fileContents) ? $fileContents : array($fileContents);
+				foreach ($fileContents as $eventIndex => $eventData) {
+					$tmpEvent = wctEvent::fromJson($eventData);
+					if ($eventId == $tmpEvent->getId()) {
+						// The actual event is found. Update it.
+						array_splice($fileContents, $eventIndex, 1);
+						break;
+					}
+				}
+				array_push($fileContents, $myEvent->toCalendarArray(true));
+				file_put_contents($myEventsFile, json_encode($fileContents));
+			}
+		}
 		$result['result'] = 'ok';
 		break;
 	case 'get':
