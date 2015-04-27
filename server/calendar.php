@@ -140,10 +140,15 @@ switch ($_REQUEST['a']) {
 			$result .= '<button type="button" id="btnDeleteEvent" class="btn btn-default btn-material-grey-500" data-i18n="[title]action.delete;"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>';
 			$result .= '</div>';
 		}
-		$result .= "<p>" . $myEvent->getDescription() . "</p>";
-		$result .= "<p><span data-i18n=\"event.startdate\" data-date=\"" . $myEvent->getDateStart() . "000\"></span>: <span class=\"date\"></span></p>";
-		$result .= "<p><span data-i18n=\"event.enddate\" data-date=\"" . $myEvent->getDateEnd() . "000\"></span>: <span class=\"date\"></span></p>";
-		$result .= "<p><span data-i18n=\"event.participants\"></span>:</p>";
+		$result .= '<p>' . $myEvent->getDescription() . '</p>';
+		$result .= '<p><span data-i18n="event.startdate" data-date="' . $myEvent->getDateStart() . '000"></span>: <span class="date"></span></p>';
+		$result .= '<p><span data-i18n="event.enddate" data-date="' . $myEvent->getDateEnd() . '000"></span>: <span class="date"></span></p>';
+		$result .= '<p><span data-i18n="event.participants"></span>:</p>';
+		$result .= '<ul class="list-unstyled">';
+		foreach($myEvent->getParticipants() as $playerId => $attendance) {
+			$result .= '<li data-player-id="' + $playerId + '" class="attendance-' + $attendance + '"></li>';
+		}
+		$result .= '</ul>';
 		break;
 }
 if ($isJsonResult) {
