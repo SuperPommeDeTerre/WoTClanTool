@@ -126,12 +126,12 @@ class wctEvent {
 		$result['id'] = $this->id;
 		$result['title'] = $this->title;
 		$result['description'] = $this->description;
-		$result['start'] = $this->dateStart . ($pForStorage == false?'000':'');
-		$result['end'] = $this->dateEnd . ($pForStorage == false?'000':'');
+		$result['start'] = $this->dateStart . (!$pForStorage?'000':'');
+		$result['end'] = $this->dateEnd . (!$pForStorage?'000':'');
 		$result['owner'] = $this->owner;
 		$result['participants'] = $this->participants;
 		$result['type'] = $this->type;
-		if ($pForStorage == false) {
+		if (!$pForStorage) {
 			$result['class'] = 'event-type-' . $this->type;
 			$result['url'] = './server/calendar.php?a=get&id=' . $this->id;
 		}
