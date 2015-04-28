@@ -2,6 +2,61 @@ var onLoad = function() {
 	checkConnected();
 	advanceProgress(i18n.t('loading.claninfos'));
 	setNavBrandWithClan();
+	// Fill infos from WG.
+	var listClans = { 'EU': [], 'NA': [], 'RU': [], 'ASIA': [], 'KR': [] },
+		listAdmins = { 'EU': [], 'NA': [], 'RU': [], 'ASIA': [], 'KR': [] };
+	$('#restrictedClans .clan').each(function(idx, elem) {
+		var myElem = $(elem);
+		listClans[myElem.data('cluster')].push(myElem.data('clan-id'));
+	});
+	$('#listAdmins .player').each(function(idx, elem) {
+		var myElem = $(elem);
+		listAdmins[myElem.data('cluster')].push(myElem.data('account-id'));
+	});
+	for (var lCluster in listClans) {
+		if (typeof(gConfig.CLUSTERS[lCluster]) !== 'undefined') {
+			var lAPIKey = gConfig.CLUSTERS[lCluster].key,
+				lAPIUrl = gConfig.CLUSTERS[lCluster].url;
+			if (listClans[lCluster].length > 0) {
+				$.post(lAPIUrl + 'wgn/clans/info/', {
+					'application_id': lAPIKey,
+					'language': gConfig.LANG,
+					'fields': 'color,motto,emblems,tag,name',
+					'clan_id': listClans[lCluster].join(',')
+				}, function(dataClanResponse) {
+					var dataClan = dataClanResponse.data;
+					for (var clanId in dataClan) {
+						var myClanInfos = dataClan[clanId],
+							clanHtml = '';
+						clanHtml += '<img src="' + myClanInfos.emblems.x24.portal + '" /> <span style="color:' + myClanInfos.color + '">[' + myClanInfos.tag + ']</span> <small>' + myClanInfos.name + '</small></p>';
+						$('#restrictedClans [data-clan-id="' + clanId + '"]').html(clanHtml);
+					}
+				}, 'json');
+			}
+		}
+	}
+	for (var lCluster in listAdmins) {
+		if (typeof(gConfig.CLUSTERS[lCluster]) !== 'undefined') {
+			var lAPIKey = gConfig.CLUSTERS[lCluster].key,
+				lAPIUrl = gConfig.CLUSTERS[lCluster].url;
+			if (listAdmins[lCluster].length > 0) {
+				$.post(lAPIUrl + 'wot/account/info/', {
+					'application_id': lAPIKey,
+					'language': gConfig.LANG,
+					'fields': 'nickname',
+					'account_id': listAdmins[lCluster].join(',')
+				}, function(dataPlayersResponse) {
+					var dataPlayers = dataPlayersResponse.data;
+					for (var playerId in dataPlayers) {
+						var myPlayerInfos = dataPlayers[playerId];
+						$('#listAdmins [data-account-id="' + playerId + '"]').text(myPlayerInfos.nickname);
+					}
+				}, 'json');
+			}
+		}
+	}
+
+	// Bind events
 	$('#btnAddAdmin, #btnAddClan').on('click', function(evt) {
 		evt.preventDefault();
 	});
@@ -43,7 +98,7 @@ var onLoad = function() {
 			} else {
 				for (i=0; i<dataSearchClan.length; i++) {
 					myClan = dataSearchClan[i];
-					resultHtml += '<li data-id=\"' + myClan.clan_id + '\" data-cluster="' + lSelectedCluster + '"><img src=\"' + myClan.emblems.x24.portal + '\" /><span style=\"color:' + myClan.color + '\">[' + myClan.tag + ']</span> <small>' + myClan.name + '</small></li>';
+					resultHtml += '<li data-clan-id=\"' + myClan.clan_id + '\" data-cluster="' + lSelectedCluster + '"><img src=\"' + myClan.emblems.x24.portal + '\" /><span style=\"color:' + myClan.color + '\">[' + myClan.tag + ']</span> <small>' + myClan.name + '</small></li>';
 				}
 			}
 			$('#searchClanResult').html(resultHtml);
@@ -53,7 +108,7 @@ var onLoad = function() {
 		var myItem = $(this),
 			resultHtml = '';
 		if ($('#restrictedClans').find('[data-cluster=' + myItem.data('cluster') + '][data-id=' + myItem.data('id') + ']').length == 0) {
-			resultHtml += '<div class="alert alert-material-grey alert-dismissible clan cluster' + myItem.data('cluster') + '" role="alert" data-id="' + myItem.data('id') + '" data-cluster="' + myItem.data('cluster') + '">';
+			resultHtml += '<div class="alert alert-material-grey alert-dismissible clan cluster' + myItem.data('cluster') + '" role="alert" data-account-id="' + myItem.data('id') + '" data-cluster="' + myItem.data('cluster') + '">';
 			resultHtml += '<button type="button" class="close" data-dismiss="alert" aria-label="' + i18n.t('btn.close') + '"><span aria-hidden="true">&times;</span></button>';
 			resultHtml += '<p>' + myItem.html() + '</p>';
 			resultHtml += '</div>';
