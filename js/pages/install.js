@@ -3,6 +3,7 @@ $(document).ready(function() {
 	moment.locale(gLang);
 	i18n.init({ lng: gLang, fallbackLng: 'en', useDataAttrOptions: true }, function(t) {
 		$(document).i18n();
+		$.material.init();
 	});
 	if ($('.alert-danger').length != 0) {
 		$('#btnExecuteInstall').attr('disabled', 'disabled');
@@ -153,6 +154,7 @@ $(document).ready(function() {
 			});
 		}
 		lPostParams['clusters'] = lClustersSelected;
+		lPostParams['showads'] = $('#showads').is(':checked');
 		// Handle clans and players by cluster
 		for (clusterIndex in lClustersSelected) {
 			var clusterId = lClustersSelected[clusterIndex];
@@ -175,5 +177,4 @@ $(document).ready(function() {
 		}, 'json');
 		evt.preventDefault();
 	});
-	$.material.init();
 });

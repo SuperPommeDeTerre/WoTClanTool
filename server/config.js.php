@@ -9,7 +9,8 @@ $confArray = array(
 	'CLAN_IDS' => $gCLAN_ID,
 	'LANG' => $gLang,
 	'THRESHOLDS_MAX_BATTLES' => $gMAX_BATTLE_TIME,
-	'CLUSTERS' => $gClusters
+	'CLUSTERS' => $gClusters,
+	'SHOW_ADS' => $gShowAds
 );
 if (isset($_SESSION["access_token"])) {
 	$confArray['ACCESS_TOKEN'] = $_SESSION["access_token"];

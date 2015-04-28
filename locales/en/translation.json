@@ -56,7 +56,8 @@
 		"player": {
 			"title": "Player",
 			"hint": "Enter the name of player to search"
-		}
+		},
+		"showads": "Show advertisments (recommended)"
 	},
 	"nav": {
 		"toggle": "Switch navigation",
@@ -351,6 +352,9 @@
 		},
 		"strats": {
 			"title": "Strategies"
+		},
+		"install": {
+			"title": "Installation"
 		}
 	},
 	"strat": {

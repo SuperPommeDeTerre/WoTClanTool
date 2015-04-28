@@ -59,6 +59,7 @@ function install($pClusters, $pDefaultCluster) {
 	}
 	$configToWrite["WG"]["clusters"] = $clusterArray;
 	$configToWrite["app"]["admins"] = array();
+	$configToWrite["app"]["showads"] = (isset($_POST['showads'])?($_POST['showads']=='true'?true:false):false);
 	$configToWrite["clans"]["restric_to"] = array();
 	foreach ($clusterArray as $lClusterId) {
 		$configToWrite["app"]["admins"][$lClusterId] = array();
@@ -100,7 +101,7 @@ if (isset($_POST['inactivitythreshold'])) {
 		<meta name="author" content="J&eacute;r&eacute;mie Langlade &lt;jlanglade@pixbuf.net&gt;" />
 		<link rel="icon" href="./themes/<?php echo($gThemeName); ?>/style/favicon.ico" />
 		<link href="./themes/<?php echo($gThemeName); ?>/style/favicon.png" type="image/x-icon" rel="icon" />
-		<title data-i18n="app.name"></title>
+		<title data-i18n="app.title" data-i18n-options="{&quot;page&quot;:&quot;install&quot;}"></title>
 		<!-- CSS -->
 		<link href="./themes/<?php echo($gThemeName); ?>/style/style.css" rel="stylesheet" />
 		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -140,6 +141,13 @@ include_once(WCT_INC_DIR . 'analyticstracking.php');
 					<div class="row">
 						<div class="col-md-8">
 							<h2 data-i18n="install.config"></h2>
+							<div class="form-group">
+								<div class="togglebutton togglebutton-info">
+									<label><span data-i18n="install.showads"></span>
+										<input type="checkbox" id="showads" checked="checked" />
+									</label>
+								</div>
+							</div>
 							<label data-i18n="install.clusters"></label>
 							<div class="form-group">
 								<div class="btn-group" data-i18n="[aria-label]install.clusters;" id="btnClusters"><?php
@@ -169,8 +177,8 @@ foreach ($gClusters as $clusterId => $clusterProps) {
 						</div>
 						<div class="col-md-4">
 							<h2 data-i18n="install.tests"></h2>
-							<?php wctUtils::testWrite(WCT_CONFIG_DIR); ?>
-							<?php wctUtils::testWrite(WCT_BASE_DATA_DIR); ?>
+							<?php wctUtils::testWrite('.' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR); ?>
+							<?php wctUtils::testWrite('.' . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR); ?>
 							<?php //wctUtils::testModReWrite(); ?>
 						</div>
 					</div>

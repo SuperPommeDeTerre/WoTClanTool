@@ -56,7 +56,8 @@
 		"player": {
 			"title": "Joueur",
 			"hint": "Entrez le nom du joueur recherché"
-		}
+		},
+		"showads": "Afficher les publicités (recommandé)"
 	},
 	"nav": {
 		"toggle": "Basculer navigation",
@@ -351,6 +352,9 @@
 		},
 		"strats": {
 			"title": "Stratégies"
+		},
+		"install": {
+			"title": "Installation"
 		}
 	},
 	"strat": {

@@ -19,6 +19,13 @@ require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR
 				<li role="presentation"><a href="#">Profile</a></li>
 				<li role="presentation"><a href="#">Messages</a></li>
 			</ul>
+			<div class="form-group">
+				<div class="togglebutton togglebutton-info">
+					<label><span data-i18n="install.showads"></span>
+						<input type="checkbox" id="showads"<?php echo($gShowAds?' checked="checked"':''); ?> />
+					</label>
+				</div>
+			</div>
 			<label data-i18n="install.clusters"></label>
 			<div class="form-group">
 				<div class="btn-group" data-i18n="[aria-label]install.clusters;" id="btnClusters"><?php

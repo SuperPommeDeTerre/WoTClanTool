@@ -1,3 +1,6 @@
+<?php
+if ($gShowAds) {
+?>
 <div id="myContainerForAds">
 	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 	<!-- WoT Clan Tool -->
@@ -12,4 +15,6 @@
 	<noscript>
 		<div class="alert alert-danger" role="alert">This site require Javascript. Please activates it.</div>
 	</noscript>
-</div>
+</div><?php
+}
+?>

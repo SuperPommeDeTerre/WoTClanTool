@@ -130,13 +130,15 @@ $(document).ready(function() {
 	gProgressMessage = $('#progressInfoMessage');
 	moment.locale(gConfig.LANG);
 	i18n.init({ lng: gConfig.LANG, fallbackLng: 'en', useDataAttrOptions: true }, function(t) {
-		$.ajax({
-			url: './js/advertisement.js', // this is just an empty js file
-			dataType: "script"
-		})
-		.fail(function () {
-			$('#myContainerForAds').prepend('<div class="alert alert-info" role="alert">' + i18n.t('share.adblock') + '</div>');
-		});
+		if (gConfig.SHOW_ADS) {
+			$.ajax({
+				url: './js/advertisement.js', // this is just an empty js file
+				dataType: "script"
+			})
+			.fail(function () {
+				$('#myContainerForAds').prepend('<div class="alert alert-info" role="alert">' + i18n.t('share.adblock') + '</div>');
+			});
+		}
 		$(document).i18n();
 		if (typeof(gConfig.PLAYER_ID) != 'undefined') {
 			// Verify that user is member of one of the handled clans...
