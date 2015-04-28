@@ -78,8 +78,10 @@ foreach ($gClusters as $clusterId => $clusterProps) {
 foreach ($gClusters as $clusterId => $clusterProps) {
 	if (in_array($clusterId, $gConfig["WG"]["clusters"])) {
 		foreach ($gConfig["app"]["admins"][$clusterId] as $playerIndex => $playerId) { ?>
-							<div class="alert alert-material-grey alert-dismissible player cluster<?php echo($clusterId); ?>" role="alert" data-account-id="<?php echo($playerId); ?>" data-cluster="<?php echo($clusterId); ?>">
-								<button type="button" class="close" data-dismiss="alert" data-i18n="[aria-label]btn.close;"><span aria-hidden="true">&times;</span></button>
+							<div class="alert alert-material-grey alert-dismissible player cluster<?php echo($clusterId); ?>" role="alert" data-account-id="<?php echo($playerId); ?>" data-cluster="<?php echo($clusterId); ?>"><?php
+			if ($playerId != $_SESSION['account_id']) { ?>
+								<button type="button" class="close" data-dismiss="alert" data-i18n="[aria-label]btn.close;"><span aria-hidden="true">&times;</span></button><?php
+			} ?>
 								<p></p>
 							</div><?php
 		}

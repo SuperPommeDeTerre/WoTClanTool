@@ -65,6 +65,15 @@
 		},
 		"showads": "Afficher les publicités (recommandé)"
 	},
+	"success": {
+		"title": "Operation réussie",
+		"configsave": "La configuration de l'application a été sauvegardée correctement !"
+	},
+	"error": {
+		"title": "Erreur",
+		"notadmin": "Opération non autorisée. Vous n'êtes pas un administrateur !",
+		"configfilewrite": "Impossible de sauvegarder les paramètres dans le fichier de configuration !"
+	},
 	"nav": {
 		"toggle": "Basculer navigation",
 		"home": "Accueil",

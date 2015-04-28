@@ -39,7 +39,8 @@ function install($pClusters, $pDefaultCluster) {
 		),
 		"app" => array(
 			"theme" => "default",
-			"admins" => array()
+			"admins" => array(),
+			"showads" => true
 		),
 		"clans" => array(
 			"restric_to" => array()
@@ -59,7 +60,7 @@ function install($pClusters, $pDefaultCluster) {
 	}
 	$configToWrite["WG"]["clusters"] = $clusterArray;
 	$configToWrite["app"]["admins"] = array();
-	$configToWrite["app"]["showads"] = (isset($_POST['showads'])?($_POST['showads']=='true'?true:false):false);
+	$configToWrite["app"]["showads"] = (isset($_POST['showads'])?($_POST['showads']=='true'?true:false):true);
 	$configToWrite["clans"]["restric_to"] = array();
 	foreach ($clusterArray as $lClusterId) {
 		$configToWrite["app"]["admins"][$lClusterId] = array();

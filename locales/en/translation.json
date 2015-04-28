@@ -65,6 +65,15 @@
 		},
 		"showads": "Show advertisments (recommended)"
 	},
+	"success": {
+		"title": "Success",
+		"configsave": "Application configuration saved successfully!"
+	},
+	"error": {
+		"title": "Error",
+		"notadmin": "Operation not allowed. You're not an andministrator!",
+		"configfilewrite": "Unable to save configuration file!"
+	},
 	"nav": {
 		"toggle": "Switch navigation",
 		"home": "Home",

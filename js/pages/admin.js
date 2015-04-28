@@ -69,19 +69,48 @@ var onLoad = function() {
 		evt.preventDefault();
 		// Remove old alert if exists
 		$('#alertResult').remove();
-		$.post('./server/admin.php', {
-			a: 'save'
-		}, function(saveConfigResponse) {
+		var lClustersButtons = $('#btnClusters .active'),
+			postParameters = {};
+		postParameters['a'] = 'save';
+		postParameters['showads'] = $('#showads').is(':checked');
+		postParameters['inactivitythreshold'] = parseInt(mySliderInactivityThreshold.val());
+		postParameters['clusters'] = [];
+		if (lClustersButtons.length != 0) {
+			lClustersButtons.each(function(idx, elem) {
+				var clusterId = $(elem).data('cluster');
+				postParameters['clusters'].push(clusterId);
+				postParameters['clans' + clusterId] = [];
+				postParameters['admins' + clusterId] = [];
+			});
+		} else {
+			// No cluster selected. Assume all.
+			$('#btnClusters [data-cluster]').each(function(idx, elem) {
+				var clusterId = $(elem).data('cluster');
+				postParameters['clusters'].push(clusterId);
+				postParameters['clans' + clusterId] = [];
+				postParameters['admins' + clusterId] = [];
+			});
+		}
+		for (clusterIndex in postParameters['clusters']) {
+			var clusterId = postParameters['clusters'][clusterIndex];
+			$('#listAdmins').find('[data-cluster=' + clusterId + ']').each(function(index, element) {
+				postParameters['admins' + clusterId].push($(element).data('account-id'));
+			});
+			$('#restrictedClans').find('[data-cluster=' + clusterId + ']').each(function(index, element) {
+				postParameters['clans' + clusterId].push($(element).data('clan-id'));
+			});
+		}
+		$.post('./server/admin.php', postParameters, function(saveConfigResponse) {
 			var alertHtml = '';
 			if (saveConfigResponse.status == 'success') {
 				alertHtml += '<div class="alert alert-success" role="alert" id="alertResult">';
-				alertHtml += '<button type="button" class="close" data-dismiss="alert" data-i18n="[aria-label]btn.close;"><span aria-hidden="true">&times;</span></button>';
-				alertHtml += '<p><strong>Success</strong></p>';
+				alertHtml += '<button type="button" class="close" data-dismiss="alert" aria-label="' + i18n.t('btn.close') + '"><span aria-hidden="true">&times;</span></button>';
+				alertHtml += '<p><strong>' + i18n.t('success.title') + '</strong> ' + i18n.t('success.configsave') + '</p>';
 				alertHtml += '</div>';
 			} else {
 				alertHtml += '<div class="alert alert-danger" role="alert" id="alertResult">';
-				alertHtml += '<button type="button" class="close" data-dismiss="alert" data-i18n="[aria-label]btn.close;"><span aria-hidden="true">&times;</span></button>';
-				alertHtml += '<p><strong>Error</strong></p>';
+				alertHtml += '<button type="button" class="close" data-dismiss="alert" aria-label="' + i18n.t('btn.close') + '"><span aria-hidden="true">&times;</span></button>';
+				alertHtml += '<p><strong>' + i18n.t('error.title') + '</strong> ' + i18n.t(saveConfigResponse.message) + '</p>';
 				alertHtml += '</div>';
 			}
 			$('h1').before(alertHtml);
