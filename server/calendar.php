@@ -166,7 +166,7 @@ switch ($_REQUEST['a']) {
 		$result .= '<ul class="list-unstyled">';
 		if (count($myEvent->getParticipants()) > 0) {
 			foreach($myEvent->getParticipants() as $playerId => $attendance) {
-				$result .= '<li data-player-id="' . $playerId . '" class="attendance-' . $attendance . '"></li>';
+				$result .= '<li data-player-id="' . $playerId . '" class="attendance-' . $attendance . '">' . $playerId . '</li>';
 			}
 		} else {
 			$result .= '<li data-i18n="event.noparticipant"></li>';
