@@ -19,6 +19,21 @@ var onLoad = function() {
 				var myElem = $(elem);
 				myElem.siblings('.date').text(moment(myElem.data('date')).format('LLL'));
 			});
+			$('#btnDeleteEvent').on('click', function(evt) {
+				evt.preventDefault();
+				$.post('./server/calendar.php', {
+					a: 'delete',
+					eventId: $('#eventId').val()
+				}, function(deleteResponse) {
+					// Handle result
+					if (deleteResponse.result == 'ok') {
+						// Hide dialog
+						$('#events-modal').modal('hide');
+						// Refresh calendar
+						myCalendar.view();
+					}
+				}, 'json');
+			});
 		},
 		events_source: './server/calendar.php?a=list'
 	});

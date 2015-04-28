@@ -95,6 +95,24 @@ switch ($_REQUEST['a']) {
 	case 'delete':
 		// This service must return JSON to page
 		header('Content-Type: application/json');
+		if (isset($_REQUEST['eventId'])) {
+			$eventId = $_REQUEST['eventId'];
+			$myEvent = wctEvent::fromId($eventId);
+			if ($myEvent->getOwner() == $_SESSION['account_id']) {
+				// The owner is the user. Process with the deletion of event.
+				$myEventsFile = wctEvent::getFileFromDate($myEvent->getDateStart());
+				$fileContents = json_decode(file_get_contents($myEventsFile), true);
+				$fileContents = is_array($fileContents) ? $fileContents : array($fileContents);
+				foreach ($fileContents as $eventIndex => $eventData) {
+					$tmpEvent = wctEvent::fromJson($eventData);
+					if ($eventId == $tmpEvent->getId()) {
+						array_splice($fileContents, $eventIndex, 1);
+						break;
+					}
+				}
+				file_put_contents($myEventsFile, json_encode($fileContents));
+			}
+		}
 		$result['result'] = 'ok';
 		break;
 	// Enrolment to an event
@@ -140,13 +158,19 @@ switch ($_REQUEST['a']) {
 			$result .= '<button type="button" id="btnDeleteEvent" class="btn btn-default btn-material-grey-500" data-i18n="[title]action.delete;"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>';
 			$result .= '</div>';
 		}
+		$result .= '<input type="hidden" id="eventId" value="' . $myEvent->getId() . '" />';
 		$result .= '<p>' . $myEvent->getDescription() . '</p>';
 		$result .= '<p><span data-i18n="event.startdate" data-date="' . $myEvent->getDateStart() . '000"></span>: <span class="date"></span></p>';
 		$result .= '<p><span data-i18n="event.enddate" data-date="' . $myEvent->getDateEnd() . '000"></span>: <span class="date"></span></p>';
 		$result .= '<p><span data-i18n="event.participants"></span>:</p>';
 		$result .= '<ul class="list-unstyled">';
+		$nbParticipants = 0;
 		foreach($myEvent->getParticipants() as $playerId => $attendance) {
 			$result .= '<li data-player-id="' + $playerId + '" class="attendance-' + $attendance + '"></li>';
+			$nbParticipants++;
+		}
+		if ($nbParticipants == 0) {
+			$result .= '<li data-i18n="event.noparticipant"></li>';
 		}
 		$result .= '</ul>';
 		break;
