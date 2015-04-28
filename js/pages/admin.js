@@ -55,18 +55,34 @@ var onLoad = function() {
 			}
 		}
 	}
-
+	$('#btnClusters [data-cluster]').each(function(idx, elem) {
+		var myClusterButton = $(elem),
+			myOption = $('.selCluster option[value=' + myClusterButton.data('cluster') + ']');
+		if (myClusterButton.hasClass('active')) {
+			myOption.removeAttr('hidden').removeProp('disabled');
+		} else {
+			myOption.attr('hidden', 'hidden').prop('disabled', true);
+		}
+	});
 	// Bind events
 	$('#btnAddAdmin, #btnAddClan').on('click', function(evt) {
 		evt.preventDefault();
 	});
 	$('#btnClusters [data-cluster]').on('click', function(evt) {
 		evt.preventDefault();
-		$(this).toggleClass('active');
-		if ($(this).parent().find('.active').length == 1) {
-			$('.selCluster').hide().find('select').val($(this).data('cluster'));
+		var myClusterButton = $(this),
+			myClusterSelect = $('.selCluster'),
+			myOption = myClusterSelect.find('option[value=' + myClusterButton.data('cluster') + ']');
+		myClusterButton.toggleClass('active');
+		if (myClusterButton.parent().find('.active').length == 1) {
+			myClusterSelect.hide().find('select').val(myClusterButton.data('cluster'));
 		} else {
-			$('.selCluster').show();
+			myClusterSelect.show();
+			if (myClusterButton.hasClass('active')) {
+				myOption.removeAttr('hidden').removeProp('disabled');
+			} else {
+				myOption.attr('hidden', 'hidden').prop('disabled', true);
+			}
 		}
 	});
 	// Handle search of clan
