@@ -65,6 +65,28 @@ var onLoad = function() {
 		}
 	});
 	// Bind events
+	$('#btnSave').on('click', function(evt) {
+		evt.preventDefault();
+		// Remove old alert if exists
+		$('#alertResult').remove();
+		$.post('./server/admin.php', {
+			a: 'save'
+		}, function(saveConfigResponse) {
+			var alertHtml = '';
+			if (saveConfigResponse.status == 'success') {
+				alertHtml += '<div class="alert alert-success" role="alert" id="alertResult">';
+				alertHtml += '<button type="button" class="close" data-dismiss="alert" data-i18n="[aria-label]btn.close;"><span aria-hidden="true">&times;</span></button>';
+				alertHtml += '<p><strong>Success</strong></p>';
+				alertHtml += '</div>';
+			} else {
+				alertHtml += '<div class="alert alert-danger" role="alert" id="alertResult">';
+				alertHtml += '<button type="button" class="close" data-dismiss="alert" data-i18n="[aria-label]btn.close;"><span aria-hidden="true">&times;</span></button>';
+				alertHtml += '<p><strong>Error</strong></p>';
+				alertHtml += '</div>';
+			}
+			$('h1').before(alertHtml);
+		}, 'json');
+	});
 	$('#btnAddAdmin, #btnAddClan').on('click', function(evt) {
 		evt.preventDefault();
 	});

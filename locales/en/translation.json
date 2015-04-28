@@ -25,6 +25,12 @@
 		"tests": "Tests",
 		"clusters": "Clusters",
 		"admins": "Application administrators",
+		"category": {
+			"general": "General",
+			"clans": "Clans",
+			"players": "Players",
+			"events": "Events"
+		},
 		"inactivitythreshold": {
 			"title": "Inactivity threshold",
 			"value": "__count__ day",
@@ -93,7 +99,8 @@
 		"yes": "Yes",
 		"no": "No",
 		"search": "Search",
-		"close": "Close"
+		"close": "Close",
+		"save": "Save"
 	},
 	"elems": {
 		"calendar": "Calendar",

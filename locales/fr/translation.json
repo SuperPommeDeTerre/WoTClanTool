@@ -25,6 +25,12 @@
 		"tests": "Tests",
 		"clusters": "Clusters",
 		"admins": "Administrateurs",
+		"category": {
+			"general": "General",
+			"clans": "Clans",
+			"players": "Joueurs",
+			"events": "Evènements"
+		},
 		"inactivitythreshold": {
 			"title": "Seuil d'inactivité",
 			"value": "__count__ jour",
@@ -93,7 +99,8 @@
 		"yes": "Oui",
 		"no": "Non",
 		"search": "Rechercher",
-		"close": "Fermer"
+		"close": "Fermer",
+		"save": "Sauvegarder"
 	},
 	"elems": {
 		"calendar": "Agenda",
