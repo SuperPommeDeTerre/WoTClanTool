@@ -128,6 +128,20 @@
                 }
             }
         },
+        "DDay": {
+            "file": "DDay.jpg",
+            "size": { "x": 1000, "y": 1000 },
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 550, "y": 150 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 600, "y": 900 }
+                    ]
+                }
+            }
+        },
         "DragonRidge": {
             "file": "Dragon%20Ridge.jpg",
             "size": { "x": 1000, "y": 1000 },
@@ -581,20 +595,6 @@
         "Northwest": {
             "file": "NorthWest.jpg",
             "size": { "x": 800, "y": 800 },
-            "modes": {
-                "standard": {
-                    "team1": [
-                        { "type": "base", "x": 110, "y": 740 }
-                    ],
-                    "team2": [
-                        { "type": "base", "x": 680, "y": 90 }
-                    ]
-                }
-            }
-        },
-        "Overlord": {
-            "file": "Overlords.jpg",
-            "size": { "x": 1000, "y": 1000 },
             "modes": {
                 "standard": {
                     "team1": [
