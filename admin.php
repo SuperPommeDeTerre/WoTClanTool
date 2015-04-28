@@ -44,7 +44,7 @@ foreach ($gClusters as $clusterId => $clusterProps) {
 		foreach ($gConfig["clans"]["restric_to"][$clusterId] as $clanIndex => $clandId) { ?>
 					<div class="alert alert-material-grey alert-dismissible clan cluster<?php echo($clusterId); ?>" role="alert" data-clan-id="<?php echo($clandId); ?>" data-cluster="<?php echo($clusterId); ?>">
 						<button type="button" class="close" data-dismiss="alert" data-i18n="[aria-label]btn.close;"><span aria-hidden="true">&times;</span></button>
-						<p><img src="myClan.emblems.x24.portal" /><span style="color:' + myClan.color + '">[<?php echo($clandId); ?>]</span> <small>myClan.name</small></p>
+						<p></p>
 					</div><?php
 		}
 	}
@@ -61,7 +61,7 @@ foreach ($gClusters as $clusterId => $clusterProps) {
 		foreach ($gConfig["app"]["admins"][$clusterId] as $playerIndex => $playerId) { ?>
 					<div class="alert alert-material-grey alert-dismissible player cluster<?php echo($clusterId); ?>" role="alert" data-account-id="<?php echo($playerId); ?>" data-cluster="<?php echo($clusterId); ?>">
 						<button type="button" class="close" data-dismiss="alert" data-i18n="[aria-label]btn.close;"><span aria-hidden="true">&times;</span></button>
-						<p><?php echo($playerId); ?></p>
+						<p></p>
 					</div><?php
 		}
 	}
