@@ -32,6 +32,9 @@
 .dh-event-type-historical,.event-type-historical{background-color:#ffeb3b}
 .dh-event-type-other,.event-type-other{background-color:#9e9e9e}
 .header-fixed > thead > tr > th{background-color: rgba(238, 238, 238, 0.9)}
+.attendance-yes{color:#4caf50}
+.attendance-no{color:#ef6c00}
+.attendance-spare{color:#2196f3}
 /* Install/Admin */
 .searchresult{margin:0;padding:0;list-style:none}
 .searchresult li{margin:0;padding:0;cursor:pointer}

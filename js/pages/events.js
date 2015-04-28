@@ -19,6 +19,22 @@ var onLoad = function() {
 				var myElem = $(elem);
 				myElem.siblings('.date').text(moment(myElem.data('date')).format('LLL'));
 			});
+			var myParticipants = [];
+			$('[data-player-id]').each(function(idx, elem) {
+				myParticipants.push($(elem).data('player-id'));
+			});
+			$.post(gConfig.WG_API_URL + 'wot/account/info/', {
+				application_id: gConfig.WG_APP_ID,
+				language: gConfig.G_API_LANG,
+				access_token: gConfig.ACCESS_TOKEN,
+				fields: 'account_id,nickname',
+				account_id: myParticipants.join(',')
+			}, function(dataPlayersResponse) {
+				var dataPlayers = dataPlayersResponse.data;
+				for (var playerId in dataPlayers) {
+					$('[data-player-id="' + playerId + '"]').text(dataPlayers[playerId].nickname);
+				}
+			}, 'json');
 			$('#btnDeleteEvent').on('click', function(evt) {
 				evt.preventDefault();
 				$.post('./server/calendar.php', {

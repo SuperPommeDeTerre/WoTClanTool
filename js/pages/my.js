@@ -89,12 +89,12 @@ var onLoad = function() {
 					myEventEndDate = moment(myEvent.end * 1);
 				if (myEventStartDate.isBetween(startOfDay, endOfDay) || myEventEndDate.isBetween(startOfDay, endOfDay)) {
 					myDayEventsHtml += '<div data-event-id="' + myEvent.id + '" data-participants="' + Object.keys(myEvent.participants).length + '">';
-					myDayEventsHtml += '<h4><span class="label label-default">' + myEventStartDate.format('LT') + '</span> ' + myEvent.title + '</h4>';
+					myDayEventsHtml += '<h3><span class="label label-default">' + myEventStartDate.format('LT') + '</span> ' + myEvent.title + '</h3>';
 					myDayEventsHtml += '<p>' + myEvent.description + '</p>';
 					if (Object.keys(myEvent.participants).length == 0 || myEvent.participants[gConfig.PLAYER_ID] === 'undefined') {
 						myDayEventsHtml += '<a class="btn btn-lg btn-material-lime-300 btnEnrol" href="#enrol-' + myEvent.id + '" role="button">' + i18n.t('event.enrol') + '</a>';
 					} else {
-						myDayEventsHtml += '<h5>' + Object.keys(myEvent.participants).length + ' ' + i18n.t('action.calendar.prop.participants') + '</h5>';
+						myDayEventsHtml += '<p>' + i18n.t('event.participants', { count: Object.keys(myEvent.participants).length }) + '</p>';
 					}
 					myDayEventsHtml += '</div>';
 				}
@@ -116,7 +116,7 @@ var onLoad = function() {
 				if (enrolResponse.result == 'ok') {
 					var myEventContainer = myButton.closest('div');
 					myEventContainer.data('participants', (myEventContainer.data('participants') * 1) + 1);
-					myEventContainer.append('<h5>' + myEventContainer.data('participants') + ' ' + i18n.t('action.calendar.prop.participants') + '</h5>');
+					myEventContainer.append('<p>' + i18n.t('event.participants', { count: myEventContainer.data('participants') }) + '</p>');
 					myButton.remove();
 				}
 			}, 'json');

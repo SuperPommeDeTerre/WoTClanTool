@@ -152,7 +152,9 @@
 		"participants": "Participants",
 		"enrol": "Enrol",
 		"noevent": "No event",
-		"noparticipant": "No participant"
+		"noparticipant": "No participant",
+		"participants": "__count__ participant",
+		"participants_plural": "__count__ participants"
 	},
 	"stats": {
 		"global": {

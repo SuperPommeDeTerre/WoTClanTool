@@ -162,14 +162,13 @@ switch ($_REQUEST['a']) {
 		$result .= '<p>' . $myEvent->getDescription() . '</p>';
 		$result .= '<p><span data-i18n="event.startdate" data-date="' . $myEvent->getDateStart() . '000"></span>: <span class="date"></span></p>';
 		$result .= '<p><span data-i18n="event.enddate" data-date="' . $myEvent->getDateEnd() . '000"></span>: <span class="date"></span></p>';
-		$result .= '<p><span data-i18n="event.participants"></span>:</p>';
+		$result .= '<h4><span data-i18n="event.participants" data-i18n-options="{&quot;count&quot;:' . count($myEvent->getParticipants()) . '}"></span>:</h4>';
 		$result .= '<ul class="list-unstyled">';
-		$nbParticipants = 0;
-		foreach($myEvent->getParticipants() as $playerId => $attendance) {
-			$result .= '<li data-player-id="' + $playerId + '" class="attendance-' + $attendance + '"></li>';
-			$nbParticipants++;
-		}
-		if ($nbParticipants == 0) {
+		if (count($myEvent->getParticipants()) > 0) {
+			foreach($myEvent->getParticipants() as $playerId => $attendance) {
+				$result .= '<li data-player-id="' . $playerId . '" class="attendance-' . $attendance . '"></li>';
+			}
+		} else {
 			$result .= '<li data-i18n="event.noparticipant"></li>';
 		}
 		$result .= '</ul>';

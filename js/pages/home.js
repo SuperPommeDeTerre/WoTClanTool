@@ -273,9 +273,9 @@ var onLoad = function() {
 										myEventStartDate = moment(myEvent.start * 1),
 										myEventEndDate = moment(myEvent.end * 1);
 									if (myEventStartDate.isBetween(startOfDay, endOfDay) || myEventEndDate.isBetween(startOfDay, endOfDay)) {
-										myTodayEventsHtml += '<h4><span class="label label-default">' + myEventStartDate.format('LT') + '</span> ' + myEvent.title + '</h4>';
+										myTodayEventsHtml += '<h3><span class="label label-default">' + myEventStartDate.format('LT') + '</span> ' + myEvent.title + '</h3>';
 										myTodayEventsHtml += '<p>' + myEvent.description + '</p>';
-										myTodayEventsHtml += '<h5 data-i18n="action.calendar.prop.participants"></h5>';
+										myTodayEventsHtml += '<h4><span data-i18n="action.calendar.prop.participants"></span></h4>';
 										if (myEvent.participants.length == 0) {
 											myTodayEventsHtml += '<p data-i18n="event.noparticipant"></p>';
 										} else {
