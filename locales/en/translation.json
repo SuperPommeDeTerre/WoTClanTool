@@ -40,7 +40,22 @@
 				"title": "Maps",
 				"size": "Size",
 				"metrics": "__sizex__m x __sizey__m",
-				"modes": "Game modes"
+				"modes": "Game modes",
+				"props": {
+					"sizex": {
+						"title": "Width",
+						"hint": "Enter the map width in meters"
+					},
+					"sizey": {
+						"title": "Height",
+						"hint": "Enter the map height in meters"
+					},
+					"teams": [
+						"Neutrals",
+						"Allies",
+						"Enemies"
+					]
+				}
 			}
 		},
 		"inactivitythreshold": {
@@ -508,11 +523,11 @@
 			"shapes": "Shapes"
 		},
 		"modes": {
+			"title": "Game modes",
 			"standard": "Standard battle",
 			"encounter": "Encounter",
 			"assault": "Assault",
-			"confrontation": "Confrontation",
-			"teambattle": "Team battle"
+			"confrontation": "Confrontation"
 		},
 		"elements": {
 			"HT": "Heavy tank",

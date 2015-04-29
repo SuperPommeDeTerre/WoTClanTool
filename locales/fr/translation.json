@@ -40,7 +40,22 @@
 				"title": "Cartes",
 				"size": "Taille",
 				"metrics": "__sizex__m x __sizey__m",
-				"modes": "Modes de jeu"
+				"modes": "Modes de jeu",
+				"props": {
+					"sizex": {
+						"title": "Largeur",
+						"hint": "Largeur de la carte en mètres"
+					},
+					"sizey": {
+						"title": "Hauteur",
+						"hint": "Hauteur de la carte en mètres"
+					},
+					"teams": [
+						"Neutres",
+						"Alliés",
+						"Ennemis"
+					]
+				}
 			}
 		},
 		"inactivitythreshold": {
@@ -508,11 +523,11 @@
 			"shapes": "Formes"
 		},
 		"modes": {
+			"title": "Modes de jeu",
 			"standard": "Bataille standard",
 			"encounter": "Rencontre",
 			"assault": "Assaut",
-			"confrontation": "Confrontation",
-			"teambattle": "Bataille en équipe"
+			"confrontation": "Confrontation"
 		},
 		"elements": {
 			"HT": "Char lourd",

@@ -64,7 +64,8 @@ var onLoad = function() {
 			myModeOptions = {},
 			isFirst = true,
 			nbMapsOnRow = 0,
-			maxMapsByRow = 0;
+			maxMapsByRow = 0,
+			myDlgModifyMap = $('#dlgModifyMap');
 		myMapsHtml += '<div class="row">';
 		// Sort maps by name
 		var mapsKeysSorted = Object.keys(stratsConfig.maps).sort(function(a, b) {
@@ -85,11 +86,9 @@ var onLoad = function() {
 					myMapsHtml += '<div class="clearfix visible-lg-block"></div>';
 				}
 			}
-			myMapsHtml += '<div class="col-xs-6 col-md-4 col-lg-3">';
-			myMapsHtml += '<div class="thumbnail">';
+			myMapsHtml += '<div class="col-xs-6 col-md-4 col-lg-3"><div class="thumbnail">';
 			myMapsHtml += '<img src="./res/wot/maps/' + myMapOptions.file + '" alt="' + i18n.t('strat.maps.' + mapName) + '" />';
-			myMapsHtml += '<div class="caption">';
-			myMapsHtml += '<h3>' + i18n.t('strat.maps.' + mapName) + '</h3>';
+			myMapsHtml += '<div class="caption"><h3>' + i18n.t('strat.maps.' + mapName) + '</h3>';
 			myMapsHtml += '<p>' + i18n.t('install.strategies.maps.size') + ': ' + i18n.t('install.strategies.maps.metrics', { sizex: myMapOptions.size.x, sizey: myMapOptions.size.y }) + '</p>';
 			myMapsHtml += '<p>' + i18n.t('install.strategies.maps.modes') + ': ';
 			isFirst = true;
@@ -103,17 +102,106 @@ var onLoad = function() {
 				myMapsHtml += i18n.t('strat.modes.' + modeName);
 			}
 			myMapsHtml += '</p>';
-			myMapsHtml += '<p><a href="#" class="btn btn-primary" role="button" data-map-name="' + mapName + '">' + i18n.t('btn.modify') + '</a></p>';
-			myMapsHtml += '</div>';
-			myMapsHtml += '</div>';
-			myMapsHtml += '</div>';
+			myMapsHtml += '<p><a href="#" class="btn btn-primary" role="button" data-map-name="' + mapName + '" data-target="#dlgModifyMap" data-toggle="modal">' + i18n.t('btn.modify') + '</a></p>';
+			myMapsHtml += '</div></div></div>';
 			nbMapsOnRow++;
 		}
 		myMapsHtml += '</div>';
 		myMapsContainer.html(myMapsHtml);
 		// Bind maps event
+		myDlgModifyMap.on('click', '.nav-pills li.disabled', function(evt) {
+			evt.preventDefault();
+			evt.stopImmediatePropagation();
+		});
+		myDlgModifyMap.on('click', '.btnAddSpawnPoint', function(evt) {
+			evt.preventDefault();
+			evt.stopImmediatePropagation();
+		});
+		myDlgModifyMap.find('#gameModeStandard').on('change', function(evt) {
+			myDlgModifyMap.find('[aria-controls="mapModeStandard"]').closest('li').toggleClass('disabled', !$(this).prop('checked'));
+		});
+		myDlgModifyMap.find('#gameModeEncounter').on('change', function(evt) {
+			myDlgModifyMap.find('[aria-controls="mapModeEncounter"]').closest('li').toggleClass('disabled', !$(this).prop('checked'));
+		});
+		myDlgModifyMap.find('#gameModeAssault').on('change', function(evt) {
+			myDlgModifyMap.find('[aria-controls="mapModeAssault"]').closest('li').toggleClass('disabled', !$(this).prop('checked'));
+		});
+		myDlgModifyMap.find('#gameModeConfrontation').on('change', function(evt) {
+			myDlgModifyMap.find('[aria-controls="mapModeConfrontation"]').closest('li').toggleClass('disabled', !$(this).prop('checked'));
+		});
 		myMapsContainer.find('.btn').on('click', function(evt) {
 			evt.preventDefault();
+			var myBtn = $(this),
+				mapName = myBtn.data('map-name');
+			myMapOptions = stratsConfig.maps[mapName];
+			myDlgModifyMap.find('.modal-title').text(i18n.t('strat.maps.' + mapName));
+			myDlgModifyMap.find('#mapSizeX').val(myMapOptions.size.x).removeClass('empty');
+			myDlgModifyMap.find('#mapSizeY').val(myMapOptions.size.y).removeClass('empty');
+			myDlgModifyMap.find('#gameModeStandard').prop('checked', typeof(myMapOptions.modes['standard']) !== 'undefined');
+			myDlgModifyMap.find('#gameModeEncounter').prop('checked', typeof(myMapOptions.modes['encounter']) !== 'undefined');
+			myDlgModifyMap.find('#gameModeAssault').prop('checked', typeof(myMapOptions.modes['assault']) !== 'undefined');
+			myDlgModifyMap.find('#gameModeConfrontation').prop('checked', typeof(myMapOptions.modes['confrontation']) !== 'undefined');
+			myDlgModifyMap.find('[aria-controls="mapModeStandard"]').closest('li').toggleClass('disabled', typeof(myMapOptions.modes['standard']) === 'undefined');
+			myDlgModifyMap.find('[aria-controls="mapModeEncounter"]').closest('li').toggleClass('disabled', typeof(myMapOptions.modes['encounter']) === 'undefined');
+			myDlgModifyMap.find('[aria-controls="mapModeAssault"]').closest('li').toggleClass('disabled', typeof(myMapOptions.modes['assault']) === 'undefined');
+			myDlgModifyMap.find('[aria-controls="mapModeConfrontation"]').closest('li').toggleClass('disabled', typeof(myMapOptions.modes['confrontation']) === 'undefined');
+			for (var modeName in myMapOptions.modes) {
+				var myModeOptions = myMapOptions.modes[modeName],
+					myModePanel = null,
+					myTeamPanel = null,
+					myTeamSpawnPoints = [],
+					myTeamSpawnPointOptions = {},
+					myTeamHtml = '';
+				switch (modeName) {
+					case 'standard':
+						myModePanel = $('#mapModeStandard');
+						break;
+					case 'encounter':
+						myModePanel = $('#mapModeEncounter');
+						break;
+					case 'assault':
+						myModePanel = $('#mapModeAssault');
+						break;
+					case 'confrontation':
+						myModePanel = $('#mapModeConfrontation');
+						break;
+				}
+				for (var teamName in myModeOptions) {
+					myTeamSpawnPoints = myModeOptions[teamName];
+					myTeamHtml = '';
+					switch (teamName) {
+						case 'team0':
+							myTeamPanel = myModePanel.find('.neutral');
+							break;
+						case 'team1':
+							myTeamPanel = myModePanel.find('.allies');
+							break;
+						case 'team2':
+							myTeamPanel = myModePanel.find('.enemies');
+							break;
+					}
+					for (var spawnPointIndex in myTeamSpawnPoints) {
+						myTeamSpawnPointOptions = myTeamSpawnPoints[spawnPointIndex];
+						myTeamHtml += '<select class="form-control">';
+						myTeamHtml += '<option value="base"' + (myTeamSpawnPointOptions.type == 'base'?' selected="selected"':'') + '>Base</option>';
+						myTeamHtml += '<option value="drop"' + (myTeamSpawnPointOptions.type == 'drop'?' selected="selected"':'') + '>Drop</option>';
+						myTeamHtml += '</select>';
+						myTeamHtml += '<label class="sr-only" for="mapSizeX">' + i18n.t('install.strategies.maps.props.sizex.title') + '</label>';
+						myTeamHtml += '<div class="input-group">';
+						myTeamHtml += '<div class="input-group-addon"><span class="glyphicon glyphicon-resize-horizontal"></span></div>';
+						myTeamHtml += '<input class="form-control floating-label" data-hint="' + i18n.t('install.strategies.maps.props.sizex.hint') + '" placeholder="' + i18n.t('install.strategies.maps.props.sizex.title') + '" type="number" value="' + myTeamSpawnPointOptions.x + '" />';
+						myTeamHtml += '</div>';
+						myTeamHtml += '<label class="sr-only" for="mapSizeY">' + i18n.t('install.strategies.maps.props.sizey.title') + '</label>';
+						myTeamHtml += '<div class="input-group">';
+						myTeamHtml += '<div class="input-group-addon"><span class="glyphicon glyphicon-resize-vertical"></span></div>';
+						myTeamHtml += '<input class="form-control floating-label" data-hint="' + i18n.t('install.strategies.maps.props.sizey.hint') + '" placeholder="' + i18n.t('install.strategies.maps.props.sizey.title') + '" type="number" value="' + myTeamSpawnPointOptions.y + '" />';
+						myTeamHtml += '</div>';
+						myTeamHtml += '<div class="clearfix" style="margin-top:1em"></div>';
+					}
+					myTeamPanel.html(myTeamHtml);
+					$.material.init();
+				}
+			}
 		});
 		afterLoad();
 	}, 'json');
