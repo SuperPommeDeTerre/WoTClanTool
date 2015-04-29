@@ -65,15 +65,6 @@ var onLoad = function() {
 			isFirst = true,
 			nbMapsOnRow = 0,
 			maxMapsByRow = 0;
-		(function($, viewport) {
-			if (viewport.is('<md')) {
-				maxMapsByRow = 2;
-			} else if (viewport.is('md')) {
-				maxMapsByRow = 3;
-			} else if (viewport.is('>md')) {
-				maxMapsByRow = 4;
-			}
-		})(jQuery, ResponsiveBootstrapToolkit);
 		myMapsHtml += '<div class="row">';
 		// Sort maps by name
 		var mapsKeysSorted = Object.keys(stratsConfig.maps).sort(function(a, b) {
@@ -83,9 +74,16 @@ var onLoad = function() {
 			var mapName = mapsKeysSorted[mapIndex];
 			myMapOptions = stratsConfig.maps[mapName];
 			// Handle row breaks
-			if (nbMapsOnRow >= maxMapsByRow) {
-				myMapsHtml += '</div><div class="row">';
-				nbMapsOnRow = 0;
+			if (nbMapsOnRow > 0) {
+				if (nbMapsOnRow % 2 == 0) {
+					myMapsHtml += '<div class="clearfix visible-xs-block"></div>';
+				}
+				if (nbMapsOnRow % 3 == 0) {
+					myMapsHtml += '<div class="clearfix visible-md-block"></div>';
+				}
+				if (nbMapsOnRow % 4 == 0) {
+					myMapsHtml += '<div class="clearfix visible-lg-block"></div>';
+				}
 			}
 			myMapsHtml += '<div class="col-xs-6 col-md-4 col-lg-3">';
 			myMapsHtml += '<div class="thumbnail">';
