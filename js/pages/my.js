@@ -79,7 +79,7 @@ var onLoad = function() {
 				myDayEventsHtml = '',
 				myEvent = {},
 				startOfDay = moment(now).add(idx, 'days').startOf('day'),
-				endOfDay = moment(startOfDay).add(idx + 1, 'days');
+				endOfDay = moment(startOfDay).endOf('day');
 			if (idx != 0) {
 				myElem.find('h3').text(startOfDay.format('LL'));
 			}
@@ -87,7 +87,7 @@ var onLoad = function() {
 				myEvent = myEvents[i];
 				var myEventStartDate = moment(myEvent.start * 1),
 					myEventEndDate = moment(myEvent.end * 1);
-				if (myEventStartDate.isBetween(startOfDay, endOfDay) || myEventEndDate.isBetween(startOfDay, endOfDay)) {
+				if (myEventStartDate.isBetween(startOfDay, endOfDay)) {
 					myDayEventsHtml += '<div data-event-id="' + myEvent.id + '" data-participants="' + Object.keys(myEvent.participants).length + '">';
 					myDayEventsHtml += '<h3><span class="label label-default">' + myEventStartDate.format('LT') + '</span> ' + myEvent.title + '</h3>';
 					myDayEventsHtml += '<p>' + myEvent.description + '</p>';
