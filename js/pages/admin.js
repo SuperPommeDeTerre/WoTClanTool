@@ -155,6 +155,7 @@ var onLoad = function() {
 			evt.preventDefault();
 			var myBtn = $(this),
 				mapName = myBtn.data('map-name');
+			$('#dlgModifyMap .nav-pills a:first').tab('show');
 			myMapOptions = stratsConfig.maps[mapName];
 			myDlgModifyMap.find('.modal-title').text(i18n.t('strat.maps.' + mapName));
 			myDlgModifyMap.find('#mapSizeX').val(myMapOptions.size.x).removeClass('empty');
