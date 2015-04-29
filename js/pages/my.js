@@ -91,7 +91,7 @@ var onLoad = function() {
 					myDayEventsHtml += '<div data-event-id="' + myEvent.id + '" data-participants="' + Object.keys(myEvent.participants).length + '">';
 					myDayEventsHtml += '<h3><span class="label label-default">' + myEventStartDate.format('LT') + '</span> ' + myEvent.title + '</h3>';
 					myDayEventsHtml += '<p>' + myEvent.description + '</p>';
-					if (Object.keys(myEvent.participants).length == 0 || myEvent.participants[gConfig.PLAYER_ID] === 'undefined') {
+					if (typeof(myEvent.participants[gConfig.PLAYER_ID]) === 'undefined') {
 						myDayEventsHtml += '<a class="btn btn-lg btn-material-lime-300 btnEnrol" href="#enrol-' + myEvent.id + '" role="button">' + i18n.t('event.enrol') + '</a>';
 					} else {
 						myDayEventsHtml += '<p>' + i18n.t('event.participants', { count: Object.keys(myEvent.participants).length }) + '</p>';
