@@ -28,8 +28,8 @@ var onLoad = function() {
 					for (var clanId in dataClan) {
 						var myClanInfos = dataClan[clanId],
 							clanHtml = '';
-						clanHtml += '<img src="' + myClanInfos.emblems.x24.portal + '" /> <span style="color:' + myClanInfos.color + '">[' + myClanInfos.tag + ']</span> <small>' + myClanInfos.name + '</small></p>';
-						$('#restrictedClans [data-clan-id="' + clanId + '"]').html(clanHtml);
+						clanHtml += '<span><img src="' + myClanInfos.emblems.x24.portal + '" /> <span style="color:' + myClanInfos.color + '">[' + myClanInfos.tag + ']</span> <small>' + myClanInfos.name + '</small></span>';
+						$('#restrictedClans [data-clan-id="' + clanId + '"]').append(clanHtml);
 					}
 				}, 'json');
 			}
@@ -49,7 +49,7 @@ var onLoad = function() {
 					var dataPlayers = dataPlayersResponse.data;
 					for (var playerId in dataPlayers) {
 						var myPlayerInfos = dataPlayers[playerId];
-						$('#listAdmins [data-account-id="' + playerId + '"]').text(myPlayerInfos.nickname);
+						$('#listAdmins [data-account-id="' + playerId + '"]').append('<span>' + myPlayerInfos.nickname + '</span>');
 					}
 				}, 'json');
 			}
@@ -71,46 +71,50 @@ var onLoad = function() {
 		$('#alertResult').remove();
 		var lClustersButtons = $('#btnClusters .active'),
 			postParameters = {};
-		postParameters['a'] = 'save';
-		postParameters['showads'] = $('#showads').is(':checked');
-		postParameters['inactivitythreshold'] = parseInt(mySliderInactivityThreshold.val());
-		postParameters['clusters'] = [];
-		if (lClustersButtons.length != 0) {
-			lClustersButtons.each(function(idx, elem) {
-				var clusterId = $(elem).data('cluster');
-				postParameters['clusters'].push(clusterId);
-				postParameters['clans' + clusterId] = [];
-				postParameters['admins' + clusterId] = [];
-			});
-		} else {
-			// No cluster selected. Assume all.
-			$('#btnClusters [data-cluster]').each(function(idx, elem) {
-				var clusterId = $(elem).data('cluster');
-				postParameters['clusters'].push(clusterId);
-				postParameters['clans' + clusterId] = [];
-				postParameters['admins' + clusterId] = [];
-			});
-		}
-		for (clusterIndex in postParameters['clusters']) {
-			var clusterId = postParameters['clusters'][clusterIndex];
-			$('#listAdmins').find('[data-cluster=' + clusterId + ']').each(function(index, element) {
-				postParameters['admins' + clusterId].push($(element).data('account-id'));
-			});
-			$('#restrictedClans').find('[data-cluster=' + clusterId + ']').each(function(index, element) {
-				postParameters['clans' + clusterId].push($(element).data('clan-id'));
-			});
+		switch ($('.tab-pane.active').prop('id')) {
+			case 'configGeneral':
+				postParameters['a'] = 'saveGeneral';
+				postParameters['showads'] = $('#showads').is(':checked');
+				postParameters['inactivitythreshold'] = parseInt(mySliderInactivityThreshold.val());
+				postParameters['clusters'] = [];
+				if (lClustersButtons.length != 0) {
+					lClustersButtons.each(function(idx, elem) {
+						var clusterId = $(elem).data('cluster');
+						postParameters['clusters'].push(clusterId);
+						postParameters['clans' + clusterId] = [];
+						postParameters['admins' + clusterId] = [];
+					});
+				} else {
+					// No cluster selected. Assume all.
+					$('#btnClusters [data-cluster]').each(function(idx, elem) {
+						var clusterId = $(elem).data('cluster');
+						postParameters['clusters'].push(clusterId);
+						postParameters['clans' + clusterId] = [];
+						postParameters['admins' + clusterId] = [];
+					});
+				}
+				for (clusterIndex in postParameters['clusters']) {
+					var clusterId = postParameters['clusters'][clusterIndex];
+					$('#listAdmins').find('[data-cluster=' + clusterId + ']').each(function(index, element) {
+						postParameters['admins' + clusterId].push($(element).data('account-id'));
+					});
+					$('#restrictedClans').find('[data-cluster=' + clusterId + ']').each(function(index, element) {
+						postParameters['clans' + clusterId].push($(element).data('clan-id'));
+					});
+				}
+				break;
 		}
 		$.post('./server/admin.php', postParameters, function(saveConfigResponse) {
 			var alertHtml = '';
 			if (saveConfigResponse.status == 'success') {
 				alertHtml += '<div class="alert alert-success" role="alert" id="alertResult">';
 				alertHtml += '<button type="button" class="close" data-dismiss="alert" aria-label="' + i18n.t('btn.close') + '"><span aria-hidden="true">&times;</span></button>';
-				alertHtml += '<p><strong>' + i18n.t('success.title') + '</strong> ' + i18n.t('success.configsave') + '</p>';
+				alertHtml += '<span><strong>' + i18n.t('success.title') + '</strong> ' + i18n.t('success.configsave') + '</span>';
 				alertHtml += '</div>';
 			} else {
 				alertHtml += '<div class="alert alert-danger" role="alert" id="alertResult">';
 				alertHtml += '<button type="button" class="close" data-dismiss="alert" aria-label="' + i18n.t('btn.close') + '"><span aria-hidden="true">&times;</span></button>';
-				alertHtml += '<p><strong>' + i18n.t('error.title') + '</strong> ' + i18n.t(saveConfigResponse.message) + '</p>';
+				alertHtml += '<span><strong>' + i18n.t('error.title') + '</strong> ' + i18n.t(saveConfigResponse.message) + '</span>';
 				alertHtml += '</div>';
 			}
 			$('h1').before(alertHtml);
@@ -174,10 +178,10 @@ var onLoad = function() {
 	$('#searchClanResult').on('click', 'li', function(evt) {
 		var myItem = $(this),
 			resultHtml = '';
-		if ($('#restrictedClans').find('[data-cluster=' + myItem.data('cluster') + '][data-id=' + myItem.data('id') + ']').length == 0) {
-			resultHtml += '<div class="alert alert-material-grey alert-dismissible clan cluster' + myItem.data('cluster') + '" role="alert" data-account-id="' + myItem.data('id') + '" data-cluster="' + myItem.data('cluster') + '">';
+		if ($('#restrictedClans').find('[data-cluster=' + myItem.data('cluster') + '][data-clan-id=' + myItem.data('id') + ']').length == 0) {
+			resultHtml += '<div class="alert alert-material-grey alert-dismissible clan cluster' + myItem.data('cluster') + '" role="alert" data-clan-id="' + myItem.data('clan-id') + '" data-cluster="' + myItem.data('cluster') + '">';
 			resultHtml += '<button type="button" class="close" data-dismiss="alert" aria-label="' + i18n.t('btn.close') + '"><span aria-hidden="true">&times;</span></button>';
-			resultHtml += '<p>' + myItem.html() + '</p>';
+			resultHtml += '<span>' + myItem.html() + '</span>';
 			resultHtml += '</div>';
 			$('#restrictedClans').append(resultHtml);
 		}
@@ -214,7 +218,7 @@ var onLoad = function() {
 			} else {
 				for (i=0; i<dataSearchPlayer.length; i++) {
 					myPlayer = dataSearchPlayer[i];
-					resultHtml += '<li data-id=\"' + myPlayer.account_id + '\" data-cluster="' + lSelectedCluster + '">' + myPlayer.nickname + '</li>';
+					resultHtml += '<li data-account-id=\"' + myPlayer.account_id + '\" data-cluster="' + lSelectedCluster + '">' + myPlayer.nickname + '</li>';
 				}
 			}
 			$('#searchPlayerResult').html(resultHtml);
@@ -223,10 +227,10 @@ var onLoad = function() {
 	$('#searchPlayerResult').on('click', 'li', function(evt) {
 		var myItem = $(this),
 			resultHtml = '';
-		if ($('#listAdmins').find('[data-cluster=' + myItem.data('cluster') + '][data-id=' + myItem.data('id') + ']').length == 0) {
-			resultHtml += '<div class="alert alert-material-grey alert-dismissible player cluster' + myItem.data('cluster') + '" role="alert" data-id="' + myItem.data('id') + '" data-cluster="' + myItem.data('cluster') + '">';
+		if ($('#listAdmins').find('[data-cluster=' + myItem.data('cluster') + '][data-account-id=' + myItem.data('id') + ']').length == 0) {
+			resultHtml += '<div class="alert alert-material-grey alert-dismissible player cluster' + myItem.data('cluster') + '" role="alert" data-account-id="' + myItem.data('account-id') + '" data-cluster="' + myItem.data('cluster') + '">';
 			resultHtml += '<button type="button" class="close" data-dismiss="alert" aria-label="' + i18n.t('btn.close') + '"><span aria-hidden="true">&times;</span></button>';
-			resultHtml += '<p>' + myItem.html() + '</p>';
+			resultHtml += '<span>' + myItem.html() + '</span>';
 			resultHtml += '</div>';
 			$('#listAdmins').append(resultHtml);
 		}

@@ -20,7 +20,7 @@ if (!in_array($_SESSION["account_id"], $gAdmins)) {
 	$result['message'] = 'error.notadmin';
 } else {
 	switch ($_REQUEST['a']) {
-		case 'save':
+		case 'saveGeneral':
 			// Save configuration parameters
 			// Init config
 			$configToWrite = array(
@@ -66,7 +66,7 @@ if (!in_array($_SESSION["account_id"], $gAdmins)) {
 					}
 				}
 			}
-			if (!file_put_contents($configFile, json_encode($configToWrite, true), LOCK_EX)) {
+			if (!@file_put_contents($configFile, json_encode($configToWrite, true), LOCK_EX)) {
 				// Error while writing config file
 				$result["status"] = "error";
 				$result["message"] = "error.configfilewrite";

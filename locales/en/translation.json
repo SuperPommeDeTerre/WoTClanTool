@@ -29,7 +29,8 @@
 			"general": "General",
 			"clans": "Clans",
 			"players": "Players",
-			"events": "Events"
+			"events": "Events",
+			"strategies": "Strategies"
 		},
 		"inactivitythreshold": {
 			"title": "Inactivity threshold",

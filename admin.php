@@ -14,7 +14,7 @@ require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR
 	<div class="row">
 		<div class="main">
 			<h1 class="page-header" data-i18n="install.config"></h1>
-			<nav class="navbar navbar-material-grey-300 navbar-static-top">
+			<nav class="navbar navbar-material-grey-800 navbar-static-top">
 				<div class="container">
 					<div class="navbar-header">
 						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-admin-navbar-collapse">
@@ -31,6 +31,7 @@ require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR
 							<li role="presentation"><a href="#configClans" role="tab" aria-controls="configClans" data-toggle="tab" data-i18n="install.category.clans"></a></li>
 							<li role="presentation"><a href="#configPlayers" role="tab" aria-controls="configPlayers" data-toggle="tab" data-i18n="install.category.players"></a></li>
 							<li role="presentation"><a href="#configEvents" role="tab" aria-controls="configEvents" data-toggle="tab" data-i18n="install.category.events"></a></li>
+							<li role="presentation"><a href="#configStrats" role="tab" aria-controls="configStrats" data-toggle="tab" data-i18n="install.category.strategies"></a></li>
 						</ul>
 					</div>
 				</div>
@@ -63,7 +64,6 @@ foreach ($gClusters as $clusterId => $clusterProps) {
 		foreach ($gConfig["clans"]["restric_to"][$clusterId] as $clanIndex => $clandId) { ?>
 							<div class="alert alert-material-grey alert-dismissible clan cluster<?php echo($clusterId); ?>" role="alert" data-clan-id="<?php echo($clandId); ?>" data-cluster="<?php echo($clusterId); ?>">
 								<button type="button" class="close" data-dismiss="alert" data-i18n="[aria-label]btn.close;"><span aria-hidden="true">&times;</span></button>
-								<p></p>
 							</div><?php
 		}
 	}
@@ -82,7 +82,6 @@ foreach ($gClusters as $clusterId => $clusterProps) {
 			if ($playerId != $_SESSION['account_id']) { ?>
 								<button type="button" class="close" data-dismiss="alert" data-i18n="[aria-label]btn.close;"><span aria-hidden="true">&times;</span></button><?php
 			} ?>
-								<p></p>
 							</div><?php
 		}
 	}
@@ -104,6 +103,9 @@ foreach ($gClusters as $clusterId => $clusterProps) {
 				</div>
 				<div role="tabpanel" class="tab-pane" id="configEvents">
 					<h2 data-i18n="install.category.events"></h2>
+				</div>
+				<div role="tabpanel" class="tab-pane" id="configStrats">
+					<h2 data-i18n="install.category.strategies"></h2>
 				</div>
 			</div>
 		</div>
