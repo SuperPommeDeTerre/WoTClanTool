@@ -32,6 +32,17 @@
 			"events": "Evènements",
 			"strategies": "Stratégies"
 		},
+		"strategies": {
+			"elements": {
+				"title": "Eléments"
+			},
+			"maps": {
+				"title": "Cartes",
+				"size": "Taille",
+				"metrics": "__sizex__m x __sizey__m",
+				"modes": "Modes de jeu"
+			}
+		},
 		"inactivitythreshold": {
 			"title": "Seuil d'inactivité",
 			"value": "__count__ jour",
@@ -110,7 +121,8 @@
 		"no": "Non",
 		"search": "Rechercher",
 		"close": "Fermer",
-		"save": "Sauvegarder"
+		"save": "Sauvegarder",
+		"modify": "Modifier"
 	},
 	"elems": {
 		"calendar": "Agenda",
@@ -200,7 +212,8 @@
 		"complete": "Terminé !",
 		"playersratings": "Chargement des statistiques des membres...",
 		"tanksadditionalinfos": "Chargement d'informations complémentaires sur les chars...",
-		"strats": "Chargement des stratégies..."
+		"strats": "Chargement des stratégies...",
+		"maps": "Chargement des cartes..."
 	},
 	"clan": {
 		"emblem": "Emblême du clan",
@@ -496,9 +509,10 @@
 		},
 		"modes": {
 			"standard": "Bataille standard",
-			"encounter": "Bataille de rencontre",
+			"encounter": "Rencontre",
 			"assault": "Assaut",
-			"confrontation": "Confrontation"
+			"confrontation": "Confrontation",
+			"teambattle": "Bataille en équipe"
 		},
 		"elements": {
 			"HT": "Char lourd",

@@ -19,6 +19,7 @@
 		<script type="text/javascript" src="./js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="./js/material.min.js"></script>
 		<script type="text/javascript" src="./js/ripples.min.js"></script>
+		<script type="text/javascript" src="./js/bootstrap-toolkit.min.js"></script>
 		<script type="text/javascript" src="./js/raphael-min.js"></script>
 		<script type="text/javascript" src="./js/morris.min.js"></script>
 		<script type="text/javascript" src="./js/moment-with-locales.min.js"></script>

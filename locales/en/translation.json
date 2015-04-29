@@ -32,6 +32,17 @@
 			"events": "Events",
 			"strategies": "Strategies"
 		},
+		"strategies": {
+			"elements": {
+				"title": "Elements"
+			},
+			"maps": {
+				"title": "Maps",
+				"size": "Size",
+				"metrics": "__sizex__m x __sizey__m",
+				"modes": "Game modes"
+			}
+		},
 		"inactivitythreshold": {
 			"title": "Inactivity threshold",
 			"value": "__count__ day",
@@ -110,7 +121,8 @@
 		"no": "No",
 		"search": "Search",
 		"close": "Close",
-		"save": "Save"
+		"save": "Save",
+		"modify": "Modify"
 	},
 	"elems": {
 		"calendar": "Calendar",
@@ -200,7 +212,8 @@
 		"complete": "Finished!",
 		"playersratings": "Loading of clan's members statistics...",
 		"tanksadditionalinfos": "Loading of additional tanks data...",
-		"strats": "Loading strategies..."
+		"strats": "Loading strategies...",
+		"maps": "Loading maps..."
 	},
 	"clan": {
 		"emblem": "Clan's emblem",
@@ -496,9 +509,10 @@
 		},
 		"modes": {
 			"standard": "Standard battle",
-			"encounter": "Encounter battle",
+			"encounter": "Encounter",
 			"assault": "Assault",
-			"confrontation": "Confrontation"
+			"confrontation": "Confrontation",
+			"teambattle": "Team battle"
 		},
 		"elements": {
 			"HT": "Heavy tank",

@@ -106,6 +106,10 @@ foreach ($gClusters as $clusterId => $clusterProps) {
 				</div>
 				<div role="tabpanel" class="tab-pane" id="configStrats">
 					<h2 data-i18n="install.category.strategies"></h2>
+					<h3 data-i18n="install.strategies.elements.title"></h3>
+					<h3 data-i18n="install.strategies.maps.title"></h3>
+					<div id="listMaps" class="container-fluid">
+					</div>
 				</div>
 			</div>
 		</div>

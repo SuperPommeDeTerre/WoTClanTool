@@ -14,22 +14,22 @@ include(WCT_INC_DIR . 'ads.php');
 			<h2 class="sub-header" id="calendar" data-i18n="elems.calendar"></h2>
 			<div id="myCalendar" class="container-fluid">
 				<div class="row">
-					<div class="col-xs-6 col-md-4 col-ld-2 placeholder">
+					<div class="col-xs-6 col-md-4 col-lg-2 placeholder">
 						<h3 data-i18n="action.calendar.today"></h3>
 					</div>
-					<div class="col-xs-6 col-md-4 col-ld-2 placeholder">
+					<div class="col-xs-6 col-md-4 col-lg-2 placeholder">
 						<h3></h3>
 					</div>
-					<div class="col-xs-6 col-md-4 col-ld-2 placeholder">
+					<div class="col-xs-6 col-md-4 col-lg-2 placeholder">
 						<h3></h3>
 					</div>
-					<div class="col-xs-6 col-md-4 col-ld-2 placeholder">
+					<div class="col-xs-6 col-md-4 col-lg-2 placeholder">
 						<h3></h3>
 					</div>
-					<div class="col-xs-6 col-md-4 col-ld-2 placeholder">
+					<div class="col-xs-6 col-md-4 col-lg-2 placeholder">
 						<h3></h3>
 					</div>
-					<div class="col-xs-6 col-md-4 col-ld-2 placeholder">
+					<div class="col-xs-6 col-md-4 col-lg-2 placeholder">
 						<h3></h3>
 					</div>
 				</div>

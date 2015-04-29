@@ -322,13 +322,6 @@
                 }
             }
         },
-        "HimmelsdorfFootball": {
-            "file": "HimmelsdorfFootball.jpg",
-            "size": { "x": 330, "y": 330 },
-            "modes": {
-                "standard": {}
-            }
-        },
         "HimmelsdorfWinter": {
             "file": "HimmelsdorfWinter.jpg",
             "size": { "x": 700, "y": 700 },
@@ -632,13 +625,6 @@
                         { "type": "base", "x": 720, "y": 120 }
                     ]
                 }
-            }
-        },
-        "PortChaffeeRace": {
-            "file": "PortChaffeeRace.jpg",
-            "size": { "x": 830, "y": 830 },
-            "modes": {
-                "standard": {}
             }
         },
         "Prokhorovka": {
@@ -1043,13 +1029,6 @@
                         { "type": "base", "x": 485, "y": 565 }
                     ]
                 }
-            }
-        },
-        "TrainingGround": {
-            "file": "Training%20Ground.jpg",
-            "size": { "x": 500, "y": 500 },
-            "modes": {
-                "standard": {}
             }
         },
         "Westfield": {

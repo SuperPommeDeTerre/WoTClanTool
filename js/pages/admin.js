@@ -55,6 +55,70 @@ var onLoad = function() {
 			}
 		}
 	}
+	advanceProgress(i18n.t('loading.maps'));
+	$.post('./res/wot/game.json', {}, function(stratsConfig) {
+		var myStratsTab = $('#configStrats'),
+			myMapsContainer = $('#listMaps'),
+			myMapsHtml = '',
+			myMapOptions = {},
+			myModeOptions = {},
+			isFirst = true,
+			nbMapsOnRow = 0,
+			maxMapsByRow = 0;
+		(function($, viewport) {
+			if (viewport.is('<md')) {
+				maxMapsByRow = 2;
+			} else if (viewport.is('md')) {
+				maxMapsByRow = 3;
+			} else if (viewport.is('>md')) {
+				maxMapsByRow = 4;
+			}
+		})(jQuery, ResponsiveBootstrapToolkit);
+		myMapsHtml += '<div class="row">';
+		// Sort maps by name
+		var mapsKeysSorted = Object.keys(stratsConfig.maps).sort(function(a, b) {
+			return i18n.t('strat.maps.' + a).localeCompare(i18n.t('strat.maps.' + b));
+		});
+		for (var mapIndex in mapsKeysSorted) {
+			var mapName = mapsKeysSorted[mapIndex];
+			myMapOptions = stratsConfig.maps[mapName];
+			// Handle row breaks
+			if (nbMapsOnRow >= maxMapsByRow) {
+				myMapsHtml += '</div><div class="row">';
+				nbMapsOnRow = 0;
+			}
+			myMapsHtml += '<div class="col-xs-6 col-md-4 col-lg-3">';
+			myMapsHtml += '<div class="thumbnail">';
+			myMapsHtml += '<img src="./res/wot/maps/' + myMapOptions.file + '" alt="' + i18n.t('strat.maps.' + mapName) + '" />';
+			myMapsHtml += '<div class="caption">';
+			myMapsHtml += '<h3>' + i18n.t('strat.maps.' + mapName) + '</h3>';
+			myMapsHtml += '<p>' + i18n.t('install.strategies.maps.size') + ': ' + i18n.t('install.strategies.maps.metrics', { sizex: myMapOptions.size.x, sizey: myMapOptions.size.y }) + '</p>';
+			myMapsHtml += '<p>' + i18n.t('install.strategies.maps.modes') + ': ';
+			isFirst = true;
+			for (var modeName in myMapOptions.modes) {
+				myModeOptions = myMapOptions.modes[modeName];
+				if (isFirst) {
+					isFirst = false;
+				} else {
+					myMapsHtml += ', ';
+				}
+				myMapsHtml += i18n.t('strat.modes.' + modeName);
+			}
+			myMapsHtml += '</p>';
+			myMapsHtml += '<p><a href="#" class="btn btn-primary" role="button" data-map-name="' + mapName + '">' + i18n.t('btn.modify') + '</a></p>';
+			myMapsHtml += '</div>';
+			myMapsHtml += '</div>';
+			myMapsHtml += '</div>';
+			nbMapsOnRow++;
+		}
+		myMapsHtml += '</div>';
+		myMapsContainer.html(myMapsHtml);
+		// Bind maps event
+		myMapsContainer.find('.btn').on('click', function(evt) {
+			evt.preventDefault();
+		});
+		afterLoad();
+	}, 'json');
 	$('#btnClusters [data-cluster]').each(function(idx, elem) {
 		var myClusterButton = $(elem),
 			myOption = $('.selCluster option[value=' + myClusterButton.data('cluster') + ']');
@@ -64,13 +128,17 @@ var onLoad = function() {
 			myOption.attr('hidden', 'hidden').prop('disabled', true);
 		}
 	});
+
 	// Bind events
+
+	// Save actual configuration
 	$('#btnSave').on('click', function(evt) {
 		evt.preventDefault();
 		// Remove old alert if exists
 		$('#alertResult').remove();
 		var lClustersButtons = $('#btnClusters .active'),
 			postParameters = {};
+		// Made a save by tab to avoid costly global save
 		switch ($('.tab-pane.active').prop('id')) {
 			case 'configGeneral':
 				postParameters['a'] = 'saveGeneral';
@@ -257,5 +325,4 @@ var onLoad = function() {
 			// Sets the inactivity threshold on server
 		}
 	});
-	afterLoad();
 };
