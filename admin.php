@@ -29,7 +29,7 @@ require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR
 						</button>
 					</div>
 					<div class="collapse navbar-collapse" id="bs-admin-navbar-collapse">
-						<button type="button" class="btn btn-info navbar-btn pull-right" id="btnSave" data-i18n="btn.save"></button>
+						<button type="button" class="btn btn-info navbar-btn pull-right" id="btnSave"><span class="glyphicon glyphicon-floppy-disk"></span> <span data-i18n="btn.save"></span></button>
 						<ul class="nav navbar-nav" role="tablist">
 							<li role="presentation" class="active"><a href="#configGeneral" role="tab" aria-controls="configGeneral" data-toggle="tab" data-i18n="install.category.general"></a></li>
 							<li role="presentation"><a href="#configClans" role="tab" aria-controls="configClans" data-toggle="tab" data-i18n="install.category.clans"></a></li>

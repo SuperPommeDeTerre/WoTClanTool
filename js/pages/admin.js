@@ -115,7 +115,29 @@ var onLoad = function() {
 		});
 		myDlgModifyMap.on('click', '.btnAddSpawnPoint', function(evt) {
 			evt.preventDefault();
-			evt.stopImmediatePropagation();
+			var myTeamHtml = '<div class="spawnPointContainer"><div class="input-group"><span class="input-group-addon glyphicon glyphicon-option-vertical"></span>';
+			myTeamHtml += '<select class="form-control">';
+			myTeamHtml += '<option value="base">Base</option>';
+			myTeamHtml += '<option value="drop" selected="selected">Drop</option>';
+			myTeamHtml += '</select></div>';
+			myTeamHtml += '<label class="sr-only" for="mapSizeX">' + i18n.t('install.strategies.maps.props.sizex.title') + '</label>';
+			myTeamHtml += '<div class="input-group">';
+			myTeamHtml += '<div class="input-group-addon"><span class="glyphicon glyphicon-resize-horizontal"></span></div>';
+			myTeamHtml += '<input class="form-control floating-label" data-hint="' + i18n.t('install.strategies.maps.props.sizex.hint') + '" placeholder="' + i18n.t('install.strategies.maps.props.sizex.title') + '" type="number" />';
+			myTeamHtml += '</div>';
+			myTeamHtml += '<label class="sr-only" for="mapSizeY">' + i18n.t('install.strategies.maps.props.sizey.title') + '</label>';
+			myTeamHtml += '<div class="input-group">';
+			myTeamHtml += '<div class="input-group-addon"><span class="glyphicon glyphicon-resize-vertical"></span></div>';
+			myTeamHtml += '<input class="form-control floating-label" data-hint="' + i18n.t('install.strategies.maps.props.sizey.hint') + '" placeholder="' + i18n.t('install.strategies.maps.props.sizey.title') + '" type="number" />';
+			myTeamHtml += '</div>';
+			myTeamHtml += '<button class="btn btn-default btnRemoveSpawnPoint"><span class="glyphicon glyphicon-minus"></span></button>';
+			myTeamHtml += '<div class="clearfix"></div></div>';
+			$(this).prev().append(myTeamHtml);
+			$.material.init($(this).prev());
+		});
+		myDlgModifyMap.on('click', '.btnRemoveSpawnPoint', function(evt) {
+			evt.preventDefault();
+			$(this).closest('.spawnPointContainer').remove();
 		});
 		myDlgModifyMap.find('#gameModeStandard').on('change', function(evt) {
 			myDlgModifyMap.find('[aria-controls="mapModeStandard"]').closest('li').toggleClass('disabled', !$(this).prop('checked'));
@@ -182,10 +204,11 @@ var onLoad = function() {
 					}
 					for (var spawnPointIndex in myTeamSpawnPoints) {
 						myTeamSpawnPointOptions = myTeamSpawnPoints[spawnPointIndex];
+						myTeamHtml += '<div class="spawnPointContainer"><div class="input-group"><span class="input-group-addon glyphicon glyphicon-option-vertical"></span>';
 						myTeamHtml += '<select class="form-control">';
 						myTeamHtml += '<option value="base"' + (myTeamSpawnPointOptions.type == 'base'?' selected="selected"':'') + '>Base</option>';
 						myTeamHtml += '<option value="drop"' + (myTeamSpawnPointOptions.type == 'drop'?' selected="selected"':'') + '>Drop</option>';
-						myTeamHtml += '</select>';
+						myTeamHtml += '</select></div>';
 						myTeamHtml += '<label class="sr-only" for="mapSizeX">' + i18n.t('install.strategies.maps.props.sizex.title') + '</label>';
 						myTeamHtml += '<div class="input-group">';
 						myTeamHtml += '<div class="input-group-addon"><span class="glyphicon glyphicon-resize-horizontal"></span></div>';
@@ -196,10 +219,11 @@ var onLoad = function() {
 						myTeamHtml += '<div class="input-group-addon"><span class="glyphicon glyphicon-resize-vertical"></span></div>';
 						myTeamHtml += '<input class="form-control floating-label" data-hint="' + i18n.t('install.strategies.maps.props.sizey.hint') + '" placeholder="' + i18n.t('install.strategies.maps.props.sizey.title') + '" type="number" value="' + myTeamSpawnPointOptions.y + '" />';
 						myTeamHtml += '</div>';
-						myTeamHtml += '<div class="clearfix" style="margin-top:1em"></div>';
+						myTeamHtml += '<button class="btn btn-default btnRemoveSpawnPoint"><span class="glyphicon glyphicon-minus"></span></button>';
+						myTeamHtml += '<div class="clearfix"></div></div>';
 					}
 					myTeamPanel.html(myTeamHtml);
-					$.material.init();
+					$.material.init(myTeamPanel);
 				}
 			}
 		});
