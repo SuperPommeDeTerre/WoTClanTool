@@ -272,7 +272,7 @@ var onLoad = function() {
 									var myEvent = events[i],
 										myEventStartDate = moment(myEvent.start * 1),
 										myEventEndDate = moment(myEvent.end * 1);
-									if (myEventStartDate.isBetween(startOfDay, endOfDay) || myEventEndDate.isBetween(startOfDay, endOfDay)) {
+									if (myEventStartDate.isBetween(startOfDay, endOfDay)) {
 										myTodayEventsHtml += '<h3><span class="label label-default">' + myEventStartDate.format('LT') + '</span> ' + myEvent.title + '</h3>';
 										myTodayEventsHtml += '<p>' + myEvent.description + '</p>';
 										myTodayEventsHtml += '<h4><span data-i18n="action.calendar.prop.participants"></span></h4>';
@@ -305,6 +305,44 @@ var onLoad = function() {
 									var myElem = $(elem);
 									myElem.siblings('.date').text(moment(myElem.data('date')).format('LLL'));
 								});
+								var myParticipants = [];
+								$('[data-player-id]').each(function(idx, elem) {
+									var myParticipantId = $(elem).data('player-id');
+									if (typeof(dataPlayers[myParticipantId]) === 'undefined') {
+										myParticipants.push(myParticipantId);
+									} else {
+										$('[data-player-id="' + myParticipantId + '"]').text(dataPlayers[myParticipantId].nickname);
+									}
+								});
+								if (myParticipants.length > 0) {
+									$.post(gConfig.WG_API_URL + 'wot/account/info/', {
+										application_id: gConfig.WG_APP_ID,
+										language: gConfig.G_API_LANG,
+										access_token: gConfig.ACCESS_TOKEN,
+										fields: 'nickname',
+										account_id: myParticipants.join(',')
+									}, function(dataParticipantResponse) {
+										var dataParticipants = dataParticipantResponse.data;
+										for (var participantId in dataParticipants) {
+											$('[data-player-id="' + participantId + '"]').text(dataParticipants[participantId].nickname);
+										}
+									}, 'json');
+									$('#btnDeleteEvent').on('click', function(evt) {
+										evt.preventDefault();
+										$.post('./server/calendar.php', {
+											a: 'delete',
+											eventId: $('#eventId').val()
+										}, function(deleteResponse) {
+											// Handle result
+											if (deleteResponse.result == 'ok') {
+												// Hide dialog
+												$('#events-modal').modal('hide');
+												// Refresh calendar
+												myCalendar.view();
+											}
+										}, 'json');
+									});
+								}
 							},
 							//events_source: './server/calendar.php?a=list'
 							events_source: './server/calendar.php?a=list'
