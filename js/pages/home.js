@@ -308,6 +308,7 @@ var onLoad = function() {
 								var myParticipants = [];
 								$('[data-player-id]').each(function(idx, elem) {
 									var myParticipantId = $(elem).data('player-id');
+									// Don't get players infos that are already available
 									if (typeof(dataPlayers[myParticipantId]) === 'undefined') {
 										myParticipants.push(myParticipantId);
 									} else {

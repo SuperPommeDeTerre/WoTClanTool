@@ -527,7 +527,7 @@
 			"standard": "Standard battle",
 			"encounter": "Encounter",
 			"assault": "Assault",
-			"confrontation": "Confrontation"
+			"confrontation": "Team battle"
 		},
 		"elements": {
 			"HT": "Heavy tank",

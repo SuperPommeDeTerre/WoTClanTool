@@ -111,6 +111,16 @@
                     "team2": [
                         { "type": "base", "x": 160, "y": 810 }
                     ]
+                },
+                "confrontation": {
+                    "team1": [
+                        { "type": "base", "x": 360, "y": 360 },
+                        { "type": "base", "x": 620, "y": 750 },
+                        { "type": "drop", "x": 180, "y": 810 }
+                    ],
+                    "team2": [
+                        { "type": "drop", "x": 910, "y": 230 }
+                    ]
                 }
             }
         },
@@ -124,6 +134,15 @@
                     ],
                     "team2": [
                         { "type": "base", "x": 210, "y": 940 }
+                    ]
+                },
+                "confrontation": {
+                    "team1": [
+                        { "type": "base", "x": 240, "y": 70 },
+                        { "type": "base", "x": 730, "y": 320 }
+                    ],
+                    "team2": [
+                        { "type": "drop", "x": 210, "y": 940 }
                     ]
                 }
             }
@@ -319,6 +338,16 @@
                     "team2": [
                         { "type": "drop", "x": 650, "y": 660 }
                     ]
+                },
+                "confrontation": {
+                    "team1": [
+                        { "type": "base", "x": 70, "y": 380 },
+                        { "type": "base", "x": 360, "y": 70 },
+                        { "type": "drop", "x": 170, "y": 50 }
+                    ],
+                    "team2": [
+                        { "type": "drop", "x": 650, "y": 660 }
+                    ]
                 }
             }
         },
@@ -340,6 +369,16 @@
                     ],
                     "team1": [
                         { "type": "drop", "x": 650, "y": 50 }
+                    ],
+                    "team2": [
+                        { "type": "drop", "x": 650, "y": 660 }
+                    ]
+                },
+                "confrontation": {
+                    "team1": [
+                        { "type": "base", "x": 70, "y": 380 },
+                        { "type": "base", "x": 360, "y": 70 },
+                        { "type": "drop", "x": 170, "y": 50 }
                     ],
                     "team2": [
                         { "type": "drop", "x": 650, "y": 660 }
@@ -379,6 +418,16 @@
                     ],
                     "team2": [
                         { "type": "base", "x": 645, "y": 200 }
+                    ]
+                },
+                "confrontation": {
+                    "team1": [
+                        { "type": "base", "x": 410, "y": 710 },
+                        { "type": "base", "x": 690, "y": 420 },
+                        { "type": "drop", "x": 720, "y": 720 }
+                    ],
+                    "team2": [
+                        { "type": "drop", "x": 320, "y": 280 }
                     ]
                 }
             }
@@ -442,7 +491,7 @@
             "file": "LostCity.jpg",
             "size": { "x": 800, "y": 800 },
             "modes": {
-                "assault": {
+                "confrontation": {
                     "team1": [
                         { "type": "base", "x": 280, "y": 105 },
                         { "type": "base", "x": 400, "y": 400 },
@@ -582,6 +631,16 @@
                     "team2": [
                         { "type": "drop", "x": 530, "y": 660 }
                     ]
+                },
+                "confrontation": {
+                    "team1": [
+                        { "type": "base", "x": 190, "y": 750 },
+                        { "type": "base", "x": 620, "y": 800 },
+                        { "type": "drop", "x": 370, "y": 950 }
+                    ],
+                    "team2": [
+                        { "type": "drop", "x": 480, "y": 220 }
+                    ]
                 }
             }
         },
@@ -650,6 +709,16 @@
                     "team2": [
                         { "type": "drop", "x": 460, "y": 100 },
                         { "type": "drop", "x": 275, "y": 80 }
+                    ]
+                },
+                "confrontation": {
+                    "team1": [
+                        { "type": "base", "x": 350, "y": 220 },
+                        { "type": "base", "x": 650, "y": 360 },
+                        { "type": "drop", "x": 400, "y": 50 }
+                    ],
+                    "team2": [
+                        { "type": "drop", "x": 550, "y": 950 }
                     ]
                 }
             }
@@ -741,6 +810,16 @@
                     ],
                     "team2": [
                         { "type": "drop", "x": 670, "y": 730 }
+                    ]
+                },
+                "confrontation": {
+                    "team1": [
+                        { "type": "base", "x": 340, "y": 85 },
+                        { "type": "base", "x": 600, "y": 480 },
+                        { "type": "drop", "x": 720, "y": 65 }
+                    ],
+                    "team2": [
+                        { "type": "drop", "x": 60, "y": 440 }
                     ]
                 }
             }
@@ -945,6 +1024,16 @@
                         { "type": "drop", "x": 290, "y": 190 },
                         { "type": "drop", "x": 290, "y": 810 }
                     ]
+                },
+                "confrontation": {
+                    "team1": [
+                        { "type": "base", "x": 440, "y": 495 },
+                        { "type": "base", "x": 820, "y": 470 },
+                        { "type": "drop", "x": 670, "y": 270 }
+                    ],
+                    "team2": [
+                        { "type": "drop", "x": 740, "y": 880 }
+                    ]
                 }
             }
         },
@@ -998,6 +1087,16 @@
                     "team2": [
                         { "type": "drop", "x": 65, "y": 310 }
                     ]
+                },
+                "confrontation": {
+                    "team1": [
+                        { "type": "base", "x": 250, "y": 250 },
+                        { "type": "base", "x": 885, "y": 260 },
+                        { "type": "drop", "x": 750, "y": 50 }
+                    ],
+                    "team2": [
+                        { "type": "drop", "x": 380, "y": 830 }
+                    ]
                 }
             }
         },
@@ -1027,6 +1126,16 @@
                     ],
                     "team2": [
                         { "type": "base", "x": 485, "y": 565 }
+                    ]
+                },
+                "confrontation": {
+                    "team1": [
+                        { "type": "base", "x": 380, "y": 160 },
+                        { "type": "base", "x": 190, "y": 650 },
+                        { "type": "drop", "x": 80, "y": 320 }
+                    ],
+                    "team2": [
+                        { "type": "drop", "x": 700, "y": 400 }
                     ]
                 }
             }

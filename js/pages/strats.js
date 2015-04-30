@@ -1441,13 +1441,26 @@ var onLoad = function() {
 					var myCanvas = myCanvasContainer.svg().svg("get"),
 						g = myCanvas.group(null, "basesOverlay", {}),
 						myMapMode = gMaps[gCurrentConf.map].modes[gCurrentConf.mode],
-						countDrops = 0;
+						countDrops = 0,
+						countBases = 0,
+						totalBases = 0;
 					for (var myMapTeam in myMapMode) {
 						countDrops = 0;
+						countBases = 0;
+						totalBases = 0;
+						// Count total bases as base numbers are show only if we have multiple bases. 
+						for (var i in myMapMode[myMapTeam]) {
+							if (myMapMode[myMapTeam][i].type === "base") {
+								totalBases++;
+							}
+						}
 						for (var i in myMapMode[myMapTeam]) {
 							if (myMapMode[myMapTeam][i].type === "base") {
 								// It's the main bases, they are round
 								myCanvas.circle(g, myMapMode[myMapTeam][i].x + gDECAL_GRID, myMapMode[myMapTeam][i].y + gDECAL_GRID, 40, { "class": myMapTeam });
+								if (totalBases > 1) {
+									myCanvas.text(g, myMapMode[myMapTeam][i].x + gDECAL_GRID - 2, myMapMode[myMapTeam][i].y + 5 + gDECAL_GRID, (++countBases) + "", { "fill": '#FFF', 'stroke': '#FFF' });
+								}
 							} else if (myMapMode[myMapTeam][i].type === "drop") {
 								// It's the drop points, they are square
 								myCanvas.polygon(g, [[myMapMode[myMapTeam][i].x - gDROP_ZONE_BORDER + gDECAL_GRID, myMapMode[myMapTeam][i].y + gDECAL_GRID],
