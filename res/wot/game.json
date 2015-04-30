@@ -75,6 +75,13 @@
         "Abbey": {
             "file": "Abbey.jpg",
             "size": { "x": 1000, "y": 1000 },
+            "camo": "summer",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 4,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -89,6 +96,13 @@
         "Airfield": {
             "file": "Airfield.jpg",
             "size": { "x": 1000, "y": 1000 },
+            "camo": "desert",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 4,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -103,6 +117,13 @@
         "ArcticRegion": {
             "file": "Arctic%20Region.jpg",
             "size": { "x": 1000, "y": 1000 },
+            "camo": "winter",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 4,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -127,6 +148,13 @@
         "Cliff": {
             "file": "Cliff.jpg",
             "size": { "x": 1000, "y": 1000 },
+            "camo": "summer",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 4,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -150,6 +178,13 @@
         "DDay": {
             "file": "DDay.jpg",
             "size": { "x": 1000, "y": 1000 },
+            "camo": "summer",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 4,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -164,6 +199,13 @@
         "DragonRidge": {
             "file": "Dragon%20Ridge.jpg",
             "size": { "x": 1000, "y": 1000 },
+            "camo": "summer",
+            "type": "",
+            "state": "retired",
+            "levels": {
+                "min": 4,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -178,6 +220,13 @@
         "ElHalluf": {
             "file": "El%20Halluf.jpg",
             "size": { "x": 1000, "y": 1000 },
+            "camo": "desert",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 4,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -203,6 +252,13 @@
         "Ensk": {
             "file": "Ensk.jpg",
             "size": { "x": 600, "y": 600 },
+            "camo": "summer",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 2,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -228,6 +284,13 @@
         "Erlenberg": {
             "file": "Erlenberg.jpg",
             "size": { "x": 1000, "y": 1000 },
+            "camo": "winter",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 4,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -263,6 +326,13 @@
         "FishermanBay": {
             "file": "FishermanBay.jpg",
             "size": { "x": 1000, "y": 1000 },
+            "camo": "summer",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 4,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -277,6 +347,13 @@
         "Fjord": {
             "file": "Fjord.jpg",
             "size": { "x": 1000, "y": 1000 },
+            "camo": "summer",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 4,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -291,6 +368,13 @@
         "HiddenVillage": {
             "file": "Hidden%20Village.jpg",
             "size": { "x": 1000, "y": 1000 },
+            "camo": "summer",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 4,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -305,6 +389,13 @@
         "Highway": {
             "file": "Highway.jpg",
             "size": { "x": 1000, "y": 1000 },
+            "camo": "summer",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 4,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -319,6 +410,13 @@
         "Himmelsdorf": {
             "file": "Himmelsdorf.jpg",
             "size": { "x": 700, "y": 700 },
+            "camo": "summer",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 1,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -354,6 +452,13 @@
         "HimmelsdorfWinter": {
             "file": "HimmelsdorfWinter.jpg",
             "size": { "x": 700, "y": 700 },
+            "camo": "winter",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 4,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -389,6 +494,13 @@
         "Karelia": {
             "file": "Karelia.jpg",
             "size": { "x": 1000, "y": 1000 },
+            "camo": "summer",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 3,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -411,6 +523,13 @@
         "Kharkov": {
             "file": "Kharkov.jpg",
             "size": { "x": 800, "y": 800 },
+            "camo": "winter",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 4,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -435,6 +554,13 @@
         "Komarin": {
             "file": "Komarin.jpg",
             "size": { "x": 800, "y": 800 },
+            "camo": "summer",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 4,
+                "max": 8
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -451,6 +577,13 @@
         "Lakeville": {
             "file": "Lakeville.jpg",
             "size": { "x": 800, "y": 800 },
+            "camo": "summer",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 4,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -476,6 +609,13 @@
         "LiveOaks": {
             "file": "Live%20Oaks.jpg",
             "size": { "x": 1000, "y": 1000 },
+            "camo": "summer",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 4,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -490,6 +630,13 @@
         "LostCity": {
             "file": "LostCity.jpg",
             "size": { "x": 800, "y": 800 },
+            "camo": "summer",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 1,
+                "max": 11
+            },
             "modes": {
                 "confrontation": {
                     "team1": [
@@ -506,6 +653,13 @@
         "Malinovka": {
             "file": "Malinovka.jpg",
             "size": { "x": 1000, "y": 1000 },
+            "camo": "summer",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 1,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -542,6 +696,13 @@
         "Mines": {
             "file": "Mines.jpg",
             "size": { "x": 800, "y": 800 },
+            "camo": "summer",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 1,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -569,6 +730,13 @@
          "Mittengrad": {
             "file": "Mittengrad.jpg",
             "size": { "x": 600, "y": 600 },
+            "camo": "summer",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 1,
+                "max": 3
+            },
             "modes": {
                 "encounter": {
                     "team1": [
@@ -585,6 +753,13 @@
        "MountainPass": {
             "file": "Mountain%20Pass.jpg",
             "size": { "x": 1000, "y": 1000 },
+            "camo": "summer",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 4,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -612,6 +787,13 @@
         "Murovanka": {
             "file": "Murovanka.jpg",
             "size": { "x": 1000, "y": 1000 },
+            "camo": "summer",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 4,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -647,6 +829,13 @@
         "Northwest": {
             "file": "NorthWest.jpg",
             "size": { "x": 800, "y": 800 },
+            "camo": "summer",
+            "type": "",
+            "state": "retired",
+            "levels": {
+                "min": 4,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -661,6 +850,13 @@
         "PearlRiver": {
             "file": "Pearl%20River.jpg",
             "size": { "x": 1000, "y": 1000 },
+            "camo": "summer",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 4,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -675,6 +871,13 @@
         "Port": {
             "file": "Port.jpg",
             "size": { "x": 830, "y": 830 },
+            "camo": "summer",
+            "type": "",
+            "state": "retired",
+            "levels": {
+                "min": 4,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -689,6 +892,13 @@
         "Prokhorovka": {
             "file": "Prokhorovka.jpg",
             "size": { "x": 1000, "y": 1000 },
+            "camo": "summer",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 3,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -726,6 +936,13 @@
         "ProkhorovkaDefense": {
             "file": "Fiery%20Salient.jpg",
             "size": { "x": 1000, "y": 1000 },
+            "camo": "summer",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 3,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -753,6 +970,13 @@
         "Province": {
             "file": "Province.jpg",
             "size": { "x": 600, "y": 600 },
+            "camo": "summer",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 1,
+                "max": 3
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -767,6 +991,13 @@
         "Redshire": {
             "file": "Redshire.jpg",
             "size": { "x": 1000, "y": 1000 },
+            "camo": "summer",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 4,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -792,6 +1023,13 @@
         "Ruinberg": {
             "file": "Ruinberg.jpg",
             "size": { "x": 800, "y": 800 },
+            "camo": "summer",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 4,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -824,34 +1062,16 @@
                 }
             }
         },
-        "RuinbergWinter": {
-            "file": "RuinbergWinter.jpg",
-            "size": { "x": 800, "y": 800 },
-            "modes": {
-                "standard": {
-                    "team1": [
-                        { "type": "base", "x": 340, "y": 85 }
-                    ],
-                    "team2": [
-                        { "type": "base", "x": 320, "y": 690 }
-                    ]
-                },
-                "encounter": {
-                    "team0": [
-                        { "type": "base", "x": 60, "y": 440 }
-                    ],
-                    "team1": [
-                        { "type": "drop", "x": 460, "y": 70 }
-                    ],
-                    "team2": [
-                        { "type": "drop", "x": 670, "y": 730 }
-                    ]
-                }
-            }
-        },
         "RuinbergOnFire": {
             "file": "RuinbergOnFire.jpg",
             "size": { "x": 800, "y": 800 },
+            "camo": "summer",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 4,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -877,6 +1097,13 @@
         "RuinbergWinter": {
             "file": "RuinbergWinter.jpg",
             "size": { "x": 800, "y": 800 },
+            "camo": "winter",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 4,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -902,6 +1129,13 @@
         "SacredValley": {
             "file": "Sacred%20Valley.jpg",
             "size": { "x": 1000, "y": 1000 },
+            "camo": "winter",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 4,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -927,6 +1161,13 @@
         "SandRiver": {
             "file": "Sand%20River.jpg",
             "size": { "x": 1000, "y": 1000 },
+            "camo": "desert",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 4,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -964,6 +1205,13 @@
         "SereneCoast": {
             "file": "Serene%20Coast.jpg",
             "size": { "x": 1000, "y": 1000 },
+            "camo": "summer",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 4,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -978,6 +1226,13 @@
         "Severogosk": {
             "file": "Severogosk.jpg",
             "size": { "x": 1000, "y": 1000 },
+            "camo": "winter",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 4,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -992,6 +1247,13 @@
         "SiegfriedLine": {
             "file": "Siegfried%20Line.jpg",
             "size": { "x": 1000, "y": 1000 },
+            "camo": "summer",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 4,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -1040,6 +1302,13 @@
         "Stalingrad": {
             "file": "Stalingrad.jpg",
             "size": { "x": 950, "y": 950 },
+            "camo": "summer",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 4,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -1054,6 +1323,13 @@
         "SouthCoast": {
             "file": "South%20Coast.jpg",
             "size": { "x": 1000, "y": 1000 },
+            "camo": "summer",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 4,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -1068,6 +1344,13 @@
         "Steppes": {
             "file": "Steppes.jpg",
             "size": { "x": 1000, "y": 1000 },
+            "camo": "desert",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 4,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -1103,6 +1386,13 @@
         "Swamp": {
             "file": "Swamp.jpg",
             "size": { "x": 1000, "y": 1000 },
+            "camo": "summer",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 4,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -1119,6 +1409,13 @@
         "Tundra": {
             "file": "Tundra.jpg",
             "size": { "x": 800, "y": 800 },
+            "camo": "summer",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 4,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -1143,6 +1440,13 @@
         "Westfield": {
             "file": "Westfield.jpg",
             "size": { "x": 1000, "y": 1000 },
+            "camo": "summer",
+            "type": "mixed",
+            "state": "live",
+            "levels": {
+                "min": 4,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -1165,6 +1469,13 @@
         "Widepark": {
             "file": "Widepark.jpg",
             "size": { "x": 600, "y": 600 },
+            "camo": "summer",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 4,
+                "max": 6
+            },
             "modes": {
                 "standard": {
                     "team1": [
@@ -1179,6 +1490,13 @@
         "WindStorm": {
             "file": "WindStorm.jpg",
             "size": { "x": 1000, "y": 1000 },
+            "camo": "winter",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 4,
+                "max": 11
+            },
             "modes": {
                 "standard": {
                     "team1": [

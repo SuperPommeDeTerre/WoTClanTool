@@ -88,10 +88,11 @@ var onLoad = function() {
 					myMapsHtml += '<div class="clearfix visible-lg-block"></div>';
 				}
 			}
-			myMapsHtml += '<div class="col-xs-6 col-md-4 col-lg-3"><div class="thumbnail">';
+			myMapsHtml += '<div class="col-xs-6 col-md-4 col-lg-3 mapstate' + myMapOptions.state + ' mapcamo' + myMapOptions.camo + '"><div class="thumbnail">';
 			myMapsHtml += '<img src="./res/wot/maps/' + myMapThumb + '" alt="' + i18n.t('strat.maps.' + mapName) + '" />';
 			myMapsHtml += '<div class="caption"><h3>' + i18n.t('strat.maps.' + mapName) + '</h3>';
 			myMapsHtml += '<p>' + i18n.t('install.strategies.maps.size') + ': ' + i18n.t('install.strategies.maps.metrics', { sizex: myMapOptions.size.x, sizey: myMapOptions.size.y }) + '</p>';
+			myMapsHtml += '<p>' + i18n.t('strat.camos.title') + ': ' + i18n.t('strat.camos.' + myMapOptions.camo) + '</p>';
 			myMapsHtml += '<p>' + i18n.t('install.strategies.maps.modes') + ': ';
 			isFirst = true;
 			for (var modeName in myMapOptions.modes) {

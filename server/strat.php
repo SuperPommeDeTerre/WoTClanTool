@@ -40,6 +40,13 @@ $needSave = false;
 switch ($_REQUEST['action']) {
 case 'get':
 	$data = json_decode(file_get_contents(WCT_STRAT_DIR . $_REQUEST['id'] . '.json'), true);
+	foreach ($listStrats as $myStrat) {
+		// Return metadata
+		if ($myStrat['id'] == $_REQUEST['id']) {
+			$result['meta'] = $myStrat;
+			break;
+		}
+	}
 	$result['data'] = $data;
 	break;
 case 'list':

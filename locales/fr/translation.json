@@ -522,6 +522,13 @@
 			"texts": "Textes",
 			"shapes": "Formes"
 		},
+		"camos": {
+			"title": "Type",
+			"all": "Tous",
+			"summer": "Eté",
+			"winter": "Hiver",
+			"desert": "Désert"
+		},
 		"modes": {
 			"title": "Modes de jeu",
 			"standard": "Bataille standard",

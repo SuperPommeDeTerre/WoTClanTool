@@ -1318,30 +1318,33 @@ var onLoad = function() {
 				var mapName = mapsKeysSorted[mapIndex],
 					myMapThumb = '';
 				myMapOptions = gMaps[mapName];
-				myMapThumb = myMapOptions.file.substring(0, myMapOptions.file.lastIndexOf('.')) + '_thumb' + myMapOptions.file.substring(myMapOptions.file.lastIndexOf('.'));
-				// Handle row breaks
-				if (nbMapsOnRow > 0) {
-					if (nbMapsOnRow % 2 == 0) {
-						myMapsHtml += '<div class="clearfix visible-xs-block"></div>';
+				if (myMapOptions.state == 'live') {
+					myMapThumb = myMapOptions.file.substring(0, myMapOptions.file.lastIndexOf('.')) + '_thumb' + myMapOptions.file.substring(myMapOptions.file.lastIndexOf('.'));
+					// Handle row breaks
+					if (nbMapsOnRow > 0) {
+						if (nbMapsOnRow % 2 == 0) {
+							myMapsHtml += '<div class="clearfix visible-xs-block"></div>';
+						}
+						if (nbMapsOnRow % 3 == 0) {
+							myMapsHtml += '<div class="clearfix visible-md-block"></div>';
+						}
+						if (nbMapsOnRow % 4 == 0) {
+							myMapsHtml += '<div class="clearfix visible-lg-block"></div>';
+						}
 					}
-					if (nbMapsOnRow % 3 == 0) {
-						myMapsHtml += '<div class="clearfix visible-md-block"></div>';
+					myMapsHtml += '<div class="col-xs-6 col-md-4 col-lg-3 mapstate' + myMapOptions.state + ' mapcamo' + myMapOptions.camo + '"><div class="thumbnail">';
+					myMapsHtml += '<img src="./res/wot/maps/' + myMapThumb + '" alt="' + i18n.t('strat.maps.' + mapName) + '" />';
+					myMapsHtml += '<div class="caption"><h3>' + i18n.t('strat.maps.' + mapName) + '</h3>';
+					myMapsHtml += '<p>' + i18n.t('install.strategies.maps.size') + ': ' + i18n.t('install.strategies.maps.metrics', { sizex: myMapOptions.size.x, sizey: myMapOptions.size.y }) + '</p>';
+					myMapsHtml += '<p>' + i18n.t('strat.camos.title') + ': ' + i18n.t('strat.camos.' + myMapOptions.camo) + '</p>';
+					myMapsHtml += '<p>';
+					for (var modeName in myMapOptions.modes) {
+						myMapsHtml += '<a href="#" class="btn btn-primary createstrat" role="button" data-map-name="' + mapName + '" data-mode="' + modeName + '">' + i18n.t('strat.modes.' + modeName) + '</a>';
 					}
-					if (nbMapsOnRow % 4 == 0) {
-						myMapsHtml += '<div class="clearfix visible-lg-block"></div>';
-					}
+					myMapsHtml += '</p>';
+					myMapsHtml += '</div></div></div>';
+					nbMapsOnRow++;
 				}
-				myMapsHtml += '<div class="col-xs-6 col-md-4 col-lg-3"><div class="thumbnail">';
-				myMapsHtml += '<img src="./res/wot/maps/' + myMapThumb + '" alt="' + i18n.t('strat.maps.' + mapName) + '" />';
-				myMapsHtml += '<div class="caption"><h3>' + i18n.t('strat.maps.' + mapName) + '</h3>';
-				myMapsHtml += '<p>' + i18n.t('install.strategies.maps.size') + ': ' + i18n.t('install.strategies.maps.metrics', { sizex: myMapOptions.size.x, sizey: myMapOptions.size.y }) + '</p>';
-				myMapsHtml += '<p>';
-				for (var modeName in myMapOptions.modes) {
-					myMapsHtml += '<a href="#" class="btn btn-primary createstrat" role="button" data-map-name="' + mapName + '" data-mode="' + modeName + '">' + i18n.t('strat.modes.' + modeName) + '</a>';
-				}
-				myMapsHtml += '</p>';
-				myMapsHtml += '</div></div></div>';
-				nbMapsOnRow++;
 			}
 			myMapsHtml += '</div>';
 			myMapsContainer.html(myMapsHtml);
@@ -1402,8 +1405,8 @@ var onLoad = function() {
 						'id': gStratId
 					}, function(dateGetStratResponse) {
 						gIsImporting = true;
-						gIsReadOnly = true;
 						gCurrentConf = dateGetStratResponse.data;
+						gIsReadOnly = (gConfig.PLAYER_ID != dateGetStratResponse.meta.creator);
 						$("#lblStratName").val(gCurrentConf.name);
 						$("#lblStratDesc").val(gCurrentConf.desc);
 						initMap(gCurrentConf.map, gCurrentConf.mode);

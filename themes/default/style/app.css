@@ -175,6 +175,7 @@ input.overlay, textarea.overlay{border:1px dotted #FFF;background:transparent}
 #shapeHandlers{display:none}
 .handler{display:block;width:16px;height:16px;opacity:.5;border:1px solid #000;background:#666;position:absolute}
 .handler:hover{opacity:1}
+.mapstateretired .thumbnail{background-color:#CCC}
 
 .element.HT0,#menuEditElements > a.HT0{background-image:url('../../../res/wot/elements/HT0.png');background-repeat:no-repeat;background-position:center center}
 .element.HT1,#menuEditElements > a.HT1{background-image:url('../../../res/wot/elements/HT1.png');background-repeat:no-repeat;background-position:center center}
