@@ -73,7 +73,9 @@ var onLoad = function() {
 		});
 		for (var mapIndex in mapsKeysSorted) {
 			var mapName = mapsKeysSorted[mapIndex];
+				myMapThumb = '';
 			myMapOptions = stratsConfig.maps[mapName];
+			myMapThumb = myMapOptions.file.substring(0, myMapOptions.file.lastIndexOf('.')) + '_thumb' + myMapOptions.file.substring(myMapOptions.file.lastIndexOf('.'));
 			// Handle row breaks
 			if (nbMapsOnRow > 0) {
 				if (nbMapsOnRow % 2 == 0) {
@@ -87,7 +89,7 @@ var onLoad = function() {
 				}
 			}
 			myMapsHtml += '<div class="col-xs-6 col-md-4 col-lg-3"><div class="thumbnail">';
-			myMapsHtml += '<img src="./res/wot/maps/' + myMapOptions.file + '" alt="' + i18n.t('strat.maps.' + mapName) + '" />';
+			myMapsHtml += '<img src="./res/wot/maps/' + myMapThumb + '" alt="' + i18n.t('strat.maps.' + mapName) + '" />';
 			myMapsHtml += '<div class="caption"><h3>' + i18n.t('strat.maps.' + mapName) + '</h3>';
 			myMapsHtml += '<p>' + i18n.t('install.strategies.maps.size') + ': ' + i18n.t('install.strategies.maps.metrics', { sizex: myMapOptions.size.x, sizey: myMapOptions.size.y }) + '</p>';
 			myMapsHtml += '<p>' + i18n.t('install.strategies.maps.modes') + ': ';

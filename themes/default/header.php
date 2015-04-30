@@ -66,12 +66,12 @@ include_once(WCT_INC_DIR . 'analyticstracking.php');
 							<li class="dropdown<?php if ($gPageID == 'strats') { echo(' active'); } ?>">
 								<a href="./strats.php" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span data-i18n="nav.strats.title"></span> <span class="caret"></span></a>
 								<ul class="dropdown-menu" role="menu">
-									<li><a href="./strats.php#new"><span class="glyphicon glyphicon-plus"></span> <span data-i18n="nav.strats.new"></span></a></li>
-									<li><a href="./strats.php#my"><span class="glyphicon glyphicon-picture"></span> <span data-i18n="nav.my.strats"></span></a></li>
+									<li><a href="./strats.php?action=new"><span class="glyphicon glyphicon-plus"></span> <span data-i18n="nav.strats.new"></span></a></li>
+									<li><a href="./strats.php?action=list&amp;view=my"><span class="glyphicon glyphicon-picture"></span> <span data-i18n="nav.my.strats"></span></a></li>
 									<li class="divider"></li>
 									<li class="dropdown-header" data-i18n="nav.strats.shared"></li>
-									<li><a href="./strats.php#valid"><span class="glyphicon glyphicon-star"></span> <span data-i18n="nav.strats.valid"></span></a></li>
-									<li><a href="./strats.php#review"><span class="glyphicon glyphicon-check"></span> <span data-i18n="nav.strats.review"></span></a></li>
+									<li><a href="./strats.php?action=list&amp;view=valid"><span class="glyphicon glyphicon-star"></span> <span data-i18n="nav.strats.valid"></span></a></li>
+									<li><a href="./strats.php?action=list&amp;view=review"><span class="glyphicon glyphicon-check"></span> <span data-i18n="nav.strats.review"></span></a></li>
 								</ul>
 							</li><?php
 // Show the administration only if the user is in the admins group

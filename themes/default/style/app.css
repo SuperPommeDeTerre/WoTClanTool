@@ -81,6 +81,7 @@ td.tankowners .ign.active{font-weight:bold}
 .playerdetails{width:30%;margin:.5em}
 /* Strats */
 #stratEditor{display:none}
+body#strats #listMaps{display:none}
 header{position:fixed;top:0;left:0;bottom:0}
 #menu{background:#EEE;position:absolute;top:60px;bottom:0;left:0}
 #menu *{color:#000;text-decoration:none}

@@ -5,13 +5,13 @@ $gPageID = "strats";
 
 require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR . 'header.php');
 ?>
-<div id="stratRecap">
-	<div class="container-fluid">
-		<div class="row">
-			<div class="main"><?php
+<div class="container-fluid">
+	<div class="row">
+		<div class="main"><?php
 include(WCT_INC_DIR . 'ads.php');
 ?>
-				<h1 class="page-header" data-i18n="page.strats.title"></h1>
+			<h1 class="page-header" data-i18n="page.strats.title"></h1>
+			<div id="stratRecap">
 				<div class="btn-group" role="group">
 					<button type="button" id="btnNewStrat" class="btn btn-default btn-material-green-300" data-target="#my-dialog" data-toggle="modal"><span data-i18n="strat.new"></span></button>
 				</div>
@@ -35,6 +35,7 @@ include(WCT_INC_DIR . 'ads.php');
 					</table>
 				</div>
 			</div>
+			<div id="listMaps" class="container-fluid"></div>
 		</div>
 	</div>
 </div>
@@ -45,8 +46,6 @@ include(WCT_INC_DIR . 'ads.php');
 				<ul>
 					<li id="menuHome"><a href="home" data-i18n="[title]strat.home;"><span class="glyphicon glyphicon-home"></span></a></li>
 					<li id="menuMap"><a href="map" data-i18n="[title]strat.map.selecttitle;"><span class="glyphicon glyphicon-picture"></span></a><div>
-							<p><label for="selMap" data-i18n="strat.map.select" class="fortext" for="selMap"></label> <select id="selMap" name="selMap" class="form-control"></select></p>
-							<p><label for="selMode" data-i18n="strat.map.mode" class="fortext" for="selMode"></label> <select id="selMode" name="selMode" class="form-control"></select></p>
 							<p data-i18n="strat.options.title"></p>
 							<div class="togglebutton"><label><input type="checkbox" id="inverseTeams" name="inverseTeams" /> <span data-i18n="strat.options.inverseteams"></span></label></div>
 							<div class="togglebutton"><label><input type="checkbox" name="chkGrid" id="chkGrid" checked="checked" /> <span data-i18n="strat.options.grid"></span></label></div>

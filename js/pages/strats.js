@@ -1,10 +1,11 @@
 var onLoad = function() {
 	checkConnected();
-	function Comet(pUrl, pClanId) {
+	function Comet(pUrl, pCluster, pClanId) {
 		this.timestamp = 0;
 		this.url = pUrl;
 		this.dodisconnect = false;
 		this.stratid = -1;
+		this.cluster = pCluster;
 		this.clanid = pClanId;
 	};
 	Comet.prototype.initialize = function() {};
@@ -12,7 +13,7 @@ var onLoad = function() {
 		this.stratid = pStratId;
 		var myObj = this;
 		if (!myObj.dodisconnect) {
-			$.get(myObj.url, { 'timestamp': myObj.timestamp, 'clanid': myObj.clanid, 'stratid': myObj.stratid }, function(resultData) {
+			$.get(myObj.url, { 'timestamp': myObj.timestamp, 'cluster': myObj.cluster, 'clanid': myObj.clanid, 'stratid': myObj.stratid }, function(resultData) {
 				// handle the server response
 				myObj.timestamp = resultData.timestamp;
 				myObj.handleResponse(resultData);
@@ -40,16 +41,17 @@ var onLoad = function() {
 		}
 	};
 	Comet.prototype.doRequest = function(pCoords) {
-		$.get(this.url, { 'coords': pCoords, 'clanid': this.clanid, 'stratid': this.stratid }, function(data) {}, 'json');
+		$.get(this.url, { 'coords': pCoords, 'cluster': this.cluster, 'clanid': this.clanid, 'stratid': this.stratid }, function(data) {}, 'json');
 	};
 
-	var comet = new Comet('./server/stratping.php', gPersonalInfos.clan_id);
+	var comet = new Comet('./server/stratping.php', gConfig.CLUSTER, gPersonalInfos.clan_id);
 
 	progressNbSteps = 4;
 	advanceProgress(i18n.t('loading.claninfos'));
 	setNavBrandWithClan();
 	// Global variables to store configuration
-	var gGames = null,
+	var myGameToken = 'wot',
+		gGames = null,
 		gModes = null,
 		gMaps = null,
 		gElements = null,
@@ -83,17 +85,11 @@ var onLoad = function() {
 		gRECT_MIN_WIDTH = 10,
 		gRECT_MIN_HEIGHT = 10;
 
-	function getParameterByName(name) {
-		name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-		var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-			results = regex.exec(location.search);
-		return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-	}
-
 	/**
 	 * Main function
 	 */
-	var myCanvasContainer = $("#mapContainer"),
+	var myMapsContainer = $('#listMaps'),
+		myCanvasContainer = $("#mapContainer"),
 		myContextMenus = $(".contextMenu"),
 		myContextMenuElement = $("#contextMenuElement"),
 		myContextMenuText = $("#contextMenuText"),
@@ -131,6 +127,81 @@ var onLoad = function() {
 			gIsDrawingLine = false;
 		}
 	});
+
+	/**
+	 * Init SVG with a map and a mode.
+	 */
+	function initMap(pMapToken, pMode) {
+		var myMapObj = gMaps[pMapToken];
+		gCurrentConf.map = pMapToken;
+		gCurrentConf.mode = pMode;
+		// Set the map image and resize it to its real size (1px = 1m)
+		myCanvasContainer.css("background-image", "url('./res/" + myGameToken + "/maps/" + myMapObj.file + "')")
+			.css("background-position", gDECAL_GRID + "px " + gDECAL_GRID + "px")
+			.css("background-size", myMapObj.size.x + "px " + myMapObj.size.y + "px")
+			.css("background-repeat", "no-repeat")
+			.width(myMapObj.size.x + gDECAL_GRID + "px")
+			.height(myMapObj.size.y + gDECAL_GRID + "px");
+		// Remove groups and trigger events
+		$("#gridOverlay").remove();
+		$("#chkGrid").change();
+		$("#scaleOverlay").remove();
+		$("#chkScale").change();
+		$("#windRoseOverlay, #elementsOverlay, #linesOverlay, #shapesOverlay, #textsOverlay").remove();
+		$("#chkDirections").change();
+		$("#mapDesc .mapName").text(i18n.t('strat.maps.' + pMapToken));
+		$("#mapDesc .mapMetrics").text(myMapObj.size.x + "m x " + myMapObj.size.y + "m");
+		$("#mapDesc .mapSquareLength").text("(1px = 1m)");
+		var myCanvas = myCanvasContainer.svg().svg("get");
+		// Update size of svg element
+		myCanvasContainer.children("svg").attr("width", myMapObj.size.x + gDECAL_GRID);
+		myCanvasContainer.children("svg").attr("height", myMapObj.size.y + gDECAL_GRID);
+		myCanvas.group(null, "elementsOverlay", {});
+		myCanvas.group(null, "linesOverlay", {});
+		myCanvas.group(null, "shapesOverlay", {});
+		myCanvas.group(null, "textsOverlay", {});
+		if (!gIsImporting) {
+			gCurrentConf.inverse = false;
+			gCurrentConf.elements = [];
+			gCurrentConf.texts = [];
+			gCurrentConf.shapes = [];
+			gCurrentConf.lines = [];
+		}
+		for (myElementToken in gElements) {
+			gCountElems[myElementToken] = 0;
+		}
+		$("#basesOverlay").remove();
+		if (gIsImporting) {
+			var i = 0;
+			for (i = 0; i<gCurrentConf.elements.length; i++) {
+				addElement(gCurrentConf.elements[i], i);
+			}
+			for (i = 0; i<gCurrentConf.texts.length; i++) {
+				addText(gCurrentConf.texts[i], i);
+			}
+			for (i = 0; i<gCurrentConf.shapes.length; i++) {
+				addShape(gCurrentConf.shapes[i], i);
+			}
+			gIsDrawingLine = true;
+			for (i = 0; i<gCurrentConf.lines.length; i++) {
+				addLine(gCurrentConf.lines[i], i);
+			}
+			$("#linesOverlay .drawing").removeClass("drawing");
+			gIsDrawingLine = false;
+		}
+		if (gIsReadOnly) {
+			$('#menuMap, #menuEditElements, #menuEditLines, #menuEditShapes, #menuEditTexts, #menuSave').hide();
+		} else {
+			$('#menuMap, #menuEditElements, #menuEditLines, #menuEditShapes, #menuEditTexts, #menuSave').show();
+		}
+		if (gStratId != -1) {
+			$('#menuPingMap').show();
+			comet.connect(gStratId);
+		} else {
+			$('#menuPingMap').hide();
+		}
+		$("#chkBases").change();
+	}
 
 	/**
 	 * Initialization of the SVG Canvas
@@ -1223,19 +1294,7 @@ var onLoad = function() {
 	globalLoad();
 
 	function globalLoad() {
-		var myGameToken = 'wot';
 		gCurrentConf.game = myGameToken;
-		if (gIsReadOnly) {
-			$('#menuMap, #menuEditElements, #menuEditLines, #menuEditShapes, #menuEditTexts, #menuSave').hide();
-		} else {
-			$('#menuMap, #menuEditElements, #menuEditLines, #menuEditShapes, #menuEditTexts, #menuSave').show();
-		}
-		if (gStratId != -1) {
-			$('#menuPingMap').show();
-			comet.connect(gStratId);
-		} else {
-			$('#menuPingMap').hide();
-		}
 
 		$.getJSON("./res/" + myGameToken + "/game.json", {}, function(data) {
 			gMaps = data.maps;
@@ -1247,20 +1306,54 @@ var onLoad = function() {
 				myElements0 = '',
 				myElements1 = '',
 				myElements2 = '',
-				myElementsHtml = '';
+				myElementsHtml = '',
+				myMapOptions = {},
+				myMapsHtml = '',
+				nbMapsOnRow = 0;
 			// Populate the maps
-			for (myMapToken in gMaps) {
-				myMapObj = gMaps[myMapToken];
-				myMaps += "<option value=\"" + myMapToken + "\">" + i18n.t('strat.maps.' + myMapToken) + "</option>";
+			var mapsKeysSorted = Object.keys(gMaps).sort(function(a, b) {
+				return i18n.t('strat.maps.' + a).localeCompare(i18n.t('strat.maps.' + b));
+			});
+			for (var mapIndex in mapsKeysSorted) {
+				var mapName = mapsKeysSorted[mapIndex],
+					myMapThumb = '';
+				myMapOptions = gMaps[mapName];
+				myMapThumb = myMapOptions.file.substring(0, myMapOptions.file.lastIndexOf('.')) + '_thumb' + myMapOptions.file.substring(myMapOptions.file.lastIndexOf('.'));
+				// Handle row breaks
+				if (nbMapsOnRow > 0) {
+					if (nbMapsOnRow % 2 == 0) {
+						myMapsHtml += '<div class="clearfix visible-xs-block"></div>';
+					}
+					if (nbMapsOnRow % 3 == 0) {
+						myMapsHtml += '<div class="clearfix visible-md-block"></div>';
+					}
+					if (nbMapsOnRow % 4 == 0) {
+						myMapsHtml += '<div class="clearfix visible-lg-block"></div>';
+					}
+				}
+				myMapsHtml += '<div class="col-xs-6 col-md-4 col-lg-3"><div class="thumbnail">';
+				myMapsHtml += '<img src="./res/wot/maps/' + myMapThumb + '" alt="' + i18n.t('strat.maps.' + mapName) + '" />';
+				myMapsHtml += '<div class="caption"><h3>' + i18n.t('strat.maps.' + mapName) + '</h3>';
+				myMapsHtml += '<p>' + i18n.t('install.strategies.maps.size') + ': ' + i18n.t('install.strategies.maps.metrics', { sizex: myMapOptions.size.x, sizey: myMapOptions.size.y }) + '</p>';
+				myMapsHtml += '<p>';
+				for (var modeName in myMapOptions.modes) {
+					myMapsHtml += '<a href="#" class="btn btn-primary createstrat" role="button" data-map-name="' + mapName + '" data-mode="' + modeName + '">' + i18n.t('strat.modes.' + modeName) + '</a>';
+				}
+				myMapsHtml += '</p>';
+				myMapsHtml += '</div></div></div>';
+				nbMapsOnRow++;
 			}
-			$("#selMap").html(myMaps);
-			$("#selMap").html($("option", $("#selMap")).sort(function(a, b) {
-				return $(a).text().localeCompare($(b).text());
-			}));
-			for (myMapToken in gMaps) {
-				$("#selMap").val(myMapToken);
-				break;
-			}
+			myMapsHtml += '</div>';
+			myMapsContainer.html(myMapsHtml);
+			myMapsContainer.find('.createstrat').on('click', function(evt) {
+				evt.preventDefault();
+				var myButton = $(this),
+					mapName = myButton.data('map-name'),
+					modeName = myButton.data('mode');
+				initMap(mapName, modeName);
+				$('#stratRecap').closest('.container-fluid').hide();
+				$('#stratEditor').fadeIn('fast');
+			});
 			// Populate the elements
 			if ($("#menuEditElements div").text().trim() == '') {
 				for (myElementToken in gElements) {
@@ -1293,97 +1386,8 @@ var onLoad = function() {
 					$(this).toggleClass("selected");
 				});
 			}
-			if (gIsImporting) {
-				$("#selMap").val(gCurrentConf.map);
-			}
-			$("#selMap").change();
 		}).fail(function() {
 			console.log("Error while getting ./res/" + myGameToken + "/game.json");
-		});
-		$("#selMap").change(function(e) {
-			e.stopImmediatePropagation();
-			e.preventDefault();
-			var myGameToken = 'wot',
-				myMapToken = $(this).val(),
-				myMapObj = gMaps[myMapToken],
-				myMapModes = "";
-			gCurrentConf.map = myMapToken;
-
-			// Set the map image and resize it to its real size (1px = 1m)
-			myCanvasContainer.css("background-image", "url('./res/" + myGameToken + "/maps/" + myMapObj.file + "')")
-				.css("background-position", gDECAL_GRID + "px " + gDECAL_GRID + "px")
-				.css("background-size", myMapObj.size.x + "px " + myMapObj.size.y + "px")
-				.css("background-repeat", "no-repeat")
-				.width(myMapObj.size.x + gDECAL_GRID + "px")
-				.height(myMapObj.size.y + gDECAL_GRID + "px");
-			for (var myMode in myMapObj.modes) {
-				myMapModes += "<option value=\"" + myMode + "\">" + i18n.t('strat.modes.' + myMode) + "</option>";
-			}
-			$("#selMode").html(myMapModes);
-			$("#selMode").html($("option", $("#selMode")).sort(function(a, b) {
-				return $(a).text().localeCompare($(b).text());
-			}));
-			for (myMode in myMapObj.modes) {
-				$("#selMode").val(myMode);
-				break;
-			}
-			if (gIsImporting) {
-				$("#selMode").val(gCurrentConf.mode);
-			}
-			// Remove groups and trigger events
-			$("#gridOverlay").remove();
-			$("#chkGrid").change();
-			$("#scaleOverlay").remove();
-			$("#chkScale").change();
-			$("#windRoseOverlay, #elementsOverlay, #linesOverlay, #shapesOverlay, #textsOverlay").remove();
-			$("#chkDirections").change();
-			$("#mapDesc .mapName").text(i18n.t('strat.maps.' + myMapToken));
-			$("#mapDesc .mapMetrics").text(myMapObj.size.x + "m x " + myMapObj.size.y + "m");
-			$("#mapDesc .mapSquareLength").text("(1px = 1m)");
-			var myCanvas = myCanvasContainer.svg().svg("get");
-			// Update size of svg element
-			myCanvasContainer.children("svg").attr("width", myMapObj.size.x + gDECAL_GRID);
-			myCanvasContainer.children("svg").attr("height", myMapObj.size.y + gDECAL_GRID);
-			myCanvas.group(null, "elementsOverlay", {});
-			myCanvas.group(null, "linesOverlay", {});
-			myCanvas.group(null, "shapesOverlay", {});
-			myCanvas.group(null, "textsOverlay", {});
-			if (!gIsImporting) {
-				gCurrentConf.inverse = false;
-				gCurrentConf.elements = [];
-				gCurrentConf.texts = [];
-				gCurrentConf.shapes = [];
-				gCurrentConf.lines = [];
-			}
-			for (myElementToken in gElements) {
-				gCountElems[myElementToken] = 0;
-			}
-			$("#selMode").change();
-		});
-		$("#selMode").change(function(e) {
-			e.stopImmediatePropagation();
-			e.preventDefault();
-			gCurrentConf.mode = $(this).val();
-			$("#basesOverlay").remove();
-			if (gIsImporting) {
-				var i = 0;
-				for (i = 0; i<gCurrentConf.elements.length; i++) {
-					addElement(gCurrentConf.elements[i], i);
-				}
-				for (i = 0; i<gCurrentConf.texts.length; i++) {
-					addText(gCurrentConf.texts[i], i);
-				}
-				for (i = 0; i<gCurrentConf.shapes.length; i++) {
-					addShape(gCurrentConf.shapes[i], i);
-				}
-				gIsDrawingLine = true;
-				for (i = 0; i<gCurrentConf.lines.length; i++) {
-					addLine(gCurrentConf.lines[i], i);
-				}
-				$("#linesOverlay .drawing").removeClass("drawing");
-				gIsDrawingLine = false;
-			}
-			$("#chkBases").change();
 		});
 		$("#chkGrid").change(function(e) {
 			var i = 0;
@@ -1539,7 +1543,8 @@ var onLoad = function() {
 		comet.disconnect();
 		$('#menu .selected').removeClass('selected');
 		$('#stratEditor').hide();
-		$('#stratRecap').fadeIn('fast');
+		myMapsContainer.hide();
+		$('#stratRecap').show().closest('.container-fluid').fadeIn('fast');
 	});
 	$('#btnNewStrat').on('click', function(evt) {
 		gStratId = -1;
@@ -1547,15 +1552,25 @@ var onLoad = function() {
 		$('#menuMap, #menuEditElements, #menuEditLines, #menuEditShapes, #menuEditTexts, #menuSave').show();
 		$('#menuPingMap').hide();
 		$('#stratRecap').hide();
-		$('#stratEditor').fadeIn('fast');
+		$('#stratEditor').hide();
+		myMapsContainer.fadeIn('fast');
 	});
 
 	// Handle editor show on load.
-	var uri = new URI(document.location.href);
-	if (uri.fragment() == 'new') {
-		$('#menuMap, #menuEditElements, #menuEditLines, #menuEditShapes, #menuEditTexts, #menuSave').show();
-		$('#stratRecap').hide();
-		$('#stratEditor').fadeIn('fast');
+	var uri = new URI(document.location.href),
+		uriSearchParameters = uri.search(true);
+	switch (uriSearchParameters['action']) {
+		case 'new':
+			// New strategy
+			$('#btnNewStrat').click();
+			break;
+		case 'show':
+			// Show a strategy
+			var stratId = uriSearchParameters['id'] * 1;
+			break;
+		case 'list':
+			// Default case. Show stored strategies
+			break;
 	}
 
 	$.post(gConfig.WG_API_URL + 'wgn/clans/info/', {
@@ -1604,7 +1619,7 @@ var onLoad = function() {
 						myStratsTableHtml += '<td class="stratmap">' + i18n.t('strat.maps.' + myStrat.map) + '</td>';
 						myStratsTableHtml += '<td class="stratname">' + myStrat.name + '</td>';
 						myStratsTableHtml += '<td class="stratdesc"><span style="white-space:pre">' + myStrat.description + '</span></td>';
-						myStratsTableHtml += '<td class="stratstate">' + i18n.t('strat.state.' + myStrat.state) + '</td>';
+						myStratsTableHtml += '<td class="stratstatelib">' + i18n.t('strat.state.' + myStrat.state) + '</td>';
 						myStratsTableHtml += '<td class="stratdateadd">' + moment(myStrat.dateadd * 1000).format('LLL') + '</td>';
 						if (typeof(myStrat.datemod) == 'undefined') {
 							myStratsTableHtml += '<td class="stratdatemod">&nbsp;</td>';
@@ -1613,7 +1628,7 @@ var onLoad = function() {
 						}
 						myStratsTableHtml += '<td class="stratcreator">' + dataPlayers[myStrat.creator].nickname + '</td>';
 						myStratsTableHtml += '<td class="stratstate"><div data-toggle="tooltip" data-placement="top" class="slider shor slider-info" title="' + i18n.t('strat.state.' + myStrat.state) + '"></div></td>';
-						myStratsTableHtml += '<td><a href="#" class="btnShowStrat"><span class="glyphicon glyphicon-eye-open"></span></a>';
+						myStratsTableHtml += '<td><a href="#" class="btnShowStrat" data-map-name="' + myStrat.map + '" data-mode="' + myStrat.mode + '"><span class="glyphicon glyphicon-eye-open"></span></a>';
 						// Only the creator can modify or delete a strategy
 						if (gConfig.PLAYER_ID == myStrat.creator) {
 							// Can delete only private strategies
@@ -1622,8 +1637,8 @@ var onLoad = function() {
 								hideDelete = false;
 							}
 						}
-						myStratsTableHtml += ' <a href="#" class="btnEditStrat"' + (hideModify?' style="display:none"':'') + '><span class="glyphicon glyphicon-edit"></span></a>';
-						myStratsTableHtml += ' <a href="#" class="btnDeleteStrat"' + (hideDelete?' style="display:none"':'') + '><span class="glyphicon glyphicon-remove"></span></a>';
+						myStratsTableHtml += ' <a href="#" class="btnEditStrat" data-map-name="' + myStrat.map + '"' + (hideModify?' style="display:none"':'') + '><span class="glyphicon glyphicon-edit"></span></a>';
+						myStratsTableHtml += ' <a href="#" class="btnDeleteStrat" data-map-name="' + myStrat.map + '"' + (hideDelete?' style="display:none"':'') + '><span class="glyphicon glyphicon-remove"></span></a>';
 						myStratsTableHtml += '</td>';
 						myStratsTableHtml += '</tr>';
 					}
@@ -1642,8 +1657,8 @@ var onLoad = function() {
 						gCurrentConf = dateGetStratResponse.data;
 						$("#lblStratName").val(gCurrentConf.name);
 						$("#lblStratDesc").val(gCurrentConf.desc);
-						globalLoad();
-						$('#stratRecap').hide();
+						initMap(gCurrentConf.map, gCurrentConf.mode);
+						$('#stratRecap').closest('.container-fluid').hide();
 						$('#stratEditor').fadeIn('fast');
 					}, 'json');
 				}).on('click', 'a.btnEditStrat', function(evt) {
@@ -1658,8 +1673,8 @@ var onLoad = function() {
 						gCurrentConf = dateGetStratResponse.data;
 						$("#lblStratName").val(gCurrentConf.name);
 						$("#lblStratDesc").val(gCurrentConf.desc);
-						globalLoad();
-						$('#stratRecap').hide();
+						initMap(gCurrentConf.map, gCurrentConf.mode);
+						$('#stratRecap').closest('.container-fluid').hide();
 						$('#stratEditor').fadeIn('fast');
 					}, 'json');
 				}).on('click', 'a.btnDeleteStrat', function(evt) {
@@ -1743,6 +1758,7 @@ var onLoad = function() {
 										myLine.find('.btnDeleteStrat').hide();
 										break;
 								}
+								myElem.closest('tr').find('.stratstatelib').text(i18n.t('strat.state.' + myStrat.state));
 							}, 'json');
 						}
 					});
@@ -1773,7 +1789,7 @@ var onLoad = function() {
 								myRow += '<td class="stratmap">' + i18n.t('strat.maps.' + dataSaveStratResponse.data.map) + '</td>';
 								myRow += '<td class="stratname">' + dataSaveStratResponse.data.name + '</td>';
 								myRow += '<td class="stratdesc"><span style="white-space:pre">' + dataSaveStratResponse.data.description + '</span></td>';
-								myRow += '<td class="stratstate">' + i18n.t('strat.state.' + dataSaveStratResponse.data.state) + '</td>';
+								myRow += '<td class="stratstatelib">' + i18n.t('strat.state.' + dataSaveStratResponse.data.state) + '</td>';
 								myRow += '<td class="stratdateadd">' + moment(dataSaveStratResponse.data.dateadd * 1000).format('LLL') + '</td>';
 								myRow += '<td class="stratdatemod">&nbsp;</td>';
 								myRow += '<td class="stratcreator">' + dataPlayers[dataSaveStratResponse.data.creator].nickname + '</td>';
@@ -1783,7 +1799,8 @@ var onLoad = function() {
 								$('#tableMyStrats>tbody').append(myRow);
 							}
 							$('#stratEditor').hide();
-							$('#stratRecap').fadeIn('fast');
+							myMapsContainer.hide();
+							$('#stratRecap').show().closest('.container-fluid').hide();
 						}
 					}, 'json');
 				});

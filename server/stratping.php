@@ -1,10 +1,12 @@
 <?php
+$cluster = isset($_REQUEST['cluster']) ? $_REQUEST['cluster'] : 'EU';
 $clanid = isset($_REQUEST['clanid']) ? $_REQUEST['clanid'] : 'default';
 $stratid = isset($_REQUEST['stratid']) ? $_REQUEST['stratid'] : 'default';
 $coords = isset($_REQUEST['coords']) ? $_REQUEST['coords'] : '';
 $filename = dirname(__FILE__)
 	. DIRECTORY_SEPARATOR . '..'
 	. DIRECTORY_SEPARATOR . 'data'
+	. DIRECTORY_SEPARATOR . $cluster
 	. DIRECTORY_SEPARATOR . 'clan'
 	. DIRECTORY_SEPARATOR . $clanid
 	. DIRECTORY_SEPARATOR . 'strats'
