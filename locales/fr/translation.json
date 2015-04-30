@@ -527,7 +527,8 @@
 			"standard": "Bataille standard",
 			"encounter": "Rencontre",
 			"assault": "Assaut",
-			"confrontation": "Bataille en équipe"
+			"confrontation": "Bataille en équipe",
+			"domination": "Domination"
 		},
 		"elements": {
 			"HT": "Char lourd",

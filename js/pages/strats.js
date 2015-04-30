@@ -1386,6 +1386,35 @@ var onLoad = function() {
 					$(this).toggleClass("selected");
 				});
 			}
+			// Handle editor show on load.
+			var uri = new URI(document.location.href),
+				uriSearchParameters = uri.search(true);
+			switch (uriSearchParameters['action']) {
+				case 'new':
+					// New strategy
+					$('#btnNewStrat').click();
+					break;
+				case 'show':
+					// Show a strategy
+					gStratId = uriSearchParameters['id'];
+					$.post('./server/strat.php', {
+						'action': 'get',
+						'id': gStratId
+					}, function(dateGetStratResponse) {
+						gIsImporting = true;
+						gIsReadOnly = true;
+						gCurrentConf = dateGetStratResponse.data;
+						$("#lblStratName").val(gCurrentConf.name);
+						$("#lblStratDesc").val(gCurrentConf.desc);
+						initMap(gCurrentConf.map, gCurrentConf.mode);
+						$('#stratRecap').closest('.container-fluid').hide();
+						$('#stratEditor').fadeIn('fast');
+					}, 'json');
+					break;
+				case 'list':
+					// Default case. Show stored strategies
+					break;
+			}
 		}).fail(function() {
 			console.log("Error while getting ./res/" + myGameToken + "/game.json");
 		});
@@ -1555,23 +1584,6 @@ var onLoad = function() {
 		$('#stratEditor').hide();
 		myMapsContainer.fadeIn('fast');
 	});
-
-	// Handle editor show on load.
-	var uri = new URI(document.location.href),
-		uriSearchParameters = uri.search(true);
-	switch (uriSearchParameters['action']) {
-		case 'new':
-			// New strategy
-			$('#btnNewStrat').click();
-			break;
-		case 'show':
-			// Show a strategy
-			var stratId = uriSearchParameters['id'] * 1;
-			break;
-		case 'list':
-			// Default case. Show stored strategies
-			break;
-	}
 
 	$.post(gConfig.WG_API_URL + 'wgn/clans/info/', {
 		application_id: gConfig.WG_APP_ID,
