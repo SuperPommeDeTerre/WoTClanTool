@@ -35,7 +35,50 @@ include(WCT_INC_DIR . 'ads.php');
 					</table>
 				</div>
 			</div>
-			<div id="listMaps" class="container-fluid"></div>
+			<div id="listMaps" class="container-fluid">
+				<div class="row" id="mapsListFilter">
+					<form class="form-inline">
+						<div class="input-group">
+							<span class="input-group-addon glyphicon glyphicon-fullscreen"></span>
+							<select class="form-control" id="mapFilterSize">
+								<option value="all">Tous</option>
+								<option value="1000">1000m x 1000m</option>
+								<option value="950">950m x 950m</option>
+								<option value="800">800m x 800m</option>
+								<option value="700">700m x 700m</option>
+								<option value="600">600m x 600m</option>
+							</select>
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon glyphicon glyphicon-cloud"></span>
+							<select class="form-control" id="mapFilterCamo">
+								<option value="all" data-i18n="strat.camos.all"></option>
+								<option value="summer" data-i18n="strat.camos.summer"></option>
+								<option value="winter" data-i18n="strat.camos.winter"></option>
+								<option value="desert" data-i18n="strat.camos.desert"></option>
+							</select>
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon glyphicon glyphicon-tasks"></span>
+							<select class="form-control" id="mapFilterLevel">
+								<option value="all">Tous</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+								<option value="10">10</option>
+							</select>
+						</div>
+					</form>
+				</div>
+				<div class="row" id="mapsListContainer">
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

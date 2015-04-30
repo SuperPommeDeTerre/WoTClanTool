@@ -1346,8 +1346,7 @@ var onLoad = function() {
 					nbMapsOnRow++;
 				}
 			}
-			myMapsHtml += '</div>';
-			myMapsContainer.html(myMapsHtml);
+			myMapsContainer.find('#mapsListContainer').html(myMapsHtml);
 			myMapsContainer.find('.createstrat').on('click', function(evt) {
 				evt.preventDefault();
 				var myButton = $(this),
