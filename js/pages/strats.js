@@ -1652,7 +1652,7 @@ var onLoad = function() {
 							}
 						}
 						myStratsTableHtml += ' <a href="#" class="btnEditStrat" data-map-name="' + myStrat.map + '"' + (hideModify?' style="display:none"':'') + '><span class="glyphicon glyphicon-edit"></span></a>';
-						myStratsTableHtml += ' <a href="#" class="btnDeleteStrat" data-map-name="' + myStrat.map + '"' + (hideDelete?' style="display:none"':'') + '><span class="glyphicon glyphicon-remove"></span></a>';
+						myStratsTableHtml += ' <a href="#" class="btnDeleteStrat" data-map-name="' + myStrat.map + '"' + (hideDelete?' style="display:none"':'') + '><span class="glyphicon glyphicon-trash"></span></a>';
 						myStratsTableHtml += '</td>';
 						myStratsTableHtml += '</tr>';
 					}
@@ -1814,7 +1814,7 @@ var onLoad = function() {
 							}
 							$('#stratEditor').hide();
 							myMapsContainer.hide();
-							$('#stratRecap').show().closest('.container-fluid').hide();
+							$('#stratRecap').show().closest('.container-fluid').fadeIn();
 						}
 					}, 'json');
 				});
