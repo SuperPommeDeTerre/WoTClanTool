@@ -80,7 +80,7 @@ var onLoad = function() {
 				tableContent += '<tr' + additionalClass + '>';
 				tableContent += '<td data-id="' + memberId + '"><a class="playerDetailsLink" href="./player.php?id=' + memberId + '" data-id="' + memberId + '" data-target="#my-dialog" data-toggle="modal">';
 				tableContent += playerInfos.nickname + '</a></td>';
-				tableContent += '<td data-value="' + gROLE_POSITION[clanMemberInfo.role] + '">' + i18n.t('player.role.' + clanMemberInfo.role) + '</td>';
+				tableContent += '<td data-value="' + gROLE_POSITION[clanMemberInfo.role] + '" class="role role_' + clanMemberInfo.role + '">' + i18n.t('player.role.' + clanMemberInfo.role) + '</td>';
 				tableContent += '<td data-value="' + clanMemberInfo.joined_at + '"><abbr title="' + moment(new Date(clanMemberInfo.joined_at * 1000)).format('LLLL') + '">' + Math.floor((actualDate - clanMemberInfo.joined_at) / 86400) + '</abbr></td>';
 				tableContent += '<td>' + playerInfos.statistics.all.battles + '</td>';
 				tableContent += '<td>' + playerInfos.global_rating + '</td>';

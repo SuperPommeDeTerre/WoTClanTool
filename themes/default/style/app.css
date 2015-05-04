@@ -51,6 +51,19 @@
 .cluster.NA{background:url('./images/im_cluster_flag_us.jpg') no-repeat left top;background-size:100% auto}
 .cluster.KR{background:url('./images/im_cluster_flag_kr.jpg') no-repeat left top;background-size:100% auto}
 .cluster.ASIA{background:url('./images/im_cluster_flag_sg.jpg') no-repeat left top;background-size:100% auto}
+/* Personnel */
+.role{padding-left:30px !important}
+.role_commander{background:url('./images/role_commander.png') no-repeat left center}
+.role_executive_officer{background:url('./images/role_executive_officer.png') no-repeat left center}
+.role_personnel_officer{background:url('./images/role_personnel_officer.png') no-repeat left center}
+.role_combat_officer{background:url('./images/role_combat_officer.png') no-repeat left center}
+.role_intelligence_officer{background:url('./images/role_intelligence_officer.png') no-repeat left center}
+.role_quartermaster{background:url('./images/role_quartermaster.png') no-repeat left center}
+.role_recruitment_officer{background:url('./images/role_recruitment_officer.png') no-repeat left center}
+.role_junior_officer{background:url('./images/role_junior_officer.png') no-repeat left center}
+.role_private{background:url('./images/role_private.png') no-repeat left center}
+.role_recruit{background:url('./images/role_recruit.png') no-repeat left center}
+.role_reservist{background:url('./images/role_reservist.png') no-repeat left center}
 /* Tanks */
 .tank:not(.ingarage) td {background-color:#CCC}
 .tableTanks thead .tankcontour{width:50px}
