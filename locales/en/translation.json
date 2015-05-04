@@ -289,6 +289,7 @@
 		}
 	},
 	"tank": {
+		"alllevels": "All tiers",
 		"level": [
 			"I",
 			"II",
@@ -505,6 +506,7 @@
 			}
 		},
 		"map": {
+			"allsizes": "All sizes",
 			"select": "Map",
 			"selecttitle": "Select a map",
 			"mode": "Mode"
@@ -524,13 +526,14 @@
 		},
 		"camos": {
 			"title": "Type",
-			"all": "All",
+			"all": "All map types",
 			"summer": "Summer",
 			"winter": "Winter",
 			"desert": "Desert"
 		},
 		"modes": {
 			"title": "Game modes",
+			"all": "All game modes",
 			"standard": "Standard battle",
 			"encounter": "Encounter",
 			"assault": "Assault",

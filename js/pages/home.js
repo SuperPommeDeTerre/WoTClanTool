@@ -282,7 +282,13 @@ var onLoad = function() {
 											myTodayEventsHtml += '<ul class="list-unstyled participants">';
 											for (var myParticipantId in myEvent.participants) {
 												myParticipantAttendance = myEvent.participants[myParticipantId];
-												myTodayEventsHtml += '<li data-id="' + myParticipantId + '" class="attendance-' + myParticipantAttendance + '">' + dataPlayers[myParticipantId].nickname + '</li>';
+												for (var j=0; j<clanMembers.length; j++) {
+													clanMemberInfo = clanMembers[j];
+													if (clanMemberInfo.account_id == myParticipantId) {
+														myTodayEventsHtml += '<li data-id="' + myParticipantId + '" class="attendance-' + myParticipantAttendance + '"><span class="role role_' + clanMemberInfo.role + '">' + dataPlayers[myParticipantId].nickname + '</span></li>';
+														break;
+													}
+												}
 											}
 											myTodayEventsHtml += '</ul>';
 										}
@@ -312,7 +318,13 @@ var onLoad = function() {
 									if (typeof(dataPlayers[myParticipantId]) === 'undefined') {
 										myParticipants.push(myParticipantId);
 									} else {
-										$('[data-player-id="' + myParticipantId + '"]').text(dataPlayers[myParticipantId].nickname);
+										for (var j=0; j<clanMembers.length; j++) {
+											clanMemberInfo = clanMembers[j];
+											if (clanMemberInfo.account_id == myParticipantId) {
+												$('[data-player-id="' + myParticipantId + '"]').html('<span class="role role_' + clanMemberInfo.role + '">' + dataPlayers[myParticipantId].nickname + '</span>');
+												break;
+											}
+										}
 									}
 								});
 								if (myParticipants.length > 0) {

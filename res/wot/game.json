@@ -188,10 +188,10 @@
             "modes": {
                 "standard": {
                     "team1": [
-                        { "type": "base", "x": 550, "y": 150 }
+                        { "type": "base", "x": 550, "y": 100 }
                     ],
                     "team2": [
-                        { "type": "base", "x": 600, "y": 900 }
+                        { "type": "base", "x": 550, "y": 900 }
                     ]
                 }
             }

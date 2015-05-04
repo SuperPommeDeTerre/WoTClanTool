@@ -53,6 +53,7 @@
 .cluster.ASIA{background:url('./images/im_cluster_flag_sg.jpg') no-repeat left top;background-size:100% auto}
 /* Personnel */
 .role{padding-left:30px !important}
+span.role{display:inline-block;height:28px;line-height:28px}
 .role_commander{background:url('./images/role_commander.png') no-repeat left center}
 .role_executive_officer{background:url('./images/role_executive_officer.png') no-repeat left center}
 .role_personnel_officer{background:url('./images/role_personnel_officer.png') no-repeat left center}

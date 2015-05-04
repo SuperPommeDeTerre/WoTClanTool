@@ -39,9 +39,19 @@ include(WCT_INC_DIR . 'ads.php');
 				<div class="row" id="mapsListFilter">
 					<form class="form-inline">
 						<div class="input-group">
+							<span class="input-group-addon glyphicon glyphicon-flag"></span>
+							<select class="form-control" id="mapFilterSize">
+								<option value="all" data-i18n="strat.modes.all"></option>
+								<option value="standard" data-i18n="strat.modes.standard"></option>
+								<option value="encounter" data-i18n="strat.modes.encounter"></option>
+								<option value="assault" data-i18n="strat.modes.assault"></option>
+								<option value="confrontation" data-i18n="strat.modes.confrontation"></option>
+							</select>
+						</div>
+						<div class="input-group">
 							<span class="input-group-addon glyphicon glyphicon-fullscreen"></span>
 							<select class="form-control" id="mapFilterSize">
-								<option value="all">Tous</option>
+								<option value="all" data-i18n="strat.map.allsizes"></option>
 								<option value="1000">1000m x 1000m</option>
 								<option value="950">950m x 950m</option>
 								<option value="800">800m x 800m</option>
@@ -61,17 +71,17 @@ include(WCT_INC_DIR . 'ads.php');
 						<div class="input-group">
 							<span class="input-group-addon glyphicon glyphicon-tasks"></span>
 							<select class="form-control" id="mapFilterLevel">
-								<option value="all">Tous</option>
-								<option value="1">1</option>
-								<option value="2">2</option>
-								<option value="3">3</option>
-								<option value="4">4</option>
-								<option value="5">5</option>
-								<option value="6">6</option>
-								<option value="7">7</option>
-								<option value="8">8</option>
-								<option value="9">9</option>
-								<option value="10">10</option>
+								<option value="all" data-i18n="tank.alllevels"></option>
+								<option value="1" data-i18n="tank.level.0"></option>
+								<option value="2" data-i18n="tank.level.1"></option>
+								<option value="3" data-i18n="tank.level.2"></option>
+								<option value="4" data-i18n="tank.level.3"></option>
+								<option value="5" data-i18n="tank.level.4"></option>
+								<option value="6" data-i18n="tank.level.5"></option>
+								<option value="7" data-i18n="tank.level.6"></option>
+								<option value="8" data-i18n="tank.level.7"></option>
+								<option value="9" data-i18n="tank.level.8"></option>
+								<option value="10" data-i18n="tank.level.9"></option>
 							</select>
 						</div>
 					</form>
