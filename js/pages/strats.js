@@ -1630,7 +1630,9 @@ var onLoad = function() {
 					// Only show user or public strategies
 					if (gConfig.PLAYER_ID == myStrat.creator || myStrat.state == 'public' || myStrat.state == 'review') {
 						myStratsTableHtml += '<tr data-stratid="' + myStrat.id + '">';
-						myStratsTableHtml += '<td class="stratmap">' + i18n.t('strat.maps.' + myStrat.map) + '</td>';
+						var myMapOptions = gMaps[myStrat.map];
+						myMapThumb = myMapOptions.file.substring(0, myMapOptions.file.lastIndexOf('.')) + '_thumb' + myMapOptions.file.substring(myMapOptions.file.lastIndexOf('.'));
+						myStratsTableHtml += '<td class="stratmap"><img width="100" src="./res/wot/maps/' + myMapThumb + '" alt="' + i18n.t('strat.maps.' + myStrat.map) + '" title="' + i18n.t('strat.maps.' + myStrat.map) + '" /></td>';
 						myStratsTableHtml += '<td class="stratname">' + myStrat.name + '</td>';
 						myStratsTableHtml += '<td class="stratdesc"><span style="white-space:pre">' + myStrat.description + '</span></td>';
 						myStratsTableHtml += '<td class="stratstatelib">' + i18n.t('strat.state.' + myStrat.state) + '</td>';
