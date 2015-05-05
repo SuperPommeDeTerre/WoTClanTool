@@ -54,6 +54,9 @@ switch ($_REQUEST['a']) {
 		if (isset($_REQUEST['eventDescription'])) {
 			$myEvent->setDescription($_REQUEST['eventDescription']);
 		}
+		if (isset($_REQUEST['eventAllowSpare'])) {
+			$myEvent->setSpareAllowed($_REQUEST['eventAllowSpare'] == 'true' ? true : false);
+		}
 		// Dates are passed as UNIX timestamps
 		$myEvent->setDateStart(intval($_REQUEST['eventStartDate']));
 		if (isset($_REQUEST['eventEndDate'])) {

@@ -89,10 +89,13 @@ var onLoad = function() {
 					myEventEndDate = moment(myEvent.end * 1);
 				if (myEventStartDate.isBetween(startOfDay, endOfDay)) {
 					myDayEventsHtml += '<div data-event-id="' + myEvent.id + '" data-participants="' + Object.keys(myEvent.participants).length + '">';
-					myDayEventsHtml += '<h3><span class="label label-default">' + myEventStartDate.format('LT') + '</span> ' + myEvent.title + '</h3>';
+					myDayEventsHtml += '<h4><span class="label label-default">' + myEventStartDate.format('LT') + '</span> ' + myEvent.title + '</h4>';
 					myDayEventsHtml += '<p>' + myEvent.description + '</p>';
 					if (typeof(myEvent.participants[gConfig.PLAYER_ID]) === 'undefined') {
-						myDayEventsHtml += '<a class="btn btn-lg btn-material-lime-300 btnEnrol" href="#enrol-' + myEvent.id + '" role="button">' + i18n.t('event.enrol') + '</a>';
+						myDayEventsHtml += '<a class="btn btn-lg btn-material-lime-300 btnEnrol" href="#enrol-' + myEvent.id + '" role="button" data-attendance="yes">' + i18n.t('event.enrol.yes') + '</a>';
+						if (myEvent.spareallowed) {
+							myDayEventsHtml += '<a class="btn btn-lg btn-material-lime-300 btnEnrol" href="#enrol-' + myEvent.id + '" role="button" data-attendance="spare">' + i18n.t('event.enrol.spare') + '</a>';
+						}
 					} else {
 						myDayEventsHtml += '<p>' + i18n.t('event.participants', { count: Object.keys(myEvent.participants).length }) + '</p>';
 					}
@@ -111,13 +114,13 @@ var onLoad = function() {
 			$.post('./server/calendar.php', {
 				a: 'enrol',
 				eventId: myButton.closest('div').data('event-id'),
-				attendance: 'yes'
+				attendance: myButton.data('attendance')
 			}, function(enrolResponse) {
 				if (enrolResponse.result == 'ok') {
 					var myEventContainer = myButton.closest('div');
 					myEventContainer.data('participants', (myEventContainer.data('participants') * 1) + 1);
 					myEventContainer.append('<p>' + i18n.t('event.participants', { count: myEventContainer.data('participants') }) + '</p>');
-					myButton.remove();
+					myEventContainer.find('.btnEnrol').remove();
 				}
 			}, 'json');
 		});

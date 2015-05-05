@@ -1723,7 +1723,7 @@ var onLoad = function() {
 						}
 						myStratsTableHtml += '<td class="stratcreator">' + dataPlayers[myStrat.creator].nickname + '</td>';
 						myStratsTableHtml += '<td class="stratstate"><div data-toggle="tooltip" data-placement="top" class="slider shor slider-info" title="' + i18n.t('strat.state.' + myStrat.state) + '"></div></td>';
-						myStratsTableHtml += '<td><a href="#" class="btnShowStrat" data-map-name="' + myStrat.map + '" data-mode="' + myStrat.mode + '"><span class="glyphicon glyphicon-eye-open"></span></a>';
+						myStratsTableHtml += '<td><a href="?action=show&amp;id=' + myStrat.id + '" class="btnShowStrat" data-map-name="' + myStrat.map + '" data-mode="' + myStrat.mode + '"><span class="glyphicon glyphicon-eye-open"></span></a>';
 						// Only the creator can modify or delete a strategy
 						if (gConfig.PLAYER_ID == myStrat.creator) {
 							// Can delete only private strategies
@@ -1844,13 +1844,14 @@ var onLoad = function() {
 								myStrat.state = myNewState;
 								switch (myStrat.state) {
 									case 'private':
-										myLine.find('.btnDeleteStrat').show();
+										myLine.find('.btnDeleteStrat,.btnEditStrat').show();
 										break;
 									case 'review':
 										myLine.find('.btnDeleteStrat').hide();
+										myLine.find('.btnEditStrat').show();
 										break;
 									case 'public':
-										myLine.find('.btnDeleteStrat').hide();
+										myLine.find('.btnDeleteStrat,.btnEditStrat').hide();
 										break;
 								}
 								myElem.closest('tr').find('.stratstatelib').text(i18n.t('strat.state.' + myStrat.state));
@@ -1889,7 +1890,7 @@ var onLoad = function() {
 								myRow += '<td class="stratdatemod">&nbsp;</td>';
 								myRow += '<td class="stratcreator">' + dataPlayers[dataSaveStratResponse.data.creator].nickname + '</td>';
 								myRow += '<td class="stratstate"><div data-toggle="tooltip" data-placement="top" class="slider shor slider-info" title="' + i18n.t('strat.state.private') + '"></div></td>';
-								myRow += '<td><a href="#" class="btnShowStrat"><span class="glyphicon glyphicon-eye-open"></span></a> <a href="#" class="btnEditStrat"><span class="glyphicon glyphicon-edit"></span></a> <a href="#" class="btnDeleteStrat"><span class="glyphicon glyphicon-remove"></span></a></td>';
+								myRow += '<td><a href="?action=show&amp;id=' + dataSaveStratResponse.data.id + '" class="btnShowStrat"><span class="glyphicon glyphicon-eye-open"></span></a> <a href="#" class="btnEditStrat"><span class="glyphicon glyphicon-edit"></span></a> <a href="#" class="btnDeleteStrat"><span class="glyphicon glyphicon-remove"></span></a></td>';
 								myRow += '</tr>';
 								$('#tableMyStrats>tbody').append(myRow);
 							}

@@ -103,7 +103,8 @@ var onLoad = function() {
 			eventType: $('[name=eventType]:checked').val(),
 			eventDescription: $('#eventDescription').val(),
 			eventStartDate: moment($('#eventStartDate input').val(), 'LLL').unix(),
-			eventEndDate: moment($('#eventEndDate input').val(), 'LLL').unix()
+			eventEndDate: moment($('#eventEndDate input').val(), 'LLL').unix(),
+			eventAllowSpare: $('#eventSpareAllowed').is(':checked')
 		}, function(addEventResult) {
 			// Handle result
 			if (addEventResult.result == 'ok') {

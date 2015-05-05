@@ -9,6 +9,7 @@ class wctEvent {
 	var $dateStart;
 	var $dateEnd;
 	var $isPrivate;
+	var $isSpareAllowed;
 	var $owner;
 	var $dateCreation;
 	var $dateModification;
@@ -106,6 +107,7 @@ class wctEvent {
 		$this->dateModification = -1;
 		$this->isRecurrent = false;
 		$this->participants = array();
+		$this->isSpareAllowed = false;
 	}
 
 	public static function fromJson($json) {
@@ -118,6 +120,7 @@ class wctEvent {
 		$instance->type = $json['type'];
 		$instance->owner = $json['owner'];
 		$instance->participants = $json['participants'];
+		$instance->isSpareAllowed = isset($json['spareallowed'])?$json['spareallowed']:false;
 		return $instance;
 	}
 
@@ -131,6 +134,7 @@ class wctEvent {
 		$result['owner'] = $this->owner;
 		$result['participants'] = $this->participants;
 		$result['type'] = $this->type;
+		$result['spareallowed'] = $this->isSpareAllowed;
 		if (!$pForStorage) {
 			$result['class'] = 'event-type-' . $this->type;
 			$result['url'] = './server/calendar.php?a=get&id=' . $this->id;
@@ -246,6 +250,14 @@ class wctEvent {
 
 	public function setReccurent($isRecurrent) {
 		$this->isRecurrent = $isRecurrent;
+	}
+
+	public function isSpareAllowed() {
+		return $this->isSpareAllowed;
+	}
+
+	public function setSpareAllowed($isSpareAllowed) {
+		$this->isSpareAllowed = $isSpareAllowed;
 	}
 }
 ?>

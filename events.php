@@ -78,6 +78,11 @@ include(WCT_INC_DIR . 'ads.php');
 							<input type="text" class="form-control" data-i18n="[placeholder]action.calendar.prop.enddate;" />
 							<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 						</div>
+						<div class="togglebutton">
+							<label><span data-i18n="action.calendar.prop.allowspare"></span>
+								<input type="checkbox" id="eventSpareAllowed" value="true" />
+							</label>
+						</div>
 			<!--
 						<div class="togglebutton">
 							<label><span data-i18n="action.calendar.prop.periodic"></span>
@@ -99,37 +104,37 @@ include(WCT_INC_DIR . 'ads.php');
 						<div class="input-group">
 							<div class="eventType">
 								<h5 data-i18n="action.calendar.prop.type"></h5>
-								<div class="radio radio-material-indigo-600">
+								<div class="radio radio-material-black">
 									<label>
 										<input type="radio" checked="checked" value="clanwar" name="eventType">
 										<abbr data-i18n="action.calendar.prop.types.clanwar"></abbr>
 									</label>
 								</div>
-								<div class="radio radio-material-indigo-600">
+								<div class="radio radio-material-red-800">
 									<label>
 										<input type="radio" value="compa" name="eventType">
 										<abbr data-i18n="action.calendar.prop.types.compa"></abbr>
 									</label>
 								</div>
-								<div class="radio radio-material-indigo-600">
+								<div class="radio radio-material-purple-600">
 									<label>
 										<input type="radio" value="stronghold" name="eventType">
 										<abbr data-i18n="action.calendar.prop.types.stronghold"></abbr>
 									</label>
 								</div>
-								<div class="radio radio-material-indigo-600">
+								<div class="radio radio-material-blue-700">
 									<label>
 										<input type="radio" value="7vs7" name="eventType">
 										<abbr data-i18n="action.calendar.prop.types.7vs7"></abbr>
 									</label>
 								</div>
-								<div class="radio radio-material-indigo-600">
+								<div class="radio radio-material-green-600">
 									<label>
 										<input type="radio" value="training" name="eventType">
 										<abbr data-i18n="action.calendar.prop.types.training"></abbr>
 									</label>
 								</div>
-								<div class="radio radio-material-indigo-600">
+								<div class="radio radio-material-grey-500">
 									<label>
 										<input type="radio" value="other" name="eventType">
 										<abbr data-i18n="action.calendar.prop.types.other"></abbr>
