@@ -284,13 +284,69 @@
 			"maxfrags": "Nb frags max",
 			"maxdamage": "Nb dommages max",
 			"treescut": "Nombre d'arbres abattus",
-			"links": "Liens",
-			"linkwargaming": "Profil officiel",
-			"linknoobmeter": "Noobmeter",
-			"linkwotlabs": "Wot Labs",
-			"linkwotstats": "Wot Stats",
-			"linkwotlife": "WoT Life",
-			"linkwotreplays": "WoTReplays"
+			"links": {
+				"title": "Liens",
+				"wargaming": {
+					"title": "Profil officiel",
+					"url": {
+						"EU": "http://worldoftanks.eu/community/accounts/__account_id__-__nickname__/",
+						"RU": "http://worldoftanks.ru/community/accounts/__account_id__-__nickname__/",
+						"NA": "http://worldoftanks.com/community/accounts/__account_id__-__nickname__/",
+						"ASIA": "http://worldoftanks.asia/community/accounts/__account_id__-__nickname__/",
+						"KR": "http://worldoftanks.kr/community/accounts/__account_id__-__nickname__/"
+					}
+				},
+				"noobmeter": {
+					"title": "Noobmeter",
+					"url": {
+						"EU": "http://www.noobmeter.com/player/eu/__nickname__/__account_id__",
+						"RU": "http://www.noobmeter.com/player/ru/__nickname__/__account_id__",
+						"NA": "http://www.noobmeter.com/player/na/__nickname__/__account_id__",
+						"ASIA": "http://www.noobmeter.com/player/sea/__nickname__/__account_id__",
+						"KR": "http://www.noobmeter.com/player/kr/__nickname__/__account_id__"
+					}
+				},
+				"wotlabs": {
+					"title": "Wot Labs",
+					"url": {
+						"EU": "http://wotlabs.net/eu/player/__nickname__",
+						"RU": "http://wotlabs.net/ru/player/__nickname__",
+						"NA": "http://wotlabs.net/na/player/__nickname__",
+						"ASIA": "http://wotlabs.net/sea/player/__nickname__",
+						"KR": "http://wotlabs.net/kr/player/__nickname__"
+					}
+				},
+				"wotstats": {
+					"title": "Wot Stast",
+					"url": {
+						"EU": "http://www.wotstats.org/stats/eu/__nickname__/",
+						"RU": "http://www.wotstats.org/stats/ru/__nickname__/",
+						"NA": "http://www.wotstats.org/stats/na/__nickname__/",
+						"ASIA": "http://www.wotstats.org/stats/asia/__nickname__/",
+						"KR": "http://www.wotstats.org/stats/kr/__nickname__/"
+					}
+				},
+				"wotlife": {
+					"title": "WoT Life",
+					"url": {
+						"EU": "http://wot-life.com/eu/player/__nickname__",
+						"RU": "http://wot-life.com/ru/player/__nickname__",
+						"NA": "http://wot-life.com/na/player/__nickname__",
+						"ASIA": "http://wot-life.com/asia/player/__nickname__",
+						"KR": "http://wot-life.com/kr/player/__nickname__"
+					}
+				},
+				"wotreplays": {
+					"title": "WoTReplays",
+					"url": {
+						"EU": "http://wotreplays.eu/player/__nickname__",
+						"RU": "http://wotreplays.ru/player/__nickname__",
+						"NA": "http://wotreplays.com/player/__nickname__",
+						"ASIA": "http://wotreplays.asia/player/__nickname__",
+						"KR": "http://wotreplays.kr/player/__nickname__"
+					}
+				}
+			}
 		}
 	},
 	"tank": {

@@ -57,7 +57,12 @@ define('WCT_DATA_DIR', WCT_BASE_DATA_DIR . DIRECTORY_SEPARATOR . $gCluster . DIR
 require_once(WCT_SERVER_DIR . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'langs.php');
 
 function getUserFile($pUserId) {
-	$userFileName = WCT_DATA_DIR . 'user' . DIRECTORY_SEPARATOR . substr($pUserId, 0, 3) . DIRECTORY_SEPARATOR . substr($pUserId, 3, 3) . DIRECTORY_SEPARATOR . $pUserId . '.json';
+	$lUserId = $pUserId;
+	if (strlen($lUserId) < 9) {
+		// Padd user id for low ids
+		$lUserId = str_pad($lUserId, 9, '0', STR_PAD_LEFT);
+	}
+	$userFileName = WCT_DATA_DIR . 'user' . DIRECTORY_SEPARATOR . substr($lUserId, 0, 3) . DIRECTORY_SEPARATOR . substr($lUserId, 3, 3) . DIRECTORY_SEPARATOR . $lUserId . '.json';
 	$dirName = dirname($userFileName);
 	if (!is_dir($dirName)) {
 		mkdir($dirName, 0755, true);

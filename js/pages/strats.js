@@ -1485,8 +1485,8 @@ var onLoad = function() {
 						gIsImporting = true;
 						gCurrentConf = dateGetStratResponse.data;
 						gIsReadOnly = (gConfig.PLAYER_ID != dateGetStratResponse.meta.creator);
-						$("#lblStratName").val(gCurrentConf.name);
-						$("#lblStratDesc").val(gCurrentConf.desc);
+						$("#lblStratName").val(gCurrentConf.name).removeClass('empty');
+						$("#lblStratDesc").val(gCurrentConf.desc).removeClass('empty');
 						initMap(gCurrentConf.map, gCurrentConf.mode);
 						$('#stratRecap').closest('.container-fluid').hide();
 						$('#stratEditor').fadeIn('fast');
@@ -1750,8 +1750,8 @@ var onLoad = function() {
 						gIsImporting = true;
 						gIsReadOnly = true;
 						gCurrentConf = dateGetStratResponse.data;
-						$("#lblStratName").val(gCurrentConf.name);
-						$("#lblStratDesc").val(gCurrentConf.desc);
+						$("#lblStratName").val(gCurrentConf.name).removeClass('empty');
+						$("#lblStratDesc").val(gCurrentConf.desc).removeClass('empty');
 						initMap(gCurrentConf.map, gCurrentConf.mode);
 						$('#stratRecap').closest('.container-fluid').hide();
 						$('#stratEditor').fadeIn('fast');
@@ -1766,8 +1766,8 @@ var onLoad = function() {
 						gIsImporting = true;
 						gIsReadOnly = false;
 						gCurrentConf = dateGetStratResponse.data;
-						$("#lblStratName").val(gCurrentConf.name);
-						$("#lblStratDesc").val(gCurrentConf.desc);
+						$("#lblStratName").val(gCurrentConf.name).removeClass('empty');
+						$("#lblStratDesc").val(gCurrentConf.desc).removeClass('empty');
 						initMap(gCurrentConf.map, gCurrentConf.mode);
 						$('#stratRecap').closest('.container-fluid').hide();
 						$('#stratEditor').fadeIn('fast');
