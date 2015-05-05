@@ -40,7 +40,7 @@ include(WCT_INC_DIR . 'ads.php');
 					<form class="form-inline">
 						<div class="input-group">
 							<span class="input-group-addon glyphicon glyphicon-flag"></span>
-							<select class="form-control" id="mapFilterSize">
+							<select class="form-control" id="mapFilterModes" data-previousval="all">
 								<option value="all" data-i18n="strat.modes.all"></option>
 								<option value="standard" data-i18n="strat.modes.standard"></option>
 								<option value="encounter" data-i18n="strat.modes.encounter"></option>
@@ -50,18 +50,13 @@ include(WCT_INC_DIR . 'ads.php');
 						</div>
 						<div class="input-group">
 							<span class="input-group-addon glyphicon glyphicon-fullscreen"></span>
-							<select class="form-control" id="mapFilterSize">
+							<select class="form-control" id="mapFilterSize" data-previousval="all">
 								<option value="all" data-i18n="strat.map.allsizes"></option>
-								<option value="1000">1000m x 1000m</option>
-								<option value="950">950m x 950m</option>
-								<option value="800">800m x 800m</option>
-								<option value="700">700m x 700m</option>
-								<option value="600">600m x 600m</option>
 							</select>
 						</div>
 						<div class="input-group">
 							<span class="input-group-addon glyphicon glyphicon-cloud"></span>
-							<select class="form-control" id="mapFilterCamo">
+							<select class="form-control" id="mapFilterCamo" data-previousval="all">
 								<option value="all" data-i18n="strat.camos.all"></option>
 								<option value="summer" data-i18n="strat.camos.summer"></option>
 								<option value="winter" data-i18n="strat.camos.winter"></option>
@@ -70,7 +65,7 @@ include(WCT_INC_DIR . 'ads.php');
 						</div>
 						<div class="input-group">
 							<span class="input-group-addon glyphicon glyphicon-tasks"></span>
-							<select class="form-control" id="mapFilterLevel">
+							<select class="form-control" id="mapFilterLevel" data-previousval="all">
 								<option value="all" data-i18n="tank.alllevels"></option>
 								<option value="1" data-i18n="tank.level.0"></option>
 								<option value="2" data-i18n="tank.level.1"></option>

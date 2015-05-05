@@ -616,6 +616,31 @@ var onLoad = function() {
 		return "";
 	};
 
+	/**
+	 * Remove existing dividers to maps list and apply new dividers.
+	 */
+	function applyMapsDividers() {
+		myMapsContainer.find('#mapsListContainer .clearfix').remove();
+		myMapsContainer.find('#mapsListContainer .mappreview').not('.hidden').each(function(index, elem) {
+			// Handle row breaks
+			var myMapsDividerHtml = '';
+			if (index > 0) {
+				if (index % 2 == 0) {
+					myMapsDividerHtml += '<div class="clearfix visible-xs-block"></div>';
+				}
+				if (index % 3 == 0) {
+					myMapsDividerHtml += '<div class="clearfix visible-md-block"></div>';
+				}
+				if (index % 4 == 0) {
+					myMapsDividerHtml += '<div class="clearfix visible-lg-block"></div>';
+				}
+				if (myMapsDividerHtml !== '') {
+					$(elem).before(myMapsDividerHtml);
+				}
+			}
+		});
+	};
+
 	// Initialize the SVG and the events handlers
 	initSvg();
 	myShapeOptionsHandler.children("div").on("mouseleave", function() {
@@ -1291,6 +1316,49 @@ var onLoad = function() {
 	//$(".colorpicker").detach().appendTo($("#menuEditLines > div"));
 	// Load global configuration
 
+	function applyMapFilter() {
+		var selectedMode = $('#mapFilterModes').val(),
+			selectedSize = $('#mapFilterSize').val(),
+			selectedCamo = $('#mapFilterCamo').val(),
+			selectedLevel = $('#mapFilterLevel').val(),
+			isAllSelected = true;
+			myMapsFiltered = myMapsContainer.find('.mappreview');
+			myMapsUnfiltered = myMapsFiltered;
+		if (selectedMode != 'all') {
+			myMapsFiltered = myMapsFiltered.filter('.mapmode' + selectedMode);
+			isAllSelected = false;
+		}
+		if (selectedSize != 'all') {
+			myMapsFiltered = myMapsFiltered.filter('[data-size="' + selectedSize + '"]');
+			isAllSelected = false;
+		}
+		if (selectedCamo != 'all') {
+			myMapsFiltered = myMapsFiltered.filter('.mapcamo' + selectedCamo);
+			isAllSelected = false;
+		}
+		if (selectedLevel != 'all') {
+			selectedLevel = selectedLevel * 1;
+			myMapsFiltered = myMapsFiltered.filter(function(index, element) {
+				var myElement = $(element),
+					minLevel = myElement.data('minlevel') * 1,
+					maxLevel = myElement.data('maxlevel') * 1;
+				return (selectedLevel >= minLevel && selectedLevel <= maxLevel);
+			});
+			isAllSelected = false;
+		}
+		if (isAllSelected) {
+			myMapsFiltered.removeClass('hidden');
+		} else {
+			myMapsUnfiltered.addClass('hidden');
+			myMapsFiltered.removeClass('hidden');
+		}
+		applyMapsDividers();
+	};
+
+	$('#mapFilterModes, #mapFilterSize, #mapFilterCamo, #mapFilterLevel').on('change', function(evt) {
+		applyMapFilter();
+	});
+
 	globalLoad();
 
 	function globalLoad() {
@@ -1309,7 +1377,8 @@ var onLoad = function() {
 				myElementsHtml = '',
 				myMapOptions = {},
 				myMapsHtml = '',
-				nbMapsOnRow = 0;
+				myMapsSize = [],
+				myMapsSizeFilterHtml = '';
 			// Populate the maps
 			var mapsKeysSorted = Object.keys(gMaps).sort(function(a, b) {
 				return i18n.t('strat.maps.' + a).localeCompare(i18n.t('strat.maps.' + b));
@@ -1320,19 +1389,14 @@ var onLoad = function() {
 				myMapOptions = gMaps[mapName];
 				if (myMapOptions.state == 'live') {
 					myMapThumb = myMapOptions.file.substring(0, myMapOptions.file.lastIndexOf('.')) + '_thumb' + myMapOptions.file.substring(myMapOptions.file.lastIndexOf('.'));
-					// Handle row breaks
-					if (nbMapsOnRow > 0) {
-						if (nbMapsOnRow % 2 == 0) {
-							myMapsHtml += '<div class="clearfix visible-xs-block"></div>';
-						}
-						if (nbMapsOnRow % 3 == 0) {
-							myMapsHtml += '<div class="clearfix visible-md-block"></div>';
-						}
-						if (nbMapsOnRow % 4 == 0) {
-							myMapsHtml += '<div class="clearfix visible-lg-block"></div>';
-						}
+					myMapsHtml += '<div class="col-xs-6 col-md-4 col-lg-3 mappreview mapstate' + myMapOptions.state + ' mapcamo' + myMapOptions.camo
+					for (var modeName in myMapOptions.modes) {
+						myMapsHtml += ' mapmode' + modeName;
 					}
-					myMapsHtml += '<div class="col-xs-6 col-md-4 col-lg-3 mapstate' + myMapOptions.state + ' mapcamo' + myMapOptions.camo + '"><div class="thumbnail">';
+					myMapsHtml += '" data-camo="' + myMapOptions.camo
+						+ '" data-size="' + myMapOptions.size.x + 'x' + myMapOptions.size.y
+						+ '" data-minlevel="' + myMapOptions.levels.min
+						+ '" data-maxlevel="' + myMapOptions.levels.max + '"><div class="thumbnail">';
 					myMapsHtml += '<img src="./res/wot/maps/' + myMapThumb + '" alt="' + i18n.t('strat.maps.' + mapName) + '" />';
 					myMapsHtml += '<div class="caption"><h3>' + i18n.t('strat.maps.' + mapName) + '</h3>';
 					myMapsHtml += '<p>' + i18n.t('install.strategies.maps.size') + ': ' + i18n.t('install.strategies.maps.metrics', { sizex: myMapOptions.size.x, sizey: myMapOptions.size.y }) + '</p>';
@@ -1343,10 +1407,25 @@ var onLoad = function() {
 					}
 					myMapsHtml += '</p>';
 					myMapsHtml += '</div></div></div>';
-					nbMapsOnRow++;
+					if (myMapsSize.indexOf(myMapOptions.size.x + 'x' + myMapOptions.size.y) < 0) {
+						myMapsSize.push(myMapOptions.size.x + 'x' + myMapOptions.size.y);
+					}
 				}
 			}
+			myMapsSize.sort(function(a, b) {
+				var mapAMetrics = a.split('x'),
+					mapBMetrics = b.split('x'),
+					mapAArea = mapAMetrics[0] * mapAMetrics[1],
+					mapBArea = mapBMetrics[0] * mapBMetrics[1];
+				return mapAArea - mapBArea;
+			});
+			for (var i = 0; i < myMapsSize.length; i++) {
+				var mapMetrics = myMapsSize[i].split('x');
+				myMapsSizeFilterHtml += '<option value="' + myMapsSize[i] + '">' + i18n.t('install.strategies.maps.metrics', { sizex: mapMetrics[0], sizey: mapMetrics[1] }) + '</option>';
+			}
+			$('#mapFilterSize').append(myMapsSizeFilterHtml);
 			myMapsContainer.find('#mapsListContainer').html(myMapsHtml);
+			applyMapsDividers();
 			myMapsContainer.find('.createstrat').on('click', function(evt) {
 				evt.preventDefault();
 				var myButton = $(this),
