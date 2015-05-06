@@ -128,7 +128,7 @@ function fillEventDialog(pDialog, pEvents) {
 				playersInfos = gDataPlayers[curPlayerId],
 				playerTanksAdditionalInfos = participantsTanksAdditionalInfos[curPlayerId],
 				tanksInfos = {},
-				myElemOffset = $(this).offset();
+				myElemOffset = $(this).offset(),
 				listTanksHtml = '';
 			listTanksHtml += '<style type="text/css">';
 			listTanksHtml += '.eventParticipantTanks{position:absolute}';
