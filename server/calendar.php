@@ -188,7 +188,7 @@ switch ($_REQUEST['a']) {
 		$isJsonResult = false;
 		$myEventId = $_REQUEST['id'];
 		$myEvent = wctEvent::fromId($_REQUEST['id']);
-		$result .= '<div id="eventDetails' . $myEvent->getId() . '" class="eventDetails" data-event-id="' . $myEvent->getId() . '">';
+		$result .= '<div id="eventDetails' . $myEvent->getId() . '" class="eventDetails" data-event-id="' . $myEvent->getId() . '" data-owner="' . $myEvent->getOwner() . '">';
 		$result .= '<div class="eventDetailsDisplay">';
 		if ($_SESSION['account_id'] == $myEvent->getOwner()) {
 			// Add modify / Delete buttons only for owner
@@ -218,12 +218,16 @@ switch ($_REQUEST['a']) {
 		$result .= '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">';
 		$result .= '<h3 data-i18n="event.tanks"></h3>';
 		$result .= '<ul class="list-unstyled eventLineUp">';
-		if (count($myEvent->getTanks()) > 0) {
-			foreach($myEvent->getTanks() as $playerId => $tankId) {
-				$result .= '<li data-player-id="' . $playerId . '" data-tank-id="' . $tankId . '">&nbsp;</li>';
+		if (count($myEvent->getParticipants()) > 0) {
+			foreach($myEvent->getParticipants() as $playerId => $attendance) {
+				if (array_key_exists($playerId, $myEvent->getTanks())) {
+					$result .= '<li data-player-id="' . $playerId . '" data-tank-id="' . $myEvent->getTanks()[$playerId] . '">&nbsp;</li>';
+				} else {
+					$result .= '<li data-player-id="' . $playerId . '" data-i18n="event.notank"></li>';
+				}
 			}
 		} else {
-			$result .= '<li data-i18n="event.notanks"></li>';
+			$result .= '<li data-i18n="event.notank"></li>';
 		}
 		$result .= '</ul>';
 		$result .= '</div>';
