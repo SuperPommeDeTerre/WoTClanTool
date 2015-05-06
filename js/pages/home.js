@@ -13,6 +13,7 @@ var onLoad = function() {
 	}, function(dataClanResponse) {
 		var dataClan = dataClanResponse.data[gPersonalInfos.clan_id],
 			clanEmblem = dataClan.emblems.x64.portal;
+		gClanInfos = dataClan;
 		$('#clansInfosTitle').html('<img src="' + clanEmblem + '" alt="' + i18n.t('clan.emblem') + '" /> <span style="color:' + dataClan.color + '">[' + dataClan.tag + ']</span> ' + dataClan.name + ' <small>' + dataClan.motto + '</small>');
 		$('#clanTotalPlayers').text(i18n.t('clan.nbplayers', { count: dataClan.members_count }));
 		$.post('./server/strat.php', {
@@ -38,8 +39,8 @@ var onLoad = function() {
 			account_id: membersList
 		}, function(dataPlayersResponse) {
 			advanceProgress(i18n.t('loading.generating'));
-			var dataPlayers = dataPlayersResponse.data,
-				tableClanPlayers = $('#tableClanPlayers'),
+			gDataPlayers = dataPlayersResponse.data;
+			var tableClanPlayers = $('#tableClanPlayers'),
 				tableContent = '',
 				clanMemberInfo = null,
 				additionalClass = '',
@@ -71,7 +72,7 @@ var onLoad = function() {
 			for (var i=0; i<clanMembers.length; i++) {
 				clanMemberInfo = clanMembers[i];
 				memberId = clanMemberInfo.account_id;
-				playerInfos = dataPlayers[memberId];
+				playerInfos = gDataPlayers[memberId];
 				if (playerInfos.last_battle_time < lastBattleThreshold) {
 					additionalClass = ' class="oldBattle"';
 				} else {
@@ -96,7 +97,7 @@ var onLoad = function() {
 				var myLink = $(this),
 					myPlayerId = myLink.data('id'),
 					myRow = myLink.closest('tr'),
-					myPlayerInfos = dataPlayers[myPlayerId],
+					myPlayerInfos = gDataPlayers[myPlayerId],
 					myPlayerDetails = '',
 					myDialog = $('#my-dialog'),
 					myDialogTitle = myDialog.find('.modal-header h4'),
@@ -248,7 +249,7 @@ var onLoad = function() {
 								{ label: i18n.t('tank.type.lightTank', { count: nbClanVehiculesByType['lightTank'] }), value: nbClanVehiculesByType['lightTank'] }
 							]
 						});
-						var myCalendar = $('#clanCalendar').calendar({
+						gCalendar = $('#clanCalendar').calendar({
 							tmpl_path: './js/calendar-tmpls/',
 							language: gLangMapping[gConfig.LANG],
 							view: 'month',
@@ -285,7 +286,7 @@ var onLoad = function() {
 												for (var j=0; j<clanMembers.length; j++) {
 													clanMemberInfo = clanMembers[j];
 													if (clanMemberInfo.account_id == myParticipantId) {
-														myTodayEventsHtml += '<li data-id="' + myParticipantId + '" class="attendance-' + myParticipantAttendance + '"><span class="role role_' + clanMemberInfo.role + '">' + dataPlayers[myParticipantId].nickname + '</span></li>';
+														myTodayEventsHtml += '<li data-id="' + myParticipantId + '" class="attendance-' + myParticipantAttendance + '"><span class="role role_' + clanMemberInfo.role + '">' + gDataPlayers[myParticipantId].nickname + '</span></li>';
 														break;
 													}
 												}
@@ -305,57 +306,7 @@ var onLoad = function() {
 								$('#agendaTitleTody').after(myTodayEventsHtml).parent().i18n();
 							},
 							onAfterModalShown: function(events) {
-								// Fill the event window and add event handlers
-								$("#events-modal").i18n();
-								$("[data-date]").each(function(idx, elem) {
-									var myElem = $(elem);
-									myElem.siblings('.date').text(moment(myElem.data('date')).format('LLL'));
-								});
-								var myParticipants = [];
-								$('[data-player-id]').each(function(idx, elem) {
-									var myParticipantId = $(elem).data('player-id');
-									// Don't get players infos that are already available
-									if (typeof(dataPlayers[myParticipantId]) === 'undefined') {
-										myParticipants.push(myParticipantId);
-									} else {
-										for (var j=0; j<clanMembers.length; j++) {
-											clanMemberInfo = clanMembers[j];
-											if (clanMemberInfo.account_id == myParticipantId) {
-												$('[data-player-id="' + myParticipantId + '"]').html('<span class="role role_' + clanMemberInfo.role + '">' + dataPlayers[myParticipantId].nickname + '</span>');
-												break;
-											}
-										}
-									}
-								});
-								if (myParticipants.length > 0) {
-									$.post(gConfig.WG_API_URL + 'wot/account/info/', {
-										application_id: gConfig.WG_APP_ID,
-										language: gConfig.G_API_LANG,
-										access_token: gConfig.ACCESS_TOKEN,
-										fields: 'nickname',
-										account_id: myParticipants.join(',')
-									}, function(dataParticipantResponse) {
-										var dataParticipants = dataParticipantResponse.data;
-										for (var participantId in dataParticipants) {
-											$('[data-player-id="' + participantId + '"]').text(dataParticipants[participantId].nickname);
-										}
-									}, 'json');
-									$('#btnDeleteEvent').on('click', function(evt) {
-										evt.preventDefault();
-										$.post('./server/calendar.php', {
-											a: 'delete',
-											eventId: $('#eventId').val()
-										}, function(deleteResponse) {
-											// Handle result
-											if (deleteResponse.result == 'ok') {
-												// Hide dialog
-												$('#events-modal').modal('hide');
-												// Refresh calendar
-												myCalendar.view();
-											}
-										}, 'json');
-									});
-								}
+								fillEventDialog($("#events-modal"), events);
 							},
 							//events_source: './server/calendar.php?a=list'
 							events_source: './server/calendar.php?a=list'
@@ -363,7 +314,7 @@ var onLoad = function() {
 						$('.btn-group button[data-calendar-nav]').each(function() {
 							var $this = $(this);
 							$this.click(function() {
-								myCalendar.navigate($this.data('calendar-nav'));
+								gCalendar.navigate($this.data('calendar-nav'));
 							});
 						});
 
@@ -372,7 +323,7 @@ var onLoad = function() {
 							$this.click(function() {
 								$this.siblings('.active').removeClass('active');
 								$this.addClass('active');
-								myCalendar.view($this.data('calendar-view'));
+								gCalendar.view($this.data('calendar-view'));
 							});
 						});
 						advanceProgress(i18n.t('loading.complete'));

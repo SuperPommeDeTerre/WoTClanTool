@@ -29,6 +29,9 @@ var gTANKS_LEVEL = [ 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'
 	gClanInfos = null,
 	gProgressBar,
 	gProgressMessage,
+	gDataPlayers = null,
+	gCalendar = null,
+	gDataClan = null,
 	progressNbSteps = 0,
 	progressCurStep = 0;
 
@@ -98,13 +101,16 @@ var checkConnected = function() {
 	}
 };
 
-var setNavBrandWithClan = function() {
+var setNavBrandWithClan = function(pCallbackFunction) {
 	if (gClanInfos != null) {
 		$('#mainNavBar .navbar-brand').html('<span style="color:' + gClanInfos.color + '">[' + gClanInfos.tag + ']</span> ' + gClanInfos.name + ' <small>' + gClanInfos.motto + '</small>')
 			// Set clan emblem with CSS because it causes problems with inline HTML.
 			.css('background', 'url(\'' + gClanInfos.emblems.x32.portal + '\') no-repeat 15px center')
 			// Add padding to avoid overlap of emblem and text
 			.css('padding-left', '51px');
+		if (pCallbackFunction && (typeof(pCallbackFunction) == "function")) {
+			pCallbackFunction();
+		}
 	} else {
 		$.post(gConfig.WG_API_URL + 'wgn/clans/info/', {
 			application_id: gConfig.WG_APP_ID,
@@ -120,6 +126,9 @@ var setNavBrandWithClan = function() {
 				.css('background', 'url(\'' + gClanInfos.emblems.x32.portal + '\') no-repeat 15px center')
 				// Add padding to avoid overlap of emblem and text
 				.css('padding-left', '51px');
+			if (pCallbackFunction && (typeof(pCallbackFunction) == "function")) {
+				pCallbackFunction();
+			}
 		}, 'json');
 	}
 };

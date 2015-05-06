@@ -157,11 +157,10 @@ switch ($_REQUEST['a']) {
 		if ($_SESSION['account_id'] == $myEvent->getOwner()) {
 			// Add modify / Delete buttons only for owner
 			$result .= '<div class="btn-group pull-right" role="group">';
-			$result .= '<button type="button" id="btnModifyEvent" class="btn btn-default btn-material-grey-500" data-i18n="[title]action.modify;"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>';
-			$result .= '<button type="button" id="btnDeleteEvent" class="btn btn-default btn-material-grey-500" data-i18n="[title]action.delete;"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>';
+			$result .= '<button type="button" id="btnModifyEvent" class="btn btn-default btn-material-grey-500" data-i18n="[title]action.modify;" data-event-id="' . $myEvent->getId() . '"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>';
+			$result .= '<button type="button" id="btnDeleteEvent" class="btn btn-default btn-material-grey-500" data-i18n="[title]action.delete;" data-event-id="' . $myEvent->getId() . '"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>';
 			$result .= '</div>';
 		}
-		$result .= '<input type="hidden" id="eventId" value="' . $myEvent->getId() . '" />';
 		$result .= '<p>' . $myEvent->getDescription() . '</p>';
 		$result .= '<p><span data-i18n="event.startdate" data-date="' . $myEvent->getDateStart() . '000"></span>: <span class="date"></span></p>';
 		$result .= '<p><span data-i18n="event.enddate" data-date="' . $myEvent->getDateEnd() . '000"></span>: <span class="date"></span></p>';

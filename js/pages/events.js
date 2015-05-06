@@ -1,8 +1,30 @@
 var onLoad = function() {
 	checkConnected();
+	progressNbSteps = 3;
 	advanceProgress(i18n.t('loading.claninfos'));
-	setNavBrandWithClan();
-	var myCalendar = $('#clanCalendar').calendar({
+	setNavBrandWithClan(function() {
+		var membersList = '',
+			isFirst = true;
+		for (var i=0; i<gClanInfos.members_count; i++) {
+			if (isFirst) {
+				isFirst = false;
+			} else {
+				membersList += ',';
+			}
+			membersList += gClanInfos.members[i].account_id;
+		}
+		advanceProgress(i18n.t('loading.membersinfos'));
+		$.post(gConfig.WG_API_URL + 'wot/account/info/', {
+			application_id: gConfig.WG_APP_ID,
+			language: gConfig.G_API_LANG,
+			access_token: gConfig.ACCESS_TOKEN,
+			account_id: membersList
+		}, function(dataPlayersResponse) {
+			advanceProgress(i18n.t('loading.generating'));
+			gDataPlayers = dataPlayersResponse.data;
+		}, 'json');
+	});
+	gCalendar = $('#clanCalendar').calendar({
 		tmpl_path: './js/calendar-tmpls/',
 		language: gLangMapping[gConfig.LANG],
 		view: 'month',
@@ -13,50 +35,14 @@ var onLoad = function() {
 			$('#agendaTitle').text(this.getTitle());
 		},
 		onAfterModalShown: function(events) {
-			// Fill the event window and add event handlers
-			$("#events-modal").i18n();
-			$("[data-date]").each(function(idx, elem) {
-				var myElem = $(elem);
-				myElem.siblings('.date').text(moment(myElem.data('date')).format('LLL'));
-			});
-			var myParticipants = [];
-			$('[data-player-id]').each(function(idx, elem) {
-				myParticipants.push($(elem).data('player-id'));
-			});
-			$.post(gConfig.WG_API_URL + 'wot/account/info/', {
-				application_id: gConfig.WG_APP_ID,
-				language: gConfig.G_API_LANG,
-				access_token: gConfig.ACCESS_TOKEN,
-				fields: 'nickname',
-				account_id: myParticipants.join(',')
-			}, function(dataPlayersResponse) {
-				var dataPlayers = dataPlayersResponse.data;
-				for (var playerId in dataPlayers) {
-					$('[data-player-id="' + playerId + '"]').text(dataPlayers[playerId].nickname);
-				}
-			}, 'json');
-			$('#btnDeleteEvent').on('click', function(evt) {
-				evt.preventDefault();
-				$.post('./server/calendar.php', {
-					a: 'delete',
-					eventId: $('#eventId').val()
-				}, function(deleteResponse) {
-					// Handle result
-					if (deleteResponse.result == 'ok') {
-						// Hide dialog
-						$('#events-modal').modal('hide');
-						// Refresh calendar
-						myCalendar.view();
-					}
-				}, 'json');
-			});
+			fillEventDialog($("#events-modal"), events);
 		},
 		events_source: './server/calendar.php?a=list'
 	});
 	$('.btn-group button[data-calendar-nav]').each(function() {
 		var $this = $(this);
 		$this.click(function() {
-			myCalendar.navigate($this.data('calendar-nav'));
+			gCalendar.navigate($this.data('calendar-nav'));
 		});
 	});
 
@@ -65,7 +51,7 @@ var onLoad = function() {
 		$this.click(function() {
 			$this.siblings('.active').removeClass('active');
 			$this.addClass('active');
-			myCalendar.view($this.data('calendar-view'));
+			gCalendar.view($this.data('calendar-view'));
 		});
 	});
 
@@ -111,7 +97,7 @@ var onLoad = function() {
 				// Hide dialog
 				$('#eventDialog').modal('hide');
 				// Refresh calendar
-				myCalendar.view();
+				gCalendar.view();
 			}
 		}, 'json');
 	});
