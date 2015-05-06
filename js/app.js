@@ -32,6 +32,7 @@ var gTANKS_LEVEL = [ 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'
 	gDataPlayers = null,
 	gCalendar = null,
 	gDataClan = null,
+	gTankopedia = null,
 	progressNbSteps = 0,
 	progressCurStep = 0;
 

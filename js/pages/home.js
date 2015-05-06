@@ -14,8 +14,8 @@ var onLoad = function() {
 		var dataClan = dataClanResponse.data[gPersonalInfos.clan_id],
 			clanEmblem = dataClan.emblems.x64.portal;
 		gClanInfos = dataClan;
-		$('#clansInfosTitle').html('<img src="' + clanEmblem + '" alt="' + i18n.t('clan.emblem') + '" /> <span style="color:' + dataClan.color + '">[' + dataClan.tag + ']</span> ' + dataClan.name + ' <small>' + dataClan.motto + '</small>');
-		$('#clanTotalPlayers').text(i18n.t('clan.nbplayers', { count: dataClan.members_count }));
+		$('#clansInfosTitle').html('<img src="' + clanEmblem + '" alt="' + i18n.t('clan.emblem') + '" /> <span style="color:' + gClanInfos.color + '">[' + gClanInfos.tag + ']</span> ' + gClanInfos.name + ' <small>' + gClanInfos.motto + '</small>');
+		$('#clanTotalPlayers').text(i18n.t('clan.nbplayers', { count: gClanInfos.members_count }));
 		$.post('./server/strat.php', {
 			'action': 'list'
 		}, function(dataListStratResponse) {
@@ -23,13 +23,13 @@ var onLoad = function() {
 		}, 'json');
 		var membersList = '',
 			isFirst = true;
-		for (var i=0; i<dataClan.members_count; i++) {
+		for (var i=0; i<gClanInfos.members_count; i++) {
 			if (isFirst) {
 				isFirst = false;
 			} else {
 				membersList += ',';
 			}
-			membersList += dataClan.members[i].account_id;
+			membersList += gClanInfos.members[i].account_id;
 		}
 		advanceProgress(i18n.t('loading.membersinfos'));
 		$.post(gConfig.WG_API_URL + 'wot/account/info/', {
@@ -52,7 +52,7 @@ var onLoad = function() {
 				nbTotalLosses = 0,
 				nbTotalDraws = 0,
 				memberId = 0,
-				clanMembers = dataClan.members;
+				clanMembers = gClanInfos.members;
 			// Sort member by rank
 			clanMembers.sort(function(a, b) {
 				if (gROLE_POSITION[a.role] < gROLE_POSITION[b.role]) {
@@ -191,7 +191,7 @@ var onLoad = function() {
 				access_token: gConfig.ACCESS_TOKEN,
 				language: gConfig.LANG
 			}, function(dataTankopediaResponse) {
-				var dataTankopedia = dataTankopediaResponse.data;
+				gTankopedia = dataTankopediaResponse.data;
 				advanceProgress(i18n.t('loading.membertanksinfos'));
 				$.post(gConfig.WG_API_URL + 'wot/account/tanks/', {
 					application_id: gConfig.WG_APP_ID,
@@ -219,7 +219,7 @@ var onLoad = function() {
 							if (playerStoredVehicules.length > 0) {
 								for (var j=0; j<playerStoredVehicules.length; j++) {
 									if (playerStoredVehicules[j].in_garage) {
-										vehiculeDetails = dataTankopedia[playerStoredVehicules[j].tank_id];
+										vehiculeDetails = gTankopedia[playerStoredVehicules[j].tank_id];
 										nbTotalVehicules++;
 										nbClanVehiculesByTiers[vehiculeDetails.level - 1]++;
 										nbClanVehiculesByType[vehiculeDetails.type]++;

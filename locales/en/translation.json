@@ -195,7 +195,8 @@
 		"description": "Description",
 		"startdate": "Start date",
 		"enddate": "End date",
-		"participants": "Participants",
+		"participantstitle": "Participants",
+		"tanks": "Line-up",
 		"enrol": {
 			"yes": "Enrol",
 			"spare": "Substitute/reserve",
@@ -204,6 +205,7 @@
 		"enrol": "Enrol",
 		"noevent": "No event",
 		"noparticipant": "No participant",
+		"notank": "No tank selected",
 		"participants": "__count__ participant",
 		"participants_plural": "__count__ participants"
 	},
@@ -283,10 +285,10 @@
 			"battlescount": "Battles",
 			"maxxp": "Max XP",
 			"maxfrags": "Max kills",
-			"maxdamage": "Mas damage",
+			"maxdamage": "Max damage",
 			"treescut": "Trees cut",
 			"links": {
-				"title": "Liens",
+				"title": "Links",
 				"wargaming": {
 					"title": "Official profile",
 					"url": {
@@ -364,6 +366,7 @@
 			"IX",
 			"X"
 		],
+		"alltypes": "All types",
 		"type": {
 			"lightTank": "Light",
 			"lightTank_plural_0": "Light",

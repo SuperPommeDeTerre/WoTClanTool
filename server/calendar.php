@@ -91,7 +91,7 @@ switch ($_REQUEST['a']) {
 		}
 		// Replace event
 		array_push($fileContents, $myEvent->toCalendarArray(true));
-		file_put_contents($saveFile, json_encode($fileContents));
+		file_put_contents($saveFile, json_encode($fileContents), LOCK_EX);
 		$result['result'] = 'ok';
 		$result['data'] = $myEvent->toCalendarArray();
 		break;
@@ -113,7 +113,7 @@ switch ($_REQUEST['a']) {
 						break;
 					}
 				}
-				file_put_contents($myEventsFile, json_encode($fileContents));
+				file_put_contents($myEventsFile, json_encode($fileContents), LOCK_EX);
 			}
 		}
 		$result['result'] = 'ok';
@@ -142,10 +142,44 @@ switch ($_REQUEST['a']) {
 					}
 				}
 				array_push($fileContents, $myEvent->toCalendarArray(true));
-				file_put_contents($myEventsFile, json_encode($fileContents));
+				file_put_contents($myEventsFile, json_encode($fileContents), LOCK_EX);
 			}
 		}
 		$result['result'] = 'ok';
+		break;
+	case 'setparticipanttank':
+		// This service must return JSON to page
+		header('Content-Type: application/json');
+		$isJsonResult = true;
+		$result['result'] = 'ok';
+		if (isset($_REQUEST['eventId'])) {
+			$eventId = $_REQUEST['eventId'];
+			$myEvent = wctEvent::fromId($eventId);
+			$myTanks = $myEvent->getTanks();
+			if (isset($_REQUEST['playerid'])) {
+				$playerId = $_REQUEST['playerid'];
+				if (isset($_REQUEST['tankid'])) {
+					$tankId = $_REQUEST['tankid'];
+					$myTanks[$playerId] = $tankId;
+					$myEvent->setTanks($myTanks);
+					// Perform save...
+					$myEventsFile = wctEvent::getFileFromDate($myEvent->getDateStart());
+					$fileContents = json_decode(file_get_contents($myEventsFile), true);
+					$fileContents = is_array($fileContents) ? $fileContents : array($fileContents);
+					foreach ($fileContents as $eventIndex => $eventData) {
+						$tmpEvent = wctEvent::fromJson($eventData);
+						if ($eventId == $tmpEvent->getId()) {
+							// The actual event is found. Update it.
+							array_splice($fileContents, $eventIndex, 1);
+							break;
+						}
+					}
+					array_push($fileContents, $myEvent->toCalendarArray(true));
+					file_put_contents($myEventsFile, json_encode($fileContents), LOCK_EX);
+					$result['data'] = $myEvent->toCalendarArray();
+				}
+			}
+		}
 		break;
 	case 'get':
 		// This service must return HTML to page
@@ -154,18 +188,25 @@ switch ($_REQUEST['a']) {
 		$isJsonResult = false;
 		$myEventId = $_REQUEST['id'];
 		$myEvent = wctEvent::fromId($_REQUEST['id']);
+		$result .= '<div id="eventDetails' . $myEvent->getId() . '" class="eventDetails" data-event-id="' . $myEvent->getId() . '">';
+		$result .= '<div class="eventDetailsDisplay">';
 		if ($_SESSION['account_id'] == $myEvent->getOwner()) {
 			// Add modify / Delete buttons only for owner
 			$result .= '<div class="btn-group pull-right" role="group">';
-			$result .= '<button type="button" id="btnModifyEvent" class="btn btn-default btn-material-grey-500" data-i18n="[title]action.modify;" data-event-id="' . $myEvent->getId() . '"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>';
+			//$result .= '<button type="button" id="btnModifyEvent" class="btn btn-default btn-material-grey-500" data-i18n="[title]action.modify;" data-event-id="' . $myEvent->getId() . '"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>';
 			$result .= '<button type="button" id="btnDeleteEvent" class="btn btn-default btn-material-grey-500" data-i18n="[title]action.delete;" data-event-id="' . $myEvent->getId() . '"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>';
 			$result .= '</div>';
 		}
-		$result .= '<p>' . $myEvent->getDescription() . '</p>';
-		$result .= '<p><span data-i18n="event.startdate" data-date="' . $myEvent->getDateStart() . '000"></span>: <span class="date"></span></p>';
-		$result .= '<p><span data-i18n="event.enddate" data-date="' . $myEvent->getDateEnd() . '000"></span>: <span class="date"></span></p>';
-		$result .= '<h4><span data-i18n="event.participants" data-i18n-options="{&quot;count&quot;:' . count($myEvent->getParticipants()) . '}"></span>:</h4>';
-		$result .= '<ul class="list-unstyled">';
+		$result .= '<p class="eventDescription">' . $myEvent->getDescription() . '</p>';
+		$result .= '<dl>';
+		$result .= '<p class="eventStartDate"><span data-i18n="event.startdate" data-date="' . $myEvent->getDateStart() . '000"></span>: <span class="date"></span></p>';
+		$result .= '<p class="eventEndDate"><span data-i18n="event.enddate" data-date="' . $myEvent->getDateEnd() . '000"></span>: <span class="date"></span></p>';
+		$result .= '</dl>';
+		$result .= '<div class="container-fluid">';
+		$result .= '<div class="row">';
+		$result .= '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">';
+		$result .= '<h3 data-i18n="event.participants" data-i18n-options="{&quot;count&quot;:' . count($myEvent->getParticipants()) . '}"></h3>';
+		$result .= '<ul class="list-unstyled eventParticipantsList">';
 		if (count($myEvent->getParticipants()) > 0) {
 			foreach($myEvent->getParticipants() as $playerId => $attendance) {
 				$result .= '<li data-player-id="' . $playerId . '" class="attendance-' . $attendance . '">' . $playerId . '</li>';
@@ -173,7 +214,25 @@ switch ($_REQUEST['a']) {
 		} else {
 			$result .= '<li data-i18n="event.noparticipant"></li>';
 		}
+		$result .= '</ul></div>';
+		$result .= '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">';
+		$result .= '<h3 data-i18n="event.tanks"></h3>';
+		$result .= '<ul class="list-unstyled eventLineUp">';
+		if (count($myEvent->getTanks()) > 0) {
+			foreach($myEvent->getTanks() as $playerId => $tankId) {
+				$result .= '<li data-player-id="' . $playerId . '" data-tank-id="' . $tankId . '">&nbsp;</li>';
+			}
+		} else {
+			$result .= '<li data-i18n="event.notanks"></li>';
+		}
 		$result .= '</ul>';
+		$result .= '</div>';
+		$result .= '</div></div>';
+		if ($_SESSION['account_id'] == $myEvent->getOwner()) {
+			$result .= '<div class="eventDetailsModify">';
+			$result .= '</div>';
+		}
+		$result .= '</div>';
 		break;
 }
 if ($isJsonResult) {

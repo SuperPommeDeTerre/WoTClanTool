@@ -18,6 +18,12 @@ var applyTableTanksFilters = function(filter) {
 	if (filter.ingarage) {
 		myFilteredElems = myFilteredElems.filter('.ingarage');
 	}
+	if (filter.tanklevel != 'all') {
+		myFilteredElems = myFilteredElems.filter('.tanklevel' + filter.tanklevel);
+	}
+	if (filter.tanktype != 'all') {
+		myFilteredElems = myFilteredElems.filter('.tanktype' + filter.tanktype);
+	}
 	// Hide all elements
 	myElems.addClass('hidden');
 	// And show filtered elements
@@ -130,7 +136,7 @@ var onLoad = function() {
 		access_token: gConfig.ACCESS_TOKEN,
 		language: gConfig.LANG
 	}, function(dataTankopediaResponse) {
-		var dataTankopedia = dataTankopediaResponse.data;
+		gTankopedia  = dataTankopediaResponse.data;
 		advanceProgress(i18n.t('loading.mytanksinfos'));
 		$.post(gConfig.WG_API_URL + 'wot/tanks/stats/', {
 			application_id: gConfig.WG_APP_ID,
@@ -150,7 +156,9 @@ var onLoad = function() {
 				tankAdditionalInfos = null,
 				winRatio = 0,
 				chkInGarage = $('#chkInGarage'),
-				chkIsFull = $('#chkIsFull');
+				chkIsFull = $('#chkIsFull'),
+				selTankLevel = $('#tankFilterLevel'),
+				selTankType = $('#tankFilterType'),
 				slideTankStatus = $('#slideTankStatus');
 			// Save tanks infos
 			$.post('./server/player.php', {
@@ -162,8 +170,8 @@ var onLoad = function() {
 				advanceProgress(i18n.t('loading.generating'));
 				// Sort tanks by tiers
 				dataMyTanks.sort(function(a, b) {
-					var tankInfosA = dataTankopedia[a.tank_id],
-						tankInfosB = dataTankopedia[b.tank_id];
+					var tankInfosA = gTankopedia[a.tank_id],
+						tankInfosB = gTankopedia[b.tank_id];
 					// Sort by tiers
 					if (tankInfosA.level > tankInfosB.level) {
 						return -1;
@@ -182,22 +190,24 @@ var onLoad = function() {
 				});
 				for (var i=0; i<dataMyTanks.length; i++) {
 					myTank = dataMyTanks[i];
-					tankInfos = dataTankopedia[myTank.tank_id];
+					tankInfos = gTankopedia[myTank.tank_id];
 					tankAdditionalInfos = getTankAdditionalInfos(myTank.tank_id, dataMyTanksAdditionalInfos);
 					winRatio = -1;
 					if (myTank.all.battles > 0) {
 						winRatio = myTank.all.wins * 100 / myTank.all.battles;
 					}
-					tableContent += '<tr data-tankid="' + myTank.tank_id + '" class="tank '
-						+ (tankAdditionalInfos.in_garage?'ingarage':'hidden')
+					tableContent += '<tr data-tankid="' + myTank.tank_id + '" class="tank'
+						+ (tankAdditionalInfos.in_garage?' ingarage':' hidden')
 						+ (tankInfos.is_premium?' ispremium':'')
 						+ (tankInfos.is_premium||tankAdditionalInfos.is_full?' isfull':'')
-						+ (tankAdditionalInfos.is_ready?' isready':'') + '">';
+						+ (tankAdditionalInfos.is_ready?' isready':'')
+						+ ' tanklevel' + tankInfos.level
+						+ ' tanktype' + tankInfos.type + '">';
 					tableContent += '<td><img src="' + tankInfos.contour_image + '" /></td>';
 					tableContent += '<td data-value="' + myTank.mark_of_mastery + '" class="tankmastery' + myTank.mark_of_mastery + '">&nbsp;</td>';
 					tableContent += '<td data-value="' + tankInfos.nation_i18n + '"><img src="./themes/' + gConfig.THEME + '/style/images/nation_' + tankInfos.nation + '.png" alt="' + tankInfos.nation_i18n + '" title="' + tankInfos.nation_i18n + '" width="24" height="24" /></td>';
 					tableContent += '<td class="tankname">' + tankInfos.short_name_i18n + '</td>';
-					tableContent += '<td data-value="' + tankInfos.level  + '"><img src="./themes/' + gConfig.THEME + '/style/images/Tier_' + tankInfos.level + '_icon.png" alt="' + gTANKS_LEVEL[tankInfos.level - 1] + '" title="' + tankInfos.level + '" /></td>';
+					tableContent += '<td data-value="' + tankInfos.level + '"><img src="./themes/' + gConfig.THEME + '/style/images/Tier_' + tankInfos.level + '_icon.png" alt="' + gTANKS_LEVEL[tankInfos.level - 1] + '" title="' + tankInfos.level + '" /></td>';
 					tableContent += '<td data-value="' + gTANKS_TYPES[tankInfos.type] + '"><img src="./themes/' + gConfig.THEME + '/style/images/type-' + tankInfos.type + '.png" alt="' + tankInfos.type_i18n + '" title="' + tankInfos.type_i18n + '" /></td>';
 					tableContent += '<td>' + myTank.all.battles + '</td>';
 					tableContent += '<td><span class="label label-' + getWN8Class(tankAdditionalInfos.wn8) + '">' + (Math.round(tankAdditionalInfos.wn8 * 100) / 100) + '</span></td>';
@@ -230,7 +240,7 @@ var onLoad = function() {
 						},
 						myTankId = myElem.closest('tr').data('tankid'),
 						myTankAdditionalInfos = getTankAdditionalInfos(myTankId, dataMyTanksAdditionalInfos),
-						myTankInfos = dataTankopedia[myTankId];
+						myTankInfos = gTankopedia[myTankId];
 					if (myTankInfos.is_premium) {
 						myElem.removeClass('slider-info').addClass('slider-material-yellow');
 					}
@@ -314,7 +324,7 @@ var onLoad = function() {
 					}
 					for (i=0; i<dataMyTanks.length; i++) {
 						myTank = dataMyTanks[i];
-						tankInfos = dataTankopedia[myTank.tank_id];
+						tankInfos = gTankopedia[myTank.tank_id];
 						tankAdditionalInfos = getTankAdditionalInfos(myTank.tank_id, dataMyTanksAdditionalInfos);
 						if (tankAdditionalInfos.in_garage
 								&& tankAdditionalInfos.is_ready
@@ -480,11 +490,31 @@ var onLoad = function() {
 				$('#btnShowTanksResume').on('click', function(evt) {
 					$('#chkContourIcons').change();
 				});
+				selTankLevel.on('change', function(evt) {
+					applyTableTanksFilters({
+						isfull: parseInt(slideTankStatus.val()) > 0,
+						isready: parseInt(slideTankStatus.val()) > 1,
+						ingarage: chkInGarage.is(':checked'),
+						tanklevel: selTankLevel.val(),
+						tanktype: selTankType.val()
+					});
+				});
+				selTankType.on('change', function(evt) {
+					applyTableTanksFilters({
+						isfull: parseInt(slideTankStatus.val()) > 0,
+						isready: parseInt(slideTankStatus.val()) > 1,
+						ingarage: chkInGarage.is(':checked'),
+						tanklevel: selTankLevel.val(),
+						tanktype: selTankType.val()
+					});
+				});
 				chkInGarage.on('change', function(evt) {
 					applyTableTanksFilters({
 						isfull: parseInt(slideTankStatus.val()) > 0,
 						isready: parseInt(slideTankStatus.val()) > 1,
-						ingarage: chkInGarage.is(':checked')
+						ingarage: chkInGarage.is(':checked'),
+						tanklevel: selTankLevel.val(),
+						tanktype: selTankType.val()
 					});
 				});
 				slideTankStatus.noUiSlider({
@@ -504,7 +534,9 @@ var onLoad = function() {
 						applyTableTanksFilters({
 							isfull: parseInt(slideTankStatus.val()) > 0,
 							isready: parseInt(slideTankStatus.val()) > 1,
-							ingarage: chkInGarage.is(':checked')
+							ingarage: chkInGarage.is(':checked'),
+							tanklevel: selTankLevel.val(),
+							tanktype: selTankType.val()
 						});
 					}
 				});

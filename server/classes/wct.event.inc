@@ -15,6 +15,7 @@ class wctEvent {
 	var $dateModification;
 	var $isRecurrent;
 	var $participants;
+	var $tanks;
 
 	/**
 	 * Get a list of files used in an interval.
@@ -107,6 +108,7 @@ class wctEvent {
 		$this->dateModification = -1;
 		$this->isRecurrent = false;
 		$this->participants = array();
+		$this->tanks = array();
 		$this->isSpareAllowed = false;
 	}
 
@@ -120,6 +122,7 @@ class wctEvent {
 		$instance->type = $json['type'];
 		$instance->owner = $json['owner'];
 		$instance->participants = $json['participants'];
+		$instance->tanks = isset($json['tanks'])?$json['tanks']:array();
 		$instance->isSpareAllowed = isset($json['spareallowed'])?$json['spareallowed']:false;
 		return $instance;
 	}
@@ -133,6 +136,7 @@ class wctEvent {
 		$result['end'] = $this->dateEnd . (!$pForStorage?'000':'');
 		$result['owner'] = $this->owner;
 		$result['participants'] = $this->participants;
+		$result['tanks'] = $this->tanks;
 		$result['type'] = $this->type;
 		$result['spareallowed'] = $this->isSpareAllowed;
 		if (!$pForStorage) {
@@ -234,6 +238,14 @@ class wctEvent {
 
 	public function setParticipants($pParticipants) {
 		$this->participants = $pParticipants;
+	}
+
+	public function getTanks() {
+		return $this->tanks;
+	}
+
+	public function setTanks($pTanks) {
+		$this->tanks = $pTanks;
 	}
 
 	public function isPrivate() {

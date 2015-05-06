@@ -180,7 +180,7 @@ var onLoad = function() {
 				access_token: gConfig.ACCESS_TOKEN,
 				language: gConfig.LANG
 			}, function(dataTankopediaResponse) {
-				var dataTankopedia = dataTankopediaResponse.data;
+				gTankopedia = dataTankopediaResponse.data;
 				advanceProgress(i18n.t('loading.membertanksinfos'));
 				$.post(gConfig.WG_API_URL + 'wot/account/tanks/', {
 					application_id: gConfig.WG_APP_ID,
@@ -226,7 +226,7 @@ var onLoad = function() {
 											}
 										}
 										if (!isTankInList) {
-											tankDetails = dataTankopedia[playerTankAdditionalInfos.tank_id];
+											tankDetails = gTankopedia[playerTankAdditionalInfos.tank_id];
 											dataToAdd = tankDetails;
 											dataToAdd['owners'] = {};
 										}

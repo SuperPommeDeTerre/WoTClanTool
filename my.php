@@ -47,6 +47,33 @@ include(WCT_INC_DIR . 'ads.php');
 				<button type="button" id="btnShowTanksResume" class="btn btn-default btn-material-green-300" data-target="#my-dialog" data-toggle="modal"><span class="glyphicon glyphicon-headphones" aria-hidden="true"></span></button>
 			</div>
 			<div class="pull-right form-inline">
+				<div class="input-group pull-left">
+					<span class="input-group-addon glyphicon glyphicon-tasks"></span>
+					<select class="form-control" id="tankFilterLevel" data-previousval="all">
+						<option value="all" data-i18n="tank.alllevels"></option>
+						<option value="1" data-i18n="tank.level.0"></option>
+						<option value="2" data-i18n="tank.level.1"></option>
+						<option value="3" data-i18n="tank.level.2"></option>
+						<option value="4" data-i18n="tank.level.3"></option>
+						<option value="5" data-i18n="tank.level.4"></option>
+						<option value="6" data-i18n="tank.level.5"></option>
+						<option value="7" data-i18n="tank.level.6"></option>
+						<option value="8" data-i18n="tank.level.7"></option>
+						<option value="9" data-i18n="tank.level.8"></option>
+						<option value="10" data-i18n="tank.level.9"></option>
+					</select>
+				</div>
+				<div class="input-group pull-left" style="margin-right:.25em">
+					<span class="input-group-addon glyphicon glyphicon-knight"></span>
+					<select class="form-control" id="tankFilterType" data-previousval="all">
+						<option value="all" data-i18n="tank.alltypes"></option>
+						<option value="lightTank" data-i18n="tank.type.lightTank"></option>
+						<option value="mediumTank" data-i18n="tank.type.mediumTank"></option>
+						<option value="heavyTank" data-i18n="tank.type.heavyTank"></option>
+						<option value="AT-SPG" data-i18n="tank.type.AT-SPG"></option>
+						<option value="SPG" data-i18n="tank.type.SPG"></option>
+					</select>
+				</div>
 				<div class="togglebutton togglebutton-info pull-left">
 					<label><span data-i18n="filter.tank.in_garage"></span>
 						<input type="checkbox" id="chkInGarage" checked="checked" />

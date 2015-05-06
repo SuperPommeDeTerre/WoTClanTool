@@ -195,7 +195,8 @@
 		"description": "Description",
 		"startdate": "Date de début",
 		"enddate": "Date de fin",
-		"participants": "Participants",
+		"participantstitle": "Participants",
+		"tanks": "Line-up",
 		"enrol": {
 			"yes": "S'inscrire",
 			"spare": "Remplaçant/incertain",
@@ -203,6 +204,7 @@
 		},
 		"noevent": "Aucun évènement",
 		"noparticipant": "Aucun participant",
+		"notank": "Aucun char sélectionné",
 		"participants": "__count__ participant",
 		"participants_plural": "__count__ participants"
 	},
@@ -363,6 +365,7 @@
 			"IX",
 			"X"
 		],
+		"alltypes": "Tous les types",
 		"type": {
 			"lightTank": "Léger",
 			"lightTank_plural_0": "Léger",
