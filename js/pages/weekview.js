@@ -29,7 +29,7 @@ var onLoad = function() {
 					myDayEventsHtml += '<h4><span class="label label-default">' + myEventStartDate.format('LT') + '</span> ' + myEvent.title + '</h4>';
 					myDayEventsHtml += '<p>' + myEvent.description + '</p>';
 					if (typeof(myEvent.participants[gConfig.PLAYER_ID]) === 'undefined') {
-						myDayEventsHtml += '<div class="btn-group" role="group">';
+						myDayEventsHtml += '<div class="btn-group btnEnrolContainer" role="group">';
 						myDayEventsHtml += '<button type="button" class="btn btn-default btn-success btnEnrol" data-attendance="yes" title="' + i18n.t('event.enrol.yes') + '" data-event-id="' + myEvent.id + '"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>';
 						if (myEvent.spareallowed) {
 							myDayEventsHtml += '<button type="button" class="btn btn-default btn-info btnEnrol" data-attendance="spare" title="' + i18n.t('event.enrol.spare') + '" data-event-id="' + myEvent.id + '"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button>';
@@ -59,7 +59,7 @@ var onLoad = function() {
 					var myEventContainer = myButton.closest('div.eventContainer');
 					myEventContainer.data('participants', (myEventContainer.data('participants') * 1) + 1);
 					myEventContainer.append('<p>' + i18n.t('event.participants', { count: myEventContainer.data('participants') }) + '</p>');
-					myEventContainer.find('.btnEnrol').remove();
+					myEventContainer.find('.btnEnrolContainer').parent().remove();
 				}
 			}, 'json');
 		});
