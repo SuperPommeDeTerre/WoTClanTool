@@ -308,7 +308,6 @@ var onLoad = function() {
 							onAfterModalShown: function(events) {
 								fillEventDialog($("#events-modal"), events);
 							},
-							//events_source: './server/calendar.php?a=list'
 							events_source: './server/calendar.php?a=list'
 						});
 						$('.btn-group button[data-calendar-nav]').each(function() {
@@ -334,12 +333,12 @@ var onLoad = function() {
 		}, 'json');
 	}, 'json');
 	// Get the clan province's infos
-	$.post(gConfig.WG_API_URL + 'wot/clan/provinces/', {
+	$.post(gConfig.WG_API_URL + 'wot/globalwar/clanprovinces/', {
 		application_id: gConfig.WG_APP_ID,
 		language: gConfig.LANG,
 		access_token: gConfig.ACCESS_TOKEN,
 		clan_id: gPersonalInfos.clan_id
 	}, function(dataClanProvincesResponse) {
-		$('#clanTotalProvinces').text(i18n.t('clan.nbprovinces', { count: dataClanProvincesResponse.count }));
+		$('#clanTotalProvinces').text(i18n.t('clan.nbprovinces', { count: dataClanProvincesResponse.data[gPersonalInfos.clan_id].provinces.length }));
 	}, 'json');
 };
