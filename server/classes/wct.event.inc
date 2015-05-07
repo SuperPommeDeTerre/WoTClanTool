@@ -74,6 +74,24 @@ class wctEvent {
 		return $filePath;
 	}
 
+	public static function getFileFromId($pId) {
+		$idParts = explode('-', $pId);
+		$filePath = WCT_BASE_EVENT_DIR . DIRECTORY_SEPARATOR . $idParts[0] . DIRECTORY_SEPARATOR . $idParts[1] . '.json';
+		// Create file if it doesn't exist
+		$fileDir = dirname($filePath);
+		if (!is_dir($fileDir)) {
+			mkdir($fileDir, 0755, true);
+		}
+		if (!file_exists($filePath)) {
+			file_put_contents($filePath, json_encode(array()));
+		}
+		return $filePath;
+	}
+
+	public static function getBaseIdFromId($pId) {
+		return substr($pId, 0, 8);
+	}
+
 	public static function computeBaseId($pDate) {
 		return date(addslashes('Y-m-'), $pDate);
 	}

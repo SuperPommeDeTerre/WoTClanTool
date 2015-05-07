@@ -42,10 +42,10 @@ switch ($_REQUEST['a']) {
 		if (isset($_REQUEST['eventId'])) {
 			$eventId = $_REQUEST['eventId'];
 		}
+		$myEvent->setOwner($_SESSION['account_id']);
 		if ($eventId != '') {
 			$myEvent->setId($eventId);
 		} else {
-			$myEvent->setOwner($_SESSION['account_id']);
 			$myEvent->setDateCreation(time());
 			$myEvent->setDateModification(time());
 		}
@@ -62,6 +62,27 @@ switch ($_REQUEST['a']) {
 		if (isset($_REQUEST['eventEndDate'])) {
 			$myEvent->setDateEnd(intval($_REQUEST['eventEndDate']));
 		}
+		// If the start date has changed, verify if the id must be computed again...
+		if ($eventId != '') {
+			if (wctEvent::computeBaseId($myEvent->getDateStart()) != wctEvent::getBaseIdFromId($eventId)) {
+				$saveFile = wctEvent::getFileFromId($eventId);
+				$fileContents = json_decode(file_get_contents($saveFile), true);
+				$fileContents = is_array($fileContents) ? $fileContents : array($fileContents);
+				if (count($fileContents) == 1 && $fileContents[0] == NULL) {
+					array_splice($fileContents, 0, 1);
+				}
+				foreach ($fileContents as $eventIndex => &$eventData) {
+					$tmpEvent = wctEvent::fromJson($eventData);
+					if ($eventId == $tmpEvent->getId()) {
+						// The actual event is found. Update it.
+						array_splice($fileContents, $eventIndex, 1);
+						break;
+					}
+				}
+				file_put_contents($saveFile, json_encode($fileContents), LOCK_EX);
+				$eventId = '';
+			}
+		}
 		// Load events from data file
 		$saveFile = wctEvent::getFileFromDate($myEvent->getDateStart());
 		$fileContents = json_decode(file_get_contents($saveFile), true);
@@ -75,7 +96,7 @@ switch ($_REQUEST['a']) {
 		foreach ($fileContents as $eventIndex => &$eventData) {
 			$tmpEvent = wctEvent::fromJson($eventData);
 			if ($eventId != '') {
-				if ($eventId == $eventData->getId()) {
+				if ($eventId == $tmpEvent->getId()) {
 					// The actual event is found. Update it.
 					array_splice($fileContents, $eventIndex, 1);
 					break;
@@ -200,7 +221,7 @@ switch ($_REQUEST['a']) {
 		$isJsonResult = false;
 		$myEventId = $_REQUEST['id'];
 		$myEvent = wctEvent::fromId($_REQUEST['id']);
-		$result .= '<div id="eventDetails' . $myEvent->getId() . '" class="eventDetails" data-event-id="' . $myEvent->getId() . '" data-owner="' . $myEvent->getOwner() . '">';
+		$result .= '<div id="eventDetails' . $myEvent->getId() . '" class="eventDetails" data-event-id="' . $myEvent->getId() . '" data-owner="' . $myEvent->getOwner() . '" data-event-type="' . $myEvent->getType() . '">';
 		$result .= '<div class="eventDetailsDisplay">';
 		if ($myEvent->getDateStart() > time()) {
 			$result .= '<div class="eventActions pull-right">';
@@ -217,9 +238,7 @@ switch ($_REQUEST['a']) {
 			}
 			$result .= '<div class="btn-group pull-right" role="group">';
 			$result .= '<button type="button" class="btn btn-default btn-success btnEnrol' . ($userAttendance == 'yes'?' active':'') . '" data-attendance="yes" data-i18n="[title]event.enrol.yes;" data-event-id="' . $myEvent->getId() . '"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>';
-			if ($myEvent->isSpareAllowed()) {
-				$result .= '<button type="button" class="btn btn-default btn-info btnEnrol' . ($userAttendance == 'spare'?' active':'') . '" data-attendance="spare" data-i18n="[title]event.enrol.spare;" data-event-id="' . $myEvent->getId() . '"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button>';
-			}
+			$result .= '<button type="button"' . ($myEvent->isSpareAllowed()?'':' style="display:none"') .' class="btn btn-default btn-info btnEnrol' . ($userAttendance == 'spare'?' active':'') . '" data-attendance="spare" data-i18n="[title]event.enrol.spare;" data-event-id="' . $myEvent->getId() . '"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button>';
 			$result .= '<button type="button" class="btn btn-default btn-danger btnEnrol' . ($userAttendance == 'no'?' active':'') . '" data-attendance="no" data-i18n="[title]event.enrol.no;" data-event-id="' . $myEvent->getId() . '"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>';
 			$result .= '</div>';
 			$result .= '<div class="clearfix"></div>';
@@ -261,11 +280,11 @@ switch ($_REQUEST['a']) {
 		$result .= '</ul>';
 		$result .= '</div>';
 		$result .= '</div></div>';
+		$result .= '</div>';
 		if ($_SESSION['account_id'] == $myEvent->getOwner()) {
 			$result .= '<div class="eventDetailsModify">';
 			$result .= '</div>';
 		}
-		$result .= '</div>';
 		break;
 }
 if ($isJsonResult) {

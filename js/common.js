@@ -15,7 +15,9 @@ function fillEventDialog(pDialog, pEvents) {
 		gOffsetListParticipants = {},
 		gOffsetListTanks = {},
 		gEventStartDate = 0,
-		gEventEndDate = 0;
+		gEventEndDate = 0,
+		gModifyPanel = pDialog.find('.eventDetailsModify'),
+		gDisplayPanel = pDialog.find('.eventDetailsDisplay');
 
 	function loadTanks() {
 		// Load tankopedia if it is not loaded
@@ -133,6 +135,93 @@ function fillEventDialog(pDialog, pEvents) {
 	// Handle click on modify event button
 	pDialog.find('#btnModifyEvent').on('click', function(evt) {
 		evt.preventDefault();
+		// Fill modify panel if empty
+		if (gModifyPanel.html() == '') {
+			var modifyPanelHtml = '',
+				currentType = pDialog.find('.eventDetails').data('event-type');
+			modifyPanelHtml += '<input id="modifyEventTitle" type="text" class="form-control" placeholder="' + i18n.t('action.calendar.prop.title') + '" aria-describedby="sizing-addon1" value="' + pDialog.find('.modal-header h3').text() + '" />';
+			modifyPanelHtml += '<textarea id="modifyEventDescription" class="form-control" placeholder="' + i18n.t('action.calendar.prop.description') + '" aria-describedby="sizing-addon1">' + pDialog.find('.eventDescription').text() + '</textarea>';
+			modifyPanelHtml += '<div class="input-group date eventDateTimePicker" id="modifyEventStartDate">';
+			modifyPanelHtml += '<input type="text" class="form-control" placeholder="' + i18n.t('action.calendar.prop.startdate') + '" value="' + gEventStartDate.format('LLL') + '" />';
+			modifyPanelHtml += '<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>';
+			modifyPanelHtml += '</div>';
+			modifyPanelHtml += '<div class="input-group date eventDateTimePicker" id="modifyEventEndDate">';
+			modifyPanelHtml += '<input type="text" class="form-control" placeholder="' + i18n.t('action.calendar.prop.enddate') + '" value="' + gEventEndDate.format('LLL') + '" />';
+			modifyPanelHtml += '<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>';
+			modifyPanelHtml += '</div>';
+			modifyPanelHtml += '<div class="togglebutton">';
+			modifyPanelHtml += '<label><span>' + i18n.t('action.calendar.prop.allowspare') + '</span>';
+			modifyPanelHtml += '<input type="checkbox" id="modifyEventSpareAllowed" value="true"' + (pDialog.find('.btnEnrol[data-attendance="spare"]').is(':visible')?' checked="checked"':'') + ' />';
+			modifyPanelHtml += '</label>';
+			modifyPanelHtml += '</div>';
+			modifyPanelHtml += '<div class="input-group">';
+			modifyPanelHtml += '<div class="eventType">';
+			modifyPanelHtml += '<h5>' + i18n.t('action.calendar.prop.type') + '</h5>';
+			modifyPanelHtml += '<div class="radio radio-material-black"><label><input type="radio"' + (currentType=='clanwar'?' checked="checked"':'') + ' value="clanwar" name="modifyEventType"><abbr>' + i18n.t('action.calendar.prop.types.clanwar') + '</abbr></label></div>';
+			modifyPanelHtml += '<div class="radio radio-material-red-800"><label><input type="radio"' + (currentType=='compa'?' checked="checked"':'') + ' value="compa" name="modifyEventType"><abbr>' + i18n.t('action.calendar.prop.types.compa') + '</abbr></label></div>';
+			modifyPanelHtml += '<div class="radio radio-material-purple-600"><label><input type="radio"' + (currentType=='stronghold'?' checked="checked"':'') + ' value="stronghold" name="modifyEventType"><abbr>' + i18n.t('action.calendar.prop.types.stronghold') + '</abbr></label></div>';
+			modifyPanelHtml += '<div class="radio radio-material-blue-700"><label><input type="radio"' + (currentType=='7vs7'?' checked="checked"':'') + ' value="7vs7" name="modifyEventType"><abbr>' + i18n.t('action.calendar.prop.types.7vs7') + '</abbr></label></div>';
+			modifyPanelHtml += '<div class="radio radio-material-green-600"><label><input type="radio"' + (currentType=='training'?' checked="checked"':'') + ' value="training" name="modifyEventType"><abbr>' + i18n.t('action.calendar.prop.types.training') + '</abbr></label></div>';
+			modifyPanelHtml += '<div class="radio radio-material-grey-500"><label><input type="radio"' + (currentType=='other'?' checked="checked"':'') + ' value="other" name="modifyEventType"><abbr>' + i18n.t('action.calendar.prop.types.other') + '</abbr></label></div>';
+			modifyPanelHtml += '</div>';
+			modifyPanelHtml += '</div>';
+			modifyPanelHtml += '<button type="button" id="modifyEventOk" class="btn btn-default btn-success">' + i18n.t('btn.ok') + '</button>';
+			gModifyPanel.html(modifyPanelHtml);
+			$.material.init(modifyPanelHtml);
+			// Init date time pickers
+			gModifyPanel.find('.eventDateTimePicker').datetimepicker({
+				locale: gConfig.LANG,
+				stepping: 5,
+				format: 'LLL',
+				sideBySide: true
+			});
+			// Handle min and max dates
+			gModifyPanel.find('#modifyEventStartDate').on('dp.change', function (e) {
+				gModifyPanel.find('#modifyEventEndDate').data('DateTimePicker').minDate(e.date);
+			});
+			gModifyPanel.find('#modifyEventEndDate').on('dp.change', function (e) {
+				gModifyPanel.find('#modifyEventStartDate').data('DateTimePicker').maxDate(e.date);
+			});
+			gModifyPanel.find('#modifyEventOk').on('click', function(evt) {
+				// Prevent default action of button
+				evt.preventDefault();
+				// Post data to server
+				$.post('./server/calendar.php', {
+					a: 'save',
+					eventId: pDialog.find('.eventDetails').data('event-id'),
+					eventTitle: $('#modifyEventTitle').val(),
+					eventType: $('[name=modifyEventType]:checked').val(),
+					eventDescription: $('#modifyEventDescription').val(),
+					eventStartDate: moment($('#modifyEventStartDate input').val(), 'LLL').unix(),
+					eventEndDate: moment($('#modifyEventEndDate input').val(), 'LLL').unix(),
+					eventAllowSpare: $('#modifyEventSpareAllowed').is(':checked')
+				}, function(addEventResult) {
+					// Handle result
+					if (addEventResult.result == 'ok') {
+						// Update display pane
+						pDialog.find('.modal-header h3').text(addEventResult.data.title);
+						pDialog.find('.eventDetails').data('event-type', addEventResult.data.type);
+						gDisplayPanel.find('.eventDescription').text(addEventResult.data.description);
+						gDisplayPanel.find('.eventStartDate').data('date', addEventResult.data.start).find('.date').text(moment(addEventResult.data.start * 1).format('LLL'));
+						gDisplayPanel.find('.eventEndDate').data('date', addEventResult.data.end).find('.date').text(moment(addEventResult.data.end * 1).format('LLL'));
+						if (addEventResult.data.spareallowed) {
+							pDialog.find('.btnEnrol[data-attendance="spare"]').show();
+						} else {
+							pDialog.find('.btnEnrol[data-attendance="spare"]').hide();
+						}
+						// Show display pane
+						gModifyPanel.hide();
+						gDisplayPanel.fadeIn('fast');
+						// Refresh calendar
+						if (typeof(gCalendar) != 'undefined') {
+							gCalendar.view();
+						}
+					}
+				}, 'json');
+			});
+		}
+		gDisplayPanel.hide();
+		gModifyPanel.fadeIn('fast');
 	});
 	// Handle enrolment
 	pDialog.find('.btnEnrol').on('click', function(evt) {

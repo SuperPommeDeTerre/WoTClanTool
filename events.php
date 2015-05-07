@@ -68,7 +68,7 @@ include(WCT_INC_DIR . 'ads.php');
 					</nav>
 				-->
 					<div id="containerEventMain">
-						<input id="eventTitle" type="text" class="form-control" data-i18n="[placeholder]action.calendar.prop.title;" aria-describedby="sizing-addon1">
+						<input id="eventTitle" type="text" class="form-control" data-i18n="[placeholder]action.calendar.prop.title;" aria-describedby="sizing-addon1" />
 						<textarea id="eventDescription" class="form-control" data-i18n="[placeholder]action.calendar.prop.description;" aria-describedby="sizing-addon1"></textarea>
 						<div class="input-group date eventDateTimePicker" id="eventStartDate">
 							<input type="text" class="form-control" data-i18n="[placeholder]action.calendar.prop.startdate;" />
