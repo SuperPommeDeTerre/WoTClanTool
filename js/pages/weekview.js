@@ -29,10 +29,12 @@ var onLoad = function() {
 					myDayEventsHtml += '<h4><span class="label label-default">' + myEventStartDate.format('LT') + '</span> ' + myEvent.title + '</h4>';
 					myDayEventsHtml += '<p>' + myEvent.description + '</p>';
 					if (typeof(myEvent.participants[gConfig.PLAYER_ID]) === 'undefined') {
-						myDayEventsHtml += '<a class="btn btn-lg btn-material-lime-300 btnEnrol" href="#enrol-' + myEvent.id + '" role="button" data-attendance="yes">' + i18n.t('event.enrol.yes') + '</a>';
+						myDayEventsHtml += '<div class="btn-group" role="group">';
+						myDayEventsHtml += '<button type="button" class="btn btn-default btn-success btnEnrol" data-attendance="yes" title="' + i18n.t('event.enrol.yes') + '" data-event-id="' + myEvent.id + '"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>';
 						if (myEvent.spareallowed) {
-							myDayEventsHtml += '<a class="btn btn-lg btn-material-lime-300 btnEnrol" href="#enrol-' + myEvent.id + '" role="button" data-attendance="spare">' + i18n.t('event.enrol.spare') + '</a>';
+							myDayEventsHtml += '<button type="button" class="btn btn-default btn-info btnEnrol" data-attendance="spare" title="' + i18n.t('event.enrol.spare') + '" data-event-id="' + myEvent.id + '"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button>';
 						}
+						myDayEventsHtml += '</div>';
 					} else {
 						myDayEventsHtml += '<p>' + i18n.t('event.participants', { count: Object.keys(myEvent.participants).length }) + '</p>';
 					}
@@ -50,7 +52,7 @@ var onLoad = function() {
 			var myButton = $(this);
 			$.post('./server/calendar.php', {
 				a: 'enrol',
-				eventId: myButton.closest('div').data('event-id'),
+				eventId: myButton.data('event-id'),
 				attendance: myButton.data('attendance')
 			}, function(enrolResponse) {
 				if (enrolResponse.result == 'ok') {
