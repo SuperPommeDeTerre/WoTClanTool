@@ -25,7 +25,7 @@ var onLoad = function() {
 				var myEventStartDate = moment(myEvent.start * 1),
 					myEventEndDate = moment(myEvent.end * 1);
 				if (myEventStartDate.isBetween(startOfDay, endOfDay)) {
-					myDayEventsHtml += '<div data-event-id="' + myEvent.id + '" data-participants="' + Object.keys(myEvent.participants).length + '">';
+					myDayEventsHtml += '<div class="eventContainer" data-event-id="' + myEvent.id + '" data-participants="' + Object.keys(myEvent.participants).length + '">';
 					myDayEventsHtml += '<h4><span class="label label-default">' + myEventStartDate.format('LT') + '</span> ' + myEvent.title + '</h4>';
 					myDayEventsHtml += '<p>' + myEvent.description + '</p>';
 					if (typeof(myEvent.participants[gConfig.PLAYER_ID]) === 'undefined') {
@@ -56,7 +56,7 @@ var onLoad = function() {
 				attendance: myButton.data('attendance')
 			}, function(enrolResponse) {
 				if (enrolResponse.result == 'ok') {
-					var myEventContainer = myButton.closest('div');
+					var myEventContainer = myButton.closest('div.eventContainer');
 					myEventContainer.data('participants', (myEventContainer.data('participants') * 1) + 1);
 					myEventContainer.append('<p>' + i18n.t('event.participants', { count: myEventContainer.data('participants') }) + '</p>');
 					myEventContainer.find('.btnEnrol').remove();
