@@ -127,9 +127,42 @@ function fillEventDialog(pDialog, pEvents) {
 	pDialog.find('#btnModifyEvent').on('click', function(evt) {
 		evt.preventDefault();
 	});
+	// Handle enrolment
+	pDialog.find('.btnEnrol').on('click', function(evt) {
+		evt.preventDefault();
+		var myButton = $(this);
+		if (!myButton.hasClass('active')) {
+			$.post('./server/calendar.php', {
+				a: 'enrol',
+				eventId: myButton.data('event-id'),
+				attendance: myButton.data('attendance')
+			}, function(enrolResponse) {
+				if (enrolResponse.result == 'ok') {
+					var myEnrolChooseContainer = myButton.closest('div');
+					myEnrolChooseContainer.find('.active').removeClass('active');
+					myButton.addClass('active');
+					pDialog.find('.eventEnrolment').text(i18n.t('event.enrol.state.' + myButton.data('attendance')));
+					// Handle new attendance state
+					if (myButton.data('attendance') == 'no') {
+						pDialog.find('.eventParticipantsList li[data-player-id="' + gConfig.PLAYER_ID + '"], .eventLineUp li[data-player-id="' + gConfig.PLAYER_ID + '"]').remove();
+						pDialog.find('.eventParticipantTanks').remove();
+					} else {
+						var myCurrentPlayerInfos = pDialog.find('.eventParticipantsList li[data-player-id="' + gConfig.PLAYER_ID + '"]');
+						if (myCurrentPlayerInfos.length > 0) {
+							myCurrentPlayerInfos.removeAttr('class');
+							myCurrentPlayerInfos.addClass('attendance-' + myButton.data('attendance'));
+						} else {
+							pDialog.find('.eventParticipantsList').append('<li data-player-id="' + gConfig.PLAYER_ID + '" class="attendance-' + myButton.data('attendance') + '"><span class="role role_' + getClanMember(gConfig.PLAYER_ID).role + '">' + gPersonalInfos.nickname + '</span></li>');
+							pDialog.find('.eventLineUp').append('<li data-player-id="' + gConfig.PLAYER_ID + '">' + i18n.t('event.notank') + '</li>');
+						}
+					}
+				}
+			}, 'json');
+		}
+	});
 	gOffsetListParticipants = pDialog.find('.eventParticipantsList').offset();
 	gOffsetListTanks = pDialog.find('.eventLineUp').offset();
-	pDialog.find('.eventParticipantsList li').on('click', function(evt) {
+	pDialog.find('.eventParticipantsList').on('click', 'li', function(evt) {
 		var myPlayerItem = $(this);
 		if (myPlayerItem.hasClass('active')) {
 			pDialog.find('.eventParticipantTanks').remove();

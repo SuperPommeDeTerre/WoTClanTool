@@ -43,7 +43,28 @@ var onLoad = function() {
 	checkConnected();
 	progressNbSteps = 5;
 	advanceProgress(i18n.t('loading.claninfos'));
-	setNavBrandWithClan();
+	setNavBrandWithClan(function() {
+		var membersList = '',
+			isFirst = true;
+		for (var i=0; i<gClanInfos.members_count; i++) {
+			if (isFirst) {
+				isFirst = false;
+			} else {
+				membersList += ',';
+			}
+			membersList += gClanInfos.members[i].account_id;
+		}
+		advanceProgress(i18n.t('loading.membersinfos'));
+		$.post(gConfig.WG_API_URL + 'wot/account/info/', {
+			application_id: gConfig.WG_APP_ID,
+			language: gConfig.G_API_LANG,
+			access_token: gConfig.ACCESS_TOKEN,
+			account_id: membersList
+		}, function(dataPlayersResponse) {
+			advanceProgress(i18n.t('loading.generating'));
+			gDataPlayers = dataPlayersResponse.data;
+		}, 'json');
+	});
 	advanceProgress(i18n.t('loading.tanksinfos'));
 	var myTanksTable = $('#tableMyTanks'),
 		myTanksSmallContainer = $('#myTanksContainerSmall'),
@@ -95,16 +116,9 @@ var onLoad = function() {
 					myEventEndDate = moment(myEvent.end * 1);
 				if (myEventStartDate.isBetween(startOfDay, endOfDay)) {
 					myDayEventsHtml += '<div data-event-id="' + myEvent.id + '" data-participants="' + Object.keys(myEvent.participants).length + '">';
-					myDayEventsHtml += '<h4><span class="label label-default">' + myEventStartDate.format('LT') + '</span> ' + myEvent.title + '</h4>';
+					myDayEventsHtml += '<h4><span class="label label-default">' + myEventStartDate.format('LT') + '</span> <a href="#" class="lnkShowEvent" data-target="#events-modal" data-toggle="modal" data-event-id="' +  myEvent.id + '">' + myEvent.title + '</a></h4>';
 					myDayEventsHtml += '<p>' + myEvent.description + '</p>';
-					if (typeof(myEvent.participants[gConfig.PLAYER_ID]) === 'undefined') {
-						myDayEventsHtml += '<a class="btn btn-lg btn-material-lime-300 btnEnrol" href="#enrol-' + myEvent.id + '" role="button" data-attendance="yes">' + i18n.t('event.enrol.yes') + '</a>';
-						if (myEvent.spareallowed) {
-							myDayEventsHtml += '<a class="btn btn-lg btn-material-lime-300 btnEnrol" href="#enrol-' + myEvent.id + '" role="button" data-attendance="spare">' + i18n.t('event.enrol.spare') + '</a>';
-						}
-					} else {
-						myDayEventsHtml += '<p>' + i18n.t('event.participants', { count: Object.keys(myEvent.participants).length }) + '</p>';
-					}
+					myDayEventsHtml += '<p>' + i18n.t('event.participants', { count: Object.keys(myEvent.participants).length }) + '</p>';
 					myDayEventsHtml += '</div>';
 				}
 			}
@@ -113,6 +127,25 @@ var onLoad = function() {
 				myDayEventsHtml = '<p>' + i18n.t('event.noevent') + '</p>';
 			}
 			myElem.find('h3').after(myDayEventsHtml);
+			myElem.find('.lnkShowEvent').on('click', function(evt) {
+				evt.preventDefault();
+				var myEventId = $(this).data('event-id');
+				// Fill modal window
+				$.get('./server/calendar.php', {
+					a: 'get',
+					id: myEventId
+				}, function(getEventData) {
+					var myDialog = $('#events-modal');
+					for (var i=0; i<myEvents.length; i++) {
+						if (myEvents[i].id == myEventId) {
+							myDialog.find('.modal-header h3').text(myEvents[i].title);
+							break;
+						}
+					}
+					myDialog.find('.modal-body').html(getEventData);
+					fillEventDialog(myDialog);
+				}, 'html');
+			});
 		});
 		$('#myCalendar').on('click', '.btnEnrol', function(evt) {
 			evt.preventDefault();

@@ -81,7 +81,7 @@ switch ($_REQUEST['a']) {
 					break;
 				}
 			} else {
-				$localId = $tmpEvent->getLocalId();
+				$localId = max($localId, $tmpEvent->getLocalId());
 			}
 		}
 		// Add event if it's a new event
@@ -126,24 +126,36 @@ switch ($_REQUEST['a']) {
 			$eventId = $_REQUEST['eventId'];
 			$myEvent = wctEvent::fromId($eventId);
 			$myParticipants = $myEvent->getParticipants();
-			if (!array_key_exists($_SESSION['account_id'], $myParticipants)) {
-				$myParticipants[$_SESSION['account_id']] = $_REQUEST['attendance'];
-				$myEvent->setParticipants($myParticipants);
-				// Perform save...
-				$myEventsFile = wctEvent::getFileFromDate($myEvent->getDateStart());
-				$fileContents = json_decode(file_get_contents($myEventsFile), true);
-				$fileContents = is_array($fileContents) ? $fileContents : array($fileContents);
-				foreach ($fileContents as $eventIndex => $eventData) {
-					$tmpEvent = wctEvent::fromJson($eventData);
-					if ($eventId == $tmpEvent->getId()) {
-						// The actual event is found. Update it.
-						array_splice($fileContents, $eventIndex, 1);
-						break;
-					}
+			$myTanks = $myEvent->getTanks();
+			$myAttendance = $_REQUEST['attendance'];
+			if ($myAttendance == 'no') {
+				// If the user don't participate, then remove it
+				if (array_key_exists($_SESSION['account_id'], $myParticipants)) {
+					unset($myParticipants[$_SESSION['account_id']]);
 				}
-				array_push($fileContents, $myEvent->toCalendarArray(true));
-				file_put_contents($myEventsFile, json_encode($fileContents), LOCK_EX);
+				if (array_key_exists($_SESSION['account_id'], $myTanks)) {
+					unset($myTanks[$_SESSION['account_id']]);
+				}
+				$myEvent->setParticipants($myParticipants);
+				$myEvent->setTanks($myTanks);
+			} else {
+				$myParticipants[$_SESSION['account_id']] = $myAttendance;
+				$myEvent->setParticipants($myParticipants);
 			}
+			// Perform save...
+			$myEventsFile = wctEvent::getFileFromDate($myEvent->getDateStart());
+			$fileContents = json_decode(file_get_contents($myEventsFile), true);
+			$fileContents = is_array($fileContents) ? $fileContents : array($fileContents);
+			foreach ($fileContents as $eventIndex => $eventData) {
+				$tmpEvent = wctEvent::fromJson($eventData);
+				if ($eventId == $tmpEvent->getId()) {
+					// The actual event is found. Update it.
+					array_splice($fileContents, $eventIndex, 1);
+					break;
+				}
+			}
+			array_push($fileContents, $myEvent->toCalendarArray(true));
+			file_put_contents($myEventsFile, json_encode($fileContents), LOCK_EX);
 		}
 		$result['result'] = 'ok';
 		break;
@@ -190,11 +202,28 @@ switch ($_REQUEST['a']) {
 		$myEvent = wctEvent::fromId($_REQUEST['id']);
 		$result .= '<div id="eventDetails' . $myEvent->getId() . '" class="eventDetails" data-event-id="' . $myEvent->getId() . '" data-owner="' . $myEvent->getOwner() . '">';
 		$result .= '<div class="eventDetailsDisplay">';
-		if ($_SESSION['account_id'] == $myEvent->getOwner()) {
-			// Add modify / Delete buttons only for owner
+		if ($myEvent->getDateStart() > time()) {
+			$result .= '<div class="eventActions pull-right">';
+			$userAttendance = "no";
+			if (count($myEvent->getParticipants()) > 0 && array_key_exists($_SESSION['account_id'], $myEvent->getParticipants())) {
+				$userAttendance = $myEvent->getParticipants()[$_SESSION['account_id']];
+			}
+			if ($_SESSION['account_id'] == $myEvent->getOwner()) {
+				// Add modify / Delete buttons only for owner
+				$result .= '<div class="btn-group pull-right" role="group">';
+				$result .= '<button type="button" id="btnModifyEvent" class="btn btn-default btn-material-grey-500" data-i18n="[title]action.modify;" data-event-id="' . $myEvent->getId() . '"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>';
+				$result .= '<button type="button" id="btnDeleteEvent" class="btn btn-default btn-material-grey-500" data-i18n="[title]action.delete;" data-event-id="' . $myEvent->getId() . '"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>';
+				$result .= '</div>';
+			}
 			$result .= '<div class="btn-group pull-right" role="group">';
-			//$result .= '<button type="button" id="btnModifyEvent" class="btn btn-default btn-material-grey-500" data-i18n="[title]action.modify;" data-event-id="' . $myEvent->getId() . '"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>';
-			$result .= '<button type="button" id="btnDeleteEvent" class="btn btn-default btn-material-grey-500" data-i18n="[title]action.delete;" data-event-id="' . $myEvent->getId() . '"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>';
+			$result .= '<button type="button" class="btn btn-default btn-success btnEnrol' . ($userAttendance == 'yes'?' active':'') . '" data-attendance="yes" data-i18n="[title]event.enrol.yes;" data-event-id="' . $myEvent->getId() . '"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>';
+			if ($myEvent->isSpareAllowed()) {
+				$result .= '<button type="button" class="btn btn-default btn-info btnEnrol' . ($userAttendance == 'spare'?' active':'') . '" data-attendance="spare" data-i18n="[title]event.enrol.spare;" data-event-id="' . $myEvent->getId() . '"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button>';
+			}
+			$result .= '<button type="button" class="btn btn-default btn-danger btnEnrol' . ($userAttendance == 'no'?' active':'') . '" data-attendance="no" data-i18n="[title]event.enrol.no;" data-event-id="' . $myEvent->getId() . '"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>';
+			$result .= '</div>';
+			$result .= '<div class="clearfix"></div>';
+			$result .= '<p><span data-i18n="event.enrol.state.title"></span>: <span data-i18n="event.enrol.state.' . $userAttendance . '" class="eventEnrolment"></span></p>';
 			$result .= '</div>';
 		}
 		$result .= '<p class="eventDescription">' . $myEvent->getDescription() . '</p>';

@@ -11,7 +11,7 @@ require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR
 include(WCT_INC_DIR . 'ads.php');
 ?>
 			<h1 class="page-header" data-i18n="page.my.title"></h1>
-			<h2 class="sub-header" id="calendar" data-i18n="elems.calendar"></h2>
+			<h2 class="sub-header" id="calendar"><span class="glyphicon glyphicon-calendar"></span> <span data-i18n="elems.calendar"></span></h2>
 			<div id="myCalendar" class="container-fluid">
 				<div class="row">
 					<div class="col-xs-12 col-md-6 col-lg-4 placeholder">
@@ -37,7 +37,7 @@ include(WCT_INC_DIR . 'ads.php');
 					</div>
 				</div>
 			</div>
-			<h2 class="sub-header" id="garage" data-i18n="elems.garage"></h2>
+			<h2 class="sub-header" id="garage"><span class="glyphicon glyphicon-oil"></span> <span data-i18n="elems.garage"></span></h2>
 			<div class="btn-group" role="group">
 				<button type="button" id="btnShowTanksTable" class="btn btn-default btn-material-grey-500 active"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span></button>
 				<button type="button" id="btnShowTanksListSmall" class="btn btn-default btn-material-grey-500"><span class="glyphicon glyphicon-th" aria-hidden="true"></span></button>
@@ -113,7 +113,7 @@ include(WCT_INC_DIR . 'ads.php');
 					<div id="myTanksContainerBig" class="hidden"></div>
 				</div>
 			</div>
-			<h2 class="sub-header" id="stats" data-i18n="elems.stats"></h2>
+			<h2 class="sub-header" id="stats"><span class="glyphicon glyphicon-stats"></span> <span data-i18n="elems.stats"></span></h2>
 		</div>
 	</div>
 </div>
@@ -146,6 +146,21 @@ include(WCT_INC_DIR . 'ads.php');
 			</div>
 			<div class="modal-footer">
 				<button class="btn btn-primary" data-dismiss="modal" data-i18n="btn.ok"></button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="events-modal">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h3></h3>
+			</div>
+			<div class="modal-body">
+			</div>
+			<div class="modal-footer">
+				<a href="#" data-dismiss="modal" class="btn" data-i18n="btn.close"></a>
 			</div>
 		</div>
 	</div>

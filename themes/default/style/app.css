@@ -103,6 +103,7 @@ td.tankowners .ign.active{font-weight:bold}
 /* Strats */
 #stratEditor{display:none}
 body#strats #listMaps{display:none}
+body#weekview{padding-top:0}
 header{position:fixed;top:0;left:0;bottom:0}
 #menu{background:#EEE;position:absolute;top:60px;bottom:0;left:0}
 #menu *{color:#000;text-decoration:none}

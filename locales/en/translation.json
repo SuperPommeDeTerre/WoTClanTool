@@ -200,7 +200,13 @@
 		"enrol": {
 			"yes": "Enrol",
 			"spare": "Substitute/reserve",
-			"no": "Don't participate"
+			"no": "Don't participate",
+			"state": {
+				"title": "Your actual enrolment",
+				"yes": "Enrolled",
+				"spare": "Substitute/reserve",
+				"no": "Non enrolled"
+			}
 		},
 		"enrol": "Enrol",
 		"noevent": "No event",
@@ -466,6 +472,9 @@
 		},
 		"install": {
 			"title": "Installation"
+		},
+		"weekview": {
+			"title": "Week view"
 		}
 	},
 	"strat": {

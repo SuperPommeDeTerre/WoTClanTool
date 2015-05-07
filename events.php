@@ -37,7 +37,7 @@ include(WCT_INC_DIR . 'ads.php');
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h3></h3>
 			</div>
-			<div class="modal-body" style="height: 400px">
+			<div class="modal-body">
 			</div>
 			<div class="modal-footer">
 				<a href="#" data-dismiss="modal" class="btn" data-i18n="btn.close"></a>

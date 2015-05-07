@@ -200,7 +200,13 @@
 		"enrol": {
 			"yes": "S'inscrire",
 			"spare": "Remplaçant/incertain",
-			"no": "Ne pas participer"
+			"no": "Ne pas participer",
+			"state": {
+				"title": "Votre participation actuelle",
+				"yes": "Inscrit",
+				"spare": "Remplaçant/incertain",
+				"no": "Non inscrit"
+			}
 		},
 		"noevent": "Aucun évènement",
 		"noparticipant": "Aucun participant",
@@ -465,6 +471,9 @@
 		},
 		"install": {
 			"title": "Installation"
+		},
+		"weekview": {
+			"title": "Vue de la semaine"
 		}
 	},
 	"strat": {
