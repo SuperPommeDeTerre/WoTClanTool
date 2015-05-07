@@ -13,7 +13,9 @@ function fillEventDialog(pDialog, pEvents) {
 		participantsTanks = {},
 		participantsTanksAdditionalInfos = {},
 		gOffsetListParticipants = {},
-		gOffsetListTanks = {};
+		gOffsetListTanks = {},
+		gEventStartDate = 0,
+		gEventEndDate = 0;
 
 	function loadTanks() {
 		// Load tankopedia if it is not loaded
@@ -55,6 +57,11 @@ function fillEventDialog(pDialog, pEvents) {
 	$("[data-date]").each(function(idx, elem) {
 		var myElem = $(elem);
 		myElem.siblings('.date').text(moment(myElem.data('date')).format('LLL'));
+		if (myElem.parent().hasClass('eventStartDate')) {
+			gEventStartDate = moment(myElem.data('date'));
+		} else if (myElem.parent().hasClass('eventEndDate')) {
+			gEventEndDate = moment(myElem.data('date'));
+		}
 	});
 	pDialog.find('.eventParticipantsList [data-player-id]').each(function(idx, elem) {
 		var myParticipantId = $(elem).data('player-id');
@@ -162,65 +169,67 @@ function fillEventDialog(pDialog, pEvents) {
 	});
 	gOffsetListParticipants = pDialog.find('.eventParticipantsList').offset();
 	gOffsetListTanks = pDialog.find('.eventLineUp').offset();
-	pDialog.find('.eventParticipantsList').on('click', 'li', function(evt) {
-		var myPlayerItem = $(this);
-		if (myPlayerItem.hasClass('active')) {
-			pDialog.find('.eventParticipantTanks').remove();
-			myPlayerItem.removeClass('active');
-		} else {
-			myPlayerItem.siblings().removeClass('active');
-			var curPlayerId = myPlayerItem.data('player-id'),
-				playerTanks = participantsTanks[curPlayerId],
-				playersInfos = gDataPlayers[curPlayerId],
-				playerTanksAdditionalInfos = participantsTanksAdditionalInfos[curPlayerId],
-				tanksInfos = {},
-				myElemOffset = myPlayerItem.offset(),
-				listTanksHtml = '';
-			// Allow selection of tanks only for self, event creator, intelligence officer or higher role.
-			if (curPlayerId == gConfig.PLAYER_ID
-					|| gConfig.PLAYER_ID == pDialog.find('.eventDetails').data('owner')
-					|| gROLE_POSITION[getClanMember(curPlayerId).role] >= gROLE_POSITION['intelligence_officer']) {
-				listTanksHtml += '<style type="text/css">';
-				listTanksHtml += '.eventParticipantTanks{position:absolute}';
-				listTanksHtml += '.eventParticipantTanks:after{top:' + Math.floor(myElemOffset.top - gOffsetListParticipants.top + 1) + 'px}';
-				listTanksHtml += '.eventParticipantTanks:before{top:' + Math.floor(myElemOffset.top - gOffsetListParticipants.top) + 'px}';
-				listTanksHtml += '</style>';
-				listTanksHtml += '<div class="eventParticipantTanks">';
-				listTanksHtml += '<div style="overflow-y:auto;height:100%">';
-				listTanksHtml += '<ul class="list-unstyled">';
-				playerTanksAdditionalInfos.sort(function(a, b) {
-					return (gTankopedia[b.tank_id].level - gTankopedia[a.tank_id].level);
-				});
-				for (var i=0; i<playerTanksAdditionalInfos.length; i++) {
-					var playerTankAdditionalInfos = playerTanksAdditionalInfos[i];
-					if (playerTankAdditionalInfos.in_garage && playerTankAdditionalInfos.is_ready) {
-						listTanksHtml += '<li><span class="playerTank" data-tank-id="' + playerTankAdditionalInfos.tank_id + '"><img src="' + gTankopedia[playerTankAdditionalInfos.tank_id].contour_image + '" /><span class="label label-' + getWN8Class(playerTankAdditionalInfos.wn8) + '">' + (Math.round(playerTankAdditionalInfos.wn8 * 100) / 100) + '</span> ' + gTankopedia[playerTankAdditionalInfos.tank_id].name_i18n + '</span></li>';
+	if (gEventStartDate.after(moment())) {
+		pDialog.find('.eventParticipantsList').on('click', 'li', function(evt) {
+			var myPlayerItem = $(this);
+			if (myPlayerItem.hasClass('active')) {
+				pDialog.find('.eventParticipantTanks').remove();
+				myPlayerItem.removeClass('active');
+			} else {
+				myPlayerItem.siblings().removeClass('active');
+				var curPlayerId = myPlayerItem.data('player-id'),
+					playerTanks = participantsTanks[curPlayerId],
+					playersInfos = gDataPlayers[curPlayerId],
+					playerTanksAdditionalInfos = participantsTanksAdditionalInfos[curPlayerId],
+					tanksInfos = {},
+					myElemOffset = myPlayerItem.offset(),
+					listTanksHtml = '';
+				// Allow selection of tanks only for self, event creator, intelligence officer or higher role.
+				if (curPlayerId == gConfig.PLAYER_ID
+						|| gConfig.PLAYER_ID == pDialog.find('.eventDetails').data('owner')
+						|| gROLE_POSITION[getClanMember(curPlayerId).role] >= gROLE_POSITION['intelligence_officer']) {
+					listTanksHtml += '<style type="text/css">';
+					listTanksHtml += '.eventParticipantTanks{position:absolute}';
+					listTanksHtml += '.eventParticipantTanks:after{top:' + Math.floor(myElemOffset.top - gOffsetListParticipants.top + 1) + 'px}';
+					listTanksHtml += '.eventParticipantTanks:before{top:' + Math.floor(myElemOffset.top - gOffsetListParticipants.top) + 'px}';
+					listTanksHtml += '</style>';
+					listTanksHtml += '<div class="eventParticipantTanks">';
+					listTanksHtml += '<div style="overflow-y:auto;height:100%">';
+					listTanksHtml += '<ul class="list-unstyled">';
+					playerTanksAdditionalInfos.sort(function(a, b) {
+						return (gTankopedia[b.tank_id].level - gTankopedia[a.tank_id].level);
+					});
+					for (var i=0; i<playerTanksAdditionalInfos.length; i++) {
+						var playerTankAdditionalInfos = playerTanksAdditionalInfos[i];
+						if (playerTankAdditionalInfos.in_garage && playerTankAdditionalInfos.is_ready) {
+							listTanksHtml += '<li><span class="playerTank" data-tank-id="' + playerTankAdditionalInfos.tank_id + '"><img src="' + gTankopedia[playerTankAdditionalInfos.tank_id].contour_image + '" /><span class="label label-' + getWN8Class(playerTankAdditionalInfos.wn8) + '">' + (Math.round(playerTankAdditionalInfos.wn8 * 100) / 100) + '</span> ' + gTankopedia[playerTankAdditionalInfos.tank_id].name_i18n + '</span></li>';
+						}
 					}
+					listTanksHtml += '</ul>';
+					listTanksHtml += '</div>';
+					listTanksHtml += '</div>';
+					pDialog.find('.eventDetailsDisplay').append(listTanksHtml);
+					pDialog.find('.eventParticipantTanks').offset({top: gOffsetListTanks.top, left: gOffsetListTanks.left - 20}).height(pDialog.find('.modal-footer').offset().top - gOffsetListTanks.top);
+					myPlayerItem.addClass('active');
+					pDialog.find('.eventParticipantTanks .playerTank').on('click', function(evt) {
+						// Add tank to list
+						$('.eventLineUp li[data-player-id="' + curPlayerId + '"]').empty().append($(this).detach());
+						// Save selection
+						$.post('./server/calendar.php', {
+							a: 'setparticipanttank',
+							eventId: pDialog.find('.eventDetails').data('event-id'),
+							playerid: curPlayerId,
+							tankid: $(this).data('tank-id')
+						}, function(savePlayerTankResponse) {
+						}, 'json');
+					});
+					pDialog.find('.eventParticipantTanks').on('click', function(evt) {
+						myPlayerItem.removeClass('active');
+						$(this).remove();
+					});
 				}
-				listTanksHtml += '</ul>';
-				listTanksHtml += '</div>';
-				listTanksHtml += '</div>';
-				pDialog.find('.eventDetailsDisplay').append(listTanksHtml);
-				pDialog.find('.eventParticipantTanks').offset({top: gOffsetListTanks.top, left: gOffsetListTanks.left - 20}).height(pDialog.find('.modal-footer').offset().top - gOffsetListTanks.top);
-				myPlayerItem.addClass('active');
-				pDialog.find('.eventParticipantTanks .playerTank').on('click', function(evt) {
-					// Add tank to list
-					$('.eventLineUp li[data-player-id="' + curPlayerId + '"]').empty().append($(this).detach());
-					// Save selection
-					$.post('./server/calendar.php', {
-						a: 'setparticipanttank',
-						eventId: pDialog.find('.eventDetails').data('event-id'),
-						playerid: curPlayerId,
-						tankid: $(this).data('tank-id')
-					}, function(savePlayerTankResponse) {
-					}, 'json');
-				});
-				pDialog.find('.eventParticipantTanks').on('click', function(evt) {
-					myPlayerItem.removeClass('active');
-					$(this).remove();
-				});
 			}
-		}
-	});
+		});
+	}
 };
 
