@@ -69,7 +69,8 @@ var onLoad = function() {
 		locale: gConfig.LANG,
 		stepping: 5,
 		format: 'LLL',
-		sideBySide: true
+		sideBySide: true,
+		minDate: moment()
 	});
 	// Handle min and max dates
 	$('#eventStartDate').on('dp.change', function (e) {

@@ -173,7 +173,8 @@ function fillEventDialog(pDialog, pEvents) {
 				locale: gConfig.LANG,
 				stepping: 5,
 				format: 'LLL',
-				sideBySide: true
+				sideBySide: true,
+				minDate: moment()
 			});
 			// Handle min and max dates
 			gModifyPanel.find('#modifyEventStartDate').on('dp.change', function (e) {
