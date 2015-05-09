@@ -19,6 +19,10 @@ if (!in_array($_SESSION["account_id"], $gAdmins)) {
 			break;
 		case 'rm':
 			break;
+		case 'mv':
+			break;
+		case 'cp':
+			break;
 		case 'fileinfo':
 			break;
 		case 'save':

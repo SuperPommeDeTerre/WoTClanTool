@@ -259,7 +259,7 @@ function fillEventDialog(pDialog, pEvents) {
 	});
 	gOffsetListParticipants = pDialog.find('.eventParticipantsList').offset();
 	gOffsetListTanks = pDialog.find('.eventLineUp').offset();
-	if (gEventStartDate.after(moment())) {
+	if (gEventStartDate.isAfter(moment())) {
 		pDialog.find('.eventParticipantsList').on('click', 'li', function(evt) {
 			var myPlayerItem = $(this);
 			if (myPlayerItem.hasClass('active')) {
@@ -277,7 +277,7 @@ function fillEventDialog(pDialog, pEvents) {
 				// Allow selection of tanks only for self, event creator, intelligence officer or higher role.
 				if (curPlayerId == gConfig.PLAYER_ID
 						|| gConfig.PLAYER_ID == pDialog.find('.eventDetails').data('owner')
-						|| gROLE_POSITION[getClanMember(curPlayerId).role] >= gROLE_POSITION['intelligence_officer']) {
+						|| gROLE_POSITION[getClanMember(gConfig.PLAYER_ID).role] <= gROLE_POSITION['intelligence_officer']) {
 					listTanksHtml += '<style type="text/css">';
 					listTanksHtml += '.eventParticipantTanks{position:absolute}';
 					listTanksHtml += '.eventParticipantTanks:after{top:' + Math.floor(myElemOffset.top - gOffsetListParticipants.top + 1) + 'px}';
@@ -286,6 +286,37 @@ function fillEventDialog(pDialog, pEvents) {
 					listTanksHtml += '<div class="eventParticipantTanks">';
 					listTanksHtml += '<div style="overflow-y:auto;height:100%">';
 					listTanksHtml += '<ul class="list-unstyled">';
+					if (typeof(playerTanksAdditionalInfos) == 'undefined') {
+						$.ajax({
+							url: gConfig.WG_API_URL + 'wot/account/tanks/',
+							method: 'POST',
+							data: {
+								application_id: gConfig.WG_APP_ID,
+								language: gConfig.G_API_LANG,
+								access_token: gConfig.ACCESS_TOKEN,
+								account_id: curPlayerId
+							},
+							async: false,
+							dataType: 'json',
+							success: function(playerTanksResponse) {
+								participantsTanks[curPlayerId] = playerTanksResponse.data[curPlayerId];
+								$.ajax({
+									url: './server/player.php',
+									method: 'POST',
+									data: {
+										action: 'gettanksstats',
+										account_id: curPlayerId
+									},
+									async: false,
+									dataType: 'json',
+									success: function(dataStoredPlayersTanksResponse) {
+										participantsTanksAdditionalInfos[curPlayerId] = dataStoredPlayersTanksResponse.data[curPlayerId];
+										playerTanksAdditionalInfos = participantsTanksAdditionalInfos[curPlayerId];
+									}
+								});
+							}
+						});
+					}
 					playerTanksAdditionalInfos.sort(function(a, b) {
 						return (gTankopedia[b.tank_id].level - gTankopedia[a.tank_id].level);
 					});
