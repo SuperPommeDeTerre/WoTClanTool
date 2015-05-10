@@ -7,6 +7,9 @@ $result = array();
 // Configuration file
 $configFile = WCT_CONFIG_DIR . DIRECTORY_SEPARATOR . 'config.json';
 
+// Define root directory for browsing
+define('FS_ROOT_DIR', WCT_BASE_DATA_DIR);
+
 if (!in_array($_SESSION["account_id"], $gAdmins)) {
 	// If the user is not an administrator, refuse action
 	$result['status'] = 'error';
@@ -14,6 +17,9 @@ if (!in_array($_SESSION["account_id"], $gAdmins)) {
 } else {
 	switch ($_REQUEST['a']) {
 		case 'ls':
+			$listFiles = glob(FS_ROOT_DIR, GLOB_MARK);
+			$result['status'] = 'ok';
+			$result['data'] = $listFiles;
 			break;
 		case 'cat':
 			break;
