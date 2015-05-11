@@ -327,7 +327,7 @@
 					}
 				},
 				"wotstats": {
-					"title": "Wot Stast",
+					"title": "Wot Stats",
 					"url": {
 						"EU": "http://www.wotstats.org/stats/eu/__nickname__/",
 						"RU": "http://www.wotstats.org/stats/ru/__nickname__/",
