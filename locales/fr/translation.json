@@ -475,6 +475,9 @@
 		},
 		"weekview": {
 			"title": "Vue de la semaine"
+		},
+		"about": {
+			"title": "A propos"
 		}
 	},
 	"strat": {

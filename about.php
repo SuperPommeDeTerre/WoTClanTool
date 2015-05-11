@@ -1,31 +1,5 @@
 <?php
 require(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'server' . DIRECTORY_SEPARATOR . 'global.php');
-
-// Get the URI params
-if (isset($_REQUEST["access_token"])) {
-	$_SESSION["access_token"] = $_REQUEST["access_token"];
-	$_SESSION["nickname"] = $_REQUEST["nickname"];
-	$_SESSION["account_id"] = $_REQUEST["account_id"];
-	$_SESSION["expires_at"] = $_REQUEST["expires_at"];
-	$_SESSION["cluster"] = "EU";
-}
-// Handle WG session expiration
-$curTime = time();
-if (isset($_SESSION["expires_at"]) && $_SESSION["expires_at"] < $curTime) {
-	session_unset();
-	session_destroy();
-	setcookie('PHPSESSID', '', time()-1);
-	session_start();
-}
-// Redirect to home if WG session is active
-if (isset($_SESSION["access_token"])) {
-	if (isset($_REQUEST["returnUrl"])) {
-		header('Location: ' . $_REQUEST["returnUrl"]);
-	} else {
-		header('Location: home.php');
-	}
-	exit;
-}
 ?><!DOCTYPE html>
 <html lang="<?php echo($gLang); ?>">
 	<head>
@@ -36,7 +10,7 @@ if (isset($_SESSION["access_token"])) {
 		<meta name="author" content="J&eacute;r&eacute;mie Langlade &lt;jlanglade@pixbuf.net&gt;" />
 		<link rel="icon" href="./themes/<?php echo($gThemeName); ?>/style/favicon.ico" />
 		<link href="./themes/<?php echo($gThemeName); ?>/style/favicon.png" type="image/x-icon" rel="icon" />
-		<title data-i18n="app.title" data-i18n-options="{&quot;page&quot;:&quot;index&quot;}"></title>
+		<title data-i18n="app.title" data-i18n-options="{&quot;page&quot;:&quot;about&quot;}"></title>
 		<!-- CSS -->
 		<link href="./themes/<?php echo($gThemeName); ?>/style/style.css" rel="stylesheet" />
 		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -45,7 +19,7 @@ if (isset($_SESSION["access_token"])) {
 			<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
 	</head>
-	<body id="index"><?php
+	<body id="about"><?php
 include_once(WCT_INC_DIR . 'analyticstracking.php');
 ?>
 		<nav class="navbar navbar-default navbar-fixed-top navbar-material-grey-700 shadow-z-2">
@@ -77,22 +51,27 @@ include_once(WCT_INC_DIR . 'analyticstracking.php');
 include(WCT_INC_DIR . 'ads.php');
 ?>
 					<h1 data-i18n="app.name"></h1>
-					<p data-i18n="[html]page.index.lines.0"></p>
-					<p data-i18n="[html]page.index.lines.1"></p>
 					<ul>
-						<li data-i18n="page.index.features.0"></li>
-						<li data-i18n="page.index.features.1"></li>
-						<li data-i18n="page.index.features.2"></li>
-						<li data-i18n="page.index.features.3"></li>
-						<li data-i18n="page.index.features.4"></li>
+						<li><a href="http://eu.wargaming.net/developers/">WG API</a></li>
+						<li><a href="http://jquery.com/">jQuery</a></li>
+						<li><a href="http://getbootstrap.com/">Bootstrap</a></li>
+						<li><a href="http://fezvrasta.github.io/bootstrap-material-design/">Material design for bootstrap</a></li>
+						<li><a href="http://i18next.com/">i18next</a></li>
+						<li><a href="http://momentjs.com/">Moment.js</a></li>
+						<li><a href="http://eonasdan.github.io/bootstrap-datetimepicker/">Bootstrap 3 Datepicker</a></li>
+						<li><a href="https://github.com/Serhioromano/bootstrap-calendar">Bootstrap Calendar</a></li>
+						<li><a href="http://www.eyecon.ro/bootstrap-colorpicker/">Colorpicker for Bootstrap</a></li>
+						<li><a href="http://calebevans.me/projects/jcanvas/">jCanvas</a></li>
+						<li><a href="http://keith-wood.name/svg.html">jQuery SVG</a></li>
+						<li><a href="http://morrisjs.github.io/morris.js/">Morris</a></li>
+						<li><a href="http://morrisjs.github.io/morris.js/">Raphael</a></li>
+						<li><a href="http://morrisjs.github.io/morris.js/">Ripples</a></li>
+						<li><a href="http://morrisjs.github.io/morris.js/">Sortable</a></li>
+						<li><a href="http://morrisjs.github.io/morris.js/">URI.js</a></li>
+						<li><a href="http://morrisjs.github.io/morris.js/">ZeroClipboard</a></li>
+						<li><a href="http://underscorejs.org">Underscore.js</a></li>
+						<li><a href="http://underscorejs.org">Sticky Table Headers</a></li>
 					</ul>
-					<p data-i18n="[html]page.index.lines.2"></p>
-					<p style="text-align:center"><?php
-if (count($gConfig["WG"]["clusters"]) > 1) {
-	?><a href="#" class="btn btn-lg btn-primary btn-material-grey-500" id="btnLogin" data-target="#dlgChooseCluster" data-toggle="modal" data-i18n="action.identification"></a><?php
-} else {
-	?><a href="#" class="btn btn-lg btn-primary btn-material-grey-500" id="btnLogin" data-i18n="action.identification"></a><?php
-} ?></p>
 				</div>
 			</div>
 		</div><?php
@@ -128,7 +107,7 @@ if (count($gConfig["WG"]["clusters"]) > 1) {
 				<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
 					<input type="hidden" name="cmd" value="_s-xclick" />
 					<input type="hidden" name="hosted_button_id" value="CD4LXS5KJGNWC" />
-					<input type="image" src="https://www.paypalobjects.com/en_GB/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="PayPal â€“ The safer, easier way to pay online." />
+					<input type="image" src="https://www.paypalobjects.com/en_GB/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="PayPal – The safer, easier way to pay online." />
 					<img alt="" border="0" src="https://www.paypalobjects.com/fr_FR/i/scr/pixel.gif" width="1" height="1" />
 				</form>
 			</div>

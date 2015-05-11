@@ -476,6 +476,9 @@
 		},
 		"weekview": {
 			"title": "Week view"
+		},
+		"about": {
+			"title": "About"
 		}
 	},
 	"strat": {
