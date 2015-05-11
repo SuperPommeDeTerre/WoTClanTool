@@ -5,6 +5,10 @@ var onLoad = function() {
 	// Fill infos from WG.
 	var listClans = { 'EU': [], 'NA': [], 'RU': [], 'ASIA': [], 'KR': [] },
 		listAdmins = { 'EU': [], 'NA': [], 'RU': [], 'ASIA': [], 'KR': [] };
+		listFSfilesContainer = $('#listFSfiles'),
+		fsBreadcrumb = $('#fsBreadcrumb'),
+		fileContentsContainer = $('#fileContents').hide(),
+		gShowedFile = '';
 	$('#restrictedClans .clan').each(function(idx, elem) {
 		var myElem = $(elem);
 		listClans[myElem.data('cluster')].push(myElem.data('clan-id'));
@@ -437,6 +441,127 @@ var onLoad = function() {
 		},
 		'set': function(evt) {
 			// Sets the inactivity threshold on server
+		}
+	});
+	// Set base files
+	$.post('./server/fs.php', {
+		a: 'ls',
+		f: '/'
+	}, function(listFilesResponse) {
+		var myFileName = '',
+			myListFilesHtml = '';
+		myListFilesHtml += '<ul class="list-unstyled">';
+		for (var fileIndex in listFilesResponse.data) {
+			myFileName = listFilesResponse.data[fileIndex];
+			myListFilesHtml += '<li><a href="' + myFileName + '">' + myFileName.replace('/', '') + '</a></li>';
+		}
+		myListFilesHtml += '</ul>';
+		listFSfilesContainer.html(myListFilesHtml);
+	}, 'json');
+	function processDir(pDir) {
+		$.post('./server/fs.php', {
+			a: 'ls',
+			f: pDir
+		}, function(listFilesResponse) {
+			var myFileName = '',
+				fileIndex = 0,
+				myListFilesHtml = '',
+				breadcrumbHtml = '',
+				destFileParts = pDir.split('/'),
+				curLink = '';
+			gShowedFile = '';
+			for (var fileIndex in listFilesResponse.data) {
+				myFileName = listFilesResponse.data[fileIndex];
+				myListFilesHtml += '<li><a href="' + myFileName + '">' + myFileName.replace(pDir, '') + '</a></li>';
+			}
+			listFSfilesContainer.find('ul').html(myListFilesHtml);
+			breadcrumbHtml += '<li><a href="/">/</a></li>';
+			for (var i=0; i<destFileParts.length - 1; i++) {
+				if (destFileParts[i] != '') {
+					curLink += '/' + destFileParts[i];
+					if (i<destFileParts.length - 2) {
+						breadcrumbHtml += '<li><a href="' + curLink + '/">' + destFileParts[i] + '</a></li>';
+					} else {
+						breadcrumbHtml += '<li class="active">' + destFileParts[i] + '</li>';
+					}
+				}
+			}
+			fileContentsContainer.hide();
+			fsBreadcrumb.html(breadcrumbHtml);
+		}, 'json');
+	};
+	function processFile(pFile) {
+		$.post('./server/fs.php', {
+			a: 'cat',
+			f: pFile
+		}, function(fileContentResponse) {
+			fileContentsContainer.find('textarea').val(JSON.stringify($.parseJSON(fileContentResponse.data), null, 4));
+			fileContentsContainer.show();
+			gShowedFile = pFile;
+		}, 'json');
+		$.post('./server/fs.php', {
+			a: 'fileinfo',
+			f: pFile
+		}, function(fileInfosResponse) {
+		}, 'json');
+	};
+	fsBreadcrumb.on('click', 'a', function(evt) {
+		evt.preventDefault();
+		processDir($(this).attr('href'));
+	});
+	listFSfilesContainer.on('click', 'a', function(evt) {
+		evt.preventDefault();
+		var myLink = $(this),
+			destFile = myLink.attr('href'),
+			isFile = true;
+		if (destFile.endsWith('/')) {
+			isFile = false;
+		} else if (destFile == '..') {
+			// Navigate one level up
+			isFile = false;
+			destFile = '';
+			// Calculate destination directory
+			destFile = fsBreadcrumb.find('li.active').prev().find('a').attr('href');
+		}
+		if (!isFile) {
+			// It's a directory. Navigate into...
+			processDir(destFile);
+		} else {
+			// It's a file. Display it.
+			processFile(destFile);
+		}
+	});
+	// File actions
+	$('#btnSaveFile').on('click', function(evt) {
+		evt.preventDefault();
+		if (gShowedFile != '') {
+			$.post('./server/fs.php', {
+				a: 'save',
+				f: gShowedFile,
+				content: JSON.stringify($.parseJSON(fileContentsContainer.find('textarea').val()))
+			}, function(saveFileResponse) {
+				if (saveFileResponse.status == 'ok') {
+					fileContentsContainer.prepend('<div class="alert alert-success alert-dismissibl" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="' + i18n.t('btn.close') + '"><span aria-hidden="true">&times;</span></button>...</div>');
+				}
+			}, 'json');
+		}
+	});
+	$('#btnMoveFile').on('click', function(evt) {
+		evt.preventDefault();
+		if (gShowedFile != '') {
+		}
+	});
+	$('#btnDeleteFile').on('click', function(evt) {
+		evt.preventDefault();
+		if (gShowedFile != '') {
+			$.post('./server/fs.php', {
+				a: 'rm',
+				f: gShowedFile
+			}, function(deleteFileResponse) {
+				if (deleteFileResponse.status == 'ok') {
+					fileContentsContainer.prepend('<div class="alert alert-success alert-dismissibl" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="' + i18n.t('btn.close') + '"><span aria-hidden="true">&times;</span></button>...</div>');
+				}
+			}, 'json');
 		}
 	});
 };

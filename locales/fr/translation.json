@@ -30,7 +30,8 @@
 			"clans": "Clans",
 			"players": "Joueurs",
 			"events": "Evènements",
-			"strategies": "Stratégies"
+			"strategies": "Stratégies",
+			"filesystem": "Données"
 		},
 		"strategies": {
 			"elements": {

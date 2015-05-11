@@ -36,6 +36,7 @@ require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR
 							<li role="presentation"><a href="#configPlayers" role="tab" aria-controls="configPlayers" data-toggle="tab" data-i18n="install.category.players"></a></li>
 							<li role="presentation"><a href="#configEvents" role="tab" aria-controls="configEvents" data-toggle="tab" data-i18n="install.category.events"></a></li>
 							<li role="presentation"><a href="#configStrats" role="tab" aria-controls="configStrats" data-toggle="tab" data-i18n="install.category.strategies"></a></li>
+							<li role="presentation"><a href="#configFileSystem" role="tab" aria-controls="configFileSystem" data-toggle="tab" data-i18n="install.category.filesystem"></a></li>
 						</ul>
 					</div>
 				</div>
@@ -113,6 +114,28 @@ foreach ($gClusters as $clusterId => $clusterProps) {
 					<h3 data-i18n="install.strategies.elements.title"></h3>
 					<h3 data-i18n="install.strategies.maps.title"></h3>
 					<div id="listMaps" class="container-fluid">
+					</div>
+				</div>
+				<div role="tabpanel" class="tab-pane" id="configFileSystem">
+					<h2 data-i18n="install.category.filesystem"></h2>
+					<ol class="breadcrumb" id="fsBreadcrumb">
+						<li class="active">/</li>
+					</ol>
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-md-3 col-xs-3 col-lg-3 alert alert-info" id="listFSfiles">
+							</div>
+							<div class="col-md-9 col-xs-9 col-lg-9">
+								<div id="fileContents">
+									<textarea class="form-control" style="min-height:400px"></textarea>
+									<div class="btn-group" role="group" class="pull-right">
+										<button type="button" class="btn btn-success" id="btnSaveFile"><span class="glyphicon glyphicon-floppy-disk"></span></button>
+										<!--<button type="button" class="btn btn-info" id="btnMoveFile"><span class="glyphicon glyphicon-move"></span></button>-->
+										<button type="button" class="btn btn-danger" id="btnDeleteFile"><span class="glyphicon glyphicon-remove"></span></button>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
