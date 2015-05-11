@@ -51,57 +51,30 @@ include_once(WCT_INC_DIR . 'analyticstracking.php');
 include(WCT_INC_DIR . 'ads.php');
 ?>
 					<h1 data-i18n="app.name"></h1>
-					<ul>
-						<li><a href="http://eu.wargaming.net/developers/">WG API</a></li>
-						<li><a href="http://jquery.com/">jQuery</a></li>
-						<li><a href="http://getbootstrap.com/">Bootstrap</a></li>
-						<li><a href="http://fezvrasta.github.io/bootstrap-material-design/">Material design for bootstrap</a></li>
-						<li><a href="http://i18next.com/">i18next</a></li>
-						<li><a href="http://momentjs.com/">Moment.js</a></li>
-						<li><a href="http://eonasdan.github.io/bootstrap-datetimepicker/">Bootstrap 3 Datepicker</a></li>
-						<li><a href="https://github.com/Serhioromano/bootstrap-calendar">Bootstrap Calendar</a></li>
-						<li><a href="http://www.eyecon.ro/bootstrap-colorpicker/">Colorpicker for Bootstrap</a></li>
-						<li><a href="http://calebevans.me/projects/jcanvas/">jCanvas</a></li>
-						<li><a href="http://keith-wood.name/svg.html">jQuery SVG</a></li>
-						<li><a href="http://morrisjs.github.io/morris.js/">Morris</a></li>
-						<li><a href="http://morrisjs.github.io/morris.js/">Raphael</a></li>
-						<li><a href="http://morrisjs.github.io/morris.js/">Ripples</a></li>
-						<li><a href="http://morrisjs.github.io/morris.js/">Sortable</a></li>
-						<li><a href="http://morrisjs.github.io/morris.js/">URI.js</a></li>
-						<li><a href="http://morrisjs.github.io/morris.js/">ZeroClipboard</a></li>
-						<li><a href="http://underscorejs.org">Underscore.js</a></li>
-						<li><a href="http://underscorejs.org">Sticky Table Headers</a></li>
+					<ul class="list-group">
+						<li class="list-group-item"><a href="http://eu.wargaming.net/developers/">WG API</a></li>
+						<li class="list-group-item"><a href="http://jquery.com/">jQuery</a></li>
+						<li class="list-group-item"><a href="http://getbootstrap.com/">Bootstrap</a></li>
+						<li class="list-group-item"><a href="http://fezvrasta.github.io/bootstrap-material-design/">Material design for bootstrap</a></li>
+						<li class="list-group-item"><a href="http://i18next.com/">i18next</a></li>
+						<li class="list-group-item"><a href="http://momentjs.com/">Moment.js</a></li>
+						<li class="list-group-item"><a href="http://eonasdan.github.io/bootstrap-datetimepicker/">Bootstrap 3 Datepicker</a></li>
+						<li class="list-group-item"><a href="https://github.com/Serhioromano/bootstrap-calendar">Bootstrap Calendar</a></li>
+						<li class="list-group-item"><a href="http://www.eyecon.ro/bootstrap-colorpicker/">Colorpicker for Bootstrap</a></li>
+						<li class="list-group-item"><a href="http://calebevans.me/projects/jcanvas/">jCanvas</a></li>
+						<li class="list-group-item"><a href="http://keith-wood.name/svg.html">jQuery SVG</a></li>
+						<li class="list-group-item"><a href="http://morrisjs.github.io/morris.js/">Morris</a></li>
+						<li class="list-group-item"><a href="http://raphaeljs.com/">Rapha&euml;l</a></li>
+						<li class="list-group-item"><a href="http://github.hubspot.com/sortable/">Sortable</a></li>
+						<li class="list-group-item"><a href="http://ripplejs.github.io/">ripples.js</a></li>
+						<li class="list-group-item"><a href="http://medialize.github.io/URI.js/jquery-uri-plugin.html">URI.js</a></li>
+						<li class="list-group-item"><a href="https://github.com/zeroclipboard/zeroclipboard">ZeroClipboard</a></li>
+						<li class="list-group-item"><a href="http://underscorejs.org">Underscore.js</a></li>
+						<li class="list-group-item"><a href="https://github.com/jmosbech/StickyTableHeaders">Sticky Table Headers</a></li>
 					</ul>
 				</div>
 			</div>
-		</div><?php
-if (count($gConfig["WG"]["clusters"]) > 1) {
-?>
-		<div id="dlgChooseCluster" class="modal fade" tabindex="-1">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button class="close" aria-hidden="true" data-dismiss="modal" type="button">&times;</button>
-						<h4 class="modal-title" data-i18n="clusters.title"></h4>
-					</div>
-					<div class="modal-body">
-						<div class="container-fluid">
-							<div class="row"><?php
-	foreach ($gConfig["WG"]["clusters"] as $clusterId) {
-?>
-								<div class="cluster <?php echo($clusterId); ?>" data-region="<?php echo($clusterId); ?>">
-									<p data-i18n="clusters.<?php echo($clusterId); ?>"></p>
-								</div><?php
-	}
-?>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div><?php
-}
-?>
+		</div>
 		<div id="footer">
 			<div id="footerPayPalDonate">
 				<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
