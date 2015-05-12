@@ -1805,24 +1805,27 @@ var onLoad = function() {
 						}
 						myStratsTableHtml += '<td class="stratcreator">' + dataPlayers[myStrat.creator].nickname + '</td>';
 						myStratsTableHtml += '<td class="stratstate"><div data-toggle="tooltip" data-placement="top" class="slider shor slider-info" title="' + i18n.t('strat.state.' + myStrat.state) + '"></div></td>';
-						myStratsTableHtml += '<td><a href="?action=show&amp;id=' + myStrat.id + '" class="btnShowStrat" data-map-name="' + myStrat.map + '" data-mode="' + myStrat.mode + '"><span class="glyphicon glyphicon-eye-open"></span></a>';
+						myStratsTableHtml += '<td><div class="btn-group btn-group-sm" role="group"><button class="btn btn-success btnShowStrat" date-target="?action=show&amp;id=' + myStrat.id + '" data-map-name="' + myStrat.map + '" data-mode="' + myStrat.mode + '"><span class="glyphicon glyphicon-eye-open"></span></button>';
 						// Only the creator can modify or delete a strategy
 						if (gConfig.PLAYER_ID == myStrat.creator) {
+							// Can modify only work in progress strats.
+							if (myStrat.state != 'public') {
+								hideModify = false;
+							}
 							// Can delete only private strategies
-							hideModify = false;
 							if (myStrat.state == 'private') {
 								hideDelete = false;
 							}
 						}
-						myStratsTableHtml += ' <a href="#" class="btnEditStrat" data-map-name="' + myStrat.map + '"' + (hideModify?' style="display:none"':'') + '><span class="glyphicon glyphicon-edit"></span></a>';
-						myStratsTableHtml += ' <a href="#" class="btnDeleteStrat" data-map-name="' + myStrat.map + '"' + (hideDelete?' style="display:none"':'') + '><span class="glyphicon glyphicon-trash"></span></a>';
-						myStratsTableHtml += '</td>';
+						myStratsTableHtml += '<button data-target="#" class="btn btn-info btnEditStrat" data-map-name="' + myStrat.map + '"' + (hideModify?' style="display:none"':'') + '><span class="glyphicon glyphicon-edit"></span></button>';
+						myStratsTableHtml += '<button data-target="#" class="btn btn-danger btnDeleteStrat" data-map-name="' + myStrat.map + '"' + (hideDelete?' style="display:none"':'') + '><span class="glyphicon glyphicon-trash"></span></button>';
+						myStratsTableHtml += '</div></td>';
 						myStratsTableHtml += '</tr>';
 					}
 				}
 				$('#tableMyStrats > tbody').empty().html(myStratsTableHtml);
 				$('#tableMyStrats').attr('data-sortable', 'true')
-				.on('click', 'a.btnShowStrat', function(evt) {
+				.on('click', '.btnShowStrat', function(evt) {
 					evt.preventDefault();
 					gStratId = $(this).closest('tr').data('stratid');
 					$.post('./server/strat.php', {
@@ -1838,7 +1841,7 @@ var onLoad = function() {
 						$('#stratRecap').closest('.container-fluid').hide();
 						$('#stratEditor').fadeIn('fast');
 					}, 'json');
-				}).on('click', 'a.btnEditStrat', function(evt) {
+				}).on('click', '.btnEditStrat', function(evt) {
 					evt.preventDefault();
 					gStratId = $(this).closest('tr').data('stratid');
 					$.post('./server/strat.php', {
@@ -1854,7 +1857,7 @@ var onLoad = function() {
 						$('#stratRecap').closest('.container-fluid').hide();
 						$('#stratEditor').fadeIn('fast');
 					}, 'json');
-				}).on('click', 'a.btnDeleteStrat', function(evt) {
+				}).on('click', '.btnDeleteStrat', function(evt) {
 					evt.preventDefault();
 					var myLink = $(this),
 						myRow = myLink.closest('tr');
@@ -1915,7 +1918,7 @@ var onLoad = function() {
 								myRow += '<td class="stratdatemod">&nbsp;</td>';
 								myRow += '<td class="stratcreator">' + dataPlayers[dataSaveStratResponse.data.creator].nickname + '</td>';
 								myRow += '<td class="stratstate"><div data-toggle="tooltip" data-placement="top" class="slider shor slider-info" title="' + i18n.t('strat.state.private') + '"></div></td>';
-								myRow += '<td><a href="?action=show&amp;id=' + dataSaveStratResponse.data.id + '" class="btnShowStrat"><span class="glyphicon glyphicon-eye-open"></span></a> <a href="#" class="btnEditStrat"><span class="glyphicon glyphicon-edit"></span></a> <a href="#" class="btnDeleteStrat"><span class="glyphicon glyphicon-trash"></span></a></td>';
+								myRow += '<td><div class="btn-group btn-group-sm" role="group"><button data-target="?action=show&amp;id=' + dataSaveStratResponse.data.id + '" class="btn btn-success btnShowStrat"><span class="glyphicon glyphicon-eye-open"></span></button> <button data-target="#" class="btn btn-info btnEditStrat"><span class="glyphicon glyphicon-edit"></span></button> <button data-target="#" class="btn btn-danger btnDeleteStrat"><span class="glyphicon glyphicon-trash"></span></button></div></td>';
 								myRow += '</tr>';
 								myRow = $(myRow);
 								applyShorBehavior(myRow.find('.shor'));
