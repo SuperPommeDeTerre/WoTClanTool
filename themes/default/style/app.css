@@ -35,6 +35,7 @@
 .attendance-yes{color:#4caf50}
 .attendance-no{color:#ef6c00}
 .attendance-spare{color:#2196f3}
+.eventParticipantsContainer{min-height:300px}
 .eventParticipantsList li{cursor:pointer}
 .eventParticipantTanks{width:50%;height:200px;background-color:#eee;position:relative;border-left:1px solid #ccc}
 .eventParticipantTanks li{cursor:pointer}

@@ -12,8 +12,7 @@ function fillEventDialog(pDialog, pEvents) {
 		allParticipants = [],
 		participantsTanks = {},
 		participantsTanksAdditionalInfos = {},
-		gOffsetListParticipants = {},
-		gOffsetListTanks = {},
+		gOffsetListParticipants = null,
 		gEventStartDate = 0,
 		gEventEndDate = 0,
 		gModifyPanel = pDialog.find('.eventDetailsModify'),
@@ -36,11 +35,11 @@ function fillEventDialog(pDialog, pEvents) {
 	}
 
 	function doFillTanks() {
-		pDialog.find('.eventLineUp [data-player-id]').each(function(idx, elem) {
+		pDialog.find('.eventParticipantsList [data-player-id] .tank').each(function(idx, elem) {
 			var myElemHtml = '',
 				myElem = $(elem),
 				tankId = myElem.data('tank-id') * 1,
-				playerTanksAdditionalInfos = participantsTanksAdditionalInfos[myElem.data('player-id')],
+				playerTanksAdditionalInfos = participantsTanksAdditionalInfos[myElem.parent().data('player-id')],
 				playerTankAdditionalInfos = {};
 			for (var i=0; i<playerTanksAdditionalInfos.length; i++) {
 				playerTankAdditionalInfos = playerTanksAdditionalInfos[i];
@@ -75,7 +74,7 @@ function fillEventDialog(pDialog, pEvents) {
 			for (var j=0; j<gClanInfos.members.length; j++) {
 				clanMemberInfo = gClanInfos.members[j];
 				if (clanMemberInfo.account_id == myParticipantId) {
-					$('.eventParticipantsList [data-player-id="' + myParticipantId + '"]').html('<span class="role role_' + clanMemberInfo.role + '">' + gDataPlayers[myParticipantId].nickname + '</span>');
+					$('.eventParticipantsList [data-player-id="' + myParticipantId + '"] .participant').html('<span class="role role_' + clanMemberInfo.role + '">' + gDataPlayers[myParticipantId].nickname + '</span>');
 					break;
 				}
 			}
@@ -91,11 +90,12 @@ function fillEventDialog(pDialog, pEvents) {
 		}, function(dataParticipantResponse) {
 			var dataParticipants = dataParticipantResponse.data;
 			for (var participantId in dataParticipants) {
-				pDialog.find('.eventParticipantsList [data-player-id="' + participantId + '"]').text(dataParticipants[participantId].nickname);
+				pDialog.find('.eventParticipantsList [data-player-id="' + participantId + '"] .participant').text(dataParticipants[participantId].nickname);
 			}
 		}, 'json');
 	}
 	if (allParticipants.length > 0) {
+		pDialog.find('.eventParticipantsList .noparticipant').hide();
 		$.post(gConfig.WG_API_URL + 'wot/account/tanks/', {
 			application_id: gConfig.WG_APP_ID,
 			language: gConfig.G_API_LANG,
@@ -241,27 +241,32 @@ function fillEventDialog(pDialog, pEvents) {
 					pDialog.find('.eventEnrolment').text(i18n.t('event.enrol.state.' + myButton.data('attendance')));
 					// Handle new attendance state
 					if (myButton.data('attendance') == 'no') {
-						pDialog.find('.eventParticipantsList li[data-player-id="' + gConfig.PLAYER_ID + '"], .eventLineUp li[data-player-id="' + gConfig.PLAYER_ID + '"]').remove();
+						pDialog.find('.eventParticipantsList [data-player-id="' + gConfig.PLAYER_ID + '"]').remove();
 						pDialog.find('.eventParticipantTanks').remove();
+						if (pDialog.find('.eventParticipantsList [data-player-id="' + gConfig.PLAYER_ID + '"]').length == 0) {
+							pDialog.find('.eventParticipantsList .noparticipant').show();
+						}
 					} else {
-						var myCurrentPlayerInfos = pDialog.find('.eventParticipantsList li[data-player-id="' + gConfig.PLAYER_ID + '"]');
+						var myCurrentPlayerInfos = pDialog.find('.eventParticipantsList [data-player-id="' + gConfig.PLAYER_ID + '"] .participant');
+						pDialog.find('.eventParticipantsList .noparticipant').hide();
 						if (myCurrentPlayerInfos.length > 0) {
 							myCurrentPlayerInfos.removeAttr('class');
-							myCurrentPlayerInfos.addClass('attendance-' + myButton.data('attendance'));
+							myCurrentPlayerInfos.addClass('participant attendance-' + myButton.data('attendance'));
 						} else {
-							pDialog.find('.eventParticipantsList').append('<li data-player-id="' + gConfig.PLAYER_ID + '" class="attendance-' + myButton.data('attendance') + '"><span class="role role_' + getClanMember(gConfig.PLAYER_ID).role + '">' + gPersonalInfos.nickname + '</span></li>');
-							pDialog.find('.eventLineUp').append('<li data-player-id="' + gConfig.PLAYER_ID + '">' + i18n.t('event.notank') + '</li>');
+							pDialog.find('.eventParticipantsList tbody').append('<tr data-player-id="' + gConfig.PLAYER_ID + '"><td class="participant attendance-' + myButton.data('attendance') + '"><span class="role role_' + getClanMember(gConfig.PLAYER_ID).role + '">' + gPersonalInfos.nickname
+								+ '</span></td><td class="tank">' + i18n.t('event.notank') + '</td></tr>');
 						}
 					}
 				}
 			}, 'json');
 		}
 	});
-	gOffsetListParticipants = pDialog.find('.eventParticipantsList').offset();
-	gOffsetListTanks = pDialog.find('.eventLineUp').offset();
 	if (gEventStartDate.isAfter(moment())) {
-		pDialog.find('.eventParticipantsList').on('click', 'li', function(evt) {
-			var myPlayerItem = $(this);
+		pDialog.find('.eventParticipantsList').on('click', '.participant', function(evt) {
+			if (gOffsetListParticipants == null) {
+				gOffsetListParticipants = pDialog.find('.eventParticipantsList tbody').offset();
+			}
+			var myPlayerItem = $(this).parent();
 			if (myPlayerItem.hasClass('active')) {
 				pDialog.find('.eventParticipantTanks').remove();
 				myPlayerItem.removeClass('active');
@@ -280,8 +285,8 @@ function fillEventDialog(pDialog, pEvents) {
 						|| gROLE_POSITION[getClanMember(gConfig.PLAYER_ID).role] <= gROLE_POSITION['intelligence_officer']) {
 					listTanksHtml += '<style type="text/css">';
 					listTanksHtml += '.eventParticipantTanks{position:absolute}';
-					listTanksHtml += '.eventParticipantTanks:after{top:' + Math.floor(myElemOffset.top - gOffsetListParticipants.top + 1) + 'px}';
-					listTanksHtml += '.eventParticipantTanks:before{top:' + Math.floor(myElemOffset.top - gOffsetListParticipants.top) + 'px}';
+					listTanksHtml += '.eventParticipantTanks:after{top:' + Math.floor(myElemOffset.top + 5 - gOffsetListParticipants.top + 1) + 'px}';
+					listTanksHtml += '.eventParticipantTanks:before{top:' + Math.floor(myElemOffset.top + 5 - gOffsetListParticipants.top) + 'px}';
 					listTanksHtml += '</style>';
 					listTanksHtml += '<div class="eventParticipantTanks">';
 					listTanksHtml += '<div style="overflow-y:auto;height:100%">';
@@ -330,11 +335,11 @@ function fillEventDialog(pDialog, pEvents) {
 					listTanksHtml += '</div>';
 					listTanksHtml += '</div>';
 					pDialog.find('.eventDetailsDisplay').append(listTanksHtml);
-					pDialog.find('.eventParticipantTanks').offset({top: gOffsetListTanks.top, left: gOffsetListTanks.left - 20}).height(pDialog.find('.modal-footer').offset().top - gOffsetListTanks.top);
+					pDialog.find('.eventParticipantTanks').offset({top: gOffsetListParticipants.top, left: pDialog.find('.eventLineUp').offset().left - 20}).height(pDialog.find('.modal-footer').offset().top - gOffsetListParticipants.top);
 					myPlayerItem.addClass('active');
 					pDialog.find('.eventParticipantTanks .playerTank').on('click', function(evt) {
 						// Add tank to list
-						$('.eventLineUp li[data-player-id="' + curPlayerId + '"]').empty().append($(this).detach());
+						myPlayerItem.find('.tank').empty().append($(this).detach());
 						// Save selection
 						$.post('./server/calendar.php', {
 							a: 'setparticipanttank',

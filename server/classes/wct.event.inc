@@ -16,6 +16,8 @@ class wctEvent {
 	var $isRecurrent;
 	var $participants;
 	var $tanks;
+	var $mapName;
+	var $strategyId;
 
 	/**
 	 * Get a list of files used in an interval.
@@ -128,6 +130,8 @@ class wctEvent {
 		$this->participants = array();
 		$this->tanks = array();
 		$this->isSpareAllowed = false;
+		$this->mapName = '';
+		$this->strategyId = -1;
 	}
 
 	public static function fromJson($json) {
@@ -142,6 +146,8 @@ class wctEvent {
 		$instance->participants = $json['participants'];
 		$instance->tanks = isset($json['tanks'])?$json['tanks']:array();
 		$instance->isSpareAllowed = isset($json['spareallowed'])?$json['spareallowed']:false;
+		$instance->mapName = isset($json['mapName'])?$json['mapName']:false;;
+		$instance->strategyId = isset($json['strategyId'])?$json['strategyId']:false;;
 		return $instance;
 	}
 
@@ -157,6 +163,8 @@ class wctEvent {
 		$result['tanks'] = $this->tanks;
 		$result['type'] = $this->type;
 		$result['spareallowed'] = $this->isSpareAllowed;
+		$result['mapName'] = $this->mapName;
+		$result['strategyId'] = $this->strategyId;
 		if (!$pForStorage) {
 			$result['class'] = 'event-type-' . $this->type;
 			$result['url'] = './server/calendar.php?a=get&id=' . $this->id;
@@ -288,6 +296,22 @@ class wctEvent {
 
 	public function setSpareAllowed($isSpareAllowed) {
 		$this->isSpareAllowed = $isSpareAllowed;
+	}
+
+	public function getMapName() {
+		return $this->mapName;
+	}
+
+	public function setMapName($pMapName) {
+		$this->mapName = $pMapName;
+	}
+
+	public function getStrategyId() {
+		return $this->strategyId;
+	}
+
+	public function setStrategyId($pStrategyId) {
+		$this->strategyId = $pStrategyId;
 	}
 }
 ?>

@@ -57,6 +57,12 @@ switch ($_REQUEST['a']) {
 		if (isset($_REQUEST['eventAllowSpare'])) {
 			$myEvent->setSpareAllowed($_REQUEST['eventAllowSpare'] == 'true' ? true : false);
 		}
+		if (isset($_REQUEST['eventMapName'])) {
+			$myEvent->setMapName($_REQUEST['eventMapName']);
+		}
+		if (isset($_REQUEST['eventStrategyId'])) {
+			$myEvent->setStrategyId($_REQUEST['eventStrategyId']);
+		}
 		// Dates are passed as UNIX timestamps
 		$myEvent->setDateStart(intval($_REQUEST['eventStartDate']));
 		if (isset($_REQUEST['eventEndDate'])) {
@@ -250,36 +256,26 @@ switch ($_REQUEST['a']) {
 		$result .= '<p class="eventStartDate"><span data-i18n="event.startdate" data-date="' . $myEvent->getDateStart() . '000"></span>: <span class="date"></span></p>';
 		$result .= '<p class="eventEndDate"><span data-i18n="event.enddate" data-date="' . $myEvent->getDateEnd() . '000"></span>: <span class="date"></span></p>';
 		$result .= '</dl>';
-		$result .= '<div class="container-fluid">';
-		$result .= '<div class="row">';
-		$result .= '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">';
-		$result .= '<h3 data-i18n="event.participants" data-i18n-options="{&quot;count&quot;:' . count($myEvent->getParticipants()) . '}"></h3>';
-		$result .= '<ul class="list-unstyled eventParticipantsList">';
+		$result .= '<div class="table-responsive eventParticipantsContainer"><table class="table table-hover header-fixed eventParticipantsList">';
+		$result .= '<thead>';
+		$result .= '<tr><th data-i18n="event.participants" data-i18n-options="{&quot;count&quot;:' . count($myEvent->getParticipants()) . '}" style="width:50%"></th>';
+		$result .= '<th data-i18n="event.tanks" class="eventLineUp" style="width:50%"></th></tr>';
+		$result .= '</thead>';
+		$result .= '<tbody>';
+		$result .= '<tr class="noparticipant"><td class="participant" data-i18n="event.noparticipant"></td><td class="tank" data-i18n="event.notank"></td></tr>';
 		if (count($myEvent->getParticipants()) > 0) {
 			foreach($myEvent->getParticipants() as $playerId => $attendance) {
-				$result .= '<li data-player-id="' . $playerId . '" class="attendance-' . $attendance . '">' . $playerId . '</li>';
-			}
-		} else {
-			$result .= '<li data-i18n="event.noparticipant"></li>';
-		}
-		$result .= '</ul></div>';
-		$result .= '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">';
-		$result .= '<h3 data-i18n="event.tanks"></h3>';
-		$result .= '<ul class="list-unstyled eventLineUp">';
-		if (count($myEvent->getParticipants()) > 0) {
-			foreach($myEvent->getParticipants() as $playerId => $attendance) {
+				$result .= '<tr data-player-id="' . $playerId . '"><td class="participant attendance-' . $attendance . '">' . $playerId . '</td>';
 				if (array_key_exists($playerId, $myEvent->getTanks())) {
-					$result .= '<li data-player-id="' . $playerId . '" data-tank-id="' . $myEvent->getTanks()[$playerId] . '">&nbsp;</li>';
+					$result .= '<td class="tank" data-tank-id="' . $myEvent->getTanks()[$playerId] . '">&nbsp;</td>';
 				} else {
-					$result .= '<li data-player-id="' . $playerId . '" data-i18n="event.notank"></li>';
+					$result .= '<td class="tank" data-i18n="event.notank"></td>';
 				}
+				$result .= '</tr>';
 			}
-		} else {
-			$result .= '<li data-i18n="event.notank"></li>';
 		}
-		$result .= '</ul>';
-		$result .= '</div>';
-		$result .= '</div></div>';
+		$result .= '</tbody>';
+		$result .= '</table></div>';
 		$result .= '</div>';
 		if ($_SESSION['account_id'] == $myEvent->getOwner()) {
 			$result .= '<div class="eventDetailsModify">';
