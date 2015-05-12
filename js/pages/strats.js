@@ -1804,7 +1804,14 @@ var onLoad = function() {
 							myStratsTableHtml += '<td class="stratdatemod">' + moment(myStrat.datemod * 1000).format('LLL') + '</td>';
 						}
 						myStratsTableHtml += '<td class="stratcreator">' + dataPlayers[myStrat.creator].nickname + '</td>';
-						myStratsTableHtml += '<td class="stratstate"><div data-toggle="tooltip" data-placement="top" class="slider shor slider-info" title="' + i18n.t('strat.state.' + myStrat.state) + '"></div></td>';
+						myStratsTableHtml += '<td class="stratstate">';
+						// Only the creator can change the state of a strategy
+						if (gConfig.PLAYER_ID == myStrat.creator) {
+							myStratsTableHtml += '<div data-toggle="tooltip" data-placement="top" class="slider shor slider-info" title="' + i18n.t('strat.state.' + myStrat.state) + '"></div>';
+						} else {
+							myStratsTableHtml += '&nbsp;';
+						}
+						myStratsTableHtml += '</td>';
 						myStratsTableHtml += '<td><div class="btn-group btn-group-sm" role="group"><button class="btn btn-success btnShowStrat" date-target="?action=show&amp;id=' + myStrat.id + '" data-map-name="' + myStrat.map + '" data-mode="' + myStrat.mode + '"><span class="glyphicon glyphicon-eye-open"></span></button>';
 						// Only the creator can modify or delete a strategy
 						if (gConfig.PLAYER_ID == myStrat.creator) {
