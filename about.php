@@ -50,7 +50,7 @@ include_once(WCT_INC_DIR . 'analyticstracking.php');
 				<div class="main"><?php
 include(WCT_INC_DIR . 'ads.php');
 ?>
-					<h1><span data-i18n="app.name"></span> <span>v<?php echo(WCT_VERSION); ?></span></h1>
+					<h1><span data-i18n="app.name"></span> <small>v<?php echo(WCT_VERSION); ?></small></h1>
 					<div class="list-group">
 						<a class="list-group-item" href="http://eu.wargaming.net/developers/">WG API</a>
 						<a class="list-group-item" href="http://jquery.com/">jQuery</a>

@@ -30,7 +30,11 @@ var onLoad = function() {
 		view: 'month',
 		modal: '#events-modal',
 		modal_type: 'ajax',
-		modal_title : function (e) { return e.title },
+		modal_title : function (e) {
+			return '<span class="eventTitle">' + e.title + '</span>'
+				+ ' <span class="label label-default eventStartDate" data-date="' + e.start + '">' + moment(e.start * 1).format('LT')
+				+ '</span> - <span class="label label-default eventEndDate" data-date="' + e.end + '">' + moment(e.end * 1).format('LT') + '</span>';
+		},
 		onAfterViewLoad: function(view) {
 			$('#agendaTitle').text(this.getTitle());
 		},

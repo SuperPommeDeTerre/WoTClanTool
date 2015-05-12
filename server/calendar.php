@@ -252,10 +252,6 @@ switch ($_REQUEST['a']) {
 			$result .= '</div>';
 		}
 		$result .= '<p class="eventDescription">' . $myEvent->getDescription() . '</p>';
-		$result .= '<dl>';
-		$result .= '<p class="eventStartDate"><span data-i18n="event.startdate" data-date="' . $myEvent->getDateStart() . '000"></span>: <span class="date"></span></p>';
-		$result .= '<p class="eventEndDate"><span data-i18n="event.enddate" data-date="' . $myEvent->getDateEnd() . '000"></span>: <span class="date"></span></p>';
-		$result .= '</dl>';
 		$result .= '<div class="table-responsive eventParticipantsContainer"><table class="table table-hover header-fixed eventParticipantsList">';
 		$result .= '<thead>';
 		$result .= '<tr><th data-i18n="event.participants" data-i18n-options="{&quot;count&quot;:' . count($myEvent->getParticipants()) . '}" style="width:50%"></th>';

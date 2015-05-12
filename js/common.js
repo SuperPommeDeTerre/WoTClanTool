@@ -55,15 +55,8 @@ function fillEventDialog(pDialog, pEvents) {
 	};
 
 	pDialog.i18n();
-	$("[data-date]").each(function(idx, elem) {
-		var myElem = $(elem);
-		myElem.siblings('.date').text(moment(myElem.data('date')).format('LLL'));
-		if (myElem.parent().hasClass('eventStartDate')) {
-			gEventStartDate = moment(myElem.data('date'));
-		} else if (myElem.parent().hasClass('eventEndDate')) {
-			gEventEndDate = moment(myElem.data('date'));
-		}
-	});
+	gEventStartDate = moment(pDialog.find('.eventStartDate').data('date') * 1);
+	gEventEndDate = moment(pDialog.find('.eventEndDate').data('date') * 1);
 	pDialog.find('.eventParticipantsList [data-player-id]').each(function(idx, elem) {
 		var myParticipantId = $(elem).data('player-id');
 		allParticipants.push(myParticipantId);
@@ -139,7 +132,7 @@ function fillEventDialog(pDialog, pEvents) {
 		if (gModifyPanel.html() == '') {
 			var modifyPanelHtml = '',
 				currentType = pDialog.find('.eventDetails').data('event-type');
-			modifyPanelHtml += '<input id="modifyEventTitle" type="text" class="form-control" placeholder="' + i18n.t('action.calendar.prop.title') + '" aria-describedby="sizing-addon1" value="' + pDialog.find('.modal-header h3').text() + '" />';
+			modifyPanelHtml += '<input id="modifyEventTitle" type="text" class="form-control" placeholder="' + i18n.t('action.calendar.prop.title') + '" aria-describedby="sizing-addon1" value="' + pDialog.find('.modal-header h3 .eventTitle').text() + '" />';
 			modifyPanelHtml += '<textarea id="modifyEventDescription" class="form-control" placeholder="' + i18n.t('action.calendar.prop.description') + '" aria-describedby="sizing-addon1">' + pDialog.find('.eventDescription').text() + '</textarea>';
 			modifyPanelHtml += '<div class="input-group date eventDateTimePicker" id="modifyEventStartDate">';
 			modifyPanelHtml += '<input type="text" class="form-control" placeholder="' + i18n.t('action.calendar.prop.startdate') + '" value="' + gEventStartDate.format('LLL') + '" />';
@@ -200,11 +193,11 @@ function fillEventDialog(pDialog, pEvents) {
 					// Handle result
 					if (addEventResult.result == 'ok') {
 						// Update display pane
-						pDialog.find('.modal-header h3').text(addEventResult.data.title);
+						pDialog.find('.modal-header h3 .eventTitle').text(addEventResult.data.title);
 						pDialog.find('.eventDetails').data('event-type', addEventResult.data.type);
 						gDisplayPanel.find('.eventDescription').text(addEventResult.data.description);
-						gDisplayPanel.find('.eventStartDate').data('date', addEventResult.data.start).find('.date').text(moment(addEventResult.data.start * 1).format('LLL'));
-						gDisplayPanel.find('.eventEndDate').data('date', addEventResult.data.end).find('.date').text(moment(addEventResult.data.end * 1).format('LLL'));
+						pDialog.find('.eventStartDate').data('date', addEventResult.data.start).text(moment(addEventResult.data.start * 1).format('LT'));
+						pDialog.find('.eventEndDate').data('date', addEventResult.data.end).text(moment(addEventResult.data.end * 1).format('LT'));
 						if (addEventResult.data.spareallowed) {
 							pDialog.find('.btnEnrol[data-attendance="spare"]').show();
 						} else {

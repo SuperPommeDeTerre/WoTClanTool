@@ -138,7 +138,7 @@ var onLoad = function() {
 					var myDialog = $('#events-modal');
 					for (var i=0; i<myEvents.length; i++) {
 						if (myEvents[i].id == myEventId) {
-							myDialog.find('.modal-header h3').text(myEvents[i].title);
+							myDialog.find('.modal-header h3').html('<span class="eventTitle">' + myEvents[i].title + '</span> <span class="label label-default eventStartDate" data-date="' + myEvents[i].start + '">' + moment(myEvents[i].start * 1).format('LT') + '</span> - <span class="label label-default eventEndDate" data-date="' + myEvents[i].end + '">' + moment(myEvents[i].end * 1).format('LT') + '</span>');
 							break;
 						}
 					}

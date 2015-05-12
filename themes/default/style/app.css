@@ -43,6 +43,7 @@
 .eventParticipantTanks:after{border-width:13px;border-right-color:#eee;top:11px}
 .eventParticipantTanks:before{border-width:14px;border-right-color:#ccc;top:10px}
 .eventLineUp li{height:28px}
+.eventDescription{min-height:6em}
 /* Install/Admin */
 .searchresult{margin:0;padding:0;list-style:none}
 .searchresult li{margin:0;padding:0;cursor:pointer}
