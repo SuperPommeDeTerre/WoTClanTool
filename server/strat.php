@@ -51,10 +51,36 @@ case 'get':
 	break;
 case 'list':
 	$resultData = array();
+	$hasFilter = false;
+	$myFilter = '';
+	if (array_key_exists('filtername', $_REQUEST)) {
+		$hasFilter = true;
+		$myFilter = $_REQUEST['filtername'];
+	}
 	foreach ($listStrats as $myStrat) {
 		// Only push personal and public strategies
-		if ($myStrat['creator'] == $_SESSION['account_id'] || $myStrat['state'] == 'public' || $myStrat['state'] == 'review') {
-			array_push($resultData, $myStrat);
+		if ($hasFilter) {
+			switch($myFilter) {
+				case 'my':
+					if ($myStrat['creator'] == $_SESSION['account_id']) {
+						array_push($resultData, $myStrat);
+					}
+					break;
+				case 'review':
+					if ($myStrat['state'] == 'review') {
+						array_push($resultData, $myStrat);
+					}
+					break;
+				case 'valid':
+					if ($myStrat['state'] == 'public') {
+						array_push($resultData, $myStrat);
+					}
+					break;
+			}
+		} else {
+			if ($myStrat['creator'] == $_SESSION['account_id'] || $myStrat['state'] == 'public' || $myStrat['state'] == 'review') {
+				array_push($resultData, $myStrat);
+			}
 		}
 	}
 	$result['data'] = $resultData;

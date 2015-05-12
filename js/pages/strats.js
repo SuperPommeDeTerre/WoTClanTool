@@ -72,7 +72,9 @@ var onLoad = function() {
 		gCurrentLineConf = null,
 		gIsReadOnly = false,
 		gStratId = -1,
-		myListStrats = {};
+		myListStrats = {},
+		uri = new URI(document.location.href),
+		uriSearchParameters = uri.search(true);
 
 	// Constants
 	var gDECAL_GRID = 20,
@@ -1550,8 +1552,6 @@ var onLoad = function() {
 				});
 			}
 			// Handle editor show on load.
-			var uri = new URI(document.location.href),
-				uriSearchParameters = uri.search(true);
 			switch (uriSearchParameters['action']) {
 				case 'new':
 					// New strategy
@@ -1773,10 +1773,25 @@ var onLoad = function() {
 			account_id: membersList
 		}, function(dataPlayersResponse) {
 			advanceProgress(i18n.t('loading.strats'));
-			var dataPlayers = dataPlayersResponse.data;
-			$.post('./server/strat.php', {
-				'action': 'list'
-			}, function(dataListStratResponse) {
+			var dataPlayers = dataPlayersResponse.data,
+				getListStratParameters = {
+					action: 'list'
+				};
+			switch (uriSearchParameters['action']) {
+				case 'list':
+					// Default case. Show stored strategies
+					switch (uriSearchParameters['view']) {
+						case 'my':
+						case 'review':
+						case 'valid':
+							getListStratParameters.filtername = uriSearchParameters['view'];
+							break;
+					}
+					break;
+				default:
+					break;
+			}
+			$.post('./server/strat.php', getListStratParameters, function(dataListStratResponse) {
 				advanceProgress(i18n.t('loading.generating'));
 				myListStrats = dataListStratResponse.data;
 				var i = 0,
