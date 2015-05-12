@@ -49,37 +49,45 @@ include(WCT_INC_DIR . 'ads.php');
 			<div class="pull-right form-inline">
 				<div class="input-group pull-left">
 					<span class="input-group-addon glyphicon glyphicon-tasks"></span>
-					<select class="form-control" id="tankFilterLevel" data-previousval="all">
-						<option value="all" data-i18n="tank.alllevels"></option>
-						<option value="1" data-i18n="tank.level.0"></option>
-						<option value="2" data-i18n="tank.level.1"></option>
-						<option value="3" data-i18n="tank.level.2"></option>
-						<option value="4" data-i18n="tank.level.3"></option>
-						<option value="5" data-i18n="tank.level.4"></option>
-						<option value="6" data-i18n="tank.level.5"></option>
-						<option value="7" data-i18n="tank.level.6"></option>
-						<option value="8" data-i18n="tank.level.7"></option>
-						<option value="9" data-i18n="tank.level.8"></option>
-						<option value="10" data-i18n="tank.level.9"></option>
-					</select>
+					<div class="btn-group">
+						<button type="button" id="tankFilterLevel" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" data-value="all" aria-expanded="false"><span class="btnVal" data-i18n="tank.alllevels"></span> <span class="caret"></span></button>
+						<ul class="dropdown-menu" role="menu">
+							<li data-value="all"><a href="#" data-i18n="tank.alllevels"></a></li>
+							<li class="divider"></li>
+							<li data-value="1"><a href="#" data-i18n="tank.level.0"></a></li>
+							<li data-value="2"><a href="#" data-i18n="tank.level.1"></a></li>
+							<li data-value="3"><a href="#" data-i18n="tank.level.2"></a></li>
+							<li data-value="4"><a href="#" data-i18n="tank.level.3"></a></li>
+							<li data-value="5"><a href="#" data-i18n="tank.level.4"></a></li>
+							<li data-value="6"><a href="#" data-i18n="tank.level.5"></a></li>
+							<li data-value="7"><a href="#" data-i18n="tank.level.6"></a></li>
+							<li data-value="8"><a href="#" data-i18n="tank.level.7"></a></li>
+							<li data-value="9"><a href="#" data-i18n="tank.level.8"></a></li>
+							<li data-value="10"><a href="#" data-i18n="tank.level.9"></a></li>
+						</ul>
+					</div>
 				</div>
 				<div class="input-group pull-left" style="margin-right:.25em">
 					<span class="input-group-addon glyphicon glyphicon-knight"></span>
-					<select class="form-control" id="tankFilterType" data-previousval="all">
-						<option value="all" data-i18n="tank.alltypes"></option>
-						<option value="lightTank" data-i18n="tank.type.lightTank"></option>
-						<option value="mediumTank" data-i18n="tank.type.mediumTank"></option>
-						<option value="heavyTank" data-i18n="tank.type.heavyTank"></option>
-						<option value="AT-SPG" data-i18n="tank.type.AT-SPG"></option>
-						<option value="SPG" data-i18n="tank.type.SPG"></option>
-					</select>
+					<div class="btn-group">
+						<button type="button" id="tankFilterType" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" data-value="all" aria-expanded="false"><span class="btnVal" data-i18n="tank.alltypes"></span> <span class="caret"></span></button>
+						<ul class="dropdown-menu" role="menu">
+							<li data-value="all"><a href="#" data-i18n="tank.alltypes"></a></li>
+							<li class="divider"></li>
+							<li data-value="lightTank"><a href="#" data-i18n="tank.type.lightTank"></a></li>
+							<li data-value="mediumTank"><a href="#" data-i18n="tank.type.mediumTank"></a></li>
+							<li data-value="heavyTank"><a href="#" data-i18n="tank.type.heavyTank"></a></li>
+							<li data-value="AT-SPG"><a href="#" data-i18n="tank.type.AT-SPG"></a></li>
+							<li data-value="SPG"><a href="#" data-i18n="tank.type.SPG"></a></li>
+						</ul>
+					</div>
 				</div>
-				<div class="togglebutton togglebutton-info pull-left">
+				<div class="togglebutton togglebutton-info pull-left"style="margin-top: 0.75em">
 					<label><span data-i18n="filter.tank.in_garage"></span>
 						<input type="checkbox" id="chkInGarage" checked="checked" />
 					</label>
 				</div>
-				<div class="pull-left" style="margin-top:-1em">
+				<div class="pull-left" style="margin-top:-.25em">
 					<label><span data-i18n="filter.tank.status" style="font-weight:400"></span>
 						<div style="display:inline-block;width:5em;position:relative;top:.75em;margin-left:1em">
 							<div data-toggle="tooltip" data-placement="top" class="slider shor slider-default" id="slideTankStatus" data-i18n="[title]tank.status.0;"></div>

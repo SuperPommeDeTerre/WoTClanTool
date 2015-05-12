@@ -523,22 +523,27 @@ var onLoad = function() {
 				$('#btnShowTanksResume').on('click', function(evt) {
 					$('#chkContourIcons').change();
 				});
-				selTankLevel.on('change', function(evt) {
+				selTankLevel.add(selTankType).parent().on('click', 'a', function(evt) {
+					evt.preventDefault();
+					var myLink = $(this);
+					myLink.parent().parent().prev().data('value', myLink.parent().data('value')).find('.btnVal').text(myLink.text());
+				});
+				selTankLevel.parent().on('hide.bs.dropdown', function(evt) {
 					applyTableTanksFilters({
 						isfull: parseInt(slideTankStatus.val()) > 0,
 						isready: parseInt(slideTankStatus.val()) > 1,
 						ingarage: chkInGarage.is(':checked'),
-						tanklevel: selTankLevel.val(),
-						tanktype: selTankType.val()
+						tanklevel: selTankLevel.data('value'),
+						tanktype: selTankType.data('value')
 					});
 				});
-				selTankType.on('change', function(evt) {
+				selTankType.parent().on('hide.bs.dropdown', function(evt) {
 					applyTableTanksFilters({
 						isfull: parseInt(slideTankStatus.val()) > 0,
 						isready: parseInt(slideTankStatus.val()) > 1,
 						ingarage: chkInGarage.is(':checked'),
-						tanklevel: selTankLevel.val(),
-						tanktype: selTankType.val()
+						tanklevel: selTankLevel.data('value'),
+						tanktype: selTankType.data('value')
 					});
 				});
 				chkInGarage.on('change', function(evt) {
@@ -546,8 +551,8 @@ var onLoad = function() {
 						isfull: parseInt(slideTankStatus.val()) > 0,
 						isready: parseInt(slideTankStatus.val()) > 1,
 						ingarage: chkInGarage.is(':checked'),
-						tanklevel: selTankLevel.val(),
-						tanktype: selTankType.val()
+						tanklevel: selTankLevel.data('value'),
+						tanktype: selTankType.data('value')
 					});
 				});
 				slideTankStatus.noUiSlider({
@@ -568,8 +573,8 @@ var onLoad = function() {
 							isfull: parseInt(slideTankStatus.val()) > 0,
 							isready: parseInt(slideTankStatus.val()) > 1,
 							ingarage: chkInGarage.is(':checked'),
-							tanklevel: selTankLevel.val(),
-							tanktype: selTankType.val()
+							tanklevel: selTankLevel.data('value'),
+							tanktype: selTankType.data('value')
 						});
 					}
 				});

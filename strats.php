@@ -40,44 +40,60 @@ include(WCT_INC_DIR . 'ads.php');
 					<form class="form-inline">
 						<div class="input-group">
 							<span class="input-group-addon glyphicon glyphicon-flag"></span>
-							<select class="form-control" id="mapFilterModes" data-previousval="all">
-								<option value="all" data-i18n="strat.modes.all"></option>
-								<option value="standard" data-i18n="strat.modes.standard"></option>
-								<option value="encounter" data-i18n="strat.modes.encounter"></option>
-								<option value="assault" data-i18n="strat.modes.assault"></option>
-								<option value="confrontation" data-i18n="strat.modes.confrontation"></option>
-							</select>
+							<div class="btn-group">
+								<button type="button" id="mapFilterModes" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" data-value="all" aria-expanded="false"><span class="btnVal" data-i18n="strat.modes.all"></span> <span class="caret"></span></button>
+								<ul class="dropdown-menu" role="menu">
+									<li data-value="all"><a href="#" data-i18n="strat.modes.all"></a></li>
+									<li class="divider"></li>
+									<li data-value="standard"><a href="#" data-i18n="strat.modes.standard"></a></li>
+									<li data-value="encounter"><a href="#" data-i18n="strat.modes.encounter"></a></li>
+									<li data-value="assault"><a href="#" data-i18n="strat.modes.assault"></a></li>
+									<li data-value="confrontation"><a href="#" data-i18n="strat.modes.confrontation"></a></li>
+								</ul>
+							</div>
 						</div>
 						<div class="input-group">
 							<span class="input-group-addon glyphicon glyphicon-fullscreen"></span>
-							<select class="form-control" id="mapFilterSize" data-previousval="all">
-								<option value="all" data-i18n="strat.map.allsizes"></option>
-							</select>
+							<div class="btn-group">
+								<button type="button" id="mapFilterSize" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" data-value="all" aria-expanded="false"><span class="btnVal" data-i18n="strat.map.allsizes"></span> <span class="caret"></span></button>
+								<ul class="dropdown-menu" role="menu">
+									<li data-value="all"><a href="#" data-i18n="strat.map.allsizes"></a></li>
+									<li class="divider"></li>
+								</ul>
+							</div>
 						</div>
 						<div class="input-group">
 							<span class="input-group-addon glyphicon glyphicon-cloud"></span>
-							<select class="form-control" id="mapFilterCamo" data-previousval="all">
-								<option value="all" data-i18n="strat.camos.all"></option>
-								<option value="summer" data-i18n="strat.camos.summer"></option>
-								<option value="winter" data-i18n="strat.camos.winter"></option>
-								<option value="desert" data-i18n="strat.camos.desert"></option>
-							</select>
+							<div class="btn-group">
+								<button type="button" id="mapFilterCamo" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" data-value="all" aria-expanded="false"><span class="btnVal" data-i18n="strat.camos.all"></span> <span class="caret"></span></button>
+								<ul class="dropdown-menu" role="menu">
+									<li data-value="all"><a href="#" data-i18n="strat.camos.all"></a></li>
+									<li class="divider"></li>
+									<li data-value="summer"><a href="#" data-i18n="strat.camos.summer"></a></li>
+									<li data-value="winter"><a href="#" data-i18n="strat.camos.winter"></a></li>
+									<li data-value="desert"><a href="#" data-i18n="strat.camos.desert"></a></li>
+								</ul>
+							</div>
 						</div>
 						<div class="input-group">
 							<span class="input-group-addon glyphicon glyphicon-tasks"></span>
-							<select class="form-control" id="mapFilterLevel" data-previousval="all">
-								<option value="all" data-i18n="tank.alllevels"></option>
-								<option value="1" data-i18n="tank.level.0"></option>
-								<option value="2" data-i18n="tank.level.1"></option>
-								<option value="3" data-i18n="tank.level.2"></option>
-								<option value="4" data-i18n="tank.level.3"></option>
-								<option value="5" data-i18n="tank.level.4"></option>
-								<option value="6" data-i18n="tank.level.5"></option>
-								<option value="7" data-i18n="tank.level.6"></option>
-								<option value="8" data-i18n="tank.level.7"></option>
-								<option value="9" data-i18n="tank.level.8"></option>
-								<option value="10" data-i18n="tank.level.9"></option>
-							</select>
+							<div class="btn-group">
+								<button type="button" id="mapFilterLevel" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" data-value="all" aria-expanded="false"><span class="btnVal" data-i18n="tank.alllevels"></span> <span class="caret"></span></button>
+								<ul class="dropdown-menu" role="menu">
+									<li data-value="all"><a href="#" data-i18n="tank.alllevels"></a></li>
+									<li class="divider"></li>
+									<li data-value="1"><a href="#" data-i18n="tank.level.0"></a></li>
+									<li data-value="2"><a href="#" data-i18n="tank.level.1"></a></li>
+									<li data-value="3"><a href="#" data-i18n="tank.level.2"></a></li>
+									<li data-value="4"><a href="#" data-i18n="tank.level.3"></a></li>
+									<li data-value="5"><a href="#" data-i18n="tank.level.4"></a></li>
+									<li data-value="6"><a href="#" data-i18n="tank.level.5"></a></li>
+									<li data-value="7"><a href="#" data-i18n="tank.level.6"></a></li>
+									<li data-value="8"><a href="#" data-i18n="tank.level.7"></a></li>
+									<li data-value="9"><a href="#" data-i18n="tank.level.8"></a></li>
+									<li data-value="10"><a href="#" data-i18n="tank.level.9"></a></li>
+								</ul>
+							</div>
 						</div>
 					</form>
 				</div>
