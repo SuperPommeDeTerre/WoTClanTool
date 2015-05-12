@@ -71,7 +71,8 @@ var onLoad = function() {
 		gCurrentLine = null,
 		gCurrentLineConf = null,
 		gIsReadOnly = false,
-		gStratId = -1;
+		gStratId = -1,
+		myListStrats = {};
 
 	// Constants
 	var gDECAL_GRID = 20,
@@ -127,6 +128,83 @@ var onLoad = function() {
 			gIsDrawingLine = false;
 		}
 	});
+
+	function applyShorBehavior(pElemShor) {
+		var myElem = pElemShor,
+			myElemSilderOptions = {
+				start: 0,
+				step: 1,
+				range: {
+					min: 0,
+					max: 2
+				}
+			},
+			myStratId = pElemShor.closest('tr').data('stratid');
+		for (i=0; i<myListStrats.length; i++) {
+			myStrat = myListStrats[i];
+			if (myStrat.id == myStratId) {
+				break;
+			}
+		}
+		switch (myStrat.state) {
+			case 'private':
+				myElemSilderOptions.start = 0;
+				break;
+			case 'review':
+				myElemSilderOptions.start = 1;
+				break;
+			case 'public':
+				myElemSilderOptions.start = 2;
+				break;
+		}
+		pElemShor.noUiSlider(myElemSilderOptions);
+		pElemShor.on({
+			set: function(evt) {
+				var myLine = pElemShor.closest('tr'),
+					myNewState = '';
+				switch (parseInt(pElemShor.val())) {
+					case 0:
+						if (gConfig.PLAYER_ID == myStrat.creator) {
+							myNewState = 'private';
+						} else {
+							myNewState = 'review';
+							pElemShor.val(1);
+						}
+						break;
+					case 1:
+						myNewState = 'review';
+						break;
+					case 2:
+						myNewState = 'public';
+						break;
+				}
+				pElemShor.tooltip('hide')
+					.attr('data-original-title', i18n.t('strat.state.' + myNewState))
+					.tooltip('fixTitle')
+					.tooltip('show');
+				$.post('./server/strat.php', {
+					'action': 'setstratprops',
+					'id': myStratId,
+					'state': myNewState
+				}, function(dataSaveStratResponse) {
+					myStrat.state = myNewState;
+					switch (myStrat.state) {
+						case 'private':
+							myLine.find('.btnDeleteStrat,.btnEditStrat').show();
+							break;
+						case 'review':
+							myLine.find('.btnDeleteStrat').hide();
+							myLine.find('.btnEditStrat').show();
+							break;
+						case 'public':
+							myLine.find('.btnDeleteStrat,.btnEditStrat').hide();
+							break;
+					}
+					pElemShor.closest('tr').find('.stratstatelib').text(i18n.t('strat.state.' + myStrat.state));
+				}, 'json');
+			}
+		});
+	}
 
 	/**
 	 * Init SVG with a map and a mode.
@@ -1696,8 +1774,8 @@ var onLoad = function() {
 				'action': 'list'
 			}, function(dataListStratResponse) {
 				advanceProgress(i18n.t('loading.generating'));
-				var myListStrats = dataListStratResponse.data,
-					i = 0,
+				myListStrats = dataListStratResponse.data;
+				var i = 0,
 					myStrat = {},
 					myStratsTableHtml = '',
 					hideModify = true,
@@ -1782,82 +1860,15 @@ var onLoad = function() {
 						'id': gStratId
 					}, function(dateGetStratResponse) {
 						myRow.remove();
+						for (var i=0; i<myListStrats.length; i++) {
+							if (myListStrats[i].id == dataSaveStratResponse.data.id) {
+								myListStrats = myListStrats.slice(i, i+1);
+								break;
+							}
+						}
 					}, 'json');
 				}).find('.shor').each(function(index, el) {
-					var myElem = $(this),
-						myElemSilderOptions = {
-							start: 0,
-							step: 1,
-							range: {
-								min: 0,
-								max: 2
-							}
-						},
-						myStratId = myElem.closest('tr').data('stratid');
-					for (i=0; i<myListStrats.length; i++) {
-						myStrat = myListStrats[i];
-						if (myStrat.id == myStratId) {
-							break;
-						}
-					}
-					switch (myStrat.state) {
-						case 'private':
-							myElemSilderOptions.start = 0;
-							break;
-						case 'review':
-							myElemSilderOptions.start = 1;
-							break;
-						case 'public':
-							myElemSilderOptions.start = 2;
-							break;
-					}
-					myElem.noUiSlider(myElemSilderOptions);
-					myElem.on({
-						set: function(evt) {
-							var myLine = myElem.closest('tr'),
-								myNewState = '';
-							switch (parseInt(myElem.val())) {
-								case 0:
-									if (gConfig.PLAYER_ID == myStrat.creator) {
-										myNewState = 'private';
-									} else {
-										myNewState = 'review';
-										myElem.val(1);
-									}
-									break;
-								case 1:
-									myNewState = 'review';
-									break;
-								case 2:
-									myNewState = 'public';
-									break;
-							}
-							myElem.tooltip('hide')
-								.attr('data-original-title', i18n.t('strat.state.' + myNewState))
-								.tooltip('fixTitle')
-								.tooltip('show');
-							$.post('./server/strat.php', {
-								'action': 'setstratprops',
-								'id': myStratId,
-								'state': myNewState
-							}, function(dataSaveStratResponse) {
-								myStrat.state = myNewState;
-								switch (myStrat.state) {
-									case 'private':
-										myLine.find('.btnDeleteStrat,.btnEditStrat').show();
-										break;
-									case 'review':
-										myLine.find('.btnDeleteStrat').hide();
-										myLine.find('.btnEditStrat').show();
-										break;
-									case 'public':
-										myLine.find('.btnDeleteStrat,.btnEditStrat').hide();
-										break;
-								}
-								myElem.closest('tr').find('.stratstatelib').text(i18n.t('strat.state.' + myStrat.state));
-							}, 'json');
-						}
-					});
+					applyShorBehavior($(el));
 				});
 				Sortable.initTable($('#tableMyStrats')[0]);
 				// Save strategy
@@ -1872,17 +1883,27 @@ var onLoad = function() {
 						'id': gStratId
 					}, function(dataSaveStratResponse) {
 						if (dataSaveStratResponse.result == 'ok') {
+							var myMapOptions = gMaps[dataSaveStratResponse.data.map],
+								myMapThumb = myMapOptions.file.substring(0, myMapOptions.file.lastIndexOf('.')) + '_thumb' + myMapOptions.file.substring(myMapOptions.file.lastIndexOf('.')),
+								myRow = null;
 							if (gStratId >= 0) {
 								// It's a modification of an existent strategy. Update table.
-								var myRow = $('#tableMyStrats>tbody>tr[data-stratid="' + gStratId + '"]');
-								myRow.find('td.stratmap').text(i18n.t('strat.maps.' + dataSaveStratResponse.data.map));
+								for (var i=0; i<myListStrats.length; i++) {
+									if (myListStrats[i].id == dataSaveStratResponse.data.id) {
+										myListStrats[i] = dataSaveStratResponse.data;
+										break;
+									}
+								}
+								myRow = $('#tableMyStrats>tbody>tr[data-stratid="' + gStratId + '"]');
+								myRow.find('td.stratmap').html('<img width="100" src="./res/wot/maps/' + myMapThumb + '" alt="' + i18n.t('strat.maps.' + dataSaveStratResponse.data.map) + '" title="' + i18n.t('strat.maps.' + dataSaveStratResponse.data.map) + '" />');
 								myRow.find('td.stratname').text(dataSaveStratResponse.data.name);
 								myRow.find('td.stratdesc span').text(dataSaveStratResponse.data.description);
 								myRow.find('td.stratdatemod').text(moment(dataSaveStratResponse.data.datemod * 1000).format('LLL'));
 							} else {
 								// It's a new strategy. Add to table.
-								var myRow = '<tr data-stratid="' + dataSaveStratResponse.data.id + '">';
-								myRow += '<td class="stratmap">' + i18n.t('strat.maps.' + dataSaveStratResponse.data.map) + '</td>';
+								myListStrats.push(dataSaveStratResponse.data);
+								myRow = '<tr data-stratid="' + dataSaveStratResponse.data.id + '">';
+								myRow += '<td class="stratmap"><img width="100" src="./res/wot/maps/' + myMapThumb + '" alt="' + i18n.t('strat.maps.' + dataSaveStratResponse.data.map) + '" title="' + i18n.t('strat.maps.' + dataSaveStratResponse.data.map) + '" /></td>';
 								myRow += '<td class="stratname">' + dataSaveStratResponse.data.name + '</td>';
 								myRow += '<td class="stratdesc"><span style="white-space:pre">' + dataSaveStratResponse.data.description + '</span></td>';
 								myRow += '<td class="stratstatelib">' + i18n.t('strat.state.' + dataSaveStratResponse.data.state) + '</td>';
@@ -1890,8 +1911,10 @@ var onLoad = function() {
 								myRow += '<td class="stratdatemod">&nbsp;</td>';
 								myRow += '<td class="stratcreator">' + dataPlayers[dataSaveStratResponse.data.creator].nickname + '</td>';
 								myRow += '<td class="stratstate"><div data-toggle="tooltip" data-placement="top" class="slider shor slider-info" title="' + i18n.t('strat.state.private') + '"></div></td>';
-								myRow += '<td><a href="?action=show&amp;id=' + dataSaveStratResponse.data.id + '" class="btnShowStrat"><span class="glyphicon glyphicon-eye-open"></span></a> <a href="#" class="btnEditStrat"><span class="glyphicon glyphicon-edit"></span></a> <a href="#" class="btnDeleteStrat"><span class="glyphicon glyphicon-remove"></span></a></td>';
+								myRow += '<td><a href="?action=show&amp;id=' + dataSaveStratResponse.data.id + '" class="btnShowStrat"><span class="glyphicon glyphicon-eye-open"></span></a> <a href="#" class="btnEditStrat"><span class="glyphicon glyphicon-edit"></span></a> <a href="#" class="btnDeleteStrat"><span class="glyphicon glyphicon-trash"></span></a></td>';
 								myRow += '</tr>';
+								myRow = $(myRow);
+								applyShorBehavior(myRow.find('.shor'));
 								$('#tableMyStrats>tbody').append(myRow);
 							}
 							$('#stratEditor').hide();

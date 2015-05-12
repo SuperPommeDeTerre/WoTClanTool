@@ -1,8 +1,6 @@
 var onLoad = function() {
 	checkConnected();
 	advanceProgress(i18n.t('loading.claninfos'));
-	setNavBrandWithClan();
-	afterLoad();
 	var now = moment();
 	// Get events on 6 days (because of 12 columns grid system of bootstrap)
 	$.post('./server/calendar.php', {
@@ -63,5 +61,6 @@ var onLoad = function() {
 				}
 			}, 'json');
 		});
+		afterLoad();
 	}, 'json');
 };

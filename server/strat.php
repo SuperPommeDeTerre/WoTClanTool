@@ -63,7 +63,7 @@ case 'save':
 	$data = json_decode($_REQUEST['data'], true);
 	$stratId = -1;
 	$stratMeta = array();
-	if (array_key_exists('id', $_REQUEST)) {
+	if (array_key_exists('id', $_REQUEST) && $_REQUEST['id'] != -1) {
 		$stratId = intval($_REQUEST['id']);
 		$isStratFound = false;
 		foreach ($listStrats as &$myStrat) {
