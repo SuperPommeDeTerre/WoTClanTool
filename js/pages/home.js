@@ -225,6 +225,10 @@ var onLoad = function() {
 										nbClanVehiculesByType[vehiculeDetails.type]++;
 									}
 								}
+								tableClanPlayers.find('td[data-id="' + playerId + '"]').prepend('<span class="glyphicon glyphicon-bookmark"></span> ');
+							} else {
+								// Mark player as it doesn't have fill its tanks.
+								tableClanPlayers.find('td[data-id="' + playerId + '"]').prepend('<span class="glyphicon glyphicon-warning-sign"></span> ');
 							}
 						}
 						$('#clanTotalVehicles').text(i18n.t('clan.nbtanks', { count: nbTotalVehicules }));
