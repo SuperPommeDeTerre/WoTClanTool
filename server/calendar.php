@@ -252,6 +252,14 @@ switch ($_REQUEST['a']) {
 			$result .= '</div>';
 		}
 		$result .= '<p class="eventDescription">' . $myEvent->getDescription() . '</p>';
+		$result .= '<div class="eventMap">';
+		$result .= '<img src="" alt="" class="img-thumbnail pull-left" id="eventMapThumb" data-map="' . $myEvent->getMapName() . '" width="120" />';
+		$result .= '<h4></h4>';
+		$result .= '<p class="eventMapSize"></p>';
+		$result .= '<p class="eventMapType"></p>';
+		$result .= '<p class="eventStrategy" data-stratid="' . $myEvent->getStrategyId() . '"><a href="./strat.php?action=show&amp;id=' . $myEvent->getStrategyId() . '"></a></p>';
+		$result .= '</div>';
+		$result .= '<div class="clearfix"></div>';
 		$result .= '<div class="table-responsive eventParticipantsContainer"><table class="table table-hover header-fixed eventParticipantsList">';
 		$result .= '<thead>';
 		$result .= '<tr><th data-i18n="event.participants" data-i18n-options="{&quot;count&quot;:' . count($myEvent->getParticipants()) . '}" style="width:50%"></th>';

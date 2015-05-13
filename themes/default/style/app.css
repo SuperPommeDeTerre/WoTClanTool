@@ -44,6 +44,7 @@
 .eventParticipantTanks:before{border-width:14px;border-right-color:#ccc;top:10px}
 .eventLineUp li{height:28px}
 .eventDescription{min-height:6em}
+.eventMap #eventMapThumb{margin-right:1em}
 /* Install/Admin */
 .searchresult{margin:0;padding:0;list-style:none}
 .searchresult li{margin:0;padding:0;cursor:pointer}

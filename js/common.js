@@ -1,3 +1,6 @@
+var gMaps = null,
+	gSortedMaps = [];
+
 function getClanMember(pAccountId) {
 	for (var i=0; i<gClanInfos.members.length; i++) {
 		if (gClanInfos.members[i].account_id == pAccountId) {
@@ -34,6 +37,26 @@ function fillEventDialog(pDialog, pEvents) {
 		}
 	}
 
+	function doFillMapsInfos(pStratProps) {
+		if (pStratProps.mapName != '') {
+			var myStratLinkContainer = gDisplayPanel.find('.eventStrategy'),
+				myMapInfos = gMaps[pStratProps.mapName],
+				myMapThumb = myMapInfos.file.substring(0, myMapInfos.file.lastIndexOf('.')) + '_thumb' + myMapInfos.file.substring(myMapInfos.file.lastIndexOf('.'));
+			gDisplayPanel.find('#eventMapThumb').data('map', pStratProps.mapName).attr('src', './res/wot/maps/' + myMapThumb).attr('alt', i18n.t('strat.maps.' + pStratProps.mapName)).next().text(i18n.t('strat.maps.' + pStratProps.mapName));
+			gDisplayPanel.find('.eventMapSize').text(i18n.t('install.strategies.maps.size') + ': ' + i18n.t('install.strategies.maps.metrics', { sizex: myMapInfos.size.x, sizey: myMapInfos.size.y }));
+			gDisplayPanel.find('.eventMapType').text(i18n.t('strat.camos.title') + ': ' + i18n.t('strat.camos.' + myMapInfos.camo));
+			myStratLinkContainer.data('stratid', pStratProps.strategyId);
+			if (pStratProps.strategyId != -1 && pStratProps.strategyId != '') {
+				myStratLinkContainer.show().children().text(i18n.t('event.strat')).attr('href', './strat.php?action=show&id=' + pStratProps.strategyId);
+			} else {
+				myStratLinkContainer.hide();
+			}
+			gDisplayPanel.find('.eventMap').show();
+		} else {
+			gDisplayPanel.find('.eventMap').hide();
+		}
+	}
+
 	function doFillTanks() {
 		pDialog.find('.eventParticipantsList [data-player-id] .tank').each(function(idx, elem) {
 			var myElemHtml = '',
@@ -54,9 +77,44 @@ function fillEventDialog(pDialog, pEvents) {
 		});
 	};
 
+	// Loads maps
+	if (gMaps == null) {
+		$.ajax({
+			url: './res/wot/game.json',
+			method: 'POST',
+			data: {},
+			async: false,
+			dataType: 'json',
+			success: function(dataMaps) {
+				gMaps = dataMaps.maps;
+				gSortedMaps = Object.keys(gMaps);
+				gSortedMaps.sort(function(a, b) {
+					return i18n.t('strat.maps.' + a).localeCompare(i18n.t('strat.maps.' + b));
+				});
+			}
+		});
+	}
 	pDialog.i18n();
 	gEventStartDate = moment(pDialog.find('.eventStartDate').data('date') * 1);
 	gEventEndDate = moment(pDialog.find('.eventEndDate').data('date') * 1);
+	if (gDisplayPanel.find('#eventMapThumb').data('map') != '') {
+		var mapName = gDisplayPanel.find('#eventMapThumb').data('map'),
+			myMapInfos = gMaps[mapName],
+			myMapThumb = myMapInfos.file.substring(0, myMapInfos.file.lastIndexOf('.')) + '_thumb' + myMapInfos.file.substring(myMapInfos.file.lastIndexOf('.')),
+			myStratLinkContainer = gDisplayPanel.find('.eventStrategy');
+		gDisplayPanel.find('#eventMapThumb').attr('src', './res/wot/maps/' + myMapThumb).attr('alt', i18n.t('strat.maps.' + mapName)).next().text(i18n.t('strat.maps.' + mapName));
+		gDisplayPanel.find('.eventMapSize').text(i18n.t('install.strategies.maps.size') + ': ' + i18n.t('install.strategies.maps.metrics', { sizex: myMapInfos.size.x, sizey: myMapInfos.size.y }));
+		gDisplayPanel.find('.eventMapType').text(i18n.t('strat.camos.title') + ': ' + i18n.t('strat.camos.' + myMapInfos.camo));
+		if ((typeof(myStratLinkContainer.data('stratid')) === 'number' && myStratLinkContainer.data('stratid') != -1)
+				|| (typeof(myStratLinkContainer.data('stratid')) !== 'number' && myStratLinkContainer.data('stratid') != '-1' && myStratLinkContainer.data('stratid') != '')) {
+			myStratLinkContainer.show().children().text(i18n.t('event.strat')).attr('href', './strat.php?action=show&id=' + myStratLinkContainer.data('stratid'));
+		} else {
+			myStratLinkContainer.hide();
+		}
+		gDisplayPanel.find('.eventMap').show();
+	} else {
+		gDisplayPanel.find('.eventMap').hide();
+	}
 	pDialog.find('.eventParticipantsList [data-player-id]').each(function(idx, elem) {
 		var myParticipantId = $(elem).data('player-id');
 		allParticipants.push(myParticipantId);
@@ -131,7 +189,9 @@ function fillEventDialog(pDialog, pEvents) {
 		// Fill modify panel if empty
 		if (gModifyPanel.html() == '') {
 			var modifyPanelHtml = '',
-				currentType = pDialog.find('.eventDetails').data('event-type');
+				currentType = pDialog.find('.eventDetails').data('event-type'),
+				curMapName = gDisplayPanel.find('#eventMapThumb').data('map'),
+				curStratId = gDisplayPanel.find('.eventStrategy').data('stratid');
 			modifyPanelHtml += '<input id="modifyEventTitle" type="text" class="form-control" placeholder="' + i18n.t('action.calendar.prop.title') + '" aria-describedby="sizing-addon1" value="' + pDialog.find('.modal-header h3 .eventTitle').text() + '" />';
 			modifyPanelHtml += '<textarea id="modifyEventDescription" class="form-control" placeholder="' + i18n.t('action.calendar.prop.description') + '" aria-describedby="sizing-addon1">' + pDialog.find('.eventDescription').text() + '</textarea>';
 			modifyPanelHtml += '<div class="input-group date eventDateTimePicker" id="modifyEventStartDate">';
@@ -147,15 +207,37 @@ function fillEventDialog(pDialog, pEvents) {
 			modifyPanelHtml += '<input type="checkbox" id="modifyEventSpareAllowed" value="true"' + (pDialog.find('.btnEnrol[data-attendance="spare"]').is(':visible')?' checked="checked"':'') + ' />';
 			modifyPanelHtml += '</label>';
 			modifyPanelHtml += '</div>';
+			modifyPanelHtml += '<div class="container-fluid">';
+			modifyPanelHtml += '<div class="row">';
+			modifyPanelHtml += '<div class="col-md-6 col-xs-6 col-lg-6">';
 			modifyPanelHtml += '<div class="input-group">';
 			modifyPanelHtml += '<div class="eventType">';
-			modifyPanelHtml += '<h5>' + i18n.t('action.calendar.prop.type') + '</h5>';
+			modifyPanelHtml += '<h4>' + i18n.t('action.calendar.prop.type') + '</h4>';
 			modifyPanelHtml += '<div class="radio radio-material-black"><label><input type="radio"' + (currentType=='clanwar'?' checked="checked"':'') + ' value="clanwar" name="modifyEventType"><abbr>' + i18n.t('action.calendar.prop.types.clanwar') + '</abbr></label></div>';
 			modifyPanelHtml += '<div class="radio radio-material-red-800"><label><input type="radio"' + (currentType=='compa'?' checked="checked"':'') + ' value="compa" name="modifyEventType"><abbr>' + i18n.t('action.calendar.prop.types.compa') + '</abbr></label></div>';
 			modifyPanelHtml += '<div class="radio radio-material-purple-600"><label><input type="radio"' + (currentType=='stronghold'?' checked="checked"':'') + ' value="stronghold" name="modifyEventType"><abbr>' + i18n.t('action.calendar.prop.types.stronghold') + '</abbr></label></div>';
 			modifyPanelHtml += '<div class="radio radio-material-blue-700"><label><input type="radio"' + (currentType=='7vs7'?' checked="checked"':'') + ' value="7vs7" name="modifyEventType"><abbr>' + i18n.t('action.calendar.prop.types.7vs7') + '</abbr></label></div>';
 			modifyPanelHtml += '<div class="radio radio-material-green-600"><label><input type="radio"' + (currentType=='training'?' checked="checked"':'') + ' value="training" name="modifyEventType"><abbr>' + i18n.t('action.calendar.prop.types.training') + '</abbr></label></div>';
 			modifyPanelHtml += '<div class="radio radio-material-grey-500"><label><input type="radio"' + (currentType=='other'?' checked="checked"':'') + ' value="other" name="modifyEventType"><abbr>' + i18n.t('action.calendar.prop.types.other') + '</abbr></label></div>';
+			modifyPanelHtml += '</div>';
+			modifyPanelHtml += '</div>';
+			modifyPanelHtml += '</div>';
+			modifyPanelHtml += '<div class="col-md-6 col-xs-6 col-lg-6">';
+			modifyPanelHtml += '<h4>' + i18n.t('strat.map.select') + '</h4>';
+			modifyPanelHtml += '<select class="form-control" id="modifyEventMapName">';
+			modifyPanelHtml += '<option value=""' + (curMapName!=''?'':' selected="selected"') + '></option>';
+			for (var mapIndex in gSortedMaps) {
+				var mapName = gSortedMaps[mapIndex],
+					myMapInfos = gMaps[mapName];
+				modifyPanelHtml += '<option value="' + mapName + '"' + (curMapName!=mapName?'':' selected="selected"') + '>' + i18n.t('strat.maps.' + mapName) + '</option>';
+			}
+			modifyPanelHtml += '</select>';
+			modifyPanelHtml += '<img src="" alt="" class="img-thumbnail" />';
+			modifyPanelHtml += '<h4>' + i18n.t('event.strat') + '</h4>';
+			modifyPanelHtml += '<select class="form-control" id="modifyEventStrategy">';
+			modifyPanelHtml += '<option value="-1"' + (curStratId!=-1?'':' selected="selected"') + '></option>';
+			modifyPanelHtml += '</select>';
+			modifyPanelHtml += '</div>';
 			modifyPanelHtml += '</div>';
 			modifyPanelHtml += '</div>';
 			modifyPanelHtml += '<button type="button" id="modifyEventOk" class="btn btn-default btn-success">' + i18n.t('btn.ok') + '</button>';
@@ -176,6 +258,37 @@ function fillEventDialog(pDialog, pEvents) {
 			gModifyPanel.find('#modifyEventEndDate').on('dp.change', function (e) {
 				gModifyPanel.find('#modifyEventStartDate').data('DateTimePicker').maxDate(e.date);
 			});
+			gModifyPanel.find('#modifyEventMapName').on('change', function(evt) {
+				var stratsSelect = $('#modifyEventStrategy');
+				if ($(this).val() != '') {
+					var mySelect = $(this),
+						myMapInfos = gMaps[mySelect.val()],
+						myMapThumb = myMapInfos.file.substring(0, myMapInfos.file.lastIndexOf('.')) + '_thumb' + myMapInfos.file.substring(myMapInfos.file.lastIndexOf('.'));
+					mySelect.next().attr('src', './res/wot/maps/' + myMapThumb).attr('alt', i18n.t('strat.maps.' + mySelect.val()));
+					$.post('./server/strat.php', {
+						action: 'list',
+						filtername: 'valid'
+					}, function(getStratsResponse) {
+						var stratsList = getStratsResponse.data,
+							stratsSelectOptions = '<option value="-1"' + (curStratId!=-1?'':' selected="selected"') + '></option>',
+							myStrat = {};
+						if (stratsList.length > 0) {
+							for (var i=0; i<stratsList.length; i++) {
+								myStrat = stratsList[i];
+								if (myStrat.map == mySelect.val()) {
+									stratsSelectOptions += '<option value="' + myStrat.id + '"' + (curStratId!=myStrat.id?'':' selected="selected"') + '>' + myStrat.name + '</option>';
+								}
+							}
+						}
+						stratsSelect.html(stratsSelectOptions);
+					}, 'json');
+				} else {
+					stratsSelect.html('<option value="-1" selected="selected"></option>').val('');
+				}
+			});
+			if (curMapName != '') {
+				gModifyPanel.find('#modifyEventMapName').change();
+			}
 			gModifyPanel.find('#modifyEventOk').on('click', function(evt) {
 				// Prevent default action of button
 				evt.preventDefault();
@@ -188,7 +301,9 @@ function fillEventDialog(pDialog, pEvents) {
 					eventDescription: $('#modifyEventDescription').val(),
 					eventStartDate: moment($('#modifyEventStartDate input').val(), 'LLL').unix(),
 					eventEndDate: moment($('#modifyEventEndDate input').val(), 'LLL').unix(),
-					eventAllowSpare: $('#modifyEventSpareAllowed').is(':checked')
+					eventAllowSpare: $('#modifyEventSpareAllowed').is(':checked'),
+					eventMapName: $('#modifyEventMapName').val(),
+					eventStrategyId: $('#modifyEventStrategy').val()
 				}, function(addEventResult) {
 					// Handle result
 					if (addEventResult.result == 'ok') {
@@ -203,6 +318,7 @@ function fillEventDialog(pDialog, pEvents) {
 						} else {
 							pDialog.find('.btnEnrol[data-attendance="spare"]').hide();
 						}
+						doFillMapsInfos(addEventResult.data);
 						// Show display pane
 						gModifyPanel.hide();
 						gDisplayPanel.fadeIn('fast');
