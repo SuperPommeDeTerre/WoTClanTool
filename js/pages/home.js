@@ -215,7 +215,8 @@ var onLoad = function() {
 							var playerId = dataClan.members[i].account_id,
 								playerVehicles = dataPlayersVehicles[playerId],
 								playerStoredVehicules = dataStoredPlayersTanks[playerId],
-								vehiculeDetails = null;
+								vehiculeDetails = null,
+								nbVehiculesReady = 0;
 							if (playerStoredVehicules.length > 0) {
 								for (var j=0; j<playerStoredVehicules.length; j++) {
 									if (playerStoredVehicules[j].in_garage) {
@@ -223,12 +224,19 @@ var onLoad = function() {
 										nbTotalVehicules++;
 										nbClanVehiculesByTiers[vehiculeDetails.level - 1]++;
 										nbClanVehiculesByType[vehiculeDetails.type]++;
+										if (playerStoredVehicules[j].is_ready) {
+											nbVehiculesReady++;
+										}
 									}
 								}
-								tableClanPlayers.find('td[data-id="' + playerId + '"]').prepend('<span class="glyphicon glyphicon-bookmark"></span> ');
+								if (nbVehiculesReady > 0) {
+									tableClanPlayers.find('td[data-id="' + playerId + '"]').prepend('<span class="glyphicon glyphicon-star"></span> ');
+								} else {
+									tableClanPlayers.find('td[data-id="' + playerId + '"]').prepend('<span class="glyphicon glyphicon-star-empty"></span> ');
+								}
 							} else {
 								// Mark player as it doesn't have fill its tanks.
-								tableClanPlayers.find('td[data-id="' + playerId + '"]').prepend('<span class="glyphicon glyphicon-warning-sign"></span> ');
+								tableClanPlayers.find('td[data-id="' + playerId + '"]').prepend('<span class="glyphicon glyphicon-minus"></span> ');
 							}
 						}
 						$('#clanTotalVehicles').text(i18n.t('clan.nbtanks', { count: nbTotalVehicules }));
