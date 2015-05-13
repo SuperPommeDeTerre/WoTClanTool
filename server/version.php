@@ -1,6 +1,6 @@
 <?php
 // Define application version
-define('WCT_VERSION', 1.0);
+define('WCT_VERSION', '1.0');
 
 // Define root directory of the application
 define('WCT_ROOT_DIR', dirname(__FILE__) . DIRECTORY_SEPARATOR . '..');
