@@ -60,7 +60,7 @@ include(WCT_INC_DIR . 'ads.php');
 						<a class="list-group-item" href="http://momentjs.com/">Moment.js</a>
 						<a class="list-group-item" href="http://eonasdan.github.io/bootstrap-datetimepicker/">Bootstrap 3 Datepicker</a>
 						<a class="list-group-item" href="https://github.com/Serhioromano/bootstrap-calendar">Bootstrap Calendar</a>
-						<a class="list-group-item" href="http://www.eyecon.ro/bootstrap-colorpicker/">Colorpicker for Bootstrap</a>
+						<a class="list-group-item" href="http://mjolnic.com/bootstrap-colorpicker/">Bootstrap Colorpicker</a>
 						<a class="list-group-item" href="http://calebevans.me/projects/jcanvas/">jCanvas</a>
 						<a class="list-group-item" href="http://keith-wood.name/svg.html">jQuery SVG</a>
 						<a class="list-group-item" href="http://morrisjs.github.io/morris.js/">Morris</a>

@@ -89,7 +89,6 @@ include_once(WCT_INC_DIR . 'analyticstracking.php');
 		<script type="text/javascript" src="./js/bootstrap-datetimepicker.min.js"></script>
 		<script type="text/javascript" src="./js/URI.js"></script>
 		<script type="text/javascript" src="./js/jcanvas.min.js"></script>
-		<script type="text/javascript" src="./js/colorpicker.js"></script>
 		<script type="text/javascript" src="./js/ZeroClipboard.min.js"></script>
 		<script type="text/javascript" src="./js/jquery.nouislider.all.min.js"></script>
 		<script type="text/javascript" src="./js/jquery.svg.min.js"></script>

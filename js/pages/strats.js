@@ -799,9 +799,9 @@ var onLoad = function() {
 		var myLine = $("#" + myContextMenuLine.attr("rel"));
 		// Handle init of line form with line properties
 		if (gCurrentElement.style["stroke"]) {
-			$("#lineColor").val(gCurrentElement.style["stroke"].substr(gCurrentElement.style["stroke"].lastIndexOf("#") + 1));
+			$("#lineColor").val(gCurrentElement.style["stroke"]).colorpicker('setValue', $("#lineColor").val());
 		} else {
-			$("#lineColor").val("00FF00");
+			$("#lineColor").val("#00FF00").colorpicker('setValue', $("#lineColor").val());
 		}
 		if (gCurrentElement.style["stroke-width"]) {
 			$("#lineThickness").val(gCurrentElement.style["stroke-width"].substring(0, gCurrentElement.style["stroke-width"].indexOf("px")));
@@ -833,13 +833,13 @@ var onLoad = function() {
 		// Show dialog
 		$('#lineOptionsBtnOk').off('click').on('click', function(evt) {
 			var myStrokeWidth = $("#lineThickness").val(),
-				myStrokeColor = $("#lineColor").val(),
+				myStrokeColor = $("#lineColor").colorpicker('getValue'),
 				myStrokeOpacity = $("#lineOpacity").val(),
 				myStrokeType = $("#lineType").val(),
 				myMarkerStartType = $("#lineMarkerStartType").val(),
 				myMarkerEndType = $("#lineMarkerEndType").val();
 			gCurrentElement.style["stroke-width"] = myStrokeWidth + "px";
-			gCurrentElement.style["stroke"] = "#" + myStrokeColor;
+			gCurrentElement.style["stroke"] = myStrokeColor;
 			gCurrentElement.style["stroke-opacity"] = myStrokeOpacity;
 			gCurrentElement.style["stroke-dasharray"] = getStrokeDashArray(myStrokeType, myStrokeWidth);
 			myLine.css("stroke-width", gCurrentElement.style["stroke-width"]);
@@ -870,9 +870,9 @@ var onLoad = function() {
 		}).hide();
 		// Handle init of shape form with shape properties
 		if (gCurrentElement.style["stroke"]) {
-			$("#colorSelectorShapeContour").val(gCurrentElement.style["stroke"].substr(gCurrentElement.style["stroke"].lastIndexOf("#") + 1));
+			$("#colorSelectorShapeContour").val(gCurrentElement.style["stroke"]).colorpicker('setValue', $("#colorSelectorShapeContour").val());
 		} else {
-			$("#colorSelectorShapeContour").val("FFFFFF");
+			$("#colorSelectorShapeContour").val("#FFFFFF").colorpicker('setValue', $("#colorSelectorShapeContour").val());
 		}
 		if (gCurrentElement.style["stroke-width"]) {
 			$("#shapeContourThickness").val(gCurrentElement.style["stroke-width"].substring(0, gCurrentElement.style["stroke-width"].indexOf("px")));
@@ -890,16 +890,16 @@ var onLoad = function() {
 			$("#shapeContourRadius").val("0");
 		}
 		if (gCurrentElement.style["fill"]) {
-			$("#colorSelectorShapeFill").val(gCurrentElement.style["fill"].substr(gCurrentElement.style["fill"].lastIndexOf("#") + 1));
+			$("#colorSelectorShapeFill").val(gCurrentElement.style["fill"]).colorpicker('setValue', $("#colorSelectorShapeFill").val());
 			if (gCurrentElement.style["fill"].lastIndexOf("url(") >= 0) {
-				var myPatternName = gCurrentElement.style["fill"].substring(gCurrentElement.style["fill"].indexOf("#") + 1);
+				var myPatternName = gCurrentElement.style["fill"];
 				myPatternName = myPatternName.substring(0, myPatternName.indexOf(")"));
 				$("#shapeFillType").val(myPatternName);
 			} else {
 				$("#shapeFillType").val("none");
 			}
 		} else {
-			$("#colorSelectorShapeFill").val("333333");
+			$("#colorSelectorShapeFill").val("#333333").colorpicker('setValue', $("#colorSelectorShapeFill").val());
 			$("#shapeFillType").val("none");
 		}
 		if (gCurrentElement.style["fill-opacity"]) {
@@ -910,21 +910,21 @@ var onLoad = function() {
 		// Show dialog
 		$('#shapeOptionsBtnOk').off('click').on('click', function(evt) {
 			var myFillPattern = $("#shapeFillType").val(),
-				myFillColor = $("#colorSelectorShapeFill").val(),
+				myFillColor = $("#colorSelectorShapeFill").colorpicker('getValue'),
 				myFillOpacity = $("#shapeFillOpacity").val(),
 				myStrokeWidth = $("#shapeContourThickness").val(),
-				myStrokeColor = $("#colorSelectorShapeContour").val(),
+				myStrokeColor = $("#colorSelectorShapeContour").colorpicker('getValue'),
 				myStrokeRadius = $("#shapeContourRadius").val(),
 				myStrokeType = $("#shapeContourType").val();
 			gCurrentElement.style["fill-opacity"] = myFillOpacity;
 			// FIXME: Apply a fill color with a pattern
 			if (myFillPattern !== "none") {
-				gCurrentElement.style["fill"] = "url(#" + myFillPattern + ") #" + myFillColor;
+				gCurrentElement.style["fill"] = "url(#" + myFillPattern + ") " + myFillColor;
 			} else {
-				gCurrentElement.style["fill"] = "#" + myFillColor;
+				gCurrentElement.style["fill"] = myFillColor;
 			}
 			gCurrentElement.style["stroke-width"] = myStrokeWidth + "px";
-			gCurrentElement.style["stroke"] = "#" + myStrokeColor;
+			gCurrentElement.style["stroke"] = myStrokeColor;
 			if (myShape.is("rect")) {
 				gCurrentElement.rx = myStrokeRadius;
 				gCurrentElement.ry = myStrokeRadius;
@@ -1033,9 +1033,9 @@ var onLoad = function() {
 		var myText = $("#" + myContextMenuText.attr("rel"));
 		$("#textValue").val(myText.text());
 		if (myText.css("stroke") !== "none") {
-			$("#textColor").val(myText.css("stroke").substr(1));
+			$("#textColor").val(myText.css("stroke")).colorpicker('setValue', $("#textColor").val());
 		} else {
-			$("#textColor").val("FFFFFF");
+			$("#textColor").val("#FFFFFF").colorpicker('setValue', $("#textColor").val());
 		}
 		$('#textEditBtnOk').off('click').on('click', function(evt) {
 			if ($("#textValue").val().trim().length === 0) {
@@ -1052,7 +1052,7 @@ var onLoad = function() {
 			} else {
 				myText.text($("#textValue").val());
 				gCurrentElement.value = myText.text();
-				myText.css("fill", "#" + $("#textColor").val());
+				myText.css("fill", $("#textColor").colorpicker('getValue'));
 			}
 		});
 	});
@@ -1064,13 +1064,13 @@ var onLoad = function() {
 			myImageWidth = (myImage.attr("width") * 1);
 		$("#textValue").val(myText.text());
 		if (myText.css("fill") !== "none") {
-			$("#textColor").val(myText.css("fill").substr(1));
+			$("#textColor").val(myText.css("fill")).colorpicker('setValue', $("#textColor").val());
 		} else {
-			$("#textColor").val("FFFFFF");
+			$("#textColor").val("#FFFFFF").colorpicker('setValue', $("#textColor").val());
 		}
 		$('#textEditBtnOk').off('click').on('click', function(evt) {
 			myText.text($("#textValue").val());
-			myText.css("fill", "#" + $("#textColor").val());
+			myText.css("fill", $("#textColor").colorpicker('getValue'));
 			gCurrentElement.text.value = myText.text();
 			myTextWidth = myText[0].getComputedTextLength();
 			if (myText.hasClass("top")) {
@@ -1375,17 +1375,7 @@ var onLoad = function() {
 			}
 		}
 	});
-	$(".colorselector, #colorSelectorLine").ColorPicker({
-		onSubmit: function(hsb, hex, rgb, el) {
-			$(el).val(hex);
-			$(el).ColorPickerHide();
-		},
-		onBeforeShow: function () {
-			$(this).ColorPickerSetColor(this.value);
-		}
-	}).bind('keyup', function(){
-		$(this).ColorPickerSetColor(this.value);
-	});
+	$(".colorselector, #colorSelectorLine").colorpicker();
 	$("#lblStratName").change(function(e) {
 		gCurrentConf.name = $(this).val();
 	});
