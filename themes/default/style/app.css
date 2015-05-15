@@ -102,6 +102,7 @@ span.role{display:inline-block;height:28px;line-height:28px}
 .tankcontainer .tankname{padding-left:24px}
 td.tankowners .ign.active{font-weight:bold}
 .playerdetails{width:30%;margin:.5em}
+.label-material-yellow-500{color:#666}
 /* Strats */
 #stratEditor{display:none}
 body#strats #listMaps{display:none}
