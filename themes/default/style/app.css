@@ -36,9 +36,8 @@
 .attendance-no{color:#ef6c00}
 .attendance-spare{color:#2196f3}
 .eventParticipantsContainer{min-height:300px}
-.eventParticipantsList li{cursor:pointer}
+.eventParticipantsList .participant{cursor:pointer}
 .eventParticipantTanks{width:50%;height:200px;background-color:#eee;position:relative;border-left:1px solid #ccc}
-.eventParticipantTanks li{cursor:pointer}
 .eventParticipantTanks:after,.eventParticipantTanks:before{border:solid transparent;content:' ';height:0;right:100%;position:absolute;width:0}
 .eventParticipantTanks:after{border-width:13px;border-right-color:#eee;top:11px}
 .eventParticipantTanks:before{border-width:14px;border-right-color:#ccc;top:10px}
