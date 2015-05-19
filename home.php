@@ -1,7 +1,16 @@
 <?php
 require(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'server' . DIRECTORY_SEPARATOR . 'global.php');
 
-$gPageID = "home";
+$gPageProps = array(
+	"id" => "home",
+	"authenticated" => true,
+	"role" => array(),
+	"blocks" => array (
+		"ads" => true,
+		"nav" => true,
+		"footer" => true
+	)
+);
 
 require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR . 'header.php');
 ?>
@@ -58,7 +67,7 @@ include(WCT_INC_DIR . 'ads.php');
 								<button class="btn btn-warning" data-calendar-view="week" data-i18n="action.calendar.view.week"></button>
 							</div>
 						</div>
-						<h3 id="agendaTitleTody" data-i18n="action.calendar.today"></h3>
+						<h3 id="agendaTitleBody" data-i18n="action.calendar.today"></h3>
 					</div>
 				</div>
 			</div>

@@ -130,6 +130,9 @@ var onLoad = function() {
 					{ label: i18n.t('stats.global.defeats'), value: nbTotalLosses },
 					{ label: i18n.t('stats.global.draws'), value: nbTotalDraws }
 				],
+				formatter: function(y, data) {
+					return  Math.round(y / nbTotalBattles * 10000) / 100 + ' %';
+				},
 				colors: [ "#4caf50", "#f44336", "#2196f3" ]
 			});
 			advanceProgress(i18n.t('loading.playersratings'));
@@ -149,6 +152,7 @@ var onLoad = function() {
 					// Handle response and add it to data
 					var dataPlayersYesterdayRatings = dataRatingYesterdayResponse.data,
 						dayTotalBattles = 0,
+						dayTotalFrags = 0,
 						queryParams = new URI('?' + this.data).search(true);
 					for (playerId in dataPlayersYesterdayRatings) {
 						var curPlayerRatings = dataPlayersYesterdayRatings[playerId];
@@ -278,7 +282,7 @@ var onLoad = function() {
 								$('#agendaTitle').text(this.getTitle());
 							},
 							onAfterEventsLoad: function(events) {
-								$('#agendaTitleTody').nextAll().remove();
+								$('#agendaTitleBody').nextAll().remove();
 								var myTodayEventsHtml = '',
 									startOfDay = moment().startOf('day'),
 									endOfDay = moment(startOfDay).add(1, 'days'),
@@ -319,7 +323,7 @@ var onLoad = function() {
 									myTodayEventsHtml = '<p data-i18n="event.noevent"></p>';
 								}
 								$('#clanTotalEvents').text(i18n.t('clan.nbevents', { count: nbEventsOnPeriod }));
-								$('#agendaTitleTody').after(myTodayEventsHtml).parent().i18n();
+								$('#agendaTitleBody').after(myTodayEventsHtml).parent().i18n();
 							},
 							onAfterModalShown: function(events) {
 								fillEventDialog($("#events-modal"), events);

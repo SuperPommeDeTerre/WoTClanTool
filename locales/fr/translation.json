@@ -3,7 +3,9 @@
 		"name": "WoT C.T.",
 		"version": "Version :",
 		"title": "WoT C.T. :: $t(page.__page__.title)",
-		"description": "Outil de gestion de clan pour World of Tanks"
+		"description": "Outil de gestion de clan pour World of Tanks",
+		"projectpage": "Page du projet",
+		"bugreports": "Rapports de bug"
 	},
 	"share": {
 		"facebook": "Partager sur Facebook",
@@ -479,6 +481,12 @@
 		},
 		"about": {
 			"title": "A propos"
+		},
+		"reports": {
+			"title": "Rapports"
+		},
+		"calendarview": {
+			"title": "Vue du calendrier"
 		}
 	},
 	"strat": {

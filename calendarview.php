@@ -2,8 +2,8 @@
 require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'server' . DIRECTORY_SEPARATOR . 'global.php');
 
 $gPageProps = array(
-	"id" => "weekview",
-	"authenticated" => true,
+	"id" => "calendarview",
+	"authenticated" => false,
 	"role" => array(),
 	"blocks" => array (
 		"ads" => false,
@@ -12,34 +12,39 @@ $gPageProps = array(
 	)
 );
 
+// Get cluster
+$selCluster = "EU";
+if (!array_key_exists("cluster", $_REQUEST)) {
+	if (array_key_exists("cluster", $_SESSION)) {
+		$selCluster = $_SESSION["cluster"];
+	}
+} else {
+	$selCluster = $_REQUEST["cluster"];
+}
+// Get clan ID
+if (!array_key_exists("clanid", $_REQUEST)) {
+	if (array_key_exists("clan_id", $_SESSION)) {
+		$selClanID = $_SESSION["clan_id"];
+	}
+} else {
+	$selClanID = $_REQUEST["clanid"];
+}
+
 require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR . 'header.php');
 ?>
+		<script type="text/javascript">
+		/* <![CDATA[ */
+			var gCalendarParams = {
+				cluster: <?php echo(json_encode($selCluster)); ?>,
+				clanid: <?php echo(json_encode($selClanID)); ?>
+			};
+		/* ]]> */
+		</script>
 		<div class="container-fluid">
 			<div class="row">
 				<div class="main">
-					<div id="myCalendar" class="container-fluid">
-						<div class="row">
-							<div class="col-xs-6 col-md-4 col-lg-2 placeholder">
-								<h3 data-i18n="action.calendar.today"></h3>
-							</div>
-							<div class="col-xs-6 col-md-4 col-lg-2 placeholder">
-								<h3></h3>
-							</div>
-							<div class="col-xs-6 col-md-4 col-lg-2 placeholder">
-								<h3></h3>
-							</div>
-							<div class="clearfix visible-md-block"></div>
-							<div class="col-xs-6 col-md-4 col-lg-2 placeholder">
-								<h3></h3>
-							</div>
-							<div class="col-xs-6 col-md-4 col-lg-2 placeholder">
-								<h3></h3>
-							</div>
-							<div class="col-xs-6 col-md-4 col-lg-2 placeholder">
-								<h3></h3>
-							</div>
-						</div>
-					</div>
+					<h3 id="agendaTitle"></h3>
+					<div id="clanCalendar"></div>
 				</div>
 			</div>
 		</div>

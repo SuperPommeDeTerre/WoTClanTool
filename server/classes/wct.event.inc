@@ -167,7 +167,14 @@ class wctEvent {
 		$result['strategyId'] = $this->strategyId;
 		if (!$pForStorage) {
 			$result['class'] = 'event-type-' . $this->type;
-			$result['url'] = './server/calendar.php?a=get&id=' . $this->id;
+			$eventUrl = './server/calendar.php?a=get&id=' . $this->id;
+			if (array_key_exists("cluster", $_REQUEST)) {
+				$eventUrl .= '&cluster=' . $_REQUEST['cluster'];
+			}
+			if (array_key_exists("clanid", $_REQUEST)) {
+				$eventUrl .= '&clanid=' . $_REQUEST['clanid'];
+			}
+			$result['url'] = $eventUrl;
 		}
 		return $result;
 	}

@@ -6,6 +6,10 @@ header('Cache-Control: no-cache, must-revalidate, max-age=0');
 header('Cache: no-cache');
 header('Pragma: no-cache');
 */
+if ($gPageProps["authenticated"] && !array_key_exists("account_id", $_SESSION)) {
+	header('Location: unauthorized.php');
+	exit;
+}
 header('Content-Type: text/html; charset=utf-8');
 ?><!DOCTYPE html>
 <html lang="<?php echo($gLang); ?>">
@@ -17,7 +21,7 @@ header('Content-Type: text/html; charset=utf-8');
 		<meta name="author" content="J&eacute;r&eacute;mie Langlade &lt;jlanglade@pixbuf.net&gt;" />
 		<link rel="icon" href="./themes/<?php echo($gThemeName); ?>/style/favicon.ico" />
 		<link href="./themes/<?php echo($gThemeName); ?>/style/favicon.png" type="image/x-icon" rel="icon" />
-		<title data-i18n="app.title" data-i18n-options="{&quot;page&quot;:&quot;<?php echo($gPageID); ?>&quot;}"></title>
+		<title data-i18n="app.title" data-i18n-options="{&quot;page&quot;:&quot;<?php echo($gPageProps["id"]); ?>&quot;}"></title>
 		<!-- CSS -->
 		<link href="./themes/<?php echo($gThemeName); ?>/style/style.css" rel="stylesheet" />
 		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -26,7 +30,7 @@ header('Content-Type: text/html; charset=utf-8');
 			<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
 	</head>
-	<body id="<?php echo($gPageID); ?>" data-spy="scroll" data-target="#pageNavbar"><?php
+	<body id="<?php echo($gPageProps["id"]); ?>" data-spy="scroll" data-target="#pageNavbar"><?php
 include_once(WCT_INC_DIR . 'analyticstracking.php');
 ?>
 		<div id="progressDialog">
@@ -35,7 +39,8 @@ include_once(WCT_INC_DIR . 'analyticstracking.php');
 			</div>
 			<p id="progressInfoMessage">&nbsp;</p>
 		</div>
-		<div id="content">
+		<div id="content"><?php
+if ($gPageProps["blocks"]["nav"]) { ?>
 			<!-- Static navbar -->
 			<nav class="navbar navbar-default navbar-fixed-top navbar-material-grey-700 shadow-z-2" id="mainNavBar">
 				<div class="container-fluid">
@@ -46,11 +51,21 @@ include_once(WCT_INC_DIR . 'analyticstracking.php');
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 						</button>
-						<a class="navbar-brand" href="./home.php" data-i18n="[title]nav.home;app.name;"></a>
-					</div>
+						<a class="navbar-brand" href="./" data-i18n="[title]nav.home;app.name"></a>
+					</div><?php
+	if (!array_key_exists("account_id", $_SESSION)) { ?>
+					<div id="navbar" class="navbar-collapse collapse">
+						<nav class="social pull-right">
+							<ul class="list-unstyled">
+								<li class="facebook"><a href="http://www.facebook.com/share.php?u=[URL]&title=[TITLE]" data-toggle="tooltip" data-placement="bottom" data-i18n="[title]share.facebook;"><span>Facebook</span></a></li>
+								<li class="twitter"><a href="https://twitter.com/share" data-toggle="tooltip" data-placement="bottom" data-i18n="[title]share.tweeter;"><span>Tweet</span></a></li>
+							</ul>
+						</nav>
+					</div><?php
+	} else { ?>
 					<div id="navbar" class="navbar-collapse collapse">
 						<ul class="nav navbar-nav navbar-right">
-							<li class="dropdown<?php if ($gPageID == 'my') { echo(' active'); } ?>">
+							<li class="dropdown<?php if ($gPageProps["id"] == 'my') { echo(' active'); } ?>">
 								<a href="./my.php" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span id="playerNickName"><?php echo($_SESSION["nickname"]); ?></span> <span class="caret"></span></a>
 								<ul class="dropdown-menu" role="menu">
 									<li><a href="./my.php#calendar"><span class="glyphicon glyphicon-calendar"></span> <span data-i18n="nav.my.calendar"></span></a></li>
@@ -60,10 +75,10 @@ include_once(WCT_INC_DIR . 'analyticstracking.php');
 									<li><a href="logout.php" id="linkLogout" data-i18n="[title]nav.logout;"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> <span data-i18n="nav.logout"></span></a></li>
 								</ul>
 							</li>
-							<li<?php if ($gPageID == 'garage') { echo(' class="active"'); } ?>><a href="garage.php" data-i18n="nav.garage"></a></li>
-							<li<?php if ($gPageID == 'events') { echo(' class="active"'); } ?>><a href="events.php" data-i18n="nav.events"></a></li>
-							<!--<li<?php if ($gPageID == 'stronghold') { echo(' class="active"'); } ?>><a href="stronghold.php" data-i18n="nav.stronghold"></a></li>-->
-							<li class="dropdown<?php if ($gPageID == 'strats') { echo(' active'); } ?>">
+							<li<?php if ($gPageProps["id"] == 'garage') { echo(' class="active"'); } ?>><a href="garage.php" data-i18n="nav.garage"></a></li>
+							<li<?php if ($gPageProps["id"] == 'events') { echo(' class="active"'); } ?>><a href="events.php" data-i18n="nav.events"></a></li>
+							<!--<li<?php if ($gPageProps["id"] == 'stronghold') { echo(' class="active"'); } ?>><a href="stronghold.php" data-i18n="nav.stronghold"></a></li>-->
+							<li class="dropdown<?php if ($gPageProps["id"] == 'strats') { echo(' active'); } ?>">
 								<a href="./strats.php" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span data-i18n="nav.strats.title"></span> <span class="caret"></span></a>
 								<ul class="dropdown-menu" role="menu">
 									<li><a href="./strats.php?action=new"><span class="glyphicon glyphicon-plus"></span> <span data-i18n="nav.strats.new"></span></a></li>
@@ -74,11 +89,14 @@ include_once(WCT_INC_DIR . 'analyticstracking.php');
 									<li><a href="./strats.php?action=list&amp;view=review"><span class="glyphicon glyphicon-check"></span> <span data-i18n="nav.strats.review"></span></a></li>
 								</ul>
 							</li><?php
-// Show the administration only if the user is in the admins group
-if (in_array($_SESSION["account_id"], $gAdmins)) { ?>
-							<li<?php if ($gPageID == 'admin') { echo(' class="active"'); } ?>><a href="admin.php" data-i18n="[title]nav.admin;"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></li><?php
-} ?>
+		// Show the administration only if the user is in the admins group
+		if (in_array($_SESSION["account_id"], $gAdmins)) { ?>
+							<li<?php if ($gPageProps["id"] == 'admin') { echo(' class="active"'); } ?>><a href="admin.php" data-i18n="[title]nav.admin;"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></li><?php
+		} ?>
 						</ul>
-					</div><!--/.nav-collapse -->
+					</div><!--/.nav-collapse --><?php
+	} ?>
 				</div><!--/.container-fluid -->
-			</nav>
+			</nav><?php
+}
+?>

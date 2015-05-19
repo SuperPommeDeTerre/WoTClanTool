@@ -1,7 +1,16 @@
 <?php
 require(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'server' . DIRECTORY_SEPARATOR . 'global.php');
 
-$gPageID = "events";
+$gPageProps = array(
+	"id" => "events",
+	"authenticated" => true,
+	"role" => array(),
+	"blocks" => array (
+		"ads" => true,
+		"nav" => true,
+		"footer" => true
+	)
+);
 
 require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR . 'header.php');
 ?>

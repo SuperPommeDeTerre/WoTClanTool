@@ -256,7 +256,7 @@ foreach ($gClusters as $clusterId => $clusterProps) {
 			</div>
 		</div>
 		<script type="text/javascript" src="./js/jquery-2.1.4.min.js"></script>
-		<script type="text/javascript" src="./js/i18next-1.8.0.min.js"></script>
+		<script type="text/javascript" src="./js/i18next-1.9.0.min.js"></script>
 		<script type="text/javascript" src="./js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="./js/material.min.js"></script>
 		<script type="text/javascript" src="./js/ripples.min.js"></script>

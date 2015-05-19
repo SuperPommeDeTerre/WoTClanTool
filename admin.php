@@ -6,7 +6,16 @@ if (!in_array($_SESSION["account_id"], $gAdmins)) {
 	header('Location: index.php');
 }
 
-$gPageID = "admin";
+$gPageProps = array(
+	"id" => "admin",
+	"authenticated" => true,
+	"role" => array( "admin" ),
+	"blocks" => array (
+		"ads" => false,
+		"nav" => true,
+		"footer" => true
+	)
+);
 
 require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR . 'header.php');
 ?>
@@ -315,7 +324,6 @@ foreach ($gClusters as $clusterId => $clusterProps) {
 			</div>
 		</div>
 	</div>
-</div>
-<?php
+</div><?php
 require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR . 'footer.php');
 ?>

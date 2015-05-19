@@ -4,7 +4,21 @@ require(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'global.php');
 
 require(WCT_SERVER_DIR . DIRECTORY_SEPARATOR . 'classes' . DIRECTORY_SEPARATOR . 'wct.event.inc');
 
-define('WCT_BASE_EVENT_DIR', WCT_DATA_DIR . 'clan' . DIRECTORY_SEPARATOR . $_SESSION['clan_id'] . DIRECTORY_SEPARATOR . 'events');
+$baseDataDir = WCT_DATA_DIR;
+$isReadOnly = false;
+if (array_key_exists("cluster", $_REQUEST)) {
+	if (array_key_exists($_REQUEST["cluster"], $gClusters)) {
+		$isReadOnly = true;
+		$baseDataDir = WCT_BASE_DATA_DIR . DIRECTORY_SEPARATOR . $_REQUEST["cluster"] . DIRECTORY_SEPARATOR;
+	}
+}
+
+if (array_key_exists("clanid", $_REQUEST)) {
+	$isReadOnly = true;
+	define('WCT_BASE_EVENT_DIR', WCT_DATA_DIR . 'clan' . DIRECTORY_SEPARATOR . $_REQUEST['clanid'] . DIRECTORY_SEPARATOR . 'events');
+} else {
+	define('WCT_BASE_EVENT_DIR', WCT_DATA_DIR . 'clan' . DIRECTORY_SEPARATOR . $_SESSION['clan_id'] . DIRECTORY_SEPARATOR . 'events');
+}
 if (!is_dir(WCT_BASE_EVENT_DIR)) {
 	mkdir(WCT_BASE_EVENT_DIR, 0755, true);
 }
@@ -229,7 +243,7 @@ switch ($_REQUEST['a']) {
 		$myEvent = wctEvent::fromId($_REQUEST['id']);
 		$result .= '<div id="eventDetails' . $myEvent->getId() . '" class="eventDetails" data-event-id="' . $myEvent->getId() . '" data-owner="' . $myEvent->getOwner() . '" data-event-type="' . $myEvent->getType() . '">';
 		$result .= '<div class="eventDetailsDisplay">';
-		if ($myEvent->getDateStart() > time()) {
+		if (!$isReadOnly && $myEvent->getDateStart() > time()) {
 			$result .= '<div class="eventActions pull-right">';
 			$userAttendance = "no";
 			if (count($myEvent->getParticipants()) > 0 && array_key_exists($_SESSION['account_id'], $myEvent->getParticipants())) {
@@ -257,31 +271,39 @@ switch ($_REQUEST['a']) {
 		$result .= '<h4></h4>';
 		$result .= '<p class="eventMapSize"></p>';
 		$result .= '<p class="eventMapType"></p>';
-		$result .= '<p class="eventStrategy" data-stratid="' . $myEvent->getStrategyId() . '"><a href="./strat.php?action=show&amp;id=' . $myEvent->getStrategyId() . '"></a></p>';
+		if (!$isReadOnly) {
+			$result .= '<p class="eventStrategy" data-stratid="' . $myEvent->getStrategyId() . '"><a href="./strat.php?action=show&amp;id=' . $myEvent->getStrategyId() . '"></a></p>';
+		}
 		$result .= '</div>';
 		$result .= '<div class="clearfix"></div>';
-		$result .= '<div class="table-responsive eventParticipantsContainer"><table class="table table-hover header-fixed eventParticipantsList">';
-		$result .= '<thead>';
-		$result .= '<tr><th data-i18n="event.participants" data-i18n-options="{&quot;count&quot;:' . count($myEvent->getParticipants()) . '}" style="width:50%"></th>';
-		$result .= '<th data-i18n="event.tanks" class="eventLineUp" style="width:50%"></th></tr>';
-		$result .= '</thead>';
-		$result .= '<tbody>';
-		$result .= '<tr class="noparticipant"><td class="participant" data-i18n="event.noparticipant"></td><td class="tank" data-i18n="event.notank"></td></tr>';
-		if (count($myEvent->getParticipants()) > 0) {
-			foreach($myEvent->getParticipants() as $playerId => $attendance) {
-				$result .= '<tr data-player-id="' . $playerId . '"><td class="participant attendance-' . $attendance . '">' . $playerId . '</td>';
-				if (array_key_exists($playerId, $myEvent->getTanks())) {
-					$result .= '<td class="tank" data-tank-id="' . $myEvent->getTanks()[$playerId] . '">&nbsp;</td>';
-				} else {
-					$result .= '<td class="tank" data-i18n="event.notank"></td>';
+		$result .= '<div class="table-responsive eventParticipantsContainer">';
+		if (!$isReadOnly) {
+			$result .= '<table class="table table-hover header-fixed eventParticipantsList">';
+			$result .= '<thead>';
+			$result .= '<tr><th data-i18n="event.participants" data-i18n-options="{&quot;count&quot;:' . count($myEvent->getParticipants()) . '}" style="width:50%"></th>';
+			$result .= '<th data-i18n="event.tanks" class="eventLineUp" style="width:50%"></th></tr>';
+			$result .= '</thead>';
+			$result .= '<tbody>';
+			$result .= '<tr class="noparticipant"><td colspan="2" class="participant" data-i18n="event.noparticipant"></td></tr>';
+			if (count($myEvent->getParticipants()) > 0) {
+				foreach($myEvent->getParticipants() as $playerId => $attendance) {
+					$result .= '<tr data-player-id="' . $playerId . '"><td class="participant attendance-' . $attendance . '">' . $playerId . '</td>';
+					if (array_key_exists($playerId, $myEvent->getTanks())) {
+						$result .= '<td class="tank" data-tank-id="' . $myEvent->getTanks()[$playerId] . '">&nbsp;</td>';
+					} else {
+						$result .= '<td class="tank" data-i18n="event.notank"></td>';
+					}
+					$result .= '</tr>';
 				}
-				$result .= '</tr>';
 			}
+			$result .= '</tbody>';
+			$result .= '</table></div>';
+		} else {
+			$result .= '<h3 data-i18n="event.participants" data-i18n-options="{&quot;count&quot;:' . count($myEvent->getParticipants()) . '}"></h3>';
 		}
-		$result .= '</tbody>';
-		$result .= '</table></div>';
 		$result .= '</div>';
-		if ($_SESSION['account_id'] == $myEvent->getOwner()) {
+		$result .= '</div>';
+		if (!$isReadOnly && $_SESSION['account_id'] == $myEvent->getOwner()) {
 			$result .= '<div class="eventDetailsModify">';
 			$result .= '</div>';
 		}
