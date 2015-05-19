@@ -1,1 +1,10 @@
 DirectoryIndex index.php
+#Options -Multiviews
+<IfModule mod_rewrite.c>
+	RewriteEngine on
+	#RewriteBase /WoTClanTool/locales/
+	#RewriteCond %{REQUEST_FILENAME} !-f
+	#RewriteCond %{REQUEST_FILENAME} !-d
+	#RewriteCond %{REQUEST_FILENAME} !-l
+	RewriteRule /locales/resources/(.+)/(.+).json$ /locales/resources.php?a=get&lng=$1&ns=$2 [L]
+</IfModule>

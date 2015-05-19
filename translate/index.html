@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>i18next - webtranslate</title>
+	<!-- Application styles. -->
+	<link rel="stylesheet" href="css/i18nextWT.css">
+</head>
+<body>
+	<div class="header">
+		<div class="header-inner"></div>
+	</div>
+	<div class="main">
+		<div class="main-inner"></div>
+	</div>
+	<div class="footer">
+		<div class="footer-inner"></div>
+	</div>
+	<!-- Application source. -->
+	<script type="text/javascript" src="js/i18nextWT.js"></script>
+	<script type="text/javascript">
+	i18nextWT_onready = function(wt) {
+		wt.config({
+			languages: ['cs', 'de', 'en', 'es', 'fr', 'ko', 'pl', 'ru', 'tr', 'zh', 'dev'],
+			namespaces: ['ns.common'],
+			//resGetPath: '../locales/resources.php?a=get&lng=__lng__&ns=__ns__',
+			resGetPath: '../locales/resources/__lng__/__ns__.json',
+			resChangePath: '../locales/change/resources.php?a=change&lng=__lng__&ns=__ns__',
+			resRemovePath: '../locales/remove/resources.php?a=remove&lng=__lng__&ns=__ns__',
+			fallbackLng: 'en',
+			dynamicLoad: false
+		});
+		wt.start();
+	};
+	</script>
+</body>
+</html>
