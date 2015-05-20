@@ -198,7 +198,12 @@ var onLoad = function() {
 				'action': 'gettanksstats',
 				'data': JSON.stringify(dataMyTanks)
 			}, function(dataMyTanksResponse) {
-				var dataMyTanksAdditionalInfos = dataMyTanksResponse.data[gConfig.PLAYER_ID];
+				var dataMyTanksAdditionalInfos = dataMyTanksResponse.data[gConfig.PLAYER_ID],
+					statsTanksByType = [],
+					statsTanksByLevel = [],
+					statsTanksByNation = [],
+					isStatFound = false,
+					index = 0;
 				dataMyTanks = dataMyTanks[gConfig.PLAYER_ID];
 				advanceProgress(i18n.t('loading.generating'));
 				// Sort tanks by tiers
@@ -226,6 +231,75 @@ var onLoad = function() {
 					tankInfos = gTankopedia[myTank.tank_id];
 					tankAdditionalInfos = getTankAdditionalInfos(myTank.tank_id, dataMyTanksAdditionalInfos);
 					winRatio = -1;
+					isStatFound = false;
+					for (var j=0; j<statsTanksByType.length; j++) {
+						if (statsTanksByType[j].type == tankInfos.type) {
+							isStatFound = true;
+							index = j;
+							break;
+						}
+					}
+					if (!isStatFound) {
+						statsTanksByType.push({
+							label: i18n.t('tank.type.' + tankInfos.type),
+							type: tankInfos.type,
+							battles: 0,
+							wins: 0,
+							losses: 0,
+							draws: 0
+						});
+						index = statsTanksByType.length - 1;
+					}
+					statsTanksByType[index].battles += myTank.all.battles;
+					statsTanksByType[index].wins += myTank.all.wins;
+					statsTanksByType[index].losses += myTank.all.losses;
+					statsTanksByType[index].draws += myTank.all.draws;
+					isStatFound = false;
+					for (var j=0; j<statsTanksByLevel.length; j++) {
+						if (statsTanksByLevel[j].level == tankInfos.level) {
+							isStatFound = true;
+							index = j;
+							break;
+						}
+					}
+					if (!isStatFound) {
+						statsTanksByLevel.push({
+							label: i18n.t('tank.level.' + (tankInfos.level - 1)),
+							level: tankInfos.level,
+							battles: 0,
+							wins: 0,
+							losses: 0,
+							draws: 0
+						});
+						index = statsTanksByLevel.length - 1;
+					}
+					statsTanksByLevel[index].battles += myTank.all.battles;
+					statsTanksByLevel[index].wins += myTank.all.wins;
+					statsTanksByLevel[index].losses += myTank.all.losses;
+					statsTanksByLevel[index].draws += myTank.all.draws;
+					isStatFound = false;
+					for (var j=0; j<statsTanksByNation.length; j++) {
+						if (statsTanksByNation[j].nation == tankInfos.nation) {
+							isStatFound = true;
+							index = j;
+							break;
+						}
+					}
+					if (!isStatFound) {
+						statsTanksByNation.push({
+							label: tankInfos.nation_i18n,
+							nation: tankInfos.nation,
+							battles: 0,
+							wins: 0,
+							losses: 0,
+							draws: 0
+						});
+						index = statsTanksByNation.length - 1;
+					}
+					statsTanksByNation[index].battles += myTank.all.battles;
+					statsTanksByNation[index].wins += myTank.all.wins;
+					statsTanksByNation[index].losses += myTank.all.losses;
+					statsTanksByNation[index].draws += myTank.all.draws;
 					if (myTank.all.battles > 0) {
 						winRatio = myTank.all.wins * 100 / myTank.all.battles;
 					}
@@ -261,7 +335,88 @@ var onLoad = function() {
 				myTanksSmallContainer.html(listContent);
 				myTanksBigContainer.html(listLargeContent);
 				Sortable.initTable(myTanksTable[0]);
-				myTanksTable.find(".shor").each(function(index, el) {
+				// Compute WR
+				for (var i in statsTanksByType) {
+					statsTanksByType[i]['wr'] = Math.round((statsTanksByType[i].wins / statsTanksByType[i].battles) * 10000) / 100;
+				}
+				for (var i in statsTanksByLevel) {
+					statsTanksByLevel[i]['wr'] = Math.round((statsTanksByLevel[i].wins / statsTanksByLevel[i].battles) * 10000) / 100;
+				}
+				for (var i in statsTanksByType) {
+					statsTanksByNation[i]['wr'] = Math.round((statsTanksByNation[i].wins / statsTanksByNation[i].battles) * 10000) / 100;
+				}
+				// Sort stats
+				statsTanksByType.sort(function(a, b) {
+					return gTANKS_TYPES[a.type] - gTANKS_TYPES[b.type];
+				});
+				statsTanksByLevel.sort(function(a, b) {
+					return a.level - b.level;
+				});
+				statsTanksByNation.sort(function(a, b) {
+					return a.label.localeCompare(b.label);
+				});
+				// Display charts
+				new Morris.Bar({
+					element: 'chartTanksType',
+					data: statsTanksByType,
+					xkey: 'label',
+					ykeys: [ 'battles' ],
+					labels: [ i18n.t('stats.global.battles') ],
+					barColors: [ '#9e9e9e' ],
+					xLabelMargin: 0,
+					hideHover: true
+				});
+				new Morris.Bar({
+					element: 'chartTanksTiers',
+					data: statsTanksByLevel,
+					xkey: 'label',
+					ykeys: [ 'battles' ],
+					labels: [ i18n.t('stats.global.battles') ],
+					barColors: [ '#9e9e9e' ],
+					xLabelMargin: 0,
+					hideHover: true
+				});
+				new Morris.Bar({
+					element: 'chartTanksNation',
+					data: statsTanksByNation,
+					xkey: 'label',
+					ykeys: [ 'battles' ],
+					labels: [ i18n.t('stats.global.battles') ],
+					barColors: [ '#9e9e9e' ],
+					xLabelMargin: 0,
+					hideHover: true
+				});
+				new Morris.Bar({
+					element: 'chartWRType',
+					data: statsTanksByType,
+					xkey: 'label',
+					ykeys: [ 'wr' ],
+					labels: [ i18n.t('stats.global.winratio') ],
+					barColors: [ '#9e9e9e' ],
+					xLabelMargin: 0,
+					hideHover: true
+				});
+				new Morris.Bar({
+					element: 'chartWRTiers',
+					data: statsTanksByLevel,
+					xkey: 'label',
+					ykeys: [ 'wr' ],
+					labels: [ i18n.t('stats.global.winratio') ],
+					barColors: [ '#9e9e9e' ],
+					xLabelMargin: 0,
+					hideHover: true
+				});
+				new Morris.Bar({
+					element: 'chartWRNation',
+					data: statsTanksByNation,
+					xkey: 'label',
+					ykeys: [ 'wr' ],
+					labels: [ i18n.t('stats.global.winratio') ],
+					barColors: [ '#9e9e9e' ],
+					xLabelMargin: 0,
+					hideHover: true
+				});
+				myTanksTable.find('.shor').each(function(index, el) {
 					var myElem = $(this),
 						myElemSilderOptions = {
 							start: 0,

@@ -131,6 +131,34 @@ include(WCT_INC_DIR . 'ads.php');
 				</div>
 			</div>
 			<h2 class="sub-header" id="stats"><span class="glyphicon glyphicon-stats"></span> <span data-i18n="elems.stats"></span></h2>
+			<div class="row placeholders">
+				<div class="col-xs-12 col-sm-4 placeholder">
+					<div id="chartTanksTiers" style="height:200px"></div>
+					<h4 data-i18n="stats.global.battlesbylevel"></h4>
+				</div>
+				<div class="col-xs-12 col-sm-4 placeholder">
+					<div id="chartTanksType" style="height:200px"></div>
+					<h4 data-i18n="stats.global.battlesbytype"></h4>
+				</div>
+				<div class="col-xs-12 col-sm-4 placeholder">
+					<div id="chartTanksNation" style="height:200px"></div>
+					<h4 data-i18n="stats.global.battlesbynation"></h4>
+				</div>
+			</div>
+			<div class="row placeholders">
+				<div class="col-xs-12 col-sm-4 placeholder">
+					<div id="chartWRTiers" style="height:200px"></div>
+					<h4 data-i18n="stats.global.winratiobylevel"></h4>
+				</div>
+				<div class="col-xs-12 col-sm-4 placeholder">
+					<div id="chartWRType" style="height:200px"></div>
+					<h4 data-i18n="stats.global.winratiobytype"></h4>
+				</div>
+				<div class="col-xs-12 col-sm-4 placeholder">
+					<div id="chartWRNation" style="height:200px"></div>
+					<h4 data-i18n="stats.global.winratiobynation"></h4>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

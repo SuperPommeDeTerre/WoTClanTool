@@ -224,13 +224,28 @@
 			"tanksbyleveldescription": "Chars du clan par tiers",
 			"tanksbytype": "Chars par type",
 			"tanksbytypedescription": "Chars du clan par type",
+			"tanksbynation": "Chars par nation",
 			"winratio": "Victoires/Défaites",
+			"winratiobylevel": "Ratio de victoires par tiers",
+			"winratiobytype": "Ratio de victoires par type",
+			"winratiobynation": "Ratio de victoires par nation",
 			"winratiodescription": "Nombre de victoires/défaites global",
 			"battles": "Batailles",
+			"battlesbytype": "Batailles par type",
+			"battlesbylevel": "Batailles par tiers",
+			"battlesbynation": "Batailles par nation",
 			"battlesdescription": "Nombres de batailles effectuées par jour",
 			"victories": "Victoires",
 			"defeats": "Défaites",
 			"draws": "Egalités"
+		},
+		"player": {
+			"tanksbyleveldescription": "Chars du joueur par tiers",
+			"tanksbytypedescription": "Chars du joueur par type",
+			"tanksbynationdescription": "Chars du joueur par nation",
+			"battlesbytypedescription": "Nombre de batailles par type",
+			"battlesbyleveldescription": "Nombre de batailles par tiers",
+			"battlesbynationdescription": "Nombre de batailles par nation"
 		}
 	},
 	"loading": {

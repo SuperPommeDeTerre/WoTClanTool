@@ -225,13 +225,28 @@
 			"tanksbyleveldescription": "Clan's tanks by level",
 			"tanksbytype": "Tanks by type",
 			"tanksbytypedescription": "Clan's tanks by type",
+			"tanksbynation": "Tanks by nation",
 			"winratio": "Victories/Defeats",
+			"winratiobylevel": "Win ratio by level",
+			"winratiobytype": "Win ratio by type",
+			"winratiobynation": "Win ratio by nation",
 			"winratiodescription": "Global number of victories/defeats",
 			"battles": "Battles",
+			"battlesbytype": "Battles by type",
+			"battlesbylevel": "Battles by level",
+			"battlesbynation": "Battles by nation",
 			"battlesdescription": "Daily battles fought",
 			"victories": "Victories",
 			"defeats": "Defeats",
 			"draws": "Draws"
+		},
+		"player": {
+			"tanksbyleveldescription": "Player's tanks by level",
+			"tanksbytypedescription": "Player's tanks by type",
+			"tanksbynationdescription": "Player's tanks by nation",
+			"battlesbytypedescription": "Number of battles by type",
+			"battlesbyleveldescription": "Number of battles by level",
+			"battlesbynationdescription": "Number of battles by nation"
 		}
 	},
 	"loading": {
