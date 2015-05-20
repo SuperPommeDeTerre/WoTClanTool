@@ -191,7 +191,8 @@
 			}
 		},
 		"modify": "Modifier",
-		"delete": "Supprimer"
+		"delete": "Supprimer",
+		"exportcsv": "Exporter en CSV"
 	},
 	"event": {
 		"title": "Titre",
@@ -216,7 +217,8 @@
 		"noparticipant": "Aucun participant",
 		"notank": "Aucun char sélectionné",
 		"participants": "__count__ participant",
-		"participants_plural": "__count__ participants"
+		"participants_plural": "__count__ participants",
+		"participations": "Participations"
 	},
 	"stats": {
 		"global": {
@@ -260,7 +262,8 @@
 		"playersratings": "Chargement des statistiques des membres...",
 		"tanksadditionalinfos": "Chargement d'informations complémentaires sur les chars...",
 		"strats": "Chargement des stratégies...",
-		"maps": "Chargement des cartes..."
+		"maps": "Chargement des cartes...",
+		"events": "Chargement des évènements..."
 	},
 	"clan": {
 		"emblem": "Emblême du clan",
