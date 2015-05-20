@@ -25,7 +25,6 @@ var onLoad = function() {
 			var now = moment(),
 				endDate = moment(now).startOf('day'),
 				startDate = moment(startDate).subtract(3, 'month');
-			// Get events on 6 days (because of 12 columns grid system of bootstrap)
 			$.post('./server/calendar.php', {
 				a: 'list',
 				from: startDate.valueOf(),

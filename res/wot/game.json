@@ -76,6 +76,7 @@
             "file": "Abbey.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "summer",
+            "arena_id": "19_monastery",
             "type": "",
             "state": "live",
             "levels": {
@@ -97,6 +98,7 @@
             "file": "Airfield.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "desert",
+            "arena_id": "31_airfield",
             "type": "",
             "state": "live",
             "levels": {
@@ -118,6 +120,7 @@
             "file": "Arctic%20Region.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "winter",
+            "arena_id": "38_mannerheim_line",
             "type": "",
             "state": "live",
             "levels": {
@@ -149,6 +152,7 @@
             "file": "Cliff.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "summer",
+            "arena_id": "18_cliff",
             "type": "",
             "state": "live",
             "levels": {
@@ -221,6 +225,7 @@
             "file": "El%20Halluf.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "desert",
+            "arena_id": "29_el_hallouf",
             "type": "",
             "state": "live",
             "levels": {
@@ -253,6 +258,7 @@
             "file": "Ensk.jpg",
             "size": { "x": 600, "y": 600 },
             "camo": "summer",
+            "arena_id": "06_ensk",
             "type": "",
             "state": "live",
             "levels": {
@@ -285,6 +291,7 @@
             "file": "Erlenberg.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "winter",
+            "arena_id": "13_erlenberg",
             "type": "",
             "state": "live",
             "levels": {
@@ -327,6 +334,7 @@
             "file": "FishermanBay.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "summer",
+            "arena_id": "36_fishing_bay",
             "type": "",
             "state": "live",
             "levels": {
@@ -348,6 +356,7 @@
             "file": "Fjord.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "summer",
+            "arena_id": "33_fjord",
             "type": "",
             "state": "live",
             "levels": {
@@ -411,6 +420,7 @@
             "file": "Himmelsdorf.jpg",
             "size": { "x": 700, "y": 700 },
             "camo": "summer",
+            "arena_id": "04_himmelsdorf",
             "type": "",
             "state": "live",
             "levels": {
@@ -453,6 +463,7 @@
             "file": "HimmelsdorfWinter.jpg",
             "size": { "x": 700, "y": 700 },
             "camo": "winter",
+            "arena_id": "86_himmelsdorf_winter",
             "type": "",
             "state": "live",
             "levels": {
@@ -495,6 +506,7 @@
             "file": "Karelia.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "summer",
+            "arena_id": "01_karelia",
             "type": "",
             "state": "live",
             "levels": {
@@ -524,6 +536,7 @@
             "file": "Kharkov.jpg",
             "size": { "x": 800, "y": 800 },
             "camo": "winter",
+            "arena_id": "83_kharkiv",
             "type": "",
             "state": "live",
             "levels": {
@@ -555,6 +568,7 @@
             "file": "Komarin.jpg",
             "size": { "x": 800, "y": 800 },
             "camo": "summer",
+            "arena_id": "15_komarin",
             "type": "",
             "state": "live",
             "levels": {
@@ -578,6 +592,7 @@
             "file": "Lakeville.jpg",
             "size": { "x": 800, "y": 800 },
             "camo": "summer",
+            "arena_id": "03_lakeville",
             "type": "",
             "state": "live",
             "levels": {
@@ -654,6 +669,7 @@
             "file": "Malinovka.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "summer",
+            "arena_id": "02_malinovka",
             "type": "",
             "state": "live",
             "levels": {
@@ -697,6 +713,7 @@
             "file": "Mines.jpg",
             "size": { "x": 800, "y": 800 },
             "camo": "summer",
+            "arena_id": "10_hills",
             "type": "",
             "state": "live",
             "levels": {
@@ -754,6 +771,7 @@
             "file": "Mountain%20Pass.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "summer",
+            "arena_id": "37_caucasus",
             "type": "",
             "state": "live",
             "levels": {
@@ -788,6 +806,7 @@
             "file": "Murovanka.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "summer",
+            "arena_id": "11_murovanka",
             "type": "",
             "state": "live",
             "levels": {
@@ -851,6 +870,7 @@
             "file": "Pearl%20River.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "summer",
+            "arena_id": "60_asia_miao",
             "type": "",
             "state": "live",
             "levels": {
@@ -893,6 +913,7 @@
             "file": "Prokhorovka.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "summer",
+            "arena_id": "05_prohorovka",
             "type": "",
             "state": "live",
             "levels": {
@@ -971,6 +992,7 @@
             "file": "Province.jpg",
             "size": { "x": 600, "y": 600 },
             "camo": "summer",
+            "arena_id": "03_campania",
             "type": "",
             "state": "live",
             "levels": {
@@ -992,6 +1014,7 @@
             "file": "Redshire.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "summer",
+            "arena_id": "34_redshire",
             "type": "",
             "state": "live",
             "levels": {
@@ -1024,6 +1047,7 @@
             "file": "Ruinberg.jpg",
             "size": { "x": 800, "y": 800 },
             "camo": "summer",
+            "arena_id": "08_ruinberg",
             "type": "",
             "state": "live",
             "levels": {
@@ -1162,6 +1186,7 @@
             "file": "Sand%20River.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "desert",
+            "arena_id": "28_desert",
             "type": "",
             "state": "live",
             "levels": {
@@ -1206,6 +1231,7 @@
             "file": "Serene%20Coast.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "summer",
+            "arena_id": "47_canada_a",
             "type": "",
             "state": "live",
             "levels": {
@@ -1248,6 +1274,7 @@
             "file": "Siegfried%20Line.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "summer",
+            "arena_id": "14_siegfried_line",
             "type": "",
             "state": "live",
             "levels": {
@@ -1324,6 +1351,7 @@
             "file": "South%20Coast.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "summer",
+            "arena_id": "39_crimea",
             "type": "",
             "state": "live",
             "levels": {
@@ -1345,6 +1373,7 @@
             "file": "Steppes.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "desert",
+            "arena_id": "35_steppes",
             "type": "",
             "state": "live",
             "levels": {
@@ -1387,6 +1416,7 @@
             "file": "Swamp.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "summer",
+            "arena_id": "22_slough",
             "type": "",
             "state": "live",
             "levels": {
@@ -1410,6 +1440,7 @@
             "file": "Tundra.jpg",
             "size": { "x": 800, "y": 800 },
             "camo": "summer",
+            "arena_id": "63_tundra",
             "type": "",
             "state": "live",
             "levels": {
@@ -1441,6 +1472,7 @@
             "file": "Westfield.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "summer",
+            "arena_id": "23_westfield",
             "type": "mixed",
             "state": "live",
             "levels": {
@@ -1491,6 +1523,7 @@
             "file": "WindStorm.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "winter",
+            "arena_id": "84_winter",
             "type": "",
             "state": "live",
             "levels": {
