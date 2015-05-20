@@ -46,6 +46,7 @@ var onLoad = function() {
 						myEventsHtml += '<td>' + gDataPlayers[myParticipantId].nickname + '</td>';
 						myEventsHtml += '<td>' + i18n.t('event.enrol.state.' + myEvent.participants[myParticipantId]) + '</td>';
 						myEventsHtml += '<td>' + myEvent.title + '</td>';
+						myEventsHtml += '<td>' + i18n.t('action.calendar.prop.types.' + myEvent.type) + '</td>';
 						myEventsHtml += '<td data-value="' + myEvent.start + '">' + moment(myEvent.start * 1).format('LLL') + '</td>';
 						myEventsHtml += '<td data-value="' + myEvent.end + '">' + moment(myEvent.end * 1).format('LLL') + '</td>';
 						myEventsHtml += '</tr>';

@@ -38,6 +38,7 @@ include(WCT_INC_DIR . 'ads.php');
 							<th data-i18n="player.headers.nickname"></th>
 							<th data-i18n="event.enrol.state.yes"></th>
 							<th data-i18n="elems.event"></th>
+							<th data-i18n="action.calendar.prop.type"></th>
 							<th data-i18n="event.startdate" data-sorted="true" data-sorted-direction="descending"></th>
 							<th data-i18n="event.enddate"></th>
 						</tr>
