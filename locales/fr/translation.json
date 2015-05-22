@@ -505,6 +505,9 @@
 		},
 		"calendarview": {
 			"title": "Vue du calendrier"
+		},
+		"clansettings": {
+			"title": "Paramétrage du clan"
 		}
 	},
 	"strat": {

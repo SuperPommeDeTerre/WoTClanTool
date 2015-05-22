@@ -506,6 +506,9 @@
 		},
 		"calendarview": {
 			"title": "Calendar view"
+		},
+		"clansettings": {
+			"title": "Clan settings"
 		}
 	},
 	"strat": {

@@ -14,7 +14,6 @@ $gPageProps = array(
 
 require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR . 'header.php');
 ?>
-<!-- Main component for a primary marketing message or call to action -->
 <div class="container-fluid">
 	<div class="row">
 		<div class="main"><?php

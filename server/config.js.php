@@ -21,5 +21,15 @@ if (isset($_SESSION["cluster"])) {
 } else {
 	$confArray['CLUSTER'] = $gCluster;
 }
+if (isset($_SESSION['clan_id'])) {
+	$confArray['USER_CLAN_ID'] = $_SESSION['clan_id'];
+} else {
+	$confArray['USER_CLAN_ID'] = '';
+}
+if (isset($_SESSION['USER_ROLE'])) {
+	$confArray['USER_ROLE'] = $_SESSION['USER_ROLE'];
+} else {
+	$confArray['USER_ROLE'] = '';
+}
 echo 'var gConfig = ' . json_encode($confArray) . ';';
 ?>

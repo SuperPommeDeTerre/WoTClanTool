@@ -14,6 +14,7 @@ var onLoad = function() {
 		var dataClan = dataClanResponse.data[gPersonalInfos.clan_id],
 			clanEmblem = dataClan.emblems.x64.portal;
 		gClanInfos = dataClan;
+		setUserRole();
 		$('#clansInfosTitle').html('<img src="' + clanEmblem + '" alt="' + i18n.t('clan.emblem') + '" /> <span style="color:' + gClanInfos.color + '">[' + gClanInfos.tag + ']</span> ' + gClanInfos.name + ' <small>' + gClanInfos.motto + '</small>');
 		$('#clanTotalPlayers').text(i18n.t('clan.nbplayers', { count: gClanInfos.members_count }));
 		$.post('./server/strat.php', {

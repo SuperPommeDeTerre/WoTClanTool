@@ -102,6 +102,22 @@ var checkConnected = function() {
 	}
 };
 
+var setUserRole = function() {
+	if (gConfig.USER_ROLE == '') {
+		for (var i=0; i<gClanInfos.members.length; i++) {
+			if (gClanInfos.members[i].account_id == gConfig.PLAYER_ID) {
+				gConfig.USER_ROLE = gClanInfos.members[i].role;
+				$.post('./server/player.php', {
+					'action': 'setrole',
+					'role': gClanInfos.members[i].role
+				}, function(dataSetUserInfos) {
+				}, 'json');
+				break;
+			}
+		}
+	}
+};
+
 var setNavBrandWithClan = function(pCallbackFunction) {
 	if (gClanInfos != null) {
 		$('#mainNavBar .navbar-brand').html('<span style="color:' + gClanInfos.color + '">[' + gClanInfos.tag + ']</span> ' + gClanInfos.name + ' <small>' + gClanInfos.motto + '</small>')
@@ -109,6 +125,7 @@ var setNavBrandWithClan = function(pCallbackFunction) {
 			.css('background', 'url(\'' + gClanInfos.emblems.x32.portal + '\') no-repeat 15px center')
 			// Add padding to avoid overlap of emblem and text
 			.css('padding-left', '51px');
+		setUserRole();
 		if (pCallbackFunction && (typeof(pCallbackFunction) == "function")) {
 			pCallbackFunction();
 		}
@@ -127,6 +144,7 @@ var setNavBrandWithClan = function(pCallbackFunction) {
 				.css('background', 'url(\'' + gClanInfos.emblems.x32.portal + '\') no-repeat 15px center')
 				// Add padding to avoid overlap of emblem and text
 				.css('padding-left', '51px');
+			setUserRole();
 			if (pCallbackFunction && (typeof(pCallbackFunction) == "function")) {
 				pCallbackFunction();
 			}
@@ -163,12 +181,14 @@ $(document).ready(function() {
 					return;
 				}
 				var me = dataPlayersResponse.data[gConfig.PLAYER_ID],
-					isClanFound = false;
-				$.post('./server/player.php', {
-					'action': 'setclanid',
-					'clan_id': me.clan_id
-				}, function(dataSetClanID) {
-				}, 'json');
+					isClanFound = (gConfig.CLAN_ID != '');
+				if (!isClanFound) {
+					$.post('./server/player.php', {
+						'action': 'setclanid',
+						'clan_id': me.clan_id
+					}, function(dataSetUserInfos) {
+					}, 'json');
+				}
 				if (me.clan_id != null) {
 					if (gConfig.CLAN_IDS.length == 0) {
 						isClanFound = true;

@@ -89,9 +89,9 @@ if ($gPageProps["blocks"]["nav"]) { ?>
 									<li><a href="./strats.php?action=list&amp;view=review"><span class="glyphicon glyphicon-check"></span> <span data-i18n="nav.strats.review"></span></a></li>
 								</ul>
 							</li><?php
-		// Show the administration only if the user is in the admins group
-		if (in_array($_SESSION["account_id"], $gAdmins)) { ?>
-							<li<?php if ($gPageProps["id"] == 'admin') { echo(' class="active"'); } ?>><a href="admin.php" data-i18n="[title]nav.admin;"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></li><?php
+		// Show the clan settings only if the user is in the allowed users (commander and roles by clan settings)
+		if (in_array($_SESSION['account_id'], $gAdmins)) { ?>
+							<li<?php if ($gPageProps["id"] == 'clansettings') { echo(' class="active"'); } ?>><a href="clansettings.php" data-i18n="[title]page.clansettings.title;"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></li><?php
 		} ?>
 						</ul>
 					</div><!--/.nav-collapse --><?php

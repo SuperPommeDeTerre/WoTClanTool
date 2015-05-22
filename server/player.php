@@ -61,6 +61,9 @@ switch ($_REQUEST['action']) {
 	case 'setclanid':
 		$_SESSION["clan_id"] = $_REQUEST["clan_id"];
 		break;
+	case 'setrole':
+		$_SESSION["USER_ROLE"] = $_REQUEST["role"];
+		break;
 	case 'setcluster':
 		$_SESSION["cluster"] = $_REQUEST["cluster"];
 		break;
