@@ -78,6 +78,7 @@ var onLoad = function() {
 			dataToExport.lines.push(lineVals);
 		});
 		$('#data').val(JSON.stringify(dataToExport));
+		$('#filename').val($($(this).parent().prevAll('h2')[0]).text());
 		$('#frmExport').submit();
 	});
 	// Init date time pickers

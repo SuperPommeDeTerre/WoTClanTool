@@ -51,6 +51,7 @@ include(WCT_INC_DIR . 'ads.php');
 	</div>
 </div>
 <form name="frmExport" id="frmExport" action="./server/export.php" method="POST">
+	<input type="hidden" name="filename" id="filename" />
 	<input type="hidden" name="data" id="data" />
 </form>
 <?php

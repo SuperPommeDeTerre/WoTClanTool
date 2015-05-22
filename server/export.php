@@ -5,12 +5,18 @@
 @ob_end_clean();
 
 define('CSV_SEPARATOR', ',');
+define('CSV_FILE_EXTENSION', 'csv');
+
 // Compute output
 $jsonData = json_decode($_REQUEST['data'], true);
-$output = '';
 
+// Add UTF-8 BOM
+$output = '\xEF\xBB\xBF';
+
+// Add headers
 $output .= implode(CSV_SEPARATOR, $jsonData['headers']) . PHP_EOL;
 
+// Add lines
 foreach($jsonData['lines'] as $line) {
 	$output .= implode(CSV_SEPARATOR, $line) . PHP_EOL;
 }
@@ -20,7 +26,12 @@ if(ini_get('zlib.output_compression')) {
 	ini_set('zlib.output_compression', 'Off');
 }
 
-$fileName = 'export.csv';
+// Set file name
+$fileName = 'export';
+if (array_key_exists('filename', $_REQUEST) && (trim($_REQUEST['filename']) != '')) {
+	$fileName = trim($_REQUEST['filename']);
+}
+$fileName .= '_' . date('YmdHis') . '.' . CSV_FILE_EXTENSION;
 
 // Prepare headers
 header('HTTP/1.1 200 OK');
@@ -34,9 +45,8 @@ header('Content-Disposition: attachment; filename="' . $fileName . '"');
 header('Pragma: private');
 header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
 header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-header('Content-Length: ' . (strlen($output) + 3));
+header('Content-Length: ' . strlen($output));
 
 // Output result to browser
-echo "\xEF\xBB\xBF";
 echo($output);
 ?>
