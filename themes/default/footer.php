@@ -10,8 +10,8 @@ if ($gPageProps["blocks"]["footer"]) { ?>
 							<li><a href="./reports.php" data-i18n="page.reports.title"></a></li><?php
 	} ?>
 							<li><a href="./about.php" data-i18n="page.about.title"></a></li>
-							<li><a href="http://jlanglade.github.io/WoTClanTool/" data-i18n="app.projectpage"></a></li>
-							<li><a href="https://github.com/jlanglade/WoTClanTool/issues" data-i18n="app.bugreports"></a></li>
+							<li><a href="http://superpommedeterre.github.io/WoTClanTool/" data-i18n="app.projectpage"></a></li>
+							<li><a href="https://github.com/SuperPommeDeTerre/WoTClanTool/issues" data-i18n="app.bugreports"></a></li>
 						</ul>
 					</div>
 					<div class="col-xs-12 col-md-6 col-lg-6">
