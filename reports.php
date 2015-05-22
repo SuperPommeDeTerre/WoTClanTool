@@ -15,7 +15,6 @@ $gPageProps = array(
 
 require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR . 'header.php');
 ?>
-<!-- Main component for a primary marketing message or call to action -->
 <div class="container-fluid">
 	<div class="row">
 		<div class="main"><?php
@@ -24,7 +23,7 @@ include(WCT_INC_DIR . 'ads.php');
 			<h1 class="page-header" data-i18n="page.reports.title"></h1>
 			<h2 class="sub-header" data-i18n="event.participations"></h2>
 			<!--
-			<div id="participationsFilter">
+			<div id="participationsFilter" class="form-inline">
 				<select id="particpationsPeriod">
 					<option value="1">1 mois</option>
 					<option value="3">3 mois</option>

@@ -30,11 +30,11 @@ header('Content-Type: text/csv; charset=utf-8');
 header('Content-Disposition: attachment; filename="' . $fileName . '"');
 
 // Send Headers: Prevent Caching of File
-header('Cache-Control: private');
+//header('Cache-Control: private');
 header('Pragma: private');
 header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
 header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-header('Content-Length: ' . strlen($output) + 3);
+header('Content-Length: ' . (strlen($output) + 3));
 
 // Output result to browser
 echo "\xEF\xBB\xBF";
