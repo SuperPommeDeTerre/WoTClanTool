@@ -170,13 +170,16 @@
 			},
 			"prop": {
 				"private": "Private:",
-				"periodic": "Periodic:",
+				"periodic": "Periodic",
 				"periodicity": "Periodicity",
 				"participants": "Participants",
 				"title": "Title",
 				"description": "Description",
+				"date": "Event date",
 				"startdate": "Start date",
+				"starttime": "Start time",
 				"enddate": "End date",
+				"endtime": "End time",
 				"allowspare": "Allow substitute/reserve",
 				"type": "Type:",
 				"types": {
@@ -202,6 +205,7 @@
 		"participantstitle": "Participants",
 		"tanks": "Line-up",
 		"strat": "Strategy",
+		"addreplay": "Add a replay",
 		"enrol": {
 			"yes": "Enrol",
 			"spare": "Substitute/reserve",

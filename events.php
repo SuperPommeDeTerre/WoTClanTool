@@ -78,13 +78,43 @@ include(WCT_INC_DIR . 'ads.php');
 					<div id="containerEventMain">
 						<input id="eventTitle" type="text" class="form-control" data-i18n="[placeholder]action.calendar.prop.title;" aria-describedby="sizing-addon1" />
 						<textarea id="eventDescription" class="form-control" data-i18n="[placeholder]action.calendar.prop.description;" aria-describedby="sizing-addon1"></textarea>
-						<div class="input-group date eventDateTimePicker" id="eventStartDate">
-							<input type="text" class="form-control" data-i18n="[placeholder]action.calendar.prop.startdate;" />
-							<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-xs-6">
+									<div class="input-group date eventDatePicker" id="eventStartDate">
+										<input type="text" class="form-control" data-i18n="[placeholder]action.calendar.prop.date;" />
+										<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+									</div>
+								</div>
+								<div class="col-xs-6">
+									<div class="input-group date eventTimePicker" id="eventStartTime">
+										<input type="text" class="form-control" data-i18n="[placeholder]action.calendar.prop.starttime;" />
+										<span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-6">
+									<div class="input-group date eventDatePicker" id="eventEndDate">
+										<input type="text" class="form-control" data-i18n="[placeholder]action.calendar.prop.enddate;" />
+										<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+									</div>
+								</div>
+								<div class="col-xs-6">
+									<div class="input-group date eventTimePicker" id="eventEndTime">
+										<input type="text" class="form-control" data-i18n="[placeholder]action.calendar.prop.endtime;" />
+										<span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+									</div>
+								</div>
+							</div>
 						</div>
-						<div class="input-group date eventDateTimePicker" id="eventEndDate">
-							<input type="text" class="form-control" data-i18n="[placeholder]action.calendar.prop.enddate;" />
-							<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+						<div class="togglebutton">
+							<label><span data-i18n="action.calendar.prop.periodic"></span>:
+								<input type="checkbox" id="eventRecurrent" value="true" />
+							</label>
+						</div>
+						<div id="containerEventPeriodicity">
+							<h4 data-i18n="action.calendar.prop.periodicity"></h4>
 						</div>
 						<div class="togglebutton">
 							<label><span data-i18n="action.calendar.prop.allowspare"></span>
@@ -93,21 +123,12 @@ include(WCT_INC_DIR . 'ads.php');
 						</div>
 			<!--
 						<div class="togglebutton">
-							<label><span data-i18n="action.calendar.prop.periodic"></span>
-								<input type="checkbox" id="eventRecurrent" value="true" />
-							</label>
-						</div>
-						<div class="togglebutton">
 							<label><span data-i18n="action.calendar.prop.private"></span>
 								<input type="checkbox" id="eventPrivate" value="true" />
 							</label>
 						</div>
 			-->
 					</div>
-				<!--
-					<div id="containerEventPeriodicity">
-					</div>
-				-->
 					<div id="containerEventType">
 						<div class="input-group">
 							<div class="eventType">

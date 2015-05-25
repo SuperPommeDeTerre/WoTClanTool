@@ -243,27 +243,34 @@ switch ($_REQUEST['a']) {
 		$myEvent = wctEvent::fromId($_REQUEST['id']);
 		$result .= '<div id="eventDetails' . $myEvent->getId() . '" class="eventDetails" data-event-id="' . $myEvent->getId() . '" data-owner="' . $myEvent->getOwner() . '" data-event-type="' . $myEvent->getType() . '">';
 		$result .= '<div class="eventDetailsDisplay">';
-		if (!$isReadOnly && $myEvent->getDateStart() > time()) {
-			$result .= '<div class="eventActions pull-right">';
-			$userAttendance = "no";
-			if (count($myEvent->getParticipants()) > 0 && array_key_exists($_SESSION['account_id'], $myEvent->getParticipants())) {
-				$userAttendance = $myEvent->getParticipants()[$_SESSION['account_id']];
-			}
-			if ($_SESSION['account_id'] == $myEvent->getOwner()) {
-				// Add modify / Delete buttons only for owner
+		if (!$isReadOnly) {
+			if ($myEvent->getDateStart() > time()) {
+				$result .= '<div class="eventActions pull-right">';
+				$userAttendance = "no";
+				if (count($myEvent->getParticipants()) > 0 && array_key_exists($_SESSION['account_id'], $myEvent->getParticipants())) {
+					$userAttendance = $myEvent->getParticipants()[$_SESSION['account_id']];
+				}
+				if ($_SESSION['account_id'] == $myEvent->getOwner()) {
+					// Add modify / Delete buttons only for owner
+					$result .= '<div class="btn-group pull-right" role="group">';
+					$result .= '<button type="button" id="btnModifyEvent" class="btn btn-default btn-material-grey-500" data-i18n="[title]action.modify;" data-event-id="' . $myEvent->getId() . '"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>';
+					$result .= '<button type="button" id="btnDeleteEvent" class="btn btn-default btn-material-grey-500" data-i18n="[title]action.delete;" data-event-id="' . $myEvent->getId() . '"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>';
+					$result .= '</div>';
+				}
 				$result .= '<div class="btn-group pull-right" role="group">';
-				$result .= '<button type="button" id="btnModifyEvent" class="btn btn-default btn-material-grey-500" data-i18n="[title]action.modify;" data-event-id="' . $myEvent->getId() . '"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>';
-				$result .= '<button type="button" id="btnDeleteEvent" class="btn btn-default btn-material-grey-500" data-i18n="[title]action.delete;" data-event-id="' . $myEvent->getId() . '"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>';
+				$result .= '<button type="button" class="btn btn-default btn-success btnEnrol' . ($userAttendance == 'yes'?' active':'') . '" data-attendance="yes" data-i18n="[title]event.enrol.yes;" data-event-id="' . $myEvent->getId() . '"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>';
+				$result .= '<button type="button"' . ($myEvent->isSpareAllowed()?'':' style="display:none"') .' class="btn btn-default btn-info btnEnrol' . ($userAttendance == 'spare'?' active':'') . '" data-attendance="spare" data-i18n="[title]event.enrol.spare;" data-event-id="' . $myEvent->getId() . '"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button>';
+				$result .= '<button type="button" class="btn btn-default btn-danger btnEnrol' . ($userAttendance == 'no'?' active':'') . '" data-attendance="no" data-i18n="[title]event.enrol.no;" data-event-id="' . $myEvent->getId() . '"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>';
 				$result .= '</div>';
+				$result .= '<div class="clearfix"></div>';
+				$result .= '<p><span data-i18n="event.enrol.state.title"></span>: <span data-i18n="event.enrol.state.' . $userAttendance . '" class="eventEnrolment"></span></p>';
+				$result .= '</div>';
+			} else {
+				$result .= '<div class="pull-right">';
+				$result .= '<a href="#" class="button btn btn-default btnEnrol" id="btnAddReplay" data-i18n="[title]event.addreplay;" data-event-id="' . $myEvent->getId() . '"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>';
+				$result .= '</div>';
+				$result .= '<div class="clearfix"></div>';
 			}
-			$result .= '<div class="btn-group pull-right" role="group">';
-			$result .= '<button type="button" class="btn btn-default btn-success btnEnrol' . ($userAttendance == 'yes'?' active':'') . '" data-attendance="yes" data-i18n="[title]event.enrol.yes;" data-event-id="' . $myEvent->getId() . '"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>';
-			$result .= '<button type="button"' . ($myEvent->isSpareAllowed()?'':' style="display:none"') .' class="btn btn-default btn-info btnEnrol' . ($userAttendance == 'spare'?' active':'') . '" data-attendance="spare" data-i18n="[title]event.enrol.spare;" data-event-id="' . $myEvent->getId() . '"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button>';
-			$result .= '<button type="button" class="btn btn-default btn-danger btnEnrol' . ($userAttendance == 'no'?' active':'') . '" data-attendance="no" data-i18n="[title]event.enrol.no;" data-event-id="' . $myEvent->getId() . '"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>';
-			$result .= '</div>';
-			$result .= '<div class="clearfix"></div>';
-			$result .= '<p><span data-i18n="event.enrol.state.title"></span>: <span data-i18n="event.enrol.state.' . $userAttendance . '" class="eventEnrolment"></span></p>';
-			$result .= '</div>';
 		}
 		$result .= '<p class="eventDescription">' . $myEvent->getDescription() . '</p>';
 		$result .= '<div class="eventMap">';
@@ -281,7 +288,12 @@ switch ($_REQUEST['a']) {
 			$result .= '<table class="table table-hover header-fixed eventParticipantsList">';
 			$result .= '<thead>';
 			$result .= '<tr><th data-i18n="event.participants" data-i18n-options="{&quot;count&quot;:' . count($myEvent->getParticipants()) . '}" style="width:50%"></th>';
-			$result .= '<th data-i18n="event.tanks" class="eventLineUp" style="width:50%"></th></tr>';
+			$result .= '<th data-i18n="event.tanks" class="eventLineUp"></th>';
+			if ($myEvent->getDateStart() < time()) {
+				$result .= '<th class="eventParticipation">&nbsp;</th>';
+				$result .= '<th class="eventReplays">&nbsp;</th>';
+			}
+			$result .= '</tr>';
 			$result .= '</thead>';
 			$result .= '<tbody>';
 			$result .= '<tr class="noparticipant"><td colspan="2" class="participant" data-i18n="event.noparticipant"></td></tr>';
@@ -292,6 +304,10 @@ switch ($_REQUEST['a']) {
 						$result .= '<td class="tank" data-tank-id="' . $myEvent->getTanks()[$playerId] . '">&nbsp;</td>';
 					} else {
 						$result .= '<td class="tank" data-i18n="event.notank"></td>';
+					}
+					if ($myEvent->getDateStart() < time()) {
+						$result .= '<td>&nbsp;</td>';
+						$result .= '<td>&nbsp;</td>';
 					}
 					$result .= '</tr>';
 				}

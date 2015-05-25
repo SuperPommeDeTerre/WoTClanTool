@@ -131,6 +131,28 @@ function fillEventDialog(pDialog, pEvents) {
 			}
 		}
 	});
+	pDialog.find('#btnAddReplay').on('click', function(evt) {
+		evt.preventDefault();
+		var myButton = $(this);
+		myButton.hide();
+		myButton.after('<div class="pull-right form-inline form-group"><input type="text" class="form-control" placeholder="Replay URL" /><button class="btn btn-default" id="btnAddReplayOk"><span class="glyphicon glyphicon-ok"></button></div>');
+		myButton.parent().find('#btnAddReplayOk').on('click', function(evtAddReplay) {
+			evtAddReplay.preventDefault();
+			var myButtonAddReplay = $(this),
+				myRegexURL = /(http(s?))\:\/\//gi;
+			myButton.show();
+			myButton.next().remove();
+			if (myRegexURL.test(myButtonAddReplay.prev().val())) {
+				// Analyse replay
+				$.get(myButtonAddReplay.prev().val(), {}, function(getReplayResponse) {
+					var myReplayResponse = $(getReplayResponse),
+						myPlayer = myReplayResponse.find('.combat_effect .result_map_user_name, .personal .result-left .username').text();
+						//.wtst_team .wtst_half__left [uid]
+					alert(myPlayer);
+				}, 'text');
+			}
+		});
+	});
 	if (myParticipants.length > 0) {
 		$.post(gConfig.WG_API_URL + 'wot/account/info/', {
 			application_id: gConfig.WG_APP_ID,
