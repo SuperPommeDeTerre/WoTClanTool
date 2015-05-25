@@ -47,7 +47,7 @@ function fillEventDialog(pDialog, pEvents) {
 			gDisplayPanel.find('.eventMapType').text(i18n.t('strat.camos.title') + ': ' + i18n.t('strat.camos.' + myMapInfos.camo));
 			myStratLinkContainer.data('stratid', pStratProps.strategyId);
 			if (pStratProps.strategyId != -1 && pStratProps.strategyId != '') {
-				myStratLinkContainer.show().children().text(i18n.t('event.strat')).attr('href', './strat.php?action=show&id=' + pStratProps.strategyId);
+				myStratLinkContainer.show().children().text(i18n.t('event.strat')).attr('href', './strats.php?action=show&id=' + pStratProps.strategyId);
 			} else {
 				myStratLinkContainer.hide();
 			}
@@ -107,7 +107,7 @@ function fillEventDialog(pDialog, pEvents) {
 		gDisplayPanel.find('.eventMapType').text(i18n.t('strat.camos.title') + ': ' + i18n.t('strat.camos.' + myMapInfos.camo));
 		if ((typeof(myStratLinkContainer.data('stratid')) === 'number' && myStratLinkContainer.data('stratid') != -1)
 				|| (typeof(myStratLinkContainer.data('stratid')) !== 'number' && myStratLinkContainer.data('stratid') != '-1' && myStratLinkContainer.data('stratid') != '')) {
-			myStratLinkContainer.show().children().text(i18n.t('event.strat')).attr('href', './strat.php?action=show&id=' + myStratLinkContainer.data('stratid'));
+			myStratLinkContainer.show().children().text(i18n.t('event.strat')).attr('href', './strats.php?action=show&id=' + myStratLinkContainer.data('stratid'));
 		} else {
 			myStratLinkContainer.hide();
 		}

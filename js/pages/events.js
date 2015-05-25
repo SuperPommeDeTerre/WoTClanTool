@@ -64,11 +64,9 @@ var onLoad = function() {
 		evt.preventDefault();
 		$('#eventTitle').val('');
 		$('#eventDescription').val('');
-		//$('#eventStartDate input').val(moment().format('LL'));
 		$('#eventStartDate').data('DateTimePicker').date(moment());
 		$('#eventEndDate input').val('');
-		//$('#eventStartTime input').val(moment().format('LT'));
-		$('#eventStartTime').data('DateTimePicker').date(moment());
+		$('#eventStartTime').data('DateTimePicker').date(moment().add(1, 'hour').startOf('hour'));
 		$('#eventEndTime input').val('');
 	});
 
@@ -100,15 +98,16 @@ var onLoad = function() {
 		$(this).parent().data('DateTimePicker').show();
 	});
 	var periodicityDaysHtml = '',
-		dayOfWeek = moment().startOf('week').subtract(1, 'days'),
+		dayOfWeek = moment().startOf('week'),
 		isPeriodic = false;
 	for (var i=0; i<7; i++) {
 		periodicityDaysHtml += '<div class="radio radio-default">';
 		periodicityDaysHtml += '<label>';
-		periodicityDaysHtml += '<input type="radio" value="' + i + '" name="eventPeriodicityDay" ' + (i==0?' checked="checked"':'') + '/>';
-		periodicityDaysHtml += '<abbr>' + dayOfWeek.add(1, 'days').format('dddd') + '</abbr>';
+		periodicityDaysHtml += '<input type="radio" value="' + dayOfWeek.format('d') + '" name="eventPeriodicityDay" ' + (i==0?' checked="checked"':'') + '/>';
+		periodicityDaysHtml += '<abbr>' + dayOfWeek.format('dddd') + '</abbr>';
 		periodicityDaysHtml += '</label>';
 		periodicityDaysHtml += '</div>';
+		dayOfWeek = dayOfWeek.add(1, 'days');
 	}
 	$('#containerEventPeriodicity').append(periodicityDaysHtml);
 	// Change periodicity property
@@ -147,6 +146,8 @@ var onLoad = function() {
 			eventTitle: $('#eventTitle').val(),
 			eventType: $('[name=eventType]:checked').val(),
 			eventDescription: $('#eventDescription').val(),
+			eventIsRecurrent: isPeriodic,
+			eventRecurrencyDay: $('[name=eventPeriodicityDay]').val(),
 			eventStartDate: startDateToSent.unix(),
 			eventEndDate: endDateToSent.unix(),
 			eventAllowSpare: $('#eventSpareAllowed').is(':checked')
