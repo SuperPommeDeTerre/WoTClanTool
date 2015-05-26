@@ -102,7 +102,30 @@
 	"error": {
 		"title": "Error",
 		"notadmin": "Operation not allowed. You're not an andministrator!",
+		"notallowed": "Operation not allowed. You're not allowed do this operation. Please contact your clan's commander.",
 		"configfilewrite": "Unable to save configuration file!"
+	},
+	"rights": {
+		"title": "Rights management",
+		"permission": "Right",
+		"events": {
+			"title": "Events",
+			"create": "Create an event",
+			"modify": "Modify an event",
+			"assigntanks": "Assign tanks",
+			"assignmap": "Assign a map or a strategy"
+		},
+		"clansettings": {
+			"title": "Clan's settings",
+			"view": "Show clan's settings",
+			"modify": "Modify clan's settings"
+		},
+		"strategy": {
+			"title": "Strategies",
+			"create": "Create a strategy",
+			"modify": "Modify a strategy",
+			"validate": "Validate a strategy"
+		}
 	},
 	"nav": {
 		"toggle": "Switch navigation",
@@ -303,7 +326,9 @@
 			"recruitment_officer": "Recruitment Officer",
 			"reservist": "Reservist",
 			"private": "Private",
-			"recruit": "Recruit"
+			"recruit": "Recruit",
+			"self": "Self",
+			"owner": "Owner"
 		},
 		"headers": {
 			"nickname": "Nickname",

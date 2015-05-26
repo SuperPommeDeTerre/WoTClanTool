@@ -102,7 +102,30 @@
 	"error": {
 		"title": "Erreur",
 		"notadmin": "Opération non autorisée. Vous n'êtes pas un administrateur !",
+		"notallowed": "Opération non autorisée. Vous n'êtes pas autorisé à effectuer cette opération, veuillez contacter votre commandant.",
 		"configfilewrite": "Impossible de sauvegarder les paramètres dans le fichier de configuration !"
+	},
+	"rights": {
+		"title": "Gestion des permissions",
+		"permission": "Permission",
+		"events": {
+			"title": "Evènements",
+			"create": "Créer un évènement",
+			"modify": "Modifier un évènement",
+			"assigntanks": "Assigner des chars",
+			"assignmap": "Assigner une carte/une stratégie"
+		},
+		"clansettings": {
+			"title": "Paramètres du clan",
+			"view": "Voir les paramètres du clan",
+			"modify": "Modifier les paramètres du clan"
+		},
+		"strategy": {
+			"title": "Stratégies",
+			"create": "Créer une stratégie",
+			"modify": "Modifier une stratégie",
+			"validate": "Valider une stratégie"
+		}
 	},
 	"nav": {
 		"toggle": "Basculer navigation",
@@ -302,7 +325,9 @@
 			"recruitment_officer": "Recruteur",
 			"reservist": "Réserviste",
 			"private": "Soldat",
-			"recruit": "Recrue"
+			"recruit": "Recrue",
+			"self": "Soi-même",
+			"owner": "Propriétaire"
 		},
 		"headers": {
 			"nickname": "Joueur",

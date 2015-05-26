@@ -150,9 +150,11 @@ function fillEventDialog(pDialog, pEvents) {
 					alert(myPlayer);
 					// Add replay link to players table
 					// .html('<a href="' + myButtonAddReplay.prev().val() + '"><span class="glyphicon glyphicon-film"></span></a>');
+				}, 'html')
+				.always(function() {
 					myButton.show();
 					myButton.next().remove();
-				}, 'html');
+				});
 			} else {
 				myButton.show();
 				myButton.next().remove();
