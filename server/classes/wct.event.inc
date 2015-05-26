@@ -10,7 +10,7 @@ class wctEvent {
 	var $dateEnd;
 	var $isPrivate;
 	var $isSpareAllowed;
-	//var $recurentEventId;
+	var $recurentEventId;
 	var $owner;
 	var $dateCreation;
 	var $dateModification;
@@ -144,10 +144,13 @@ class wctEvent {
 		$instance->description = $json['description'];
 		$instance->dateStart = $json['start'];
 		$instance->dateEnd = $json['end'];
+		$instance->dateCreation =  isset($json['creation'])?$json['creation']:time();
+		$instance->dateModification = isset($json['modification'])?$json['modification']:time();
 		$instance->type = $json['type'];
 		$instance->owner = $json['owner'];
 		$instance->participants = $json['participants'];
 		$instance->tanks = isset($json['tanks'])?$json['tanks']:array();
+		$instance->isRecurrent = isset($json['isrecurrent'])?$json['isrecurrent']:false;
 		$instance->isSpareAllowed = isset($json['spareallowed'])?$json['spareallowed']:false;
 		$instance->mapName = isset($json['mapName'])?$json['mapName']:false;
 		$instance->strategyId = isset($json['strategyId'])?$json['strategyId']:false;
@@ -162,10 +165,13 @@ class wctEvent {
 		$result['description'] = $this->description;
 		$result['start'] = $this->dateStart . (!$pForStorage?'000':'');
 		$result['end'] = $this->dateEnd . (!$pForStorage?'000':'');
+		$result['creation'] = $this->dateCreation . (!$pForStorage?'000':'');
+		$result['modification'] = $this->dateModification . (!$pForStorage?'000':'');
 		$result['owner'] = $this->owner;
 		$result['participants'] = $this->participants;
 		$result['tanks'] = $this->tanks;
 		$result['type'] = $this->type;
+		$result['isrecurrent'] = $this->isRecurrent;
 		$result['spareallowed'] = $this->isSpareAllowed;
 		$result['mapName'] = $this->mapName;
 		$result['strategyId'] = $this->strategyId;
@@ -298,7 +304,7 @@ class wctEvent {
 		return $this->isRecurrent;
 	}
 
-	public function setReccurent($isRecurrent) {
+	public function setRecurent($isRecurrent) {
 		$this->isRecurrent = $isRecurrent;
 	}
 

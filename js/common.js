@@ -97,6 +97,7 @@ function fillEventDialog(pDialog, pEvents) {
 	pDialog.i18n();
 	gEventStartDate = moment(pDialog.find('.eventStartDate').data('date') * 1);
 	gEventEndDate = moment(pDialog.find('.eventEndDate').data('date') * 1);
+	$.material.init(pDialog);
 	if (gDisplayPanel.find('#eventMapThumb').data('map') != '') {
 		var mapName = gDisplayPanel.find('#eventMapThumb').data('map'),
 			myMapInfos = gMaps[mapName],
@@ -140,16 +141,21 @@ function fillEventDialog(pDialog, pEvents) {
 			evtAddReplay.preventDefault();
 			var myButtonAddReplay = $(this),
 				myRegexURL = /(http(s?))\:\/\//gi;
-			myButton.show();
-			myButton.next().remove();
 			if (myRegexURL.test(myButtonAddReplay.prev().val())) {
 				// Analyse replay
-				$.get(myButtonAddReplay.prev().val(), {}, function(getReplayResponse) {
-					var myReplayResponse = $(getReplayResponse),
+				$.get('./server/getreplay.php', { url: myButtonAddReplay.prev().val() }, function(response) {
+					var myReplayResponse = $(this.contentWindow.document).contents(),
 						myPlayer = myReplayResponse.find('.combat_effect .result_map_user_name, .personal .result-left .username').text();
 						//.wtst_team .wtst_half__left [uid]
 					alert(myPlayer);
-				}, 'text');
+					// Add replay link to players table
+					// .html('<a href="' + myButtonAddReplay.prev().val() + '"><span class="glyphicon glyphicon-film"></span></a>');
+					myButton.show();
+					myButton.next().remove();
+				}, 'html');
+			} else {
+				myButton.show();
+				myButton.next().remove();
 			}
 		});
 	});
@@ -264,7 +270,7 @@ function fillEventDialog(pDialog, pEvents) {
 			modifyPanelHtml += '</div>';
 			modifyPanelHtml += '<button type="button" id="modifyEventOk" class="btn btn-default btn-success">' + i18n.t('btn.ok') + '</button>';
 			gModifyPanel.html(modifyPanelHtml);
-			$.material.init(modifyPanelHtml);
+			$.material.init(gModifyPanel);
 			// Init date time pickers
 			gModifyPanel.find('.eventDateTimePicker').datetimepicker({
 				locale: gConfig.LANG,

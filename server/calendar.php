@@ -77,6 +77,11 @@ switch ($_REQUEST['a']) {
 		if (isset($_REQUEST['eventStrategyId'])) {
 			$myEvent->setStrategyId($_REQUEST['eventStrategyId']);
 		}
+		if (isset($_REQUEST['eventIsRecurrent'])) {
+			$myEvent->setRecurent($_REQUEST['eventIsRecurrent'] == 'true' ? true : false);
+		}
+		if (isset($_REQUEST['eventRecurrencyDay'])) {
+		}
 		// Dates are passed as UNIX timestamps
 		$myEvent->setDateStart(intval($_REQUEST['eventStartDate']));
 		if (isset($_REQUEST['eventEndDate'])) {
@@ -267,7 +272,7 @@ switch ($_REQUEST['a']) {
 				$result .= '</div>';
 			} else {
 				$result .= '<div class="pull-right">';
-				$result .= '<a href="#" class="button btn btn-default btnEnrol" id="btnAddReplay" data-i18n="[title]event.addreplay;" data-event-id="' . $myEvent->getId() . '"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>';
+				$result .= '<a href="#" class="button btn btn-default" id="btnAddReplay" data-i18n="[title]event.addreplay;" data-event-id="' . $myEvent->getId() . '"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>';
 				$result .= '</div>';
 				$result .= '<div class="clearfix"></div>';
 			}
@@ -290,8 +295,8 @@ switch ($_REQUEST['a']) {
 			$result .= '<tr><th data-i18n="event.participants" data-i18n-options="{&quot;count&quot;:' . count($myEvent->getParticipants()) . '}" style="width:50%"></th>';
 			$result .= '<th data-i18n="event.tanks" class="eventLineUp"></th>';
 			if ($myEvent->getDateStart() < time()) {
-				$result .= '<th class="eventParticipation">&nbsp;</th>';
-				$result .= '<th class="eventReplays">&nbsp;</th>';
+				$result .= '<th class="eventParticipation" data-i18n="action.calendar.prop.present"></th>';
+				$result .= '<th class="eventReplays" data-i18n="event.replay"></th>';
 			}
 			$result .= '</tr>';
 			$result .= '</thead>';
@@ -306,7 +311,7 @@ switch ($_REQUEST['a']) {
 						$result .= '<td class="tank" data-i18n="event.notank"></td>';
 					}
 					if ($myEvent->getDateStart() < time()) {
-						$result .= '<td>&nbsp;</td>';
+						$result .= '<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" id="eventPlayerPresent' . $playerId . '" value="true" /></label></div></td>';
 						$result .= '<td>&nbsp;</td>';
 					}
 					$result .= '</tr>';
