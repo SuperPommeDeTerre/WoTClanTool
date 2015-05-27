@@ -311,7 +311,7 @@ switch ($_REQUEST['a']) {
 						$result .= '<td class="tank" data-i18n="event.notank"></td>';
 					}
 					if ($myEvent->getDateStart() < time()) {
-						$result .= '<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" id="eventPlayerPresent' . $playerId . '" value="true" /></label></div></td>';
+						$result .= '<td><div class="checkbox" style="margin-top:-5px;margin-bottom:-10px"><label><input type="checkbox" id="eventPlayerPresent' . $playerId . '" value="true" />&nbsp;</label></div></td>';
 						$result .= '<td>&nbsp;</td>';
 					}
 					$result .= '</tr>';
