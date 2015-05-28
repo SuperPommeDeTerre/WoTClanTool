@@ -73,7 +73,7 @@
     },
     "maps": {
         "Abbey": {
-            "file": "Abbey.jpg",
+            "file": "19_monastery.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "summer",
             "arena_id": "19_monastery",
@@ -95,7 +95,7 @@
             }
         },
         "Airfield": {
-            "file": "Airfield.jpg",
+            "file": "31_airfield.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "desert",
             "arena_id": "31_airfield",
@@ -117,7 +117,7 @@
             }
         },
         "ArcticRegion": {
-            "file": "Arctic%20Region.jpg",
+            "file": "38_mannerheim_line.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "winter",
             "arena_id": "38_mannerheim_line",
@@ -149,7 +149,7 @@
             }
         },
         "Cliff": {
-            "file": "Cliff.jpg",
+            "file": "18_cliff.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "summer",
             "arena_id": "18_cliff",
@@ -180,7 +180,7 @@
             }
         },
         "DDay": {
-            "file": "DDay.jpg",
+            "file": "101_dday.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "summer",
             "type": "",
@@ -222,7 +222,7 @@
             }
         },
         "ElHalluf": {
-            "file": "El%20Halluf.jpg",
+            "file": "29_el_hallouf.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "desert",
             "arena_id": "29_el_hallouf",
@@ -255,7 +255,7 @@
             }
         },
         "Ensk": {
-            "file": "Ensk.jpg",
+            "file": "06_ensk.jpg",
             "size": { "x": 600, "y": 600 },
             "camo": "summer",
             "arena_id": "06_ensk",
@@ -288,7 +288,7 @@
             }
         },
         "Erlenberg": {
-            "file": "Erlenberg.jpg",
+            "file": "13_erlenberg.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "winter",
             "arena_id": "13_erlenberg",
@@ -331,7 +331,7 @@
             }
         },
         "FishermanBay": {
-            "file": "FishermanBay.jpg",
+            "file": "36_fishing_bay.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "summer",
             "arena_id": "36_fishing_bay",
@@ -353,7 +353,7 @@
             }
         },
         "Fjord": {
-            "file": "Fjord.jpg",
+            "file": "33_fjord.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "summer",
             "arena_id": "33_fjord",
@@ -375,7 +375,7 @@
             }
         },
         "HiddenVillage": {
-            "file": "Hidden%20Village.jpg",
+            "file": "53_japan.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "summer",
             "type": "",
@@ -396,7 +396,7 @@
             }
         },
         "Highway": {
-            "file": "Highway.jpg",
+            "file": "45_north_america.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "summer",
             "type": "",
@@ -417,7 +417,7 @@
             }
         },
         "Himmelsdorf": {
-            "file": "Himmelsdorf.jpg",
+            "file": "04_himmelsdorf.jpg",
             "size": { "x": 700, "y": 700 },
             "camo": "summer",
             "arena_id": "04_himmelsdorf",
@@ -460,7 +460,7 @@
             }
         },
         "HimmelsdorfWinter": {
-            "file": "HimmelsdorfWinter.jpg",
+            "file": "86_himmelsdorf_winter.jpg",
             "size": { "x": 700, "y": 700 },
             "camo": "winter",
             "arena_id": "86_himmelsdorf_winter",
@@ -503,7 +503,7 @@
             }
         },
         "Karelia": {
-            "file": "Karelia.jpg",
+            "file": "01_karelia.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "summer",
             "arena_id": "01_karelia",
@@ -533,7 +533,7 @@
             }
         },
         "Kharkov": {
-            "file": "Kharkov.jpg",
+            "file": "83_kharkiv.jpg",
             "size": { "x": 800, "y": 800 },
             "camo": "winter",
             "arena_id": "83_kharkiv",
@@ -565,7 +565,7 @@
             }
         },
         "Komarin": {
-            "file": "Komarin.jpg",
+            "file": "15_komarin.jpg",
             "size": { "x": 800, "y": 800 },
             "camo": "summer",
             "arena_id": "15_komarin",
@@ -589,7 +589,7 @@
             }
         },
         "Lakeville": {
-            "file": "Lakeville.jpg",
+            "file": "07_lakeville.jpg",
             "size": { "x": 800, "y": 800 },
             "camo": "summer",
             "arena_id": "03_lakeville",
@@ -622,7 +622,7 @@
             }
         },
         "LiveOaks": {
-            "file": "Live%20Oaks.jpg",
+            "file": "44_north_america.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "summer",
             "type": "",
@@ -643,7 +643,7 @@
             }
         },
         "LostCity": {
-            "file": "LostCity.jpg",
+            "file": "95_lost_city.jpg",
             "size": { "x": 800, "y": 800 },
             "camo": "summer",
             "type": "",
@@ -666,7 +666,7 @@
             }
         },
         "Malinovka": {
-            "file": "Malinovka.jpg",
+            "file": "02_malinovka.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "summer",
             "arena_id": "02_malinovka",
@@ -710,7 +710,7 @@
             }
         },
         "Mines": {
-            "file": "Mines.jpg",
+            "file": "10_hills.jpg",
             "size": { "x": 800, "y": 800 },
             "camo": "summer",
             "arena_id": "10_hills",
@@ -745,7 +745,7 @@
             }
         },
          "Mittengrad": {
-            "file": "Mittengrad.jpg",
+            "file": "100_thepit.jpg",
             "size": { "x": 600, "y": 600 },
             "camo": "summer",
             "type": "",
@@ -768,7 +768,7 @@
             }
         },
        "MountainPass": {
-            "file": "Mountain%20Pass.jpg",
+            "file": "37_caucasus.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "summer",
             "arena_id": "37_caucasus",
@@ -803,7 +803,7 @@
             }
         },
         "Murovanka": {
-            "file": "Murovanka.jpg",
+            "file": "11_murovanka.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "summer",
             "arena_id": "11_murovanka",
@@ -846,7 +846,7 @@
             }
         },
         "Northwest": {
-            "file": "NorthWest.jpg",
+            "file": "43_north_america.jpg",
             "size": { "x": 800, "y": 800 },
             "camo": "summer",
             "type": "",
@@ -867,7 +867,7 @@
             }
         },
         "PearlRiver": {
-            "file": "Pearl%20River.jpg",
+            "file": "60_asia_miao.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "summer",
             "arena_id": "60_asia_miao",
@@ -910,7 +910,7 @@
             }
         },
         "Prokhorovka": {
-            "file": "Prokhorovka.jpg",
+            "file": "05_prohorovka.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "summer",
             "arena_id": "05_prohorovka",
@@ -955,7 +955,7 @@
             }
         },
         "ProkhorovkaDefense": {
-            "file": "Fiery%20Salient.jpg",
+            "file": "96_prohorovka_defense.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "summer",
             "type": "",
@@ -989,7 +989,7 @@
             }
         },
         "Province": {
-            "file": "Province.jpg",
+            "file": "03_campania.jpg",
             "size": { "x": 600, "y": 600 },
             "camo": "summer",
             "arena_id": "03_campania",
@@ -1011,7 +1011,7 @@
             }
         },
         "Redshire": {
-            "file": "Redshire.jpg",
+            "file": "34_redshire.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "summer",
             "arena_id": "34_redshire",
@@ -1044,7 +1044,7 @@
             }
         },
         "Ruinberg": {
-            "file": "Ruinberg.jpg",
+            "file": "08_ruinberg.jpg",
             "size": { "x": 800, "y": 800 },
             "camo": "summer",
             "arena_id": "08_ruinberg",
@@ -1087,7 +1087,7 @@
             }
         },
         "RuinbergOnFire": {
-            "file": "RuinbergOnFire.jpg",
+            "file": "87_ruinberg_on_fire.jpg",
             "size": { "x": 800, "y": 800 },
             "camo": "summer",
             "type": "",
@@ -1119,7 +1119,7 @@
             }
         },
         "RuinbergWinter": {
-            "file": "RuinbergWinter.jpg",
+            "file": "103_ruinberg_winter.jpg",
             "size": { "x": 800, "y": 800 },
             "camo": "winter",
             "type": "",
@@ -1151,7 +1151,7 @@
             }
         },
         "SacredValley": {
-            "file": "Sacred%20Valley.jpg",
+            "file": "73_asia_korea.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "winter",
             "type": "",
@@ -1183,7 +1183,7 @@
             }
         },
         "SandRiver": {
-            "file": "Sand%20River.jpg",
+            "file": "28_desert.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "desert",
             "arena_id": "28_desert",
@@ -1228,7 +1228,7 @@
             }
         },
         "SereneCoast": {
-            "file": "Serene%20Coast.jpg",
+            "file": "47_canada_a.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "summer",
             "arena_id": "47_canada_a",
@@ -1271,7 +1271,7 @@
             }
         },
         "SiegfriedLine": {
-            "file": "Siegfried%20Line.jpg",
+            "file": "14_siegfried_line.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "summer",
             "arena_id": "14_siegfried_line",
@@ -1327,7 +1327,7 @@
             }
         },
         "Stalingrad": {
-            "file": "Stalingrad.jpg",
+            "file": "92_stalingrad.jpg",
             "size": { "x": 950, "y": 950 },
             "camo": "summer",
             "type": "",
@@ -1348,7 +1348,7 @@
             }
         },
         "SouthCoast": {
-            "file": "South%20Coast.jpg",
+            "file": "39_crimea.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "summer",
             "arena_id": "39_crimea",
@@ -1370,7 +1370,7 @@
             }
         },
         "Steppes": {
-            "file": "Steppes.jpg",
+            "file": "35_steppes.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "desert",
             "arena_id": "35_steppes",
@@ -1413,7 +1413,7 @@
             }
         },
         "Swamp": {
-            "file": "Swamp.jpg",
+            "file": "22_slough.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "summer",
             "arena_id": "22_slough",
@@ -1437,7 +1437,7 @@
             }
         },
         "Tundra": {
-            "file": "Tundra.jpg",
+            "file": "63_tundra.jpg",
             "size": { "x": 800, "y": 800 },
             "camo": "summer",
             "arena_id": "63_tundra",
@@ -1469,7 +1469,7 @@
             }
         },
         "Westfield": {
-            "file": "Westfield.jpg",
+            "file": "23_westfeld.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "summer",
             "arena_id": "23_westfield",
@@ -1499,7 +1499,7 @@
             }
         },
         "Widepark": {
-            "file": "Widepark.jpg",
+            "file": "17_munchen.jpg",
             "size": { "x": 600, "y": 600 },
             "camo": "summer",
             "type": "",
@@ -1520,7 +1520,7 @@
             }
         },
         "WindStorm": {
-            "file": "WindStorm.jpg",
+            "file": "84_winter.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "winter",
             "arena_id": "84_winter",
