@@ -78,7 +78,7 @@ switch ($_REQUEST['a']) {
 			$myEvent->setStrategyId($_REQUEST['eventStrategyId']);
 		}
 		if (isset($_REQUEST['eventIsRecurrent'])) {
-			$myEvent->setRecurent($_REQUEST['eventIsRecurrent'] == 'true' ? true : false);
+			$myEvent->setRecurrent($_REQUEST['eventIsRecurrent'] == 'true' ? true : false);
 		}
 		if (isset($_REQUEST['eventRecurrencyDay'])) {
 		}

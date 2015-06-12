@@ -52,18 +52,23 @@ if ($gPageProps["blocks"]["nav"]) { ?>
 							<span class="icon-bar"></span>
 						</button>
 						<a class="navbar-brand" href="./" data-i18n="[title]nav.home;app.name"></a>
-					</div><?php
+					</div>
+					<div id="navbar" class="navbar-collapse collapse"><?php
 	if (!array_key_exists("account_id", $_SESSION)) { ?>
-					<div id="navbar" class="navbar-collapse collapse">
 						<nav class="social pull-right">
 							<ul class="list-unstyled">
+								<li class="paypal"><a href="https://www.paypal.com/cgi-bin/webscr" data-toggle="tooltip" data-placement="bottom" data-i18n="[title]share.paypal;"><span>Paypal</span></a>
+									<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" style="display:none">
+										<input type="hidden" name="cmd" value="_s-xclick" />
+										<input type="hidden" name="hosted_button_id" value="CD4LXS5KJGNWC" />
+										<input type="image" src="https://www.paypalobjects.com/en_GB/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="PayPal – The safer, easier way to pay online." />
+										<img alt="" border="0" src="https://www.paypalobjects.com/fr_FR/i/scr/pixel.gif" width="1" height="1" />
+									</form></li>
 								<li class="facebook"><a href="http://www.facebook.com/share.php?u=[URL]&title=[TITLE]" data-toggle="tooltip" data-placement="bottom" data-i18n="[title]share.facebook;"><span>Facebook</span></a></li>
 								<li class="twitter"><a href="https://twitter.com/share" data-toggle="tooltip" data-placement="bottom" data-i18n="[title]share.tweeter;"><span>Tweet</span></a></li>
 							</ul>
-						</nav>
-					</div><?php
+						</nav><?php
 	} else { ?>
-					<div id="navbar" class="navbar-collapse collapse">
 						<ul class="nav navbar-nav navbar-right">
 							<li class="dropdown<?php if ($gPageProps["id"] == 'my') { echo(' active'); } ?>">
 								<a href="./my.php" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span id="playerNickName"><?php echo($_SESSION["nickname"]); ?></span> <span class="caret"></span></a>
@@ -100,9 +105,9 @@ if ($gPageProps["blocks"]["nav"]) { ?>
 									<input type="image" src="https://www.paypalobjects.com/en_GB/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="PayPal – The safer, easier way to pay online." />
 									<img alt="" border="0" src="https://www.paypalobjects.com/fr_FR/i/scr/pixel.gif" width="1" height="1" />
 								</form></li>
-						</ul>
-					</div><!--/.nav-collapse --><?php
+						</ul><?php
 	} ?>
+					</div><!--/.nav-collapse -->
 				</div><!--/.container-fluid -->
 			</nav><?php
 }

@@ -65,8 +65,12 @@ class wctEvent {
 	 *     Timestamp to get the file for.
 	 * @return A file path.
 	 */
-	public static function getFileFromDate($pDate) {
-		$filePath = WCT_BASE_EVENT_DIR . DIRECTORY_SEPARATOR . date(addslashes('Y' . DIRECTORY_SEPARATOR . 'm'), $pDate) . '.json';
+	public static function getFileFromDate($pDate, $pIsRecurrent = false) {
+		if ($pIsRecurrent) {
+			$filePath = WCT_BASE_EVENT_DIR . DIRECTORY_SEPARATOR . 'recurrent.json';
+		} else {
+			$filePath = WCT_BASE_EVENT_DIR . DIRECTORY_SEPARATOR . date(addslashes('Y' . DIRECTORY_SEPARATOR . 'm'), $pDate) . '.json';
+		}
 		// Create file if it doesn't exist
 		$fileDir = dirname($filePath);
 		if (!is_dir($fileDir)) {
@@ -79,8 +83,14 @@ class wctEvent {
 	}
 
 	public static function getFileFromId($pId) {
-		$idParts = explode('-', $pId);
-		$filePath = WCT_BASE_EVENT_DIR . DIRECTORY_SEPARATOR . $idParts[0] . DIRECTORY_SEPARATOR . $idParts[1] . '.json';
+		var $idParts = explode('-', $pId);
+		if ($idParts[0] == 'R') {
+			// It's a recurrent event
+			$filePath = WCT_BASE_EVENT_DIR . DIRECTORY_SEPARATOR . 'recurrent.json';
+		} else {
+			// It's a normal event
+			$filePath = WCT_BASE_EVENT_DIR . DIRECTORY_SEPARATOR . $idParts[0] . DIRECTORY_SEPARATOR . $idParts[1] . '.json';
+		}
 		// Create file if it doesn't exist
 		$fileDir = dirname($filePath);
 		if (!is_dir($fileDir)) {
@@ -96,14 +106,29 @@ class wctEvent {
 		return substr($pId, 0, 8);
 	}
 
-	public static function computeBaseId($pDate) {
-		return date(addslashes('Y-m-'), $pDate);
+	public static function computeBaseId($pDate, $pIsRecurrent = false) {
+		var $returnVal = '';
+		if ($pIsRecurrent) {
+			$returnVal = 'R-' . date(addslashes('Y-m-'), $pDate);
+		} else {
+			$returnVal = date(addslashes('Y-m-'), $pDate);
+		}
+		return $returnVal;
 	}
 
 	public static function fromId($pEventId) {
-		$idParts = explode('-', $pEventId);
-		$eventDate = mktime(12, 0, 0, $idParts[1], 1, $idParts[0]);
-		$eventsFile = self::getFileFromDate($eventDate);
+		var $idParts = explode('-', $pEventId);
+		var $eventDate = '';
+		var $isEventRecurrent = false;
+		if ($idParts[0] == 'R') {
+			// It's a recurrent event
+			$isEventRecurrent = true;
+			$eventDate = mktime(12, 0, 0, $idParts[2], 1, $idParts[3]);
+		} else {
+			// It's a normal event
+			$eventDate = mktime(12, 0, 0, $idParts[1], 1, $idParts[0]);
+		}
+		$eventsFile = self::getFileFromDate($eventDate, $isEventRecurrent);
 		$fileContents = json_decode(file_get_contents($eventsFile), true);
 		$returnVal = new self();
 		foreach ($fileContents as $eventData) {
@@ -304,7 +329,7 @@ class wctEvent {
 		return $this->isRecurrent;
 	}
 
-	public function setRecurent($isRecurrent) {
+	public function setRecurrent($isRecurrent) {
 		$this->isRecurrent = $isRecurrent;
 	}
 
