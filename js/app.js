@@ -168,6 +168,10 @@ $(document).ready(function() {
 			});
 		}
 		$(document).i18n();
+		$('li.paypal a').on('click', function(evt) {
+			evt.preventDefault();
+			$(this).next().submit();
+		});
 		if (typeof(gConfig.PLAYER_ID) != 'undefined') {
 			// Verify that user is member of one of the handled clans...
 			$.post(gConfig.WG_API_URL + 'wot/account/info/', {

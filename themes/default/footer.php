@@ -9,23 +9,17 @@ if ($gPageProps["blocks"]["footer"]) { ?>
 	if (array_key_exists("account_id", $_SESSION)) { ?>
 							<li><a href="./reports.php" data-i18n="page.reports.title"></a></li><?php
 	} ?>
-							<li><a href="./about.php" data-i18n="page.about.title"></a></li>
-							<li><a href="http://superpommedeterre.github.io/WoTClanTool/" data-i18n="app.projectpage"></a></li>
-							<li><a href="https://github.com/SuperPommeDeTerre/WoTClanTool/issues" data-i18n="app.bugreports"></a></li>
 						</ul>
 					</div>
 					<div class="col-xs-12 col-md-6 col-lg-6">
-						<ul class="list-unstyled"><?php
+						<ul class="list-unstyled">
+							<li><a href="./about.php" data-i18n="page.about.title"></a></li>
+							<li><a href="http://superpommedeterre.github.io/WoTClanTool/" data-i18n="app.projectpage"></a></li>
+							<li><a href="https://github.com/SuperPommeDeTerre/WoTClanTool/issues" data-i18n="app.bugreports"></a></li><?php
 	// Show the administration only if the user is in the admins group
 	if (array_key_exists("account_id", $_SESSION) && in_array($_SESSION["account_id"], $gAdmins)) { ?>
 							<li><a href="./admin.php" data-i18n="page.admin.title"></a></li><?php
 	} ?>
-							<li><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-									<input type="hidden" name="cmd" value="_s-xclick" />
-									<input type="hidden" name="hosted_button_id" value="CD4LXS5KJGNWC" />
-									<input type="image" src="https://www.paypalobjects.com/en_GB/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="PayPal – The safer, easier way to pay online." />
-									<img alt="" border="0" src="https://www.paypalobjects.com/fr_FR/i/scr/pixel.gif" width="1" height="1" />
-								</form></li>
 						</ul>
 					</div>
 				</div>
