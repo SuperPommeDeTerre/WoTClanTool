@@ -83,7 +83,7 @@ class wctEvent {
 	}
 
 	public static function getFileFromId($pId) {
-		var $idParts = explode('-', $pId);
+		$idParts = explode('-', $pId);
 		if ($idParts[0] == 'R') {
 			// It's a recurrent event
 			$filePath = WCT_BASE_EVENT_DIR . DIRECTORY_SEPARATOR . 'recurrent.json';
@@ -107,7 +107,7 @@ class wctEvent {
 	}
 
 	public static function computeBaseId($pDate, $pIsRecurrent = false) {
-		var $returnVal = '';
+		$returnVal = '';
 		if ($pIsRecurrent) {
 			$returnVal = 'R-' . date(addslashes('Y-m-'), $pDate);
 		} else {
@@ -117,9 +117,9 @@ class wctEvent {
 	}
 
 	public static function fromId($pEventId) {
-		var $idParts = explode('-', $pEventId);
-		var $eventDate = '';
-		var $isEventRecurrent = false;
+		$idParts = explode('-', $pEventId);
+		$eventDate = '';
+		$isEventRecurrent = false;
 		if ($idParts[0] == 'R') {
 			// It's a recurrent event
 			$isEventRecurrent = true;
