@@ -178,6 +178,7 @@ $(document).ready(function() {
 				application_id: gConfig.WG_APP_ID,
 				language: gConfig.LANG,
 				access_token: gConfig.ACCESS_TOKEN,
+				extra: 'private.personal_missions',
 				account_id: gConfig.PLAYER_ID
 			}, function(dataPlayersResponse) {
 				if (dataPlayersResponse.status == 'error') {
