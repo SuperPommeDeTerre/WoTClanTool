@@ -21,7 +21,7 @@ include(WCT_INC_DIR . 'ads.php');
 ?>
 			<h1 class="page-header" data-i18n="nav.garage"></h1>
 			<fieldset>
-				<legend><a href="#" id="linkFilter"><span class="glyphicon glyphicon-filter" aria-hidden="true"></span> <span data-i18n="action.filter"></span></a></legend>
+				<legend><a href="#" id="linkFilter"><span class="mdi-content-filter-list" aria-hidden="true"></span> <span data-i18n="action.filter"></span></a></legend>
 				<div style="display:none">
 					<div class="container-fluid">
 						<div class="row">
