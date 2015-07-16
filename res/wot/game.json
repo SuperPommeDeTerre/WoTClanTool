@@ -1426,12 +1426,10 @@
             "modes": {
                 "standard": {
                     "team1": [
-                        { "type": "base", "x": 90, "y": 930 },
-                        { "type": "drop", "x": 185, "y": 585 }
+                        { "type": "base", "x": 100, "y": 125 }
                     ],
                     "team2": [
-                        { "type": "base", "x": 880, "y": 75 },
-                        { "type": "drop", "x": 835, "y": 425 }
+                        { "type": "base", "x": 900, "y": 875 }
                     ]
                 }
             }
