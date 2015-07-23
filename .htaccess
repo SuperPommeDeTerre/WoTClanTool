@@ -6,5 +6,9 @@ DirectoryIndex index.php
 	#RewriteCond %{REQUEST_FILENAME} !-f
 	#RewriteCond %{REQUEST_FILENAME} !-d
 	#RewriteCond %{REQUEST_FILENAME} !-l
+	RewriteRule /strats/(.+)/(.+)$ /strats.php?action=$1&view=$2 [L]
+	RewriteRule /strats/(.+)$ /strats.php?action=$1 [L]
 	RewriteRule /locales/resources/(.+)/(.+).json$ /locales/resources.php?a=get&lng=$1&ns=$2 [L]
+	RewriteRule /([a-zA-Z0-9]+)#([a-zA-Z0-9]+)[^/]$ /$1.php#$2 [L]
+	RewriteRule /([a-zA-Z0-9]+)[^/]$ /$1.php [L]
 </IfModule>

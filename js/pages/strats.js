@@ -74,7 +74,16 @@ var onLoad = function() {
 		gStratId = -1,
 		myListStrats = {},
 		uri = new URI(document.location.href),
-		uriSearchParameters = uri.search(true);
+		uriSearchParameters = uri.segmentCoded(),
+		uriIndex = 0;
+	// Clean up parameters
+	for (uriIndex in uriSearchParameters) {
+		if (uriSearchParameters[uriIndex] == 'strats') {
+			// Stop processing
+			break;
+		}
+	}
+	uriSearchParameters.splice(0, uriIndex);
 
 	// Constants
 	var gDECAL_GRID = 20,
@@ -1542,14 +1551,14 @@ var onLoad = function() {
 				});
 			}
 			// Handle editor show on load.
-			switch (uriSearchParameters['action']) {
+			switch (uriSearchParameters[1]) {
 				case 'new':
 					// New strategy
 					$('#btnNewStrat').click();
 					break;
 				case 'show':
 					// Show a strategy
-					gStratId = uriSearchParameters['id'];
+					gStratId = uriSearchParameters[2];
 					$.post('./server/strat.php', {
 						'action': 'get',
 						'id': gStratId
@@ -1767,14 +1776,14 @@ var onLoad = function() {
 				getListStratParameters = {
 					action: 'list'
 				};
-			switch (uriSearchParameters['action']) {
+			switch (uriSearchParameters[1]) {
 				case 'list':
 					// Default case. Show stored strategies
-					switch (uriSearchParameters['view']) {
+					switch (uriSearchParameters[2]) {
 						case 'my':
 						case 'review':
 						case 'valid':
-							getListStratParameters.filtername = uriSearchParameters['view'];
+							getListStratParameters.filtername = uriSearchParameters[2];
 							break;
 					}
 					break;

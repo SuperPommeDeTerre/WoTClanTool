@@ -7,6 +7,52 @@
 
 require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'version.php');
 
+/**
+ * Returns the path to the clan's configuration file.
+ *
+ * @param $pClusterId
+ *     Identifier of the cluster. By default, it use the logged user cluster id.
+ * @param $pClanId
+ *     Identifier of the clan. By default, it use the logged user clan id.
+ * @return The path to the clan configuration file.
+ */
+function getClanConfigFile($pClanId = null, $pClusterId = WCT_DEFAULT_CLUSTER) {
+	$lClanId = $pClanId;
+	if ($lClanId == null) {
+		$lClanId = $_SESSION['clan_id'];
+	}
+	$lClusterId = $pClusterId;
+	if (strlen($lClanId) < 9) {
+		// Pad clan id for low ids
+		$lClanId = str_pad($lClanId, 9, '0', STR_PAD_LEFT);
+	}
+	$clanConfigFileName = WCT_BASE_DATA_DIR . DIRECTORY_SEPARATOR . $lClusterId . DIRECTORY_SEPARATOR . 'clan' . DIRECTORY_SEPARATOR . $lClanId . DIRECTORY_SEPARATOR . 'config.json';
+	$dirName = dirname($clanConfigFileName);
+	if (!is_dir($dirName)) {
+		// If the clan directory don't exists, create it.
+		mkdir($dirName, 0755, true);
+	}
+	if (!file_exists($clanConfigFileName)) {
+		// If the clan's configuration file doesn't exists, create it by copying the default clan configuration.
+		copy(WCT_CONFIG_DIR . DIRECTORY_SEPARATOR . 'default.clan.config.json', $clanConfigFileName);
+	}
+	return $clanConfigFileName;
+}
+
+function getUserFile($pUserId, $pClusterId = WCT_DEFAULT_CLUSTER) {
+	$lUserId = $pUserId;
+	if (strlen($lUserId) < 9) {
+		// Pad user id for low ids
+		$lUserId = str_pad($lUserId, 9, '0', STR_PAD_LEFT);
+	}
+	$userFileName = WCT_DATA_DIR . 'user' . DIRECTORY_SEPARATOR . substr($lUserId, 0, 3) . DIRECTORY_SEPARATOR . substr($lUserId, 3, 3) . DIRECTORY_SEPARATOR . $lUserId . '.json';
+	$dirName = dirname($userFileName);
+	if (!is_dir($dirName)) {
+		mkdir($dirName, 0755, true);
+	}
+	return $userFileName;
+}
+
 // Session lifetime (14 days = 14*24*3600 seconds = 1209600)
 session_set_cookie_params(1209600);
 session_start();
@@ -50,23 +96,17 @@ if (array_key_exists('showads', $gConfig["app"])) {
 	$gShowAds = $gConfig['app']['showads'];
 }
 
+$gClanConfig = array();
+if (array_key_exists('clan_id', $_SESSION)) {
+	$gClanConfig = json_decode(file_get_contents(getClanConfigFile()), true);
+	if (array_key_exists('SHOW_ADS', $gClanConfig)) {
+		$gShowAds = $gClanConfig['SHOW_ADS'];
+	}
+}
+
 // Define the data dir (depends on cluster)
 define('WCT_DATA_DIR', WCT_BASE_DATA_DIR . DIRECTORY_SEPARATOR . $gCluster . DIRECTORY_SEPARATOR);
 
 // Langs definition
 require_once(WCT_SERVER_DIR . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'langs.php');
-
-function getUserFile($pUserId) {
-	$lUserId = $pUserId;
-	if (strlen($lUserId) < 9) {
-		// Padd user id for low ids
-		$lUserId = str_pad($lUserId, 9, '0', STR_PAD_LEFT);
-	}
-	$userFileName = WCT_DATA_DIR . 'user' . DIRECTORY_SEPARATOR . substr($lUserId, 0, 3) . DIRECTORY_SEPARATOR . substr($lUserId, 3, 3) . DIRECTORY_SEPARATOR . $lUserId . '.json';
-	$dirName = dirname($userFileName);
-	if (!is_dir($dirName)) {
-		mkdir($dirName, 0755, true);
-	}
-	return $userFileName;
-}
 ?>

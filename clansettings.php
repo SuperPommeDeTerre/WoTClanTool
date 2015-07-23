@@ -150,7 +150,7 @@ include(WCT_INC_DIR . 'ads.php');
 						<tr data-right="strategy.create">
 							<td data-i18n="rights.strategy.create"></td>
 							<td>-</td>
-							<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="owner" /></label></div></td>
+							<td>-</td>
 							<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="commander" value="true" disabled="disabled" checked="checked" /></label></div></td>
 							<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="executive_officer" value="true" /></label></div></td>
 							<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="personnel_officer" value="true" /></label></div></td>

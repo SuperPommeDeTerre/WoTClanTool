@@ -10,6 +10,7 @@ if ($gPageProps["authenticated"] && !array_key_exists("account_id", $_SESSION)) 
 	header('Location: unauthorized.php');
 	exit;
 }
+
 header('Content-Type: text/html; charset=utf-8');
 ?><!DOCTYPE html>
 <html lang="<?php echo($gLang); ?>">
@@ -19,11 +20,12 @@ header('Content-Type: text/html; charset=utf-8');
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="description" data-i18n="[content]app.description;" />
 		<meta name="author" content="J&eacute;r&eacute;mie Langlade &lt;jlanglade@pixbuf.net&gt;" />
-		<link rel="icon" href="./themes/<?php echo($gThemeName); ?>/style/favicon.ico" />
-		<link href="./themes/<?php echo($gThemeName); ?>/style/favicon.png" type="image/x-icon" rel="icon" />
+		<base href="<?php echo(WCT_BASE_PATH) ?>" />
+		<link rel="icon" href="themes/<?php echo($gThemeName); ?>/style/favicon.ico" />
+		<link href="themes/<?php echo($gThemeName); ?>/style/favicon.png" type="image/x-icon" rel="icon" />
 		<title data-i18n="app.title" data-i18n-options="{&quot;page&quot;:&quot;<?php echo($gPageProps["id"]); ?>&quot;}"></title>
 		<!-- CSS -->
-		<link href="./themes/<?php echo($gThemeName); ?>/style/style.css" rel="stylesheet" />
+		<link href="themes/<?php echo($gThemeName); ?>/style/style.css" rel="stylesheet" />
 		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 		<!--[if lt IE 9]>
 			<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -51,7 +53,7 @@ if ($gPageProps["blocks"]["nav"]) { ?>
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 						</button>
-						<a class="navbar-brand" href="./" data-i18n="[title]nav.home;app.name"></a>
+						<a class="navbar-brand" href="." data-i18n="[title]nav.home;app.name"></a>
 					</div>
 					<div id="navbar" class="navbar-collapse collapse"><?php
 	if (!array_key_exists("account_id", $_SESSION)) { ?>
@@ -71,32 +73,32 @@ if ($gPageProps["blocks"]["nav"]) { ?>
 	} else { ?>
 						<ul class="nav navbar-nav navbar-right">
 							<li class="dropdown<?php if ($gPageProps["id"] == 'my') { echo(' active'); } ?>">
-								<a href="./my.php" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span id="playerNickName"><?php echo($_SESSION["nickname"]); ?></span> <span class="caret"></span></a>
+								<a href="my.php" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span id="playerNickName"><?php echo($_SESSION["nickname"]); ?></span> <span class="caret"></span></a>
 								<ul class="dropdown-menu" role="menu">
-									<li><a href="./my.php#calendar"><span class="glyphicon glyphicon-calendar"></span> <span data-i18n="nav.my.calendar"></span></a></li>
-									<li><a href="./my.php#garage"><span class="glyphicon glyphicon-oil"></span> <span data-i18n="nav.my.garage"></span></a></li>
-									<li><a href="./my.php#stats"><span class="glyphicon glyphicon-signal"></span> <span data-i18n="nav.my.stats"></span></a></li>
+									<li><a href="my#calendar"><span class="glyphicon glyphicon-calendar"></span> <span data-i18n="nav.my.calendar"></span></a></li>
+									<li><a href="my#garage"><span class="glyphicon glyphicon-oil"></span> <span data-i18n="nav.my.garage"></span></a></li>
+									<li><a href="my#stats"><span class="glyphicon glyphicon-signal"></span> <span data-i18n="nav.my.stats"></span></a></li>
 									<li class="divider"></li>
-									<li><a href="logout.php" id="linkLogout" data-i18n="[title]nav.logout;"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> <span data-i18n="nav.logout"></span></a></li>
+									<li><a href="logout" id="linkLogout" data-i18n="[title]nav.logout;"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> <span data-i18n="nav.logout"></span></a></li>
 								</ul>
 							</li>
-							<li<?php if ($gPageProps["id"] == 'garage') { echo(' class="active"'); } ?>><a href="garage.php" data-i18n="nav.garage"></a></li>
-							<li<?php if ($gPageProps["id"] == 'events') { echo(' class="active"'); } ?>><a href="events.php" data-i18n="nav.events"></a></li>
+							<li<?php if ($gPageProps["id"] == 'garage') { echo(' class="active"'); } ?>><a href="garage" data-i18n="nav.garage"></a></li>
+							<li<?php if ($gPageProps["id"] == 'events') { echo(' class="active"'); } ?>><a href="events" data-i18n="nav.events"></a></li>
 							<!--<li<?php if ($gPageProps["id"] == 'stronghold') { echo(' class="active"'); } ?>><a href="stronghold.php" data-i18n="nav.stronghold"></a></li>-->
 							<li class="dropdown<?php if ($gPageProps["id"] == 'strats') { echo(' active'); } ?>">
-								<a href="./strats.php" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span data-i18n="nav.strats.title"></span> <span class="caret"></span></a>
+								<a href="/strats" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span data-i18n="nav.strats.title"></span> <span class="caret"></span></a>
 								<ul class="dropdown-menu" role="menu">
-									<li><a href="./strats.php?action=new"><span class="glyphicon glyphicon-plus"></span> <span data-i18n="nav.strats.new"></span></a></li>
-									<li><a href="./strats.php?action=list&amp;view=my"><span class="glyphicon glyphicon-picture"></span> <span data-i18n="nav.my.strats"></span></a></li>
+									<li><a href="strats/new"><span class="glyphicon glyphicon-plus"></span> <span data-i18n="nav.strats.new"></span></a></li>
+									<li><a href="strats/list/my"><span class="glyphicon glyphicon-picture"></span> <span data-i18n="nav.my.strats"></span></a></li>
 									<li class="divider"></li>
 									<li class="dropdown-header" data-i18n="nav.strats.shared"></li>
-									<li><a href="./strats.php?action=list&amp;view=valid"><span class="glyphicon glyphicon-star"></span> <span data-i18n="nav.strats.valid"></span></a></li>
-									<li><a href="./strats.php?action=list&amp;view=review"><span class="glyphicon glyphicon-check"></span> <span data-i18n="nav.strats.review"></span></a></li>
+									<li><a href="strats/list/valid"><span class="glyphicon glyphicon-star"></span> <span data-i18n="nav.strats.valid"></span></a></li>
+									<li><a href="strats/list/review"><span class="glyphicon glyphicon-check"></span> <span data-i18n="nav.strats.review"></span></a></li>
 								</ul>
 							</li><?php
 		// Show the clan settings only if the user is in the allowed users (commander and roles by clan settings)
 		if (in_array($_SESSION['account_id'], $gAdmins)) { ?>
-							<li<?php if ($gPageProps["id"] == 'clansettings') { echo(' class="active"'); } ?>><a href="clansettings.php" data-i18n="[title]page.clansettings.title;"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></li><?php
+							<li<?php if ($gPageProps["id"] == 'clansettings') { echo(' class="active"'); } ?>><a href="clansettings" data-i18n="[title]page.clansettings.title;"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></li><?php
 		} ?>
 							<li class="paypal"><a href="https://www.paypal.com/cgi-bin/webscr" data-toggle="tooltip" data-placement="bottom" data-i18n="[title]share.paypal;"><span>Paypal</span></a>
 								<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" style="display:none">

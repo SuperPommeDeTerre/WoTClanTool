@@ -109,9 +109,9 @@ var onLoad = function() {
 				myPlayerDetails += '<p>' + i18n.t('player.resume.lastbattletime') + ': <abbr title="' + moment(myPlayerInfos.last_battle_time * 1000).format('LLLL') + '">' + moment(myPlayerInfos.last_battle_time * 1000).fromNow() + "</abbr><br />";
 				myPlayerDetails += i18n.t('player.resume.personalrating') + ': ' + myPlayerInfos.global_rating + '<br />';
 				myPlayerDetails += i18n.t('player.resume.battlescount') + ': ' + myPlayerInfos.statistics.all.battles + '<br />';
-				myPlayerDetails += i18n.t('player.resume.maxxp') + ': ' + myPlayerInfos.statistics.max_xp + '<br />';
-				myPlayerDetails += i18n.t('player.resume.maxfrags') + ': ' + myPlayerInfos.statistics.max_frags + '<br />';
-				myPlayerDetails += i18n.t('player.resume.maxdamage') + ': ' + myPlayerInfos.statistics.max_damage + '<br />';
+				myPlayerDetails += i18n.t('player.resume.maxxp') + ': ' + myPlayerInfos.statistics.all.max_xp + '<br />';
+				myPlayerDetails += i18n.t('player.resume.maxfrags') + ': ' + myPlayerInfos.statistics.all.max_frags + '<br />';
+				myPlayerDetails += i18n.t('player.resume.maxdamage') + ': ' + myPlayerInfos.statistics.all.max_damage + '<br />';
 				myPlayerDetails += i18n.t('player.resume.treescut') + ': ' + myPlayerInfos.statistics.trees_cut + '</p>';
 				myPlayerDetails += '</div><div class="col-md-4"><h4>' + i18n.t('player.resume.links.title') + '</h4><p>';
 				myPlayerDetails += '<a href="' + i18n.t('player.resume.links.wargaming.url.' + gConfig.CLUSTER.toUpperCase(), { account_id: myPlayerId, nickname: myPlayerInfos.nickname }) + '">' + i18n.t('player.resume.links.wargaming.title') + '</a><br />';

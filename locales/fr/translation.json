@@ -541,6 +541,9 @@
 		},
 		"clansettings": {
 			"title": "Paramétrage du clan"
+		},
+		"documentation": {
+			"title": "Documentation"
 		}
 	},
 	"strat": {
@@ -783,5 +786,19 @@
 			"Widepark": "Grand parc",
 			"WindStorm": "Tempête"
 		}
-	}
+	},
+	"FAQ": [
+		{
+			"question": "Pourquoi les chars n'apparaissent pas dans la page \"Garage\" ?",
+			"answer": "La page \"Garage\" regroupent les chars des membres du clan marqués comme \"Prêts\" dans leur garage perso (page \"Mon garage\"). Le slider doit être positionné tout à droite pour indiquer qu'un char est prêt."
+		},
+		{
+			"question": "Q2",
+			"answer": "R2"
+		},
+		{
+			"question": "Q3",
+			"answer": "R3"
+		}
+	]
 }

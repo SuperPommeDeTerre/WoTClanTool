@@ -31,5 +31,7 @@ if (isset($_SESSION['USER_ROLE'])) {
 } else {
 	$confArray['USER_ROLE'] = '';
 }
+$confArray['CLAN_CONFIG'] = $gClanConfig;
+
 echo 'var gConfig = ' . json_encode($confArray) . ';';
 ?>
