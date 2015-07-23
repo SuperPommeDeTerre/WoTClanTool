@@ -151,7 +151,8 @@
 			"calendar": "My calendar",
 			"garage": "My garage",
 			"strats": "My strategies",
-			"stats": "My statistics"
+			"stats": "My statistics",
+			"personalmissions": "My personal missions"
 		}
 	},
 	"btn": {
@@ -545,6 +546,9 @@
 		},
 		"documentation": {
 			"title": "Documentation"
+		},
+		"personalmissions": {
+			"title": "Personal missions"
 		}
 	},
 	"strat": {
@@ -791,7 +795,7 @@
 	"FAQ": [
 		{
 			"question": "Why the tanks doesn't appear in the \"Garage\" page?",
-			"answer": "The \"Garage\" page displays the clan members tanks marked as \"Ready\" in their own garage (\"My garage\" page). The slider must be positionned to the right in order to mark a tank as \Ready\"."
+			"answer": "The \"Garage\" page displays the clan members tanks marked as \"Ready\" in their own garage (\"My garage\" page). The slider must be positionned to the right in order to mark a tank as \"Ready\"."
 		},
 		{
 			"question": "Q2",
@@ -802,3 +806,4 @@
 			"answer": "R3"
 		}
 	]
+}

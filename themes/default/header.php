@@ -78,6 +78,7 @@ if ($gPageProps["blocks"]["nav"]) { ?>
 									<li><a href="my#calendar"><span class="glyphicon glyphicon-calendar"></span> <span data-i18n="nav.my.calendar"></span></a></li>
 									<li><a href="my#garage"><span class="glyphicon glyphicon-oil"></span> <span data-i18n="nav.my.garage"></span></a></li>
 									<li><a href="my#stats"><span class="glyphicon glyphicon-signal"></span> <span data-i18n="nav.my.stats"></span></a></li>
+									<li><a href="personalmissions"><span class="glyphicon glyphicon-tasks"></span> <span data-i18n="nav.my.personalmissions"></span></a></li>
 									<li class="divider"></li>
 									<li><a href="logout" id="linkLogout" data-i18n="[title]nav.logout;"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> <span data-i18n="nav.logout"></span></a></li>
 								</ul>

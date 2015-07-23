@@ -737,57 +737,6 @@ var onLoad = function() {
 				new ZeroClipboard($('#copy-button'));
 				afterLoad();
 			}, 'json');
-			// Handle personal missions
-			/*
-			$.post(gConfig.WG_API_URL + 'wot/encyclopedia/personalmissions/', {
-				application_id: gConfig.WG_APP_ID,
-				access_token: gConfig.ACCESS_TOKEN,
-				language: gConfig.LANG
-			}, function(dataEncyclopediaPersonalMissionsResponse) {
-				var lPMData = dataEncyclopediaPersonalMissionsResponse.data,
-					lPersonalMissionsHeader = $('#personalmissions'),
-					lPersonalMissionHTML = '';
-				for (var lCampaingId in lPMData) {
-					var lPMCampaign = lPMData[lCampaingId];
-					lPersonalMissionHTML += '<h3 id="PMCampaign' + lPMCampaign.campaign_id + '">' + lPMCampaign.name + '</h3>';
-					lPersonalMissionHTML += '<p>' + lPMCampaign.description + '</p>';
-					for (var lPMCampaignOperationId in lPMCampaign.operations) {
-						var lPMCampaignOperation = lPMCampaign.operations[lPMCampaignOperationId];
-						lPersonalMissionHTML += '<h4 id="PMCampaign' + lPMCampaign.campaign_id + 'Operation' + lPMCampaignOperation.operation_id + '"><img src="' + lPMCampaignOperation.image + '" />' + lPMCampaignOperation.name + '</h4>';
-						lPersonalMissionHTML += '<p>' + lPMCampaignOperation.description + '</p>';
-						for (var lPMMissionId in lPMCampaignOperation.missions) {
-							var lMission = lPMCampaignOperation.missions[lPMMissionId],
-								lPlayerPMStatus = gPersonalInfos.private.personal_missions[lPMMissionId];
-							if (typeof(lPlayerPMStatus) != 'undefined' &&  lPlayerPMStatus != null) {
-								alert(lMission.name + ':' + lPlayerPMStatus);
-								switch (lPlayerPMStatus) {
-									case 'NONE':
-										break;
-									case 'UNLOCKED':
-										break;
-									case 'NEED_GET_MAIN_REWARD':
-										break;
-									case 'MAIN_REWARD_GOTTEN':
-										break;
-									case 'NEED_GET_ADD_REWARD':
-										break;
-									case 'NEED_GET_ALL_REWARDS':
-										break;
-									case 'ALL_REWARDS_GOTTEN':
-										break;
-									default:
-										break;
-								}
-							}
-							lPersonalMissionHTML += '<h5 id="PMCampaign' + lPMCampaign.campaign_id + 'Operation' + lPMCampaignOperation.operation_id + 'Mission' + lMission.mission_id + '">' + lMission.name + '</h5>';
-							lPersonalMissionHTML += '<p>' + lMission.description + '</p>';
-							lPersonalMissionHTML += '<p>' + lMission.hint + '</p>';
-						}
-					}
-				}
-				lPersonalMissionsHeader.after(lPersonalMissionHTML);
-			});
-			*/
 		}, 'json');
 	}, 'json');
 };

@@ -82,7 +82,7 @@ var checkConnected = function() {
 	var isUserValid = false;
 	if (typeof(gConfig.PLAYER_ID) == 'undefined') {
 		// User is not connected, redirect to home
-		document.location = './index.php?returnUrl=' + encodeURI(document.location.href);
+		document.location = './?returnUrl=' + encodeURI(document.location.href);
 	} else {
 		isUserValid = false;
 		// If no restrictions set, then user is valid
@@ -97,7 +97,7 @@ var checkConnected = function() {
 			}
 		}
 		if (!isUserValid) {
-			document.location = './unauthorized.php';
+			document.location = './unauthorized';
 		}
 	}
 };
@@ -182,7 +182,7 @@ $(document).ready(function() {
 				account_id: gConfig.PLAYER_ID
 			}, function(dataPlayersResponse) {
 				if (dataPlayersResponse.status == 'error') {
-					document.location = 'logout.php';
+					document.location = 'logout';
 					return;
 				}
 				var me = dataPlayersResponse.data[gConfig.PLAYER_ID],
@@ -212,7 +212,7 @@ $(document).ready(function() {
 				}
 				if (!isClanFound) {
 					// Clan is not found. Redirect to unauthorized
-					window.location = 'unauthorized.php';
+					window.location = 'unauthorized';
 				}
 			}, 'json');
 		} else {
@@ -224,7 +224,7 @@ $(document).ready(function() {
 				application_id: gConfig.WG_APP_ID,
 				access_token: gConfig.ACCESS_TOKEN
 			}, function(data) {
-				document.location = './logout.php';
+				document.location = './logout';
 			}, 'json');
 		});
 	});

@@ -130,7 +130,6 @@ include(WCT_INC_DIR . 'ads.php');
 					<div id="myTanksContainerBig" class="hidden"></div>
 				</div>
 			</div>
-			<!--<h2 class="sub-header" id="personalmissions"><span class="glyphicon glyphicon-tasks"></span> <span data-i18n="elems.personalmissions"></span></h2>-->
 			<h2 class="sub-header" id="stats"><span class="glyphicon glyphicon-stats"></span> <span data-i18n="elems.stats"></span></h2>
 			<div class="row placeholders">
 				<div class="col-xs-12 col-sm-4 placeholder">

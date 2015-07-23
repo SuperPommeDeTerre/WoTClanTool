@@ -151,7 +151,8 @@
 			"calendar": "Mon calendrier",
 			"garage": "Mon garage",
 			"strats": "Mes stratégies",
-			"stats": "Mes statistiques"
+			"stats": "Mes statistiques",
+			"personalmissions": "Mes missions personnelles"
 		}
 	},
 	"btn": {
@@ -544,6 +545,9 @@
 		},
 		"documentation": {
 			"title": "Documentation"
+		},
+		"personalmissions": {
+			"title": "Missions personnelles"
 		}
 	},
 	"strat": {

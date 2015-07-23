@@ -1,7 +1,4 @@
 var onLoad = function() {
-	checkConnected();
-	setNavBrandWithClan();
-	advanceProgress(i18n.t('loading.complete'));
 	afterLoad();
 	var listFAQ = i18n.t("FAQ", { returnObjectTrees: true }),
 		faqHTML = '';

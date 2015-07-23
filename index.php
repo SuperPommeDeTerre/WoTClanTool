@@ -22,7 +22,7 @@ if (isset($_SESSION["access_token"])) {
 	if (isset($_REQUEST["returnUrl"])) {
 		header('Location: ' . $_REQUEST["returnUrl"]);
 	} else {
-		header('Location: home.php');
+		header('Location: home');
 	}
 	exit;
 }
