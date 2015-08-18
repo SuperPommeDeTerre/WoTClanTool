@@ -168,6 +168,13 @@ $(document).ready(function() {
 			});
 		}
 		$(document).i18n();
+		window.update_cookieconsent_options({
+			"message": i18n.t('cookieconsent.message'),
+			"dismiss": i18n.t('cookieconsent.dismiss'),
+			"learnMore": i18n.t('cookieconsent.learnmore'),
+			"link": null,
+			"theme": "dark-bottom"
+		});
 		$('li.paypal a').on('click', function(evt) {
 			evt.preventDefault();
 			$(this).siblings('form').submit();

@@ -38,12 +38,12 @@
 			lPersonalMissionHTMLHeader += '<div class="row">';
 			for (var lPMCampaignOperationId in lPMCampaign.operations) {
 				var lPMCampaignOperation = lPMCampaign.operations[lPMCampaignOperationId];
-				lPersonalMissionHTMLHeader += '<div class="col-xs-12 col-sm-6 col-md-3">';
-				lPersonalMissionHTMLHeader += '<a href="#collapsePMCampaign' + lPMCampaign.campaign_id + 'Operation' + lPMCampaignOperation.operation_id + '" class="thumbnail" data-toggle="collapse" data-parent="#accordion" href="#collapsePMCampaign' + lPMCampaign.campaign_id + 'Operation' + lPMCampaignOperation.operation_id + '" aria-expanded="false" aria-controls="collapsePMCampaign' + lPMCampaign.campaign_id + 'Operation' + lPMCampaignOperation.operation_id + '">';
+				lPersonalMissionHTMLHeader += '<div class="col-xs-12 col-sm-6 col-md-3" id="headingPMCampaign' + lPMCampaign.campaign_id + 'Operation' + lPMCampaignOperation.operation_id + '">';
+				lPersonalMissionHTMLHeader += '<a href="#collapsePMCampaign' + lPMCampaign.campaign_id + 'Operation' + lPMCampaignOperation.operation_id + '" class="thumbnail" data-toggle="collapse" data-parent="#PMCampaign' + lPMCampaign.campaign_id + '" aria-expanded="false" aria-controls="collapsePMCampaign' + lPMCampaign.campaign_id + 'Operation' + lPMCampaignOperation.operation_id + '">';
 				lPersonalMissionHTMLHeader += '<img src="' + lPMCampaignOperation.image + '" alt="'+ lPMCampaignOperation.name + '" class="img-rounded" />';
 				lPersonalMissionHTMLHeader += '<div class="caption"><h3 id="PMCampaign' + lPMCampaign.campaign_id + 'Operation' + lPMCampaignOperation.operation_id + '">' + lPMCampaignOperation.name + '</h3>';
 				lPersonalMissionHTMLHeader += '<p>' + lPMCampaignOperation.description + '</p></div></a></div>';
-				lPersonalMissionHTML += '<div id="collapsePMCampaign' + lPMCampaign.campaign_id + 'Operation' + lPMCampaignOperation.operation_id + '" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">';
+				lPersonalMissionHTML += '<div id="collapsePMCampaign' + lPMCampaign.campaign_id + 'Operation' + lPMCampaignOperation.operation_id + '" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingPMCampaign' + lPMCampaign.campaign_id + 'Operation' + lPMCampaignOperation.operation_id + '"">';
 				lPersonalMissionHTML += '<div class="panel-body">';
 				for (var lPMMissionId in lPMCampaignOperation.missions) {
 					var lMission = lPMCampaignOperation.missions[lPMMissionId],
@@ -78,8 +78,8 @@
 				}
 				lPersonalMissionHTML += '</div></div>';
 			}
-			lPersonalMissionHTMLHeader += '</div></div></div></div>';
-			lPersonalMissionHTML = lPersonalMissionHTMLHeader + lPersonalMissionHTML;
+			lPersonalMissionHTMLHeader += '</div></div></div>';
+			lPersonalMissionHTML = lPersonalMissionHTMLHeader + lPersonalMissionHTML + '</div>';
 		}
 		lPersonalMissionsHeader.after(lPersonalMissionHTML);
 		afterLoad();
