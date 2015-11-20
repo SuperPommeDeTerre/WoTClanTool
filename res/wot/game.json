@@ -1,74 +1,29 @@
 {
     "elements": {
         "HT": {
-            "team0": {
-                "file": "HT0.png",
-                "size": { "x": 24, "y": 24 }
-            },
-            "team1": {
-                "file": "HT1.png",
-                "size": { "x": 24, "y": 24 }
-            },
-            "team2": {
-                "file": "HT2.png",
-                "size": { "x": 24, "y": 24 }
-            }
+            "team0": { "file": "HT0.png", "size": { "x": 24, "y": 24 } },
+            "team1": { "file": "HT1.png", "size": { "x": 24, "y": 24 } },
+            "team2": { "file": "HT2.png", "size": { "x": 24, "y": 24 } }
         },
         "MT": {
-            "team0": {
-                "file": "MT0.png",
-                "size": { "x": 24, "y": 24 }
-            },
-            "team1": {
-                "file": "MT1.png",
-                "size": { "x": 24, "y": 24 }
-            },
-            "team2": {
-                "file": "MT2.png",
-                "size": { "x": 24, "y": 24 }
-            }
+            "team0": { "file": "MT0.png", "size": { "x": 24, "y": 24 } },
+            "team1": { "file": "MT1.png", "size": { "x": 24, "y": 24 } },
+            "team2": { "file": "MT2.png", "size": { "x": 24, "y": 24 } }
         },
         "LT": {
-            "team0": {
-                "file": "LT0.png",
-                "size": { "x": 24, "y": 24 }
-            },
-            "team1": {
-                "file": "LT1.png",
-                "size": { "x": 24, "y": 24 }
-            },
-            "team2": {
-                "file": "LT2.png",
-                "size": { "x": 24, "y": 24 }
-            }
+            "team0": { "file": "LT0.png", "size": { "x": 24, "y": 24 } },
+            "team1": { "file": "LT1.png", "size": { "x": 24, "y": 24 } },
+            "team2": { "file": "LT2.png", "size": { "x": 24, "y": 24 } }
         },
         "TD": {
-            "team0": {
-                "file": "TD0.png",
-                "size": { "x": 24, "y": 24 }
-            },
-            "team1": {
-                "file": "TD1.png",
-                "size": { "x": 24, "y": 24 }
-            },
-            "team2": {
-                "file": "TD2.png",
-                "size": { "x": 24, "y": 24 }
-            }
+            "team0": { "file": "TD0.png", "size": { "x": 24, "y": 24 } },
+            "team1": { "file": "TD1.png", "size": { "x": 24, "y": 24 } },
+            "team2": { "file": "TD2.png", "size": { "x": 24, "y": 24 } }
         },
         "SPG": {
-            "team0": {
-                "file": "SPG0.png",
-                "size": { "x": 24, "y": 24 }
-            },
-            "team1": {
-                "file": "SPG1.png",
-                "size": { "x": 24, "y": 24 }
-            },
-            "team2": {
-                "file": "SPG2.png",
-                "size": { "x": 24, "y": 24 }
-            }
+            "team0": { "file": "SPG0.png", "size": { "x": 24, "y": 24 } },
+            "team1": { "file": "SPG1.png", "size": { "x": 24, "y": 24 } },
+            "team2": { "file": "SPG2.png", "size": { "x": 24, "y": 24 } }
         }
     },
     "maps": {
@@ -148,6 +103,37 @@
                 }
             }
         },
+        "Berlin": {
+            "file": "105_germany.jpg",
+            "size": { "x": 1000, "y": 1000 },
+            "camo": "summer",
+            "arena_id": "105_germany",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 4,
+                "max": 11
+            },
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 240, "y": 70 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 210, "y": 940 }
+                    ]
+                },
+                "confrontation": {
+                    "team1": [
+                        { "type": "base", "x": 240, "y": 70 },
+                        { "type": "base", "x": 730, "y": 320 }
+                    ],
+                    "team2": [
+                        { "type": "drop", "x": 210, "y": 940 }
+                    ]
+                }
+            }
+        },
         "Cliff": {
             "file": "18_cliff.jpg",
             "size": { "x": 1000, "y": 1000 },
@@ -204,6 +190,28 @@
             "file": "Dragon%20Ridge.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "summer",
+            "type": "",
+            "state": "retired",
+            "levels": {
+                "min": 4,
+                "max": 11
+            },
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 550, "y": 150 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 600, "y": 900 }
+                    ]
+                }
+            }
+        },
+        "EiffelTower": {
+            "file": "112_eiffel_tower.jpg",
+            "size": { "x": 1000, "y": 1000 },
+            "camo": "summer",
+            "arena_id": "112_eiffel_tower",
             "type": "",
             "state": "retired",
             "levels": {
@@ -862,6 +870,37 @@
                     ],
                     "team2": [
                         { "type": "base", "x": 680, "y": 90 }
+                    ]
+                }
+            }
+        },
+        "Paris": {
+            "file": "111_paris.jpg",
+            "size": { "x": 1000, "y": 1000 },
+            "camo": "winter",
+            "arena_id": "111_paris",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 4,
+                "max": 11
+            },
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 240, "y": 70 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 210, "y": 940 }
+                    ]
+                },
+                "confrontation": {
+                    "team1": [
+                        { "type": "base", "x": 240, "y": 70 },
+                        { "type": "base", "x": 730, "y": 320 }
+                    ],
+                    "team2": [
+                        { "type": "drop", "x": 210, "y": 940 }
                     ]
                 }
             }
