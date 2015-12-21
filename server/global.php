@@ -99,19 +99,23 @@ $gThemeName = $gConfig["app"]["theme"];
 // Administrators
 $gAdmins = $gConfig["app"]["admins"][$gCluster];
 
+// Initialize clan configuration
+$gClanConfig = array();
+if (array_key_exists('clan_id', $_SESSION)) {
+	$gClanConfig = json_decode(file_get_contents(getClanConfigFile()), true);
+}
+
 // Handle advertisement
 $gShowAds = true;
 if (array_key_exists('showads', $gConfig["app"])) {
 	$gShowAds = $gConfig['app']['showads'];
-}
-
-$gClanConfig = array();
-if (array_key_exists('clan_id', $_SESSION)) {
-	$gClanConfig = json_decode(file_get_contents(getClanConfigFile()), true);
-	if (array_key_exists('SHOW_ADS', $gClanConfig)) {
-		$gShowAds = $gClanConfig['SHOW_ADS'];
+	if ($gShowAds) {
+		if (array_key_exists('showads', $gClanConfig)) {
+			$gShowAds = $gClanConfig['showads'];
+		}
 	}
 }
+
 
 // Define the data dir (depends on cluster)
 define('WCT_DATA_DIR', WCT_BASE_DATA_DIR . DIRECTORY_SEPARATOR . $gCluster . DIRECTORY_SEPARATOR);

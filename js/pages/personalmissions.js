@@ -26,12 +26,31 @@
 			lPersonalMissionHTMLHeader = '',
 			lPersonalMissionHTML = '';
 		advanceProgress(i18n.t('loading.complete'));
+		lPersonalMissionHTMLHeader += '<ul class=\"nav nav-tabs\">';
 		for (var lCampaingId in lPMData) {
 			var lPMCampaign = lPMData[lCampaingId];
+			lPersonalMissionHTMLHeader += '<li role="presentation"><a href="#">' + lPMCampaign.name + '</a>';
+			/*if (lPMCampaign.description != null) {
+				lPersonalMissionHTML += '<p class=\"list-group-item-text\">' + lPMCampaign.description + '</p>';
+			}*/
+			lPersonalMissionHTMLHeader += '</li>';
+			lPersonalMissionHTML += '<div class="container-fluid">';
+			for (var lPMCampaignOperationId in lPMCampaign.operations) {
+				var lPMCampaignOperation = lPMCampaign.operations[lPMCampaignOperationId];
+				lPersonalMissionHTML += '<div class="col-xs-12 col-sm-6 col-md-3" id="headingPMCampaign' + lPMCampaign.campaign_id + 'Operation' + lPMCampaignOperation.operation_id + '">';
+				lPersonalMissionHTML += '<a href="#collapsePMCampaign' + lPMCampaign.campaign_id + 'Operation' + lPMCampaignOperation.operation_id + '" class="thumbnail" data-toggle="collapse" data-parent="#PMCampaign' + lPMCampaign.campaign_id + '" aria-expanded="false" aria-controls="collapsePMCampaign' + lPMCampaign.campaign_id + 'Operation' + lPMCampaignOperation.operation_id + '">';
+				lPersonalMissionHTML += '<img src="' + lPMCampaignOperation.image + '" alt="'+ lPMCampaignOperation.name + '" class="img-rounded" />';
+				lPersonalMissionHTML += '<div class="caption"><h3 id="PMCampaign' + lPMCampaign.campaign_id + 'Operation' + lPMCampaignOperation.operation_id + '">' + lPMCampaignOperation.name + '</h3>';
+				lPersonalMissionHTML += '<p>' + lPMCampaignOperation.description + '</p></div></a></div>';
+			}
+			lPersonalMissionHTML += '</div>';
+			/*
 			lPersonalMissionHTMLHeader += '<div class="panel panel-default" id="PMCampaign' + lPMCampaign.campaign_id + '">';
 			lPersonalMissionHTMLHeader += '<div class="panel-heading">';
 			lPersonalMissionHTMLHeader += '<h2>' + lPMCampaign.name + '</h2>';
-			lPersonalMissionHTMLHeader += '<p>' + lPMCampaign.description + '</p>';
+			if (lPMCampaign.description != null) {
+				lPersonalMissionHTMLHeader += '<p>' + lPMCampaign.description + '</p>';
+			}
 			lPersonalMissionHTMLHeader += '</div>';
 			lPersonalMissionHTMLHeader += '<div class="panel-body">';
 			lPersonalMissionHTMLHeader += '<div class="container-fluid">';
@@ -48,7 +67,7 @@
 				for (var lPMMissionId in lPMCampaignOperation.missions) {
 					var lMission = lPMCampaignOperation.missions[lPMMissionId],
 						lPlayerPMStatus = gPersonalInfos.private.personal_missions[lPMMissionId];
-					if (typeof(lPlayerPMStatus) != 'undefined' &&  lPlayerPMStatus != null) {
+					if (typeof(lPlayerPMStatus) != 'undefined' && lPlayerPMStatus != null) {
 						switch (lPlayerPMStatus) {
 							case 'NONE':
 								break;
@@ -67,20 +86,26 @@
 							default:
 								break;
 						}
+					} else {
+						lPlayerPMStatus = '';
 					}
 					lPersonalMissionHTML += '<h3 id="PMCampaign' + lPMCampaign.campaign_id + 'Operation' + lPMCampaignOperation.operation_id + 'Mission' + lMission.mission_id + '">' + lMission.name + ' <span class="label label-default">' + lPlayerPMStatus + '</span></h3>';
 					lPersonalMissionHTML += '<p>' + lMission.description + '</p>';
 					lPersonalMissionHTML += '<p>' + lMission.hint + '</p>';
-					lPersonalMissionHTML += '<p>Objectifs principaux:</p>';
+					lPersonalMissionHTML += '<p>Objectifs principaux&nbsp;:</p>';
 					lPersonalMissionHTML += getConditionsHtml(lMission.rewards.primary.conditions);
-					lPersonalMissionHTML += '<p>Objectifs secondaires:</p>';
+					lPersonalMissionHTML += '<p>Objectifs secondaires&nbsp;:</p>';
 					lPersonalMissionHTML += getConditionsHtml(lMission.rewards.secondary.conditions);
 				}
 				lPersonalMissionHTML += '</div></div>';
 			}
 			lPersonalMissionHTMLHeader += '</div></div></div>';
 			lPersonalMissionHTML = lPersonalMissionHTMLHeader + lPersonalMissionHTML + '</div>';
+			*/
 		}
+		lPersonalMissionHTMLHeader += '</ul>';
+		lPersonalMissionHTML += '</div>';
+		lPersonalMissionHTML = lPersonalMissionHTMLHeader + lPersonalMissionHTML;
 		lPersonalMissionsHeader.after(lPersonalMissionHTML);
 		afterLoad();
 	});

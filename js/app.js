@@ -34,7 +34,8 @@ var gTANKS_LEVEL = [ 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'
 	gDataClan = null,
 	gTankopedia = null,
 	progressNbSteps = 0,
-	progressCurStep = 0;
+	progressCurStep = 0,
+	gHashDest = '';
 
 var advanceProgress = function(pMessage) {
 	var progressToSet = (++progressCurStep * (100 / progressNbSteps));
@@ -154,6 +155,10 @@ var setNavBrandWithClan = function(pCallbackFunction) {
 
 // Wait for the DOM to finish its initialization before appending data to it.
 $(document).ready(function() {
+	gHashDest = location.hash;
+	if (gHashDest != '') {
+		window.scrollTo(0, 0);
+	}
 	gProgressBar = $('#progressBar');
 	gProgressMessage = $('#progressInfoMessage');
 	moment.locale(gConfig.LANG);
@@ -244,4 +249,7 @@ var afterLoad = function() {
 	$('.header-fixed').stickyTableHeaders({fixedOffset: $('#mainNavBar')});
 	$('[data-toggle="tooltip"]').tooltip();
 	$.material.init();
+	if (gHashDest != '') {
+		location.hash = gHashDest;
+	}
 };
