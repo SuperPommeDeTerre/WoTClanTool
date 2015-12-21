@@ -869,6 +869,28 @@
             },
             "modes": {}
         },
+        "Pilsen": {
+            "file": "114_czech.jpg",
+            "size": { "x": 800, "y": 800 },
+            "camo": "summer",
+            "arena_id": "114_czech",
+            "type": "",
+            "state": "live",
+            "levels": {
+                "min": 4,
+                "max": 11
+            },
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 110, "y": 740 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 680, "y": 90 }
+                    ]
+                }
+            }
+        },
         "PearlRiver": {
             "file": "60_asia_miao.jpg",
             "size": { "x": 1000, "y": 1000 },
@@ -883,10 +905,10 @@
             "modes": {
                 "standard": {
                     "team1": [
-                        { "type": "base", "x": 180, "y": 200 }
+                        { "type": "base", "x": 395, "y": 75 }
                     ],
                     "team2": [
-                        { "type": "base", "x": 800, "y": 800 }
+                        { "type": "base", "x": 395, "y": 725 }
                     ]
                 }
             }

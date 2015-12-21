@@ -10,10 +10,10 @@ require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'version.php');
 /**
  * Returns the path to the clan's configuration file.
  *
- * @param $pClusterId
- *     Identifier of the cluster. By default, it use the logged user cluster id.
  * @param $pClanId
  *     Identifier of the clan. By default, it use the logged user clan id.
+ * @param $pClusterId
+ *     Identifier of the cluster. By default, it use the logged user cluster id.
  * @return The path to the clan configuration file.
  */
 function getClanConfigFile($pClanId = null, $pClusterId = WCT_DEFAULT_CLUSTER) {
@@ -39,6 +39,15 @@ function getClanConfigFile($pClanId = null, $pClusterId = WCT_DEFAULT_CLUSTER) {
 	return $clanConfigFileName;
 }
 
+/**
+ * Returns the path to the player's configuration file.
+ *
+ * @param $pUserId
+ *     Identifier of the player. By default, it use the logged user id.
+ * @param $pClusterId
+ *     Identifier of the cluster. By default, it use the logged user cluster id.
+ * @return The path to the user file.
+ */
 function getUserFile($pUserId, $pClusterId = WCT_DEFAULT_CLUSTER) {
 	$lUserId = $pUserId;
 	if (strlen($lUserId) < 9) {
