@@ -164,7 +164,7 @@ var onLoad = function() {
 			}, 'json');
 		});
 	}, 'json');
-	$.post(gConfig.WG_API_URL + 'wot/encyclopedia/tanks/', {
+	$.post(gConfig.WG_API_URL + 'wot/encyclopedia/vehicles/', {
 		application_id: gConfig.WG_APP_ID,
 		access_token: gConfig.ACCESS_TOKEN,
 		language: gConfig.LANG
@@ -211,10 +211,10 @@ var onLoad = function() {
 					var tankInfosA = gTankopedia[a.tank_id],
 						tankInfosB = gTankopedia[b.tank_id];
 					// Sort by tiers
-					if (tankInfosA.level > tankInfosB.level) {
+					if (tankInfosA.tier > tankInfosB.tier) {
 						return -1;
 					}
-					if (tankInfosA.level < tankInfosB.level) {
+					if (tankInfosA.tier < tankInfosB.tier) {
 						return 1;
 					}
 					// Then by type
@@ -256,7 +256,7 @@ var onLoad = function() {
 					statsTanksByType[index].draws += myTank.all.draws;
 					isStatFound = false;
 					for (var j=0; j<statsTanksByLevel.length; j++) {
-						if (statsTanksByLevel[j].level == tankInfos.level) {
+						if (statsTanksByLevel[j].level == tankInfos.tier) {
 							isStatFound = true;
 							index = j;
 							break;
@@ -264,8 +264,8 @@ var onLoad = function() {
 					}
 					if (!isStatFound) {
 						statsTanksByLevel.push({
-							label: i18n.t('tank.level.' + (tankInfos.level - 1)),
-							level: tankInfos.level,
+							label: i18n.t('tank.level.' + (tankInfos.tier - 1)),
+							level: tankInfos.tier,
 							battles: 0,
 							wins: 0,
 							losses: 0,
@@ -287,7 +287,7 @@ var onLoad = function() {
 					}
 					if (!isStatFound) {
 						statsTanksByNation.push({
-							label: tankInfos.nation_i18n,
+							label: i18n.t('tank.nation.' + tankInfos.nation),
 							nation: tankInfos.nation,
 							battles: 0,
 							wins: 0,
@@ -308,26 +308,26 @@ var onLoad = function() {
 						+ (tankInfos.is_premium?' ispremium':'')
 						+ (tankInfos.is_premium||tankAdditionalInfos.is_full?' isfull':'')
 						+ (tankAdditionalInfos.is_ready?' isready':'')
-						+ ' tanklevel' + tankInfos.level
+						+ ' tanklevel' + tankInfos.tier
 						+ ' tanktype' + tankInfos.type + '">';
-					tableContent += '<td><img src="' + tankInfos.contour_image + '" /></td>';
+					tableContent += '<td><img src="' + tankInfos.images.contour_icon + '" /></td>';
 					tableContent += '<td data-value="' + myTank.mark_of_mastery + '" class="tankmastery' + myTank.mark_of_mastery + '">&nbsp;</td>';
-					tableContent += '<td data-value="' + tankInfos.nation_i18n + '"><img src="./themes/' + gConfig.THEME + '/style/images/nation_' + tankInfos.nation + '.png" alt="' + tankInfos.nation_i18n + '" title="' + tankInfos.nation_i18n + '" width="24" height="24" /></td>';
-					tableContent += '<td class="tankname">' + tankInfos.short_name_i18n + '</td>';
-					tableContent += '<td data-value="' + tankInfos.level + '"><img src="./themes/' + gConfig.THEME + '/style/images/Tier_' + tankInfos.level + '_icon.png" alt="' + gTANKS_LEVEL[tankInfos.level - 1] + '" title="' + tankInfos.level + '" /></td>';
-					tableContent += '<td data-value="' + gTANKS_TYPES[tankInfos.type] + '"><img src="./themes/' + gConfig.THEME + '/style/images/type-' + tankInfos.type + '.png" alt="' + tankInfos.type_i18n + '" title="' + tankInfos.type_i18n + '" /></td>';
+					tableContent += '<td data-value="' + tankInfos.nation + '"><img src="./themes/' + gConfig.THEME + '/style/images/nation_' + tankInfos.nation + '.png" alt="' + tankInfos.nation + '" title="' + i18n.t('tank.nation.' + tankInfos.nation) + '" width="24" height="24" /></td>';
+					tableContent += '<td class="tankname">' + tankInfos.short_name + '</td>';
+					tableContent += '<td data-value="' + tankInfos.tier + '"><img src="./themes/' + gConfig.THEME + '/style/images/Tier_' + tankInfos.tier + '_icon.png" alt="' + gTANKS_LEVEL[tankInfos.tier - 1] + '" title="' + tankInfos.tier + '" /></td>';
+					tableContent += '<td data-value="' + gTANKS_TYPES[tankInfos.type] + '"><img src="./themes/' + gConfig.THEME + '/style/images/type-' + tankInfos.type + '.png" alt="' + tankInfos.type + '" title="' + i18n.t('tank.type.' + tankInfos.type) + '" /></td>';
 					tableContent += '<td>' + myTank.all.battles + '</td>';
 					tableContent += '<td><span class="label label-' + getWN8Class(tankAdditionalInfos.wn8) + '">' + (Math.round(tankAdditionalInfos.wn8 * 100) / 100) + '</span></td>';
 					tableContent += '<td data-value="' + winRatio + '">' + (winRatio > -1?(Math.round(winRatio * 100) / 100) + ' %':'-') + '</td>';
 					tableContent += '<td><div data-toggle="tooltip" data-placement="top" class="slider shor slider-info" title="' + (tankAdditionalInfos.is_ready?i18n.t('tank.status.2'):tankAdditionalInfos.is_full||tankInfos.is_premium?i18n.t('tank.status.1'):i18n.t('tank.status.0')) + '"></div></td>';
 					tableContent += '</tr>';
 					listContent += '<div class="small tank tankcontainer tankmastery' + myTank.mark_of_mastery +  (tankAdditionalInfos.in_garage?' ingarage':' hidden') + (tankInfos.is_premium?' ispremium':'') + (tankInfos.is_premium||tankAdditionalInfos.is_full?' isfull':'') +'">';
-					listContent += '<div class="tanklevel' + tankInfos.level + '"><img src="' + tankInfos.image_small + '" /></div>';
-					listContent += '<p class="tankname">' + tankInfos.short_name_i18n + '</p>';
+					listContent += '<div class="tanklevel' + tankInfos.tier + '"><img src="' + tankInfos.images.small_icon  + '" /></div>';
+					listContent += '<p class="tankname">' + tankInfos.short_name + '</p>';
 					listContent += '</div>';
 					listLargeContent += '<div class="big tank tankcontainer tankmastery' + myTank.mark_of_mastery + (tankAdditionalInfos.in_garage?' ingarage':' hidden') + (tankInfos.is_premium?' ispremium':'') + (tankInfos.is_premium||tankAdditionalInfos.is_full?' isfull':'') +'">';
-					listLargeContent += '<div class="tanklevel' + tankInfos.level + '"><img src="' + tankInfos.image + '" /></div>';
-					listLargeContent += '<p class="tankname">' + tankInfos.short_name_i18n + '</p>';
+					listLargeContent += '<div class="tanklevel' + tankInfos.tier + '"><img src="' + tankInfos.images.big_icon + '" /></div>';
+					listLargeContent += '<p class="tankname">' + tankInfos.short_name + '</p>';
 					listLargeContent += '</div>';
 				}
 				myTanksTable.attr('data-sortable', 'true');
@@ -516,11 +516,11 @@ var onLoad = function() {
 						tankAdditionalInfos = getTankAdditionalInfos(myTank.tank_id, dataMyTanksAdditionalInfos);
 						if (tankAdditionalInfos.in_garage
 								&& tankAdditionalInfos.is_ready
-								&& ($.inArray(tankInfos.level, gTankTiersAllowedForResume) >= 0)) {
-							dataToDisplay[gTANKS_LEVEL[tankInfos.level - 1]][tankInfos.type].push({
-								name: tankInfos.short_name_i18n,
+								&& ($.inArray(tankInfos.tier, gTankTiersAllowedForResume) >= 0)) {
+							dataToDisplay[gTANKS_LEVEL[tankInfos.tier - 1]][tankInfos.type].push({
+								name: tankInfos.short_name,
 								wn8: tankAdditionalInfos.wn8,
-								contour: tankInfos.contour_image,
+								contour: tankInfos.images.contour_icon,
 								is_premium: tankInfos.is_premium,
 								is_full: tankAdditionalInfos.is_full
 							});

@@ -451,6 +451,16 @@
 			"SPG_plural_0": "SPG",
 			"SPG_plural": "SPGs"
 		},
+		"nation": {
+			"france": "France",
+			"germany": "Germany",
+			"japan": "Japan",
+			"uk": "U.K.",
+			"usa": "U.S.A.",
+			"ussr": "U.R.R.S.",
+			"china": "China",
+			"czech": "Czechoslovakia"
+		},
 		"infos": {
 			"name": "Tank name",
 			"level": "Level",

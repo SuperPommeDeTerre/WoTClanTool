@@ -24,7 +24,7 @@ function fillEventDialog(pDialog, pEvents) {
 	function loadTanks() {
 		// Load tankopedia if it is not loaded
 		if (gTankopedia == null) {
-			$.post(gConfig.WG_API_URL + 'wot/encyclopedia/tanks/', {
+			$.post(gConfig.WG_API_URL + 'wot/encyclopedia/vehicles/', {
 				application_id: gConfig.WG_APP_ID,
 				access_token: gConfig.ACCESS_TOKEN,
 				language: gConfig.LANG
@@ -67,7 +67,7 @@ function fillEventDialog(pDialog, pEvents) {
 			for (var i=0; i<playerTanksAdditionalInfos.length; i++) {
 				playerTankAdditionalInfos = playerTanksAdditionalInfos[i];
 				if (playerTankAdditionalInfos.tank_id == tankId) {
-					myElemHtml += '<span class="playerTank" data-tank-id="' + tankId + '"><img src="' + gTankopedia[tankId].contour_image + '" /><span class="label label-' + getWN8Class(playerTankAdditionalInfos.wn8) + '">' + (Math.round(playerTankAdditionalInfos.wn8 * 100) / 100) + '</span> ' + gTankopedia[tankId].name_i18n + '</span>';
+					myElemHtml += '<span class="playerTank" data-tank-id="' + tankId + '"><img src="' + gTankopedia[tankId].images.contour_icon + '" /><span class="label label-' + getWN8Class(playerTankAdditionalInfos.wn8) + '">' + (Math.round(playerTankAdditionalInfos.wn8 * 100) / 100) + '</span> ' + gTankopedia[tankId].name + '</span>';
 					break;
 				}
 			}
@@ -462,12 +462,12 @@ function fillEventDialog(pDialog, pEvents) {
 						});
 					}
 					playerTanksAdditionalInfos.sort(function(a, b) {
-						return (gTankopedia[b.tank_id].level - gTankopedia[a.tank_id].level);
+						return (gTankopedia[b.tank_id].tier - gTankopedia[a.tank_id].tier);
 					});
 					for (var i=0; i<playerTanksAdditionalInfos.length; i++) {
 						var playerTankAdditionalInfos = playerTanksAdditionalInfos[i];
 						if (playerTankAdditionalInfos.in_garage && playerTankAdditionalInfos.is_ready) {
-							listTanksHtml += '<li><span class="playerTank" data-tank-id="' + playerTankAdditionalInfos.tank_id + '"><img src="' + gTankopedia[playerTankAdditionalInfos.tank_id].contour_image + '" /><span class="label label-' + getWN8Class(playerTankAdditionalInfos.wn8) + '">' + (Math.round(playerTankAdditionalInfos.wn8 * 100) / 100) + '</span> ' + gTankopedia[playerTankAdditionalInfos.tank_id].name_i18n + '</span></li>';
+							listTanksHtml += '<li><span class="playerTank" data-tank-id="' + playerTankAdditionalInfos.tank_id + '"><img src="' + gTankopedia[playerTankAdditionalInfos.tank_id].images.contour_icon + '" /><span class="label label-' + getWN8Class(playerTankAdditionalInfos.wn8) + '">' + (Math.round(playerTankAdditionalInfos.wn8 * 100) / 100) + '</span> ' + gTankopedia[playerTankAdditionalInfos.tank_id].name_i18n + '</span></li>';
 						}
 					}
 					listTanksHtml += '</ul>';

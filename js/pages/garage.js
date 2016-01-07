@@ -175,7 +175,7 @@ var onLoad = function() {
 		}, function(dataPlayersResponse) {
 			var dataPlayers = dataPlayersResponse.data;
 			advanceProgress(i18n.t('loading.tanksinfos'));
-			$.post(gConfig.WG_API_URL + 'wot/encyclopedia/tanks/', {
+			$.post(gConfig.WG_API_URL + 'wot/encyclopedia/vehicles/', {
 				application_id: gConfig.WG_APP_ID,
 				access_token: gConfig.ACCESS_TOKEN,
 				language: gConfig.LANG
@@ -268,11 +268,11 @@ var onLoad = function() {
 						for (i=0; i<listToDisplay.length; i++) {
 							myElemToDisplay = listToDisplay[i];
 							tanksListHtml += '<tr>';
-							tanksListHtml += '<td><img src="' + myElemToDisplay.contour_image + '" alt="' + myElemToDisplay.short_name_i18n + '" /></td>';
-							tanksListHtml += '<td data-value="' + myElemToDisplay.nation_i18n + '"><img src="./themes/' + gConfig.THEME + '/style/images/nation_' + myElemToDisplay.nation + '.png" alt="' + myElemToDisplay.nation_i18n + '" title="' + myElemToDisplay.nation_i18n + '" width="24" height="24" /></td>';
-							tanksListHtml += '<td class="' + (myElemToDisplay.is_premium?'ispremium':'') + '"><span class="tankname">' + myElemToDisplay.short_name_i18n + '</span></td>';
-							tanksListHtml += '<td class="tanklevel" data-value="' + myElemToDisplay.level + '"><img src="./themes/' + gConfig.THEME + '/style/images/Tier_' + myElemToDisplay.level + '_icon.png" alt="' + gTANKS_LEVEL[myElemToDisplay.level - 1] + '" title="' + myElemToDisplay.level + '" /></td>';
-							tanksListHtml += '<td class="tanktype" data-value="' + gTANKS_TYPES[myElemToDisplay.type] + '"><img src="./themes/' + gConfig.THEME + '/style/images/type-' + myElemToDisplay.type + '.png" alt="' + myElemToDisplay.type_i18n + '" title="' + myElemToDisplay.type_i18n + '" /></td>';
+							tanksListHtml += '<td><img src="' + myElemToDisplay.images.contour_icon + '" alt="' + myElemToDisplay.short_name + '" /></td>';
+							tanksListHtml += '<td data-value="' + myElemToDisplay.nation + '"><img src="./themes/' + gConfig.THEME + '/style/images/nation_' + myElemToDisplay.nation + '.png" alt="' + i18n.t('tank.nation.' + myElemToDisplay.nation) + '" title="' + i18n.t('tank.nation.' + myElemToDisplay.nation) + '" width="24" height="24" /></td>';
+							tanksListHtml += '<td class="' + (myElemToDisplay.is_premium?'ispremium':'') + '"><span class="tankname">' + myElemToDisplay.short_name + '</span></td>';
+							tanksListHtml += '<td class="tanklevel" data-value="' + myElemToDisplay.tier + '"><img src="./themes/' + gConfig.THEME + '/style/images/Tier_' + myElemToDisplay.tier + '_icon.png" alt="' + gTANKS_LEVEL[myElemToDisplay.tier - 1] + '" title="' + myElemToDisplay.tier + '" /></td>';
+							tanksListHtml += '<td class="tanktype" data-value="' + gTANKS_TYPES[myElemToDisplay.type] + '"><img src="./themes/' + gConfig.THEME + '/style/images/type-' + myElemToDisplay.type + '.png" alt="' + myElemToDisplay.type + '" title="' + i18n.t('tank.type.' + myElemToDisplay.type) + '" /></td>';
 							tanksListHtml += '<td class="tankowners">';
 							isFirst = true;
 							for (var userId in myElemToDisplay.owners) {
@@ -310,7 +310,7 @@ var onLoad = function() {
 											// The player owns this tanks. Process it.
 											playerTankAdditionalInfos = myElemToDisplay.owners[userId];
 											playersDetailsHtml += '<li class="list-group-item' + (myElemToDisplay.is_premium?' ispremium':'') + '">';
-											playersDetailsHtml += '<img src="' + myElemToDisplay.contour_image + '"  alt="' + myElemToDisplay.short_name_i18n + '" /><span class="pull-right label label-' + getWN8Class(playerTankAdditionalInfos.wn8) + '">' + (Math.round(playerTankAdditionalInfos.wn8 * 100) / 100) + '</span>&nbsp;<span class="tankname">' + myElemToDisplay.short_name_i18n + '</span>';
+											playersDetailsHtml += '<img src="' + myElemToDisplay.images.contour_icon + '"  alt="' + myElemToDisplay.short_name_i18n + '" /><span class="pull-right label label-' + getWN8Class(playerTankAdditionalInfos.wn8) + '">' + (Math.round(playerTankAdditionalInfos.wn8 * 100) / 100) + '</span>&nbsp;<span class="tankname">' + myElemToDisplay.short_name_i18n + '</span>';
 											playersDetailsHtml += '</li>';
 											// Exit loop. We don't need to look up further owners...
 											break;

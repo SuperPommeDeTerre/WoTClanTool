@@ -191,7 +191,7 @@ var onLoad = function() {
 				}, 'json');
 			}
 			advanceProgress(i18n.t('loading.tanksinfos'));
-			$.post(gConfig.WG_API_URL + 'wot/encyclopedia/tanks/', {
+			$.post(gConfig.WG_API_URL + 'wot/encyclopedia/vehicles/', {
 				application_id: gConfig.WG_APP_ID,
 				access_token: gConfig.ACCESS_TOKEN,
 				language: gConfig.LANG
@@ -227,7 +227,7 @@ var onLoad = function() {
 									if (playerStoredVehicules[j].in_garage) {
 										vehiculeDetails = gTankopedia[playerStoredVehicules[j].tank_id];
 										nbTotalVehicules++;
-										nbClanVehiculesByTiers[vehiculeDetails.level - 1]++;
+										nbClanVehiculesByTiers[vehiculeDetails.tier - 1]++;
 										nbClanVehiculesByType[vehiculeDetails.type]++;
 										if (playerStoredVehicules[j].is_ready) {
 											nbVehiculesReady++;

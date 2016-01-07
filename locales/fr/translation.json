@@ -433,6 +433,16 @@
 			"X"
 		],
 		"alltypes": "Tous les types",
+		"nation": {
+			"france": "France",
+			"germany": "Allemagne",
+			"japan": "Japon",
+			"uk": "Royaume-Uni",
+			"usa": "Etats-Unis",
+			"ussr": "URRS",
+			"china": "Chine",
+			"czech": "Tchécoslovaquie"
+		},
 		"type": {
 			"lightTank": "Léger",
 			"lightTank_plural_0": "Léger",
