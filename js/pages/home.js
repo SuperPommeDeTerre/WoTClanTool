@@ -226,11 +226,13 @@ var onLoad = function() {
 								for (var j=0; j<playerStoredVehicules.length; j++) {
 									if (playerStoredVehicules[j].in_garage) {
 										vehiculeDetails = gTankopedia[playerStoredVehicules[j].tank_id];
-										nbTotalVehicules++;
-										nbClanVehiculesByTiers[vehiculeDetails.tier - 1]++;
-										nbClanVehiculesByType[vehiculeDetails.type]++;
-										if (playerStoredVehicules[j].is_ready) {
-											nbVehiculesReady++;
+										if (vehiculeDetails != null) {
+											nbTotalVehicules++;
+											nbClanVehiculesByTiers[vehiculeDetails.tier - 1]++;
+											nbClanVehiculesByType[vehiculeDetails.type]++;
+											if (playerStoredVehicules[j].is_ready) {
+												nbVehiculesReady++;
+											}
 										}
 									}
 								}
