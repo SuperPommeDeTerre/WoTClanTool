@@ -211,6 +211,12 @@ var onLoad = function() {
 					var tankInfosA = gTankopedia[a.tank_id],
 						tankInfosB = gTankopedia[b.tank_id];
 					// Sort by tiers
+					if (tankInfosA == null) {
+						return 1;
+					}
+					if (tankInfosB == null) {
+						return -1;
+					}
 					if (tankInfosA.tier > tankInfosB.tier) {
 						return -1;
 					}
@@ -229,106 +235,108 @@ var onLoad = function() {
 				for (var i=0; i<dataMyTanks.length; i++) {
 					myTank = dataMyTanks[i];
 					tankInfos = gTankopedia[myTank.tank_id];
-					tankAdditionalInfos = getTankAdditionalInfos(myTank.tank_id, dataMyTanksAdditionalInfos);
-					winRatio = -1;
-					isStatFound = false;
-					for (var j=0; j<statsTanksByType.length; j++) {
-						if (statsTanksByType[j].type == tankInfos.type) {
-							isStatFound = true;
-							index = j;
-							break;
+					if (tankInfos != null) {
+						tankAdditionalInfos = getTankAdditionalInfos(myTank.tank_id, dataMyTanksAdditionalInfos);
+						winRatio = -1;
+						isStatFound = false;
+						for (var j=0; j<statsTanksByType.length; j++) {
+							if (statsTanksByType[j].type == tankInfos.type) {
+								isStatFound = true;
+								index = j;
+								break;
+							}
 						}
-					}
-					if (!isStatFound) {
-						statsTanksByType.push({
-							label: i18n.t('tank.type.' + tankInfos.type),
-							type: tankInfos.type,
-							battles: 0,
-							wins: 0,
-							losses: 0,
-							draws: 0
-						});
-						index = statsTanksByType.length - 1;
-					}
-					statsTanksByType[index].battles += myTank.all.battles;
-					statsTanksByType[index].wins += myTank.all.wins;
-					statsTanksByType[index].losses += myTank.all.losses;
-					statsTanksByType[index].draws += myTank.all.draws;
-					isStatFound = false;
-					for (var j=0; j<statsTanksByLevel.length; j++) {
-						if (statsTanksByLevel[j].level == tankInfos.tier) {
-							isStatFound = true;
-							index = j;
-							break;
+						if (!isStatFound) {
+							statsTanksByType.push({
+								label: i18n.t('tank.type.' + tankInfos.type),
+								type: tankInfos.type,
+								battles: 0,
+								wins: 0,
+								losses: 0,
+								draws: 0
+							});
+							index = statsTanksByType.length - 1;
 						}
-					}
-					if (!isStatFound) {
-						statsTanksByLevel.push({
-							label: i18n.t('tank.level.' + (tankInfos.tier - 1)),
-							level: tankInfos.tier,
-							battles: 0,
-							wins: 0,
-							losses: 0,
-							draws: 0
-						});
-						index = statsTanksByLevel.length - 1;
-					}
-					statsTanksByLevel[index].battles += myTank.all.battles;
-					statsTanksByLevel[index].wins += myTank.all.wins;
-					statsTanksByLevel[index].losses += myTank.all.losses;
-					statsTanksByLevel[index].draws += myTank.all.draws;
-					isStatFound = false;
-					for (var j=0; j<statsTanksByNation.length; j++) {
-						if (statsTanksByNation[j].nation == tankInfos.nation) {
-							isStatFound = true;
-							index = j;
-							break;
+						statsTanksByType[index].battles += myTank.all.battles;
+						statsTanksByType[index].wins += myTank.all.wins;
+						statsTanksByType[index].losses += myTank.all.losses;
+						statsTanksByType[index].draws += myTank.all.draws;
+						isStatFound = false;
+						for (var j=0; j<statsTanksByLevel.length; j++) {
+							if (statsTanksByLevel[j].level == tankInfos.tier) {
+								isStatFound = true;
+								index = j;
+								break;
+							}
 						}
+						if (!isStatFound) {
+							statsTanksByLevel.push({
+								label: i18n.t('tank.level.' + (tankInfos.tier - 1)),
+								level: tankInfos.tier,
+								battles: 0,
+								wins: 0,
+								losses: 0,
+								draws: 0
+							});
+							index = statsTanksByLevel.length - 1;
+						}
+						statsTanksByLevel[index].battles += myTank.all.battles;
+						statsTanksByLevel[index].wins += myTank.all.wins;
+						statsTanksByLevel[index].losses += myTank.all.losses;
+						statsTanksByLevel[index].draws += myTank.all.draws;
+						isStatFound = false;
+						for (var j=0; j<statsTanksByNation.length; j++) {
+							if (statsTanksByNation[j].nation == tankInfos.nation) {
+								isStatFound = true;
+								index = j;
+								break;
+							}
+						}
+						if (!isStatFound) {
+							statsTanksByNation.push({
+								label: i18n.t('tank.nation.' + tankInfos.nation),
+								nation: tankInfos.nation,
+								battles: 0,
+								wins: 0,
+								losses: 0,
+								draws: 0
+							});
+							index = statsTanksByNation.length - 1;
+						}
+						statsTanksByNation[index].battles += myTank.all.battles;
+						statsTanksByNation[index].wins += myTank.all.wins;
+						statsTanksByNation[index].losses += myTank.all.losses;
+						statsTanksByNation[index].draws += myTank.all.draws;
+						if (myTank.all.battles > 0) {
+							winRatio = myTank.all.wins * 100 / myTank.all.battles;
+						}
+						tableContent += '<tr data-tankid="' + myTank.tank_id + '" class="tank'
+							+ (tankAdditionalInfos.in_garage?' ingarage':' hidden')
+							+ (tankInfos.is_premium?' ispremium':'')
+							+ (tankInfos.is_premium||tankAdditionalInfos.is_full?' isfull':'')
+							+ (tankAdditionalInfos.is_ready?' isready':'')
+							+ ' tanklevel' + tankInfos.tier
+							+ ' tanktype' + tankInfos.type + '">';
+						tableContent += '<td><img src="' + tankInfos.images.contour_icon + '" /></td>';
+						tableContent += '<td data-value="' + myTank.mark_of_mastery + '" class="tankmastery' + myTank.mark_of_mastery + '">&nbsp;</td>';
+						tableContent += '<td data-value="' + tankInfos.nation + '"><img src="./themes/' + gConfig.THEME + '/style/images/nation_' + tankInfos.nation + '.png" alt="' + tankInfos.nation + '" title="' + i18n.t('tank.nation.' + tankInfos.nation) + '" width="24" height="24" /></td>';
+						tableContent += '<td class="tankname">' + tankInfos.short_name + '</td>';
+						tableContent += '<td data-value="' + tankInfos.tier + '"><img src="./themes/' + gConfig.THEME + '/style/images/Tier_' + tankInfos.tier + '_icon.png" alt="' + gTANKS_LEVEL[tankInfos.tier - 1] + '" title="' + tankInfos.tier + '" /></td>';
+						tableContent += '<td data-value="' + gTANKS_TYPES[tankInfos.type] + '"><img src="./themes/' + gConfig.THEME + '/style/images/type-' + tankInfos.type + '.png" alt="' + tankInfos.type + '" title="' + i18n.t('tank.type.' + tankInfos.type) + '" /></td>';
+						tableContent += '<td>' + myTank.all.battles + '</td>';
+						tableContent += '<td><span class="label label-' + getWN8Class(tankAdditionalInfos.wn8) + '">' + (Math.round(tankAdditionalInfos.wn8 * 100) / 100) + '</span></td>';
+						tableContent += '<td data-value="' + winRatio + '">' + (winRatio > -1?(Math.round(winRatio * 100) / 100) + ' %':'-') + '</td>';
+						tableContent += '<td><div data-toggle="tooltip" data-placement="top" class="slider shor slider-info" title="' + (tankAdditionalInfos.is_ready?i18n.t('tank.status.2'):tankAdditionalInfos.is_full||tankInfos.is_premium?i18n.t('tank.status.1'):i18n.t('tank.status.0')) + '"></div></td>';
+						tableContent += '</tr>';
+						listContent += '<div class="small tank tankcontainer tankmastery' + myTank.mark_of_mastery +  (tankAdditionalInfos.in_garage?' ingarage':' hidden') + (tankInfos.is_premium?' ispremium':'') + (tankInfos.is_premium||tankAdditionalInfos.is_full?' isfull':'') +'">';
+						listContent += '<div class="tanklevel' + tankInfos.tier + '"><img src="' + tankInfos.images.small_icon  + '" /></div>';
+						listContent += '<p class="tankname">' + tankInfos.short_name + '</p>';
+						listContent += '</div>';
+						listLargeContent += '<div class="big tank tankcontainer tankmastery' + myTank.mark_of_mastery + (tankAdditionalInfos.in_garage?' ingarage':' hidden') + (tankInfos.is_premium?' ispremium':'') + (tankInfos.is_premium||tankAdditionalInfos.is_full?' isfull':'') +'">';
+						listLargeContent += '<div class="tanklevel' + tankInfos.tier + '"><img src="' + tankInfos.images.big_icon + '" /></div>';
+						listLargeContent += '<p class="tankname">' + tankInfos.short_name + '</p>';
+						listLargeContent += '</div>';
 					}
-					if (!isStatFound) {
-						statsTanksByNation.push({
-							label: i18n.t('tank.nation.' + tankInfos.nation),
-							nation: tankInfos.nation,
-							battles: 0,
-							wins: 0,
-							losses: 0,
-							draws: 0
-						});
-						index = statsTanksByNation.length - 1;
-					}
-					statsTanksByNation[index].battles += myTank.all.battles;
-					statsTanksByNation[index].wins += myTank.all.wins;
-					statsTanksByNation[index].losses += myTank.all.losses;
-					statsTanksByNation[index].draws += myTank.all.draws;
-					if (myTank.all.battles > 0) {
-						winRatio = myTank.all.wins * 100 / myTank.all.battles;
-					}
-					tableContent += '<tr data-tankid="' + myTank.tank_id + '" class="tank'
-						+ (tankAdditionalInfos.in_garage?' ingarage':' hidden')
-						+ (tankInfos.is_premium?' ispremium':'')
-						+ (tankInfos.is_premium||tankAdditionalInfos.is_full?' isfull':'')
-						+ (tankAdditionalInfos.is_ready?' isready':'')
-						+ ' tanklevel' + tankInfos.tier
-						+ ' tanktype' + tankInfos.type + '">';
-					tableContent += '<td><img src="' + tankInfos.images.contour_icon + '" /></td>';
-					tableContent += '<td data-value="' + myTank.mark_of_mastery + '" class="tankmastery' + myTank.mark_of_mastery + '">&nbsp;</td>';
-					tableContent += '<td data-value="' + tankInfos.nation + '"><img src="./themes/' + gConfig.THEME + '/style/images/nation_' + tankInfos.nation + '.png" alt="' + tankInfos.nation + '" title="' + i18n.t('tank.nation.' + tankInfos.nation) + '" width="24" height="24" /></td>';
-					tableContent += '<td class="tankname">' + tankInfos.short_name + '</td>';
-					tableContent += '<td data-value="' + tankInfos.tier + '"><img src="./themes/' + gConfig.THEME + '/style/images/Tier_' + tankInfos.tier + '_icon.png" alt="' + gTANKS_LEVEL[tankInfos.tier - 1] + '" title="' + tankInfos.tier + '" /></td>';
-					tableContent += '<td data-value="' + gTANKS_TYPES[tankInfos.type] + '"><img src="./themes/' + gConfig.THEME + '/style/images/type-' + tankInfos.type + '.png" alt="' + tankInfos.type + '" title="' + i18n.t('tank.type.' + tankInfos.type) + '" /></td>';
-					tableContent += '<td>' + myTank.all.battles + '</td>';
-					tableContent += '<td><span class="label label-' + getWN8Class(tankAdditionalInfos.wn8) + '">' + (Math.round(tankAdditionalInfos.wn8 * 100) / 100) + '</span></td>';
-					tableContent += '<td data-value="' + winRatio + '">' + (winRatio > -1?(Math.round(winRatio * 100) / 100) + ' %':'-') + '</td>';
-					tableContent += '<td><div data-toggle="tooltip" data-placement="top" class="slider shor slider-info" title="' + (tankAdditionalInfos.is_ready?i18n.t('tank.status.2'):tankAdditionalInfos.is_full||tankInfos.is_premium?i18n.t('tank.status.1'):i18n.t('tank.status.0')) + '"></div></td>';
-					tableContent += '</tr>';
-					listContent += '<div class="small tank tankcontainer tankmastery' + myTank.mark_of_mastery +  (tankAdditionalInfos.in_garage?' ingarage':' hidden') + (tankInfos.is_premium?' ispremium':'') + (tankInfos.is_premium||tankAdditionalInfos.is_full?' isfull':'') +'">';
-					listContent += '<div class="tanklevel' + tankInfos.tier + '"><img src="' + tankInfos.images.small_icon  + '" /></div>';
-					listContent += '<p class="tankname">' + tankInfos.short_name + '</p>';
-					listContent += '</div>';
-					listLargeContent += '<div class="big tank tankcontainer tankmastery' + myTank.mark_of_mastery + (tankAdditionalInfos.in_garage?' ingarage':' hidden') + (tankInfos.is_premium?' ispremium':'') + (tankInfos.is_premium||tankAdditionalInfos.is_full?' isfull':'') +'">';
-					listLargeContent += '<div class="tanklevel' + tankInfos.tier + '"><img src="' + tankInfos.images.big_icon + '" /></div>';
-					listLargeContent += '<p class="tankname">' + tankInfos.short_name + '</p>';
-					listLargeContent += '</div>';
 				}
 				myTanksTable.attr('data-sortable', 'true');
 				myTanksTable.find('tbody').append(tableContent);
@@ -429,60 +437,62 @@ var onLoad = function() {
 						myTankId = myElem.closest('tr').data('tankid'),
 						myTankAdditionalInfos = getTankAdditionalInfos(myTankId, dataMyTanksAdditionalInfos),
 						myTankInfos = gTankopedia[myTankId];
-					if (myTankInfos.is_premium) {
-						myElem.removeClass('slider-info').addClass('slider-material-yellow');
-					}
-					if (myTankAdditionalInfos.is_ready) {
-						myElemSilderOptions.start = 2;
-					} else if (myTankAdditionalInfos.is_full || myTankInfos.is_premium) {
-						myElemSilderOptions.start = 1;
-					} 
-					myElem.noUiSlider(myElemSilderOptions);
-					myElem.on({
-						set: function(evt) {
-							var isFull = false,
-								isReady = false,
-								myLine = myElem.closest('tr');
-							switch (parseInt(myElem.val())) {
-								case 0:
-									// Prevent change or premium tanks
-									if (myLine.hasClass('ispremium')) {
+					if (myTankInfos != null) {
+						if (myTankInfos.is_premium) {
+							myElem.removeClass('slider-info').addClass('slider-material-yellow');
+						}
+						if (myTankAdditionalInfos.is_ready) {
+							myElemSilderOptions.start = 2;
+						} else if (myTankAdditionalInfos.is_full || myTankInfos.is_premium) {
+							myElemSilderOptions.start = 1;
+						} 
+						myElem.noUiSlider(myElemSilderOptions);
+						myElem.on({
+							set: function(evt) {
+								var isFull = false,
+									isReady = false,
+									myLine = myElem.closest('tr');
+								switch (parseInt(myElem.val())) {
+									case 0:
+										// Prevent change or premium tanks
+										if (myLine.hasClass('ispremium')) {
+											isFull = true;
+											isReady = false;
+											myElem.val(1);
+										} else {
+											isFull = false;
+											isReady = false;
+											myLine.removeClass('isfull').removeClass('isready');
+										}
+										break;
+									case 1:
 										isFull = true;
 										isReady = false;
-										myElem.val(1);
-									} else {
-										isFull = false;
-										isReady = false;
-										myLine.removeClass('isfull').removeClass('isready');
-									}
-									break;
-								case 1:
-									isFull = true;
-									isReady = false;
-									myLine.addClass('isfull').removeClass('isready');
-									break;
-								case 2:
-									isFull = true;
-									isReady = true;
-									myLine.addClass('isfull').addClass('isready');
-									break;
+										myLine.addClass('isfull').removeClass('isready');
+										break;
+									case 2:
+										isFull = true;
+										isReady = true;
+										myLine.addClass('isfull').addClass('isready');
+										break;
+								}
+								myElem.tooltip('hide')
+									.attr('data-original-title', i18n.t('tank.status.' + parseInt(myElem.val())))
+									.tooltip('fixTitle')
+									.tooltip('show');
+								$.post('./server/player.php', {
+									'action': 'settankprops',
+									'tank_id': myTankId,
+									'is_full': isFull,
+									'is_ready': isReady
+								}, function(dataSaveTanksResponse) {
+									tankAdditionalInfos = getTankAdditionalInfos(myTankId, dataMyTanksAdditionalInfos);
+									tankAdditionalInfos.is_full = isFull;
+									tankAdditionalInfos.is_ready = isReady;
+								}, 'json');
 							}
-							myElem.tooltip('hide')
-								.attr('data-original-title', i18n.t('tank.status.' + parseInt(myElem.val())))
-								.tooltip('fixTitle')
-								.tooltip('show');
-							$.post('./server/player.php', {
-								'action': 'settankprops',
-								'tank_id': myTankId,
-								'is_full': isFull,
-								'is_ready': isReady
-							}, function(dataSaveTanksResponse) {
-								tankAdditionalInfos = getTankAdditionalInfos(myTankId, dataMyTanksAdditionalInfos);
-								tankAdditionalInfos.is_full = isFull;
-								tankAdditionalInfos.is_ready = isReady;
-							}, 'json');
-						}
-					});
+						});
+					}
 				});
 				$('#chkContourIcons').on('change', function(evt) {
 					var myCheckBox = $(this),
@@ -514,7 +524,8 @@ var onLoad = function() {
 						myTank = dataMyTanks[i];
 						tankInfos = gTankopedia[myTank.tank_id];
 						tankAdditionalInfos = getTankAdditionalInfos(myTank.tank_id, dataMyTanksAdditionalInfos);
-						if (tankAdditionalInfos.in_garage
+						if (tankInfos != null
+								&& tankAdditionalInfos.in_garage
 								&& tankAdditionalInfos.is_ready
 								&& ($.inArray(tankInfos.tier, gTankTiersAllowedForResume) >= 0)) {
 							dataToDisplay[gTANKS_LEVEL[tankInfos.tier - 1]][tankInfos.type].push({
