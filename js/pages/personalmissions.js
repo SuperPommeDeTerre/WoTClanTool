@@ -11,6 +11,39 @@
 		lResult += '</ul>';
 		return lResult;
 	};
+	var getMissionShortName = function(pMission, pIndex) {
+		var lResult = '';
+		for (var tag in pMission.tags) {
+			tag = pMission.tags[tag];
+			switch (tag) {
+				case 'lightTank':
+					lResult = 'LT';
+					break;
+				case 'mediumTank':
+					lResult = 'MT';
+					break;
+				case 'heavyTank':
+					lResult = 'HT';
+					break;
+				case 'AT-SPG':
+					lResult = 'TD';
+					break;
+				case 'SPG':
+					lResult = 'SPG';
+					break;
+				case 'multiteam':
+					lResult = 'D';
+					break;
+				case 'classic':
+					lResult = 'SH';
+					break;
+			}
+			if (lResult !== '') {
+				break;
+			}
+		}
+		return lResult + '-' + (pIndex + 1);
+	};
 	checkConnected();
 	setNavBrandWithClan();
 	progressNbSteps = 3;
@@ -23,90 +56,106 @@
 	}, function(dataEncyclopediaPersonalMissionsResponse) {
 		var lPMData = dataEncyclopediaPersonalMissionsResponse.data,
 			lPersonalMissionsHeader = $('.main h1'),
-			lPersonalMissionHTMLHeader = '',
-			lPersonalMissionHTML = '';
+			lPersonalMissionHTMLNav = '',
+			isFirstCampaign = true,
+			isFirstOperation = true;
 		advanceProgress(i18n.t('loading.complete'));
-		lPersonalMissionHTMLHeader += '<ul class=\"nav nav-tabs\">';
 		for (var lCampaingId in lPMData) {
 			var lPMCampaign = lPMData[lCampaingId];
-			lPersonalMissionHTMLHeader += '<li role="presentation"><a href="#">' + lPMCampaign.name + '</a>';
-			/*if (lPMCampaign.description != null) {
-				lPersonalMissionHTML += '<p class=\"list-group-item-text\">' + lPMCampaign.description + '</p>';
-			}*/
-			lPersonalMissionHTMLHeader += '</li>';
-			lPersonalMissionHTML += '<div class="container-fluid">';
+			lPersonalMissionHTMLNav += '<li class="dropdown' + (isFirstCampaign === true?' active':'') + '"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">' + lPMCampaign.name + ' <span class="caret"></span></a>';
+			if (isFirstCampaign === true) {
+				isFirstCampaign = false;
+			}
+			lPersonalMissionHTMLNav += '<ul class="dropdown-menu">';
 			for (var lPMCampaignOperationId in lPMCampaign.operations) {
 				var lPMCampaignOperation = lPMCampaign.operations[lPMCampaignOperationId];
-				lPersonalMissionHTML += '<div class="col-xs-12 col-sm-6 col-md-3" id="headingPMCampaign' + lPMCampaign.campaign_id + 'Operation' + lPMCampaignOperation.operation_id + '">';
-				lPersonalMissionHTML += '<a href="#collapsePMCampaign' + lPMCampaign.campaign_id + 'Operation' + lPMCampaignOperation.operation_id + '" class="thumbnail" data-toggle="collapse" data-parent="#PMCampaign' + lPMCampaign.campaign_id + '" aria-expanded="false" aria-controls="collapsePMCampaign' + lPMCampaign.campaign_id + 'Operation' + lPMCampaignOperation.operation_id + '">';
-				lPersonalMissionHTML += '<img src="' + lPMCampaignOperation.image + '" alt="'+ lPMCampaignOperation.name + '" class="img-rounded" />';
-				lPersonalMissionHTML += '<div class="caption"><h3 id="PMCampaign' + lPMCampaign.campaign_id + 'Operation' + lPMCampaignOperation.operation_id + '">' + lPMCampaignOperation.name + '</h3>';
-				lPersonalMissionHTML += '<p>' + lPMCampaignOperation.description + '</p></div></a></div>';
-			}
-			lPersonalMissionHTML += '</div>';
-			/*
-			lPersonalMissionHTMLHeader += '<div class="panel panel-default" id="PMCampaign' + lPMCampaign.campaign_id + '">';
-			lPersonalMissionHTMLHeader += '<div class="panel-heading">';
-			lPersonalMissionHTMLHeader += '<h2>' + lPMCampaign.name + '</h2>';
-			if (lPMCampaign.description != null) {
-				lPersonalMissionHTMLHeader += '<p>' + lPMCampaign.description + '</p>';
-			}
-			lPersonalMissionHTMLHeader += '</div>';
-			lPersonalMissionHTMLHeader += '<div class="panel-body">';
-			lPersonalMissionHTMLHeader += '<div class="container-fluid">';
-			lPersonalMissionHTMLHeader += '<div class="row">';
-			for (var lPMCampaignOperationId in lPMCampaign.operations) {
-				var lPMCampaignOperation = lPMCampaign.operations[lPMCampaignOperationId];
-				lPersonalMissionHTMLHeader += '<div class="col-xs-12 col-sm-6 col-md-3" id="headingPMCampaign' + lPMCampaign.campaign_id + 'Operation' + lPMCampaignOperation.operation_id + '">';
-				lPersonalMissionHTMLHeader += '<a href="#collapsePMCampaign' + lPMCampaign.campaign_id + 'Operation' + lPMCampaignOperation.operation_id + '" class="thumbnail" data-toggle="collapse" data-parent="#PMCampaign' + lPMCampaign.campaign_id + '" aria-expanded="false" aria-controls="collapsePMCampaign' + lPMCampaign.campaign_id + 'Operation' + lPMCampaignOperation.operation_id + '">';
-				lPersonalMissionHTMLHeader += '<img src="' + lPMCampaignOperation.image + '" alt="'+ lPMCampaignOperation.name + '" class="img-rounded" />';
-				lPersonalMissionHTMLHeader += '<div class="caption"><h3 id="PMCampaign' + lPMCampaign.campaign_id + 'Operation' + lPMCampaignOperation.operation_id + '">' + lPMCampaignOperation.name + '</h3>';
-				lPersonalMissionHTMLHeader += '<p>' + lPMCampaignOperation.description + '</p></div></a></div>';
-				lPersonalMissionHTML += '<div id="collapsePMCampaign' + lPMCampaign.campaign_id + 'Operation' + lPMCampaignOperation.operation_id + '" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingPMCampaign' + lPMCampaign.campaign_id + 'Operation' + lPMCampaignOperation.operation_id + '"">';
-				lPersonalMissionHTML += '<div class="panel-body">';
-				for (var lPMMissionId in lPMCampaignOperation.missions) {
-					var lMission = lPMCampaignOperation.missions[lPMMissionId],
-						lPlayerPMStatus = gPersonalInfos.private.personal_missions[lPMMissionId];
-					if (typeof(lPlayerPMStatus) != 'undefined' && lPlayerPMStatus != null) {
-						switch (lPlayerPMStatus) {
-							case 'NONE':
-								break;
-							case 'UNLOCKED':
-								break;
-							case 'NEED_GET_MAIN_REWARD':
-								break;
-							case 'MAIN_REWARD_GOTTEN':
-								break;
-							case 'NEED_GET_ADD_REWARD':
-								break;
-							case 'NEED_GET_ALL_REWARDS':
-								break;
-							case 'ALL_REWARDS_GOTTEN':
-								break;
-							default:
-								break;
-						}
-					} else {
-						lPlayerPMStatus = '';
-					}
-					lPersonalMissionHTML += '<h3 id="PMCampaign' + lPMCampaign.campaign_id + 'Operation' + lPMCampaignOperation.operation_id + 'Mission' + lMission.mission_id + '">' + lMission.name + ' <span class="label label-default">' + lPlayerPMStatus + '</span></h3>';
-					lPersonalMissionHTML += '<p>' + lMission.description + '</p>';
-					lPersonalMissionHTML += '<p>' + lMission.hint + '</p>';
-					lPersonalMissionHTML += '<p>Objectifs principaux&nbsp;:</p>';
-					lPersonalMissionHTML += getConditionsHtml(lMission.rewards.primary.conditions);
-					lPersonalMissionHTML += '<p>Objectifs secondaires&nbsp;:</p>';
-					lPersonalMissionHTML += getConditionsHtml(lMission.rewards.secondary.conditions);
+				lPersonalMissionHTMLNav += '<li' + (isFirstOperation === true?' class="active"':'') + '><a href="#" class="pmNavOperation" data-campaign="' + lPMCampaign.campaign_id + '" data-operation="' + lPMCampaignOperation.operation_id + '">'+ lPMCampaignOperation.name + '</a></li>';
+				if (isFirstOperation === true) {
+					isFirstOperation = false;
 				}
-				lPersonalMissionHTML += '</div></div>';
 			}
-			lPersonalMissionHTMLHeader += '</div></div></div>';
-			lPersonalMissionHTML = lPersonalMissionHTMLHeader + lPersonalMissionHTML + '</div>';
-			*/
+			lPersonalMissionHTMLNav += '</ul></li>';
 		}
-		lPersonalMissionHTMLHeader += '</ul>';
-		lPersonalMissionHTML += '</div>';
-		lPersonalMissionHTML = lPersonalMissionHTMLHeader + lPersonalMissionHTML;
-		lPersonalMissionsHeader.after(lPersonalMissionHTML);
+		$('#navCampaigns').html(lPersonalMissionHTMLNav).find('.pmNavOperation').on('click', function(evt) {
+			evt.preventDefault();
+			var myLink = $(this),
+				myCampaignId = myLink.data('campaign') * 1,
+				myOperationId = myLink.data('operation') * 1,
+				lPMCampaignOperation = lPMData[myCampaignId].operations[myOperationId],
+				lOperationHTML = '',
+				lCountMissionsInSet = 0,
+				lCurrentSetId = -1,
+				lAdditionalClass = '',
+				lMissionsNavHTML = '';
+			lOperationHTML += '<div class="container-fluid">';
+			lOperationHTML += '<div class="row">';
+			lOperationHTML += '<div class="col-md-3"><img src="' + lPMCampaignOperation.image + '" alt="'+ lPMCampaignOperation.name + '" class="img-responsive img-rounded" /></div>';
+			lOperationHTML += '<div class="col-md-9"><h2>' + lPMCampaignOperation.name + '</h2>';
+			lOperationHTML += '<p>' + lPMCampaignOperation.description + '</p></div>';
+			lOperationHTML += '</div>';
+			lOperationHTML += '<div class="row">';
+			lOperationHTML += '<div class="col-md-4">';
+			for (var lPMMissionId in lPMCampaignOperation.missions) {
+				var lMission = lPMCampaignOperation.missions[lPMMissionId],
+					lPlayerPMStatus = gPersonalInfos.private.personal_missions[lPMMissionId];
+				if (lCurrentSetId == -1) {
+					lCurrentSetId = lMission.set_id;
+				}
+				if (lCurrentSetId != lMission.set_id) {
+					continue;
+				}
+				lAdditionalClass = 'btn-material-grey-300';
+				if (typeof(lPlayerPMStatus) != 'undefined' && lPlayerPMStatus != null) {
+					switch (lPlayerPMStatus) {
+						case 'NONE':
+							break;
+						case 'UNLOCKED':
+							break;
+						case 'NEED_GET_MAIN_REWARD':
+							break;
+						case 'MAIN_REWARD_GOTTEN':
+							lAdditionalClass = 'btn-primary';
+							break;
+						case 'NEED_GET_ADD_REWARD':
+							break;
+						case 'NEED_GET_ALL_REWARDS':
+							break;
+						case 'ALL_REWARDS_GOTTEN':
+							lAdditionalClass = 'btn-success';
+							break;
+						default:
+							break;
+					}
+				} else {
+					lPlayerPMStatus = '';
+				}
+				lMissionsNavHTML += '<button type="button" class="btnMission btn btn-sm ' + lAdditionalClass + '" data-mission="' + lPMMissionId + '">' + getMissionShortName(lMission, lCountMissionsInSet) + '</button>';
+				lCountMissionsInSet++;
+				if (lCountMissionsInSet >= lPMCampaignOperation.missions_in_set) {
+					lMissionsNavHTML = '<div class="btn-group-vertical" role="group" aria-label="...">' + lMissionsNavHTML + '</div>';
+					lOperationHTML += lMissionsNavHTML;
+					lMissionsNavHTML = '';
+					lCountMissionsInSet = 0;
+					lCurrentSetId = -1;
+				}
+			}
+			lOperationHTML += '</div>';
+			lOperationHTML += '<div class="col-md-8" id="missionDetails">';
+			lOperationHTML += '</div>';
+			lOperationHTML += '</div>';
+			$('#OperationDetails').html(lOperationHTML).find('.btnMission').on('click', function(evt) {
+				evt.preventDefault();
+				var lMission = lPMCampaignOperation.missions[$(this).data('mission')],
+					lMissionHtml = '<h3>' + lMission.name + '</h3>';
+				lMissionHtml += '<p>' + lMission.description + '</p>';
+				lMissionHtml += '<p>' + lMission.hint + '</p>';
+				lMissionHtml += '<h4>Objectifs principaux&nbsp;:</h4>';
+				lMissionHtml += getConditionsHtml(lMission.rewards.primary.conditions);
+				lMissionHtml += '<h4>Objectifs secondaires&nbsp;:</h4>';
+				lMissionHtml += getConditionsHtml(lMission.rewards.secondary.conditions);
+				$('#missionDetails').html(lMissionHtml);
+			}).first().click();
+		}).first().click();
 		afterLoad();
 	});
 };
