@@ -160,6 +160,16 @@
 			"personalmissions": "My personal missions"
 		}
 	},
+	"personalmissions": {
+		"primary": {
+			"goal": "Main objective",
+			"goal_plural": "Main objectives"
+		},
+		"secondary": {
+			"goal": "Secondary objective",
+			"goal_plural": "Secondary objectives"
+		}
+	},
 	"btn": {
 		"ok": "Ok",
 		"cancel": "Cancel",

@@ -1,7 +1,7 @@
 ﻿var onLoad = function() {
 	var getConditionsHtml = function(pConditions) {
 		var lResult = '<ul>',
-			lConditionsArray = pConditions.split(/\u2022/g);
+			lConditionsArray = getConditionsArray(pConditions);
 		for (var lConditionIndex in lConditionsArray) {
 			if (lConditionIndex == 0) {
 				continue;
@@ -10,6 +10,9 @@
 		}
 		lResult += '</ul>';
 		return lResult;
+	};
+	var getConditionsArray = function(pConditions) {
+		return pConditions.split(/\u2022/g);
 	};
 	var getMissionShortName = function(pMission, pIndex) {
 		var lResult = '';
@@ -62,7 +65,7 @@
 		advanceProgress(i18n.t('loading.complete'));
 		for (var lCampaingId in lPMData) {
 			var lPMCampaign = lPMData[lCampaingId];
-			lPersonalMissionHTMLNav += '<li class="dropdown' + (isFirstCampaign === true?' active':'') + '"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">' + lPMCampaign.name + ' <span class="caret"></span></a>';
+			lPersonalMissionHTMLNav += '<li class="dropdown' + (isFirstCampaign === true?' active':'') + '"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" data-campaign="' + lPMCampaign.campaign_id + '">' + lPMCampaign.name + ' <span class="caret"></span></a>';
 			if (isFirstCampaign === true) {
 				isFirstCampaign = false;
 			}
@@ -76,6 +79,7 @@
 			}
 			lPersonalMissionHTMLNav += '</ul></li>';
 		}
+		// Show operation details on click (prevent hiding/showing mecanism)
 		$('#navCampaigns').html(lPersonalMissionHTMLNav).find('.pmNavOperation').on('click', function(evt) {
 			evt.preventDefault();
 			var myLink = $(this),
@@ -143,18 +147,24 @@
 			lOperationHTML += '<div class="col-md-8" id="missionDetails">';
 			lOperationHTML += '</div>';
 			lOperationHTML += '</div>';
+			// Show mission details on click (prevent hiding/showing mecanism)
 			$('#OperationDetails').html(lOperationHTML).find('.btnMission').on('click', function(evt) {
 				evt.preventDefault();
-				var lMission = lPMCampaignOperation.missions[$(this).data('mission')],
+				var myMissionLink = $(this),
+					lMission = lPMCampaignOperation.missions[myMissionLink.data('mission')],
 					lMissionHtml = '<h3>' + lMission.name + '</h3>';
 				lMissionHtml += '<p>' + lMission.description + '</p>';
 				lMissionHtml += '<p>' + lMission.hint + '</p>';
-				lMissionHtml += '<h4>Objectifs principaux&nbsp;:</h4>';
+				lMissionHtml += '<h4>' + i18n.t('personalmissions.primary.goal', { count: getConditionsArray(lMission.rewards.primary.conditions).length - 1 }) + '</h4>';
 				lMissionHtml += getConditionsHtml(lMission.rewards.primary.conditions);
-				lMissionHtml += '<h4>Objectifs secondaires&nbsp;:</h4>';
+				lMissionHtml += '<h4>' + i18n.t('personalmissions.secondary.goal', { count: getConditionsArray(lMission.rewards.secondary.conditions).length - 1 }) + '</h4>';
 				lMissionHtml += getConditionsHtml(lMission.rewards.secondary.conditions);
 				$('#missionDetails').html(lMissionHtml);
+				$('#OperationDetails').find('.active').removeClass('active');
+				myMissionLink.addClass('active');
 			}).first().click();
+			$('#navCampaignContainer').find('.active').removeClass('active');
+			$('#navCampaignContainer').find('.dropdown-toggle[data-campaign=' + myCampaignId + ']').parent().addClass('active').find('[data-operation=' + myOperationId + ']').parent().addClass('active');
 		}).first().click();
 		afterLoad();
 	});

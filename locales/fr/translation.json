@@ -160,6 +160,16 @@
 			"personalmissions": "Mes missions personnelles"
 		}
 	},
+	"personalmissions": {
+		"primary": {
+			"goal": "Objectif principal",
+			"goal_plural": "Objectifs principaux"
+		},
+		"secondary": {
+			"goal": "Objectif secondaire",
+			"goal_plural": "Objectifs secondaires"
+		}
+	},
 	"btn": {
 		"ok": "Ok",
 		"cancel": "Annuler",
