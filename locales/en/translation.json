@@ -161,13 +161,17 @@
 		}
 	},
 	"personalmissions": {
-		"primary": {
-			"goal": "Main objective",
-			"goal_plural": "Main objectives"
-		},
-		"secondary": {
-			"goal": "Secondary objective",
-			"goal_plural": "Secondary objectives"
+		"goal": "Objective",
+		"goal_plural": "Objectives",
+		"primary": "Main",
+		"secondary": "Secondary",
+		"reward": {
+			"label": "Reward",
+			"label_plural": "Rewards",
+			"slots": "Garage slot",
+			"slots_plural": "Garage slots",
+			"tanks": "Tank",
+			"tanks_plural": "Tanks"
 		}
 	},
 	"btn": {
@@ -311,7 +315,11 @@
 		"tanksadditionalinfos": "Loading of additional tanks data...",
 		"strats": "Loading strategies...",
 		"maps": "Loading maps...",
-		"events": "Loading events..."
+		"events": "Loading events...",
+		"personalmissions": {
+			"my" : "Loading my personal missions data...",
+			"reference": "Loading personal missions data..."
+		}
 	},
 	"clan": {
 		"emblem": "Clan's emblem",

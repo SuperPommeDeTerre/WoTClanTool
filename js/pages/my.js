@@ -169,7 +169,7 @@ var onLoad = function() {
 		access_token: gConfig.ACCESS_TOKEN,
 		language: gConfig.LANG
 	}, function(dataTankopediaResponse) {
-		gTankopedia  = dataTankopediaResponse.data;
+		gTankopedia = dataTankopediaResponse.data;
 		advanceProgress(i18n.t('loading.mytanksinfos'));
 		$.post(gConfig.WG_API_URL + 'wot/tanks/stats/', {
 			application_id: gConfig.WG_APP_ID,

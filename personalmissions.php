@@ -40,6 +40,21 @@ include(WCT_INC_DIR . 'ads.php');
 		</div>
 	</div>
 </div>
+<div id="dialogTankDetails" class="modal fade" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button class="close" aria-hidden="true" data-dismiss="modal" type="button">&times;</button>
+				<h4 class="modal-title" data-i18n="nav.tscomments"></h4>
+			</div>
+			<div class="modal-body">
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-primary" data-dismiss="modal" data-i18n="btn.ok"></button>
+			</div>
+		</div>
+	</div>
+</div>
 <?php
 require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR . 'footer.php');
 ?>

@@ -161,13 +161,19 @@
 		}
 	},
 	"personalmissions": {
-		"primary": {
-			"goal": "Objectif principal",
-			"goal_plural": "Objectifs principaux"
-		},
-		"secondary": {
-			"goal": "Objectif secondaire",
-			"goal_plural": "Objectifs secondaires"
+		"goal": "Objectif",
+		"goal_plural": "Objectifs",
+		"primary": "Principal",
+		"primary_plural": "Principaux",
+		"secondary": "Secondaire",
+		"secondary_plural": "Secondaires",
+		"reward": {
+			"label": "Récompense",
+			"label_plural": "Récompenses",
+			"slots": "Place de garage",
+			"slots_plural": "Places de garage",
+			"tanks": "Char",
+			"tanks_plural": "Chars"
 		}
 	},
 	"btn": {
@@ -310,7 +316,11 @@
 		"tanksadditionalinfos": "Chargement d'informations complémentaires sur les chars...",
 		"strats": "Chargement des stratégies...",
 		"maps": "Chargement des cartes...",
-		"events": "Chargement des évènements..."
+		"events": "Chargement des évènements...",
+		"personalmissions": {
+			"my" : "Chargement de mes missions personnelles...",
+			"reference": "Chargement des missions personnelles..."
+		}
 	},
 	"clan": {
 		"emblem": "Emblême du clan",

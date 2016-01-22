@@ -166,7 +166,7 @@ include(WCT_INC_DIR . 'ads.php');
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<button class="close" aria-hidden="true" data-dismiss="modal" type="button">×</button>
+				<button class="close" aria-hidden="true" data-dismiss="modal" type="button">&times;</button>
 				<h4 class="modal-title" data-i18n="nav.tscomments"></h4>
 			</div>
 			<div class="modal-body">
