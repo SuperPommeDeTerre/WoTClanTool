@@ -94,16 +94,16 @@ span.role{display:inline-block;height:28px;line-height:28px}
 .tankmastery2{background: url('./images/markofmastery2.png') no-repeat left center;background-size:24px 24px}
 .tankmastery3{background: url('./images/markofmastery3.png') no-repeat left center;background-size:24px 24px}
 .tankmastery4{background: url('./images/markofmastery4.png') no-repeat left center;background-size:24px 24px}
-.tanklevel1{background: url('./images/Tier_1_icon.png') no-repeat 25px 2px}
-.tanklevel2{background: url('./images/Tier_2_icon.png') no-repeat 25px 2px}
-.tanklevel3{background: url('./images/Tier_3_icon.png') no-repeat 25px 2px}
-.tanklevel4{background: url('./images/Tier_4_icon.png') no-repeat 25px 2px}
-.tanklevel5{background: url('./images/Tier_5_icon.png') no-repeat 25px 2px}
-.tanklevel6{background: url('./images/Tier_6_icon.png') no-repeat 25px 2px}
-.tanklevel7{background: url('./images/Tier_7_icon.png') no-repeat 25px 2px}
-.tanklevel8{background: url('./images/Tier_8_icon.png') no-repeat 25px 2px}
-.tanklevel9{background: url('./images/Tier_9_icon.png') no-repeat 25px 2px}
-.tanklevel10{background: url('./images/Tier_10_icon.png') no-repeat 25px 2px}
+div.tanklevel1{background: url('./images/Tier_1_icon.png') no-repeat 25px 2px}
+div.tanklevel2{background: url('./images/Tier_2_icon.png') no-repeat 25px 2px}
+div.tanklevel3{background: url('./images/Tier_3_icon.png') no-repeat 25px 2px}
+div.tanklevel4{background: url('./images/Tier_4_icon.png') no-repeat 25px 2px}
+div.tanklevel5{background: url('./images/Tier_5_icon.png') no-repeat 25px 2px}
+div.tanklevel6{background: url('./images/Tier_6_icon.png') no-repeat 25px 2px}
+div.tanklevel7{background: url('./images/Tier_7_icon.png') no-repeat 25px 2px}
+div.tanklevel8{background: url('./images/Tier_8_icon.png') no-repeat 25px 2px}
+div.tanklevel9{background: url('./images/Tier_9_icon.png') no-repeat 25px 2px}
+div.tanklevel10{background: url('./images/Tier_10_icon.png') no-repeat 25px 2px}
 .tankcontainer{display:block;float:left;background-position:left top}
 .tankcontainer.big img{width:160px;height:100px}
 .tankcontainer.small{padding-left:10px}
