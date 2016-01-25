@@ -188,6 +188,26 @@ include(WCT_INC_DIR . 'ads.php');
 						<button id="copy-button" class="btn btn-default btn-material-grey-500" data-clipboard-target="textResumePlayer" data-i18n="[title]action.copy;"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></button>
 					</div>
 				</div>
+				<div class="input-group pull-left">
+					<span class="input-group-addon glyphicon glyphicon-tasks"></span>
+					<div class="btn-group dropup">
+						<button type="button" id="tankFilterLevelTS" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" data-value="[4,6,7,8,10]" aria-expanded="false"><span class="btnVal" data-i18n="tank.alllevels"></span> <span class="caret"></span></button>
+						<ul class="dropdown-menu" role="menu">
+							<li data-value="all"><a href="#" data-i18n="tank.alllevels"></a></li>
+							<li class="divider"></li>
+							<li data-value="1"><a href="#" data-i18n="tank.level.0"></a></li>
+							<li data-value="2"><a href="#" data-i18n="tank.level.1"></a></li>
+							<li data-value="3"><a href="#" data-i18n="tank.level.2"></a></li>
+							<li data-value="4"><a href="#" data-i18n="tank.level.3"></a></li>
+							<li data-value="5"><a href="#" data-i18n="tank.level.4"></a></li>
+							<li data-value="6"><a href="#" data-i18n="tank.level.5"></a></li>
+							<li data-value="7"><a href="#" data-i18n="tank.level.6"></a></li>
+							<li data-value="8"><a href="#" data-i18n="tank.level.7"></a></li>
+							<li data-value="9"><a href="#" data-i18n="tank.level.8"></a></li>
+							<li data-value="10"><a href="#" data-i18n="tank.level.9"></a></li>
+						</ul>
+					</div>
+				</div>
 			</div>
 			<div class="modal-footer">
 				<button class="btn btn-primary" data-dismiss="modal" data-i18n="btn.ok"></button>

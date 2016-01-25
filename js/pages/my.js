@@ -2,8 +2,8 @@ var gIMAGE_PARAMS = {
 		offsetElem: 180,
 		offsetLine: 25,
 		nbTanksByLine: 3
-	},
-	gTankTiersAllowedForResume = [4, 6, 7, 8, 10];
+	};
+	//gTankTiersAllowedForResume = [4, 6, 7, 8, 10];
 
 var applyTableTanksFilters = function(filter) {
 	var myElems = $('.tank'),
@@ -190,6 +190,7 @@ var onLoad = function() {
 				winRatio = 0,
 				chkInGarage = $('#chkInGarage'),
 				chkIsFull = $('#chkIsFull'),
+				selTankLevelTS = $('#tankFilterLevelTS'),
 				selTankLevel = $('#tankFilterLevel'),
 				selTankType = $('#tankFilterType'),
 				slideTankStatus = $('#slideTankStatus');
@@ -511,14 +512,19 @@ var onLoad = function() {
 						j = 0;
 					// Prepare data
 					var dataToDisplay = {},
-						listTankTypes = {};
-						// Prepare tank types
-					for (i = gTankTiersAllowedForResume.length - 1; i >= 0; i--) {
+						listTankTypes = {},
+						selectedLevelsForResume = selTankLevelTS.data('value');
+					// Prepare tank types
+					if (selectedLevelsForResume.length == 0) {
+						// All levels are selected
+						selectedLevelsForResume = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ];
+					}
+					for (i = selectedLevelsForResume.length - 1; i >= 0; i--) {
 						listTankTypes = {};
 						for (tankTypeName in gTANKS_TYPES) {
 							listTankTypes[tankTypeName] = [];
 						}
-						dataToDisplay[gTANKS_LEVEL[gTankTiersAllowedForResume[i] - 1]] = listTankTypes;
+						dataToDisplay[gTANKS_LEVEL[selectedLevelsForResume[i] - 1]] = listTankTypes;
 					}
 					for (i=0; i<dataMyTanks.length; i++) {
 						myTank = dataMyTanks[i];
@@ -527,7 +533,7 @@ var onLoad = function() {
 						if (tankInfos != null
 								&& tankAdditionalInfos.in_garage
 								&& tankAdditionalInfos.is_ready
-								&& ($.inArray(tankInfos.tier, gTankTiersAllowedForResume) >= 0)) {
+								&& ($.inArray(tankInfos.tier, selectedLevelsForResume) >= 0)) {
 							dataToDisplay[gTANKS_LEVEL[tankInfos.tier - 1]][tankInfos.type].push({
 								name: tankInfos.short_name,
 								wn8: tankAdditionalInfos.wn8,
@@ -687,6 +693,53 @@ var onLoad = function() {
 					$('#textResumePlayer').text(commentText);
 				});
 				$('#btnShowTanksResume').on('click', function(evt) {
+					$('#chkContourIcons').change();
+				});
+				// init tank levels
+				var selTankLevelTSDefaultValue = selTankLevelTS.data('value'),
+					btnTexts = [];
+				for (var levelIndex in selTankLevelTSDefaultValue) {
+					btnTexts.push(i18n.t('tank.level.' + ((selTankLevelTSDefaultValue[levelIndex] * 1) - 1)));
+				}
+				if (selTankLevelTSDefaultValue.length == gTANKS_LEVEL.length) {
+					// All levels are selected
+					selTankLevelTS.find('.btnVal').text(i18n.t('tank.alllevels'));
+				} else {
+					selTankLevelTS.find('.btnVal').text(btnTexts.join(', '));
+				}
+				selTankLevelTS.parent().on('click', 'a', function(evt) {
+					evt.preventDefault();
+					var myLink = $(this),
+						selectedLevels = myLink.parent().parent().prev().data('value'),
+						myChoice = myLink.parent().data('value');
+					if (!$.isArray(selectedLevels)) {
+						selectedLevels = [];
+					}
+					if (selectedLevels.indexOf(myChoice) < 0) {
+						selectedLevels.push(myChoice);
+					} else {
+						selectedLevels.splice(selectedLevels.indexOf(myChoice, 1));
+					}
+					selectedLevels.sort(function(a, b) {
+						if (a < b) {
+							return -1;
+						}
+						if (a > b) {
+							return 1;
+						}
+						return 0;
+					});
+					// Compute text
+					var btnTexts = [];
+					for (var levelIndex in selectedLevels) {
+						btnTexts.push(i18n.t('tank.level.' + ((selectedLevels[levelIndex] * 1) - 1)));
+					}
+					if (myChoice == 'all' || selectedLevels.length == gTANKS_LEVEL.length) {
+						// All levels are selected
+						myLink.parent().parent().prev().data('value', []).find('.btnVal').text(i18n.t('tank.alllevels'));
+					} else {
+						myLink.parent().parent().prev().data('value', selectedLevels).find('.btnVal').text(btnTexts.join(', '));
+					}
 					$('#chkContourIcons').change();
 				});
 				selTankLevel.add(selTankType).parent().on('click', 'a', function(evt) {
