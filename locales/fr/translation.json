@@ -317,6 +317,7 @@
 		"strats": "Chargement des stratégies...",
 		"maps": "Chargement des cartes...",
 		"events": "Chargement des évènements...",
+		"provisions": "Chargement de la référence des équipements et consommables...",
 		"personalmissions": {
 			"my" : "Chargement de mes missions personnelles...",
 			"reference": "Chargement des missions personnelles..."

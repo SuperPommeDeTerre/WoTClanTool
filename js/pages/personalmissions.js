@@ -117,6 +117,7 @@
 	}, function(dataTankopediaResponse) {
 		gTankopedia = dataTankopediaResponse.data;
 		// Get equipment and consumables reference
+		advanceProgress(i18n.t('loading.provisions'));
 		$.post(gConfig.WG_API_URL + 'wot/encyclopedia/provisions/', {
 			application_id: gConfig.WG_APP_ID,
 			access_token: gConfig.ACCESS_TOKEN,

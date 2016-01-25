@@ -316,6 +316,7 @@
 		"strats": "Loading strategies...",
 		"maps": "Loading maps...",
 		"events": "Loading events...",
+		"provisions": "Loading equipments and consumables reference...",
 		"personalmissions": {
 			"my" : "Loading my personal missions data...",
 			"reference": "Loading personal missions data..."
