@@ -949,12 +949,19 @@ var onLoad = function() {
 		});
 	});
 	$("#inverseTeams").on("change", function(e) {
-		var elemsTeam1 = myCanvasContainer.find(".team1"),
-			elemsTeam2 = myCanvasContainer.find(".team2");
+		var elemsTeam1 = $('#mapContainer .team1'),
+			elemsTeam2 = $('#mapContainer .team2');
 		elemsTeam1.removeClass("team1").addClass("team2");
 		elemsTeam2.removeClass("team2").addClass("team1");
 		if (!gIsImporting) {
 			gCurrentConf.inverse = !gCurrentConf.inverse;
+		}
+	});
+	$("#chkLines").on("change", function(e) {
+		if ($(this).is(":checked")) {
+			$('#linesOverlay').show();
+		} else {
+			$('#linesOverlay').hide();
 		}
 	});
 	$(document).on("submit", "form", function(e) {
