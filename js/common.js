@@ -467,7 +467,7 @@ function fillEventDialog(pDialog, pEvents) {
 					for (var i=0; i<playerTanksAdditionalInfos.length; i++) {
 						var playerTankAdditionalInfos = playerTanksAdditionalInfos[i];
 						if (playerTankAdditionalInfos.in_garage && playerTankAdditionalInfos.is_ready) {
-							listTanksHtml += '<li><span class="playerTank" data-tank-id="' + playerTankAdditionalInfos.tank_id + '"><img src="' + gTankopedia[playerTankAdditionalInfos.tank_id].images.contour_icon + '" /><span class="label label-' + getWN8Class(playerTankAdditionalInfos.wn8) + '">' + (Math.round(playerTankAdditionalInfos.wn8 * 100) / 100) + '</span> ' + gTankopedia[playerTankAdditionalInfos.tank_id].name_i18n + '</span></li>';
+							listTanksHtml += '<li><span class="playerTank" data-tank-id="' + playerTankAdditionalInfos.tank_id + '"><img src="' + gTankopedia[playerTankAdditionalInfos.tank_id].images.contour_icon + '" /><span class="label label-' + getWN8Class(playerTankAdditionalInfos.wn8) + '">' + (Math.round(playerTankAdditionalInfos.wn8 * 100) / 100) + '</span> ' + gTankopedia[playerTankAdditionalInfos.tank_id].short_name + '</span></li>';
 						}
 					}
 					listTanksHtml += '</ul>';
