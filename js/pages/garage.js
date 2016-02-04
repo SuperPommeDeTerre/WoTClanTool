@@ -310,7 +310,7 @@ var onLoad = function() {
 											// The player owns this tanks. Process it.
 											playerTankAdditionalInfos = myElemToDisplay.owners[userId];
 											playersDetailsHtml += '<li class="list-group-item' + (myElemToDisplay.is_premium?' ispremium':'') + '">';
-											playersDetailsHtml += '<img src="' + myElemToDisplay.images.contour_icon + '"  alt="' + myElemToDisplay.short_name_i18n + '" /><span class="pull-right label label-' + getWN8Class(playerTankAdditionalInfos.wn8) + '">' + (Math.round(playerTankAdditionalInfos.wn8 * 100) / 100) + '</span>&nbsp;<span class="tankname">' + myElemToDisplay.short_name_i18n + '</span>';
+											playersDetailsHtml += '<img src="' + myElemToDisplay.images.contour_icon + '"  alt="' + myElemToDisplay.short_name + '" /><span class="pull-right label label-' + getWN8Class(playerTankAdditionalInfos.wn8) + '">' + (Math.round(playerTankAdditionalInfos.wn8 * 100) / 100) + '</span>&nbsp;<span class="tankname">' + myElemToDisplay.short_name + '</span>';
 											playersDetailsHtml += '</li>';
 											// Exit loop. We don't need to look up further owners...
 											break;
