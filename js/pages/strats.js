@@ -1833,7 +1833,7 @@ var onLoad = function() {
 							myStratsTableHtml += '&nbsp;';
 						}
 						myStratsTableHtml += '</td>';
-						myStratsTableHtml += '<td><div class="btn-group btn-group-sm" role="group"><button class="btn btn-success btnShowStrat" date-target="?action=show&amp;id=' + myStrat.id + '" data-map-name="' + myStrat.map + '" data-mode="' + myStrat.mode + '"><span class="glyphicon glyphicon-eye-open"></span></button>';
+						myStratsTableHtml += '<td><div class="btn-group btn-group-sm" role="group"><button class="btn btn-success btnShowStrat" date-target="./strats/show/' + myStrat.id + '" data-map-name="' + myStrat.map + '" data-mode="' + myStrat.mode + '"><span class="glyphicon glyphicon-eye-open"></span></button>';
 						// Only the creator can modify or delete a strategy
 						if (gConfig.PLAYER_ID == myStrat.creator) {
 							// Can modify only work in progress strats.
@@ -1946,7 +1946,7 @@ var onLoad = function() {
 								myRow += '<td class="stratdatemod">&nbsp;</td>';
 								myRow += '<td class="stratcreator">' + dataPlayers[dataSaveStratResponse.data.creator].nickname + '</td>';
 								myRow += '<td class="stratstate"><div data-toggle="tooltip" data-placement="top" class="slider shor slider-info" title="' + i18n.t('strat.state.private') + '"></div></td>';
-								myRow += '<td><div class="btn-group btn-group-sm" role="group"><button data-target="?action=show&amp;id=' + dataSaveStratResponse.data.id + '" class="btn btn-success btnShowStrat"><span class="glyphicon glyphicon-eye-open"></span></button> <button data-target="#" class="btn btn-info btnEditStrat"><span class="glyphicon glyphicon-edit"></span></button> <button data-target="#" class="btn btn-danger btnDeleteStrat"><span class="glyphicon glyphicon-trash"></span></button></div></td>';
+								myRow += '<td><div class="btn-group btn-group-sm" role="group"><button data-target="/show/id=' + dataSaveStratResponse.data.id + '" class="btn btn-success btnShowStrat"><span class="glyphicon glyphicon-eye-open"></span></button> <button data-target="#" class="btn btn-info btnEditStrat"><span class="glyphicon glyphicon-edit"></span></button> <button data-target="#" class="btn btn-danger btnDeleteStrat"><span class="glyphicon glyphicon-trash"></span></button></div></td>';
 								myRow += '</tr>';
 								myRow = $(myRow);
 								applyShorBehavior(myRow.find('.shor'));

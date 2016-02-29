@@ -284,7 +284,7 @@ switch ($_REQUEST['a']) {
 		$result .= '<p class="eventMapSize"></p>';
 		$result .= '<p class="eventMapType"></p>';
 		if (!$isReadOnly) {
-			$result .= '<p class="eventStrategy" data-stratid="' . $myEvent->getStrategyId() . '"><a href="./strats.php?action=show&amp;id=' . $myEvent->getStrategyId() . '"></a></p>';
+			$result .= '<p class="eventStrategy" data-stratid="' . $myEvent->getStrategyId() . '"><a href="./strats/show/id=' . $myEvent->getStrategyId() . '"></a></p>';
 		}
 		$result .= '</div>';
 		$result .= '<div class="clearfix"></div>';

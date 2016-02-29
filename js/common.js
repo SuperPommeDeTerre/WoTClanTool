@@ -47,7 +47,7 @@ function fillEventDialog(pDialog, pEvents) {
 			gDisplayPanel.find('.eventMapType').text(i18n.t('strat.camos.title') + ': ' + i18n.t('strat.camos.' + myMapInfos.camo));
 			myStratLinkContainer.data('stratid', pStratProps.strategyId);
 			if (pStratProps.strategyId != -1 && pStratProps.strategyId != '') {
-				myStratLinkContainer.show().children().text(i18n.t('event.strat')).attr('href', './strats.php?action=show&id=' + pStratProps.strategyId);
+				myStratLinkContainer.show().children().text(i18n.t('event.strat')).attr('href', './strats/show/' + pStratProps.strategyId);
 			} else {
 				myStratLinkContainer.hide();
 			}
@@ -108,7 +108,7 @@ function fillEventDialog(pDialog, pEvents) {
 		gDisplayPanel.find('.eventMapType').text(i18n.t('strat.camos.title') + ': ' + i18n.t('strat.camos.' + myMapInfos.camo));
 		if ((typeof(myStratLinkContainer.data('stratid')) === 'number' && myStratLinkContainer.data('stratid') != -1)
 				|| (typeof(myStratLinkContainer.data('stratid')) !== 'number' && myStratLinkContainer.data('stratid') != '-1' && myStratLinkContainer.data('stratid') != '')) {
-			myStratLinkContainer.show().children().text(i18n.t('event.strat')).attr('href', './strats.php?action=show&id=' + myStratLinkContainer.data('stratid'));
+			myStratLinkContainer.show().children().text(i18n.t('event.strat')).attr('href', './strats/show/' + myStratLinkContainer.data('stratid'));
 		} else {
 			myStratLinkContainer.hide();
 		}
@@ -224,13 +224,35 @@ function fillEventDialog(pDialog, pEvents) {
 				curStratId = gDisplayPanel.find('.eventStrategy').data('stratid');
 			modifyPanelHtml += '<input id="modifyEventTitle" type="text" class="form-control" placeholder="' + i18n.t('action.calendar.prop.title') + '" aria-describedby="sizing-addon1" value="' + pDialog.find('.modal-header h3 .eventTitle').text() + '" />';
 			modifyPanelHtml += '<textarea id="modifyEventDescription" class="form-control" placeholder="' + i18n.t('action.calendar.prop.description') + '" aria-describedby="sizing-addon1">' + pDialog.find('.eventDescription').text() + '</textarea>';
-			modifyPanelHtml += '<div class="input-group date eventDateTimePicker" id="modifyEventStartDate">';
-			modifyPanelHtml += '<input type="text" class="form-control" placeholder="' + i18n.t('action.calendar.prop.startdate') + '" value="' + gEventStartDate.format('LLL') + '" />';
+			modifyPanelHtml += '<div class="container-fluid">';
+			modifyPanelHtml += '<div class="row">';
+			modifyPanelHtml += '<div class="col-xs-6">';
+			modifyPanelHtml += '<div class="input-group date eventDatePicker" id="modifyEventStartDate">';
+			modifyPanelHtml += '<input type="text" class="form-control" placeholder="' + i18n.t('action.calendar.prop.startdate') + '" value="' + gEventStartDate.format('LL') + '" />';
 			modifyPanelHtml += '<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>';
 			modifyPanelHtml += '</div>';
-			modifyPanelHtml += '<div class="input-group date eventDateTimePicker" id="modifyEventEndDate">';
-			modifyPanelHtml += '<input type="text" class="form-control" placeholder="' + i18n.t('action.calendar.prop.enddate') + '" value="' + gEventEndDate.format('LLL') + '" />';
+			modifyPanelHtml += '</div>';
+			modifyPanelHtml += '<div class="col-xs-6">';
+			modifyPanelHtml += '<div class="input-group date eventTimePicker" id="modifyEventStartTime">';
+			modifyPanelHtml += '<input type="text" class="form-control" placeholder="' + i18n.t('action.calendar.prop.starttime') + '" value="' + gEventStartDate.format('LT') + '" />';
+			modifyPanelHtml += '<span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>';
+			modifyPanelHtml += '</div>';
+			modifyPanelHtml += '</div>';
+			modifyPanelHtml += '</div>';
+			modifyPanelHtml += '<div class="row">';
+			modifyPanelHtml += '<div class="col-xs-6">';
+			modifyPanelHtml += '<div class="input-group date eventDatePicker hidden" id="modifyEventEndDate">';
+			modifyPanelHtml += '<input type="text" class="form-control" placeholder="' + i18n.t('action.calendar.prop.enddate') + '" value="' + gEventEndDate.format('LL') + '" />';
 			modifyPanelHtml += '<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>';
+			modifyPanelHtml += '</div>';
+			modifyPanelHtml += '</div>';
+			modifyPanelHtml += '<div class="col-xs-6">';
+			modifyPanelHtml += '<div class="input-group date eventTimePicker" id="modifyEventEndTime">';
+			modifyPanelHtml += '<input type="text" class="form-control" placeholder="' + i18n.t('action.calendar.prop.endtime') + '" value="' + gEventEndDate.format('LT') + '" />';
+			modifyPanelHtml += '<span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>';
+			modifyPanelHtml += '</div>';
+			modifyPanelHtml += '</div>';
+			modifyPanelHtml += '</div>';
 			modifyPanelHtml += '</div>';
 			modifyPanelHtml += '<div class="togglebutton">';
 			modifyPanelHtml += '<label><span>' + i18n.t('action.calendar.prop.allowspare') + '</span>';
@@ -274,19 +296,58 @@ function fillEventDialog(pDialog, pEvents) {
 			gModifyPanel.html(modifyPanelHtml);
 			$.material.init(gModifyPanel);
 			// Init date time pickers
-			gModifyPanel.find('.eventDateTimePicker').datetimepicker({
+			gModifyPanel.find('#modifyEventStartDate').datetimepicker({
 				locale: gConfig.LANG,
-				stepping: 5,
-				format: 'LLL',
-				sideBySide: true,
-				minDate: moment()
+				format: 'LL',
+				defaultDate: gEventStartDate
 			});
+			gModifyPanel.find('#modifyEventEndDate').datetimepicker({
+				locale: gConfig.LANG,
+				format: 'LL',
+				defaultDate: gEventEndDate
+			});
+			gModifyPanel.find('#modifyEventStartTime').datetimepicker({
+				locale: gConfig.LANG,
+				format: 'LT',
+				defaultDate: gEventStartDate
+			});
+			gModifyPanel.find('#modifyEventEndTime').datetimepicker({
+				locale: gConfig.LANG,
+				format: 'LT',
+				defaultDate: gEventEndDate
+			});
+
 			// Handle min and max dates
-			gModifyPanel.find('#modifyEventStartDate').on('dp.change', function (e) {
-				gModifyPanel.find('#modifyEventEndDate').data('DateTimePicker').minDate(e.date);
-			});
-			gModifyPanel.find('#modifyEventEndDate').on('dp.change', function (e) {
-				gModifyPanel.find('#modifyEventStartDate').data('DateTimePicker').maxDate(e.date);
+			gModifyPanel.find('#modifyEventStartDate').on('dp.change', function(e) {
+				if ($(this).val() == '') {
+					gModifyPanel.find('#modifyEventEndDate').data('DateTimePicker').minDate($(this).data('DateTimePicker').date());
+				} else {
+					gModifyPanel.find('#modifyEventEndDate').data('DateTimePicker').minDate(e.date);
+				}
+			}).trigger('dp.change');
+			gModifyPanel.find('#modifyEventEndDate').on('dp.change', function(e) {
+				if ($(this).val() == '') {
+					gModifyPanel.find('#modifyEventStartDate').data('DateTimePicker').maxDate(false);
+				} else {
+					gModifyPanel.find('#modifyEventStartDate').data('DateTimePicker').maxDate(e.date);
+				}
+			}).trigger('dp.change');
+			gModifyPanel.find('#modifyEventStartTime').on('dp.change', function(e) {
+				if ($(this).val() == '') {
+					gModifyPanel.find('#modifyEventEndTime').data('DateTimePicker').minDate($(this).data('DateTimePicker').date());
+				} else {
+					gModifyPanel.find('#modifyEventEndTime').data('DateTimePicker').minDate(e.date);
+				}
+			}).trigger('dp.change');
+			gModifyPanel.find('#modifyEventEndTime').on('dp.change', function(e) {
+				if ($(this).val() == '') {
+					gModifyPanel.find('#modifyEventStartTime').data('DateTimePicker').maxDate(false);
+				} else {
+					gModifyPanel.find('#modifyEventStartTime').data('DateTimePicker').maxDate(e.date);
+				}
+			}).trigger('dp.change');
+			gModifyPanel.find('#modifyEventStartDate input, #modifyEventEndDate input, #modifyEventStartTime input, #modifyEventEndTime input').on('focus', function(evt) {
+				$(this).closest('.date').data('DateTimePicker').show();
 			});
 			gModifyPanel.find('#modifyEventMapName').on('change', function(evt) {
 				var stratsSelect = $('#modifyEventStrategy');
@@ -294,7 +355,7 @@ function fillEventDialog(pDialog, pEvents) {
 					var mySelect = $(this),
 						myMapInfos = gMaps[mySelect.val()],
 						myMapThumb = myMapInfos.file.substring(0, myMapInfos.file.lastIndexOf('.')) + '_thumb' + myMapInfos.file.substring(myMapInfos.file.lastIndexOf('.'));
-					mySelect.next().attr('src', './res/wot/maps/' + myMapThumb).attr('alt', i18n.t('strat.maps.' + mySelect.val()));
+					mySelect.parent().next().attr('src', './res/wot/maps/' + myMapThumb).attr('alt', i18n.t('strat.maps.' + mySelect.val()));
 					$.post('./server/strat.php', {
 						action: 'list',
 						filtername: 'valid'
@@ -322,6 +383,18 @@ function fillEventDialog(pDialog, pEvents) {
 			gModifyPanel.find('#modifyEventOk').on('click', function(evt) {
 				// Prevent default action of button
 				evt.preventDefault();
+				var lStartDate = gModifyPanel.find('#modifyEventStartDate').data('DateTimePicker').date(),
+					lStartTime = gModifyPanel.find('#modifyEventStartTime').data('DateTimePicker').date(),
+					lEndDate = gModifyPanel.find('#modifyEventEndDate').data('DateTimePicker').date(),
+					lEndTime = gModifyPanel.find('#modifyEventEndTime').data('DateTimePicker').date(),
+					startDateToSent = lStartDate,
+					endDateToSent = lEndDate;
+				// Compute start and end final dates.
+				startDateToSent = startDateToSent.hour(lStartTime.hour());
+				startDateToSent = startDateToSent.minute(lStartTime.minute());
+				endDateToSent = moment(lStartDate);
+				endDateToSent = endDateToSent.hour(lEndTime.hour());
+				endDateToSent = endDateToSent.minute(lEndTime.minute());
 				// Post data to server
 				$.post('./server/calendar.php', {
 					a: 'save',
@@ -329,8 +402,8 @@ function fillEventDialog(pDialog, pEvents) {
 					eventTitle: $('#modifyEventTitle').val(),
 					eventType: $('[name=modifyEventType]:checked').val(),
 					eventDescription: $('#modifyEventDescription').val(),
-					eventStartDate: moment($('#modifyEventStartDate input').val(), 'LLL').unix(),
-					eventEndDate: moment($('#modifyEventEndDate input').val(), 'LLL').unix(),
+					eventStartDate: startDateToSent.unix(),
+					eventEndDate: endDateToSent.unix(),
 					eventAllowSpare: $('#modifyEventSpareAllowed').is(':checked'),
 					eventMapName: $('#modifyEventMapName').val(),
 					eventStrategyId: $('#modifyEventStrategy').val()

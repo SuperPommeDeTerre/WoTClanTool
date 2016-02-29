@@ -82,20 +82,36 @@ var onLoad = function() {
 		minDate: moment()
 	});
 	// Handle min and max dates
-	$('#eventStartDate').on('dp.change', function (e) {
-		$('#eventEndDate').data('DateTimePicker').minDate(e.date);
-	});
-	$('#eventEndDate').on('dp.change', function (e) {
-		$('#eventStartDate').data('DateTimePicker').maxDate(e.date);
-	});
-	$('#eventStartTime').on('dp.change', function (e) {
-		$('#eventEndTime').data('DateTimePicker').minDate(e.date);
-	});
-	$('#eventEndTime').on('dp.change', function (e) {
-		$('#eventStartTime').data('DateTimePicker').maxDate(e.date);
-	});
+	$('#eventStartDate').on('dp.change', function(e) {
+		if ($(this).val() == '') {
+			$('#eventEndDate').data('DateTimePicker').minDate($(this).data('DateTimePicker').date());
+		} else {
+			$('#eventEndDate').data('DateTimePicker').minDate(e.date);
+		}
+	}).trigger('dp.change');
+	$('#eventEndDate').on('dp.change', function(e) {
+		if ($(this).val() == '') {
+			$('#eventStartDate').data('DateTimePicker').maxDate(false);
+		} else {
+			$('#eventStartDate').data('DateTimePicker').maxDate(e.date);
+		}
+	}).trigger('dp.change');
+	$('#eventStartTime').on('dp.change', function(e) {
+		if ($(this).val() == '') {
+			$('#eventEndTime').data('DateTimePicker').minDate($(this).data('DateTimePicker').date());
+		} else {
+			$('#eventEndTime').data('DateTimePicker').minDate(e.date);
+		}
+	}).trigger('dp.change');
+	$('#eventEndTime').on('dp.change', function(e) {
+		if ($(this).val() == '') {
+			$('#eventStartTime').data('DateTimePicker').maxDate(false);
+		} else {
+			$('#eventStartTime').data('DateTimePicker').maxDate(e.date);
+		}
+	}).trigger('dp.change');
 	$('#eventStartDate input, #eventEndDate input, #eventStartTime input, #eventEndTime input').on('focus', function(evt) {
-		$(this).parent().data('DateTimePicker').show();
+		$(this).closest('.date').data('DateTimePicker').show();
 	});
 	var periodicityDaysHtml = '',
 		dayOfWeek = moment().startOf('week'),
