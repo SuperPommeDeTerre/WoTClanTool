@@ -264,7 +264,7 @@ switch ($_REQUEST['action']) {
 		}
 		foreach ($playerIds as $userId) {
 			$userFile = getUserFile($userId);
-			$playerVacancies[$userId] = [];
+			$playerVacancies[$userId] = array();
 			if (file_exists($userFile)) {
 				$playerInfos = file_get_contents($userFile);
 				$playerInfos = json_decode($playerInfos, true);
