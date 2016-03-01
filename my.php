@@ -49,21 +49,32 @@ include(WCT_INC_DIR . 'ads.php');
 			<h3 class="page-header"><span class="glyphicon glyphicon-send"></span> <span data-i18n="elems.vacancies"></span></h3>
 			<div id="myVacancies">
 				<p id="noVacancy" data-i18n="vacancy.novacancy"></p>
-				<div class="table-responsive" id="myVacanciesTableContainer">
-					<table class="table table-hover header-fixed" id="myVacanciesTable" data-sortable="true">
-						<thead>
-							<tr>
-								<th class="startdate" data-i18n="event.startdate"></th>
-								<th class="enddate" data-i18n="event.enddate"></th>
-								<th class="reason" data-i18n="vacancy.reason"></th>
-								<th class="delete" data-sortable="false">&nbsp;</th>
-							</tr>
-						</thead>
-						<tbody>
-						</tbody>
-					</table>
+				<div class="row">
+					<div class="togglebutton togglebutton-info pull-right">
+						<label><span data-i18n="vacancy.showpast"></span>
+							<input type="checkbox" id="chkPastVacancies" />
+						</label>
+					</div>
 				</div>
-				<button type="button" id="btnAddVacancy" class="btn btn-default btn-material-grey-500" data-target="#vacancy-dialog" data-toggle="modal"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <span data-i18n="vacancy.add"></span></button>
+				<div class="row">
+					<div class="table-responsive" id="myVacanciesTableContainer">
+						<table class="table table-hover header-fixed" id="myVacanciesTable" data-sortable="true">
+							<thead>
+								<tr>
+									<th class="startdate" data-i18n="event.startdate"></th>
+									<th class="enddate" data-i18n="event.enddate"></th>
+									<th class="reason" data-i18n="vacancy.reason"></th>
+									<th class="delete" data-sortable="false">&nbsp;</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="row">
+					<button type="button" id="btnAddVacancy" class="btn btn-default btn-material-grey-500" data-target="#vacancy-dialog" data-toggle="modal"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <span data-i18n="vacancy.add"></span></button>
+				</div>
 			</div>
 			<h2 class="sub-header" id="garage"><span class="glyphicon glyphicon-oil"></span> <span data-i18n="elems.garage"></span></h2>
 			<div class="btn-group" role="group">
@@ -110,7 +121,7 @@ include(WCT_INC_DIR . 'ads.php');
 						</ul>
 					</div>
 				</div>
-				<div class="togglebutton togglebutton-info pull-left"style="margin-top: 0.75em">
+				<div class="togglebutton togglebutton-info pull-left" style="margin-top: 0.75em">
 					<label><span data-i18n="filter.tank.in_garage"></span>
 						<input type="checkbox" id="chkInGarage" checked="checked" />
 					</label>
@@ -250,7 +261,7 @@ include(WCT_INC_DIR . 'ads.php');
 	</div>
 </div>
 <div class="modal fade" id="vacancy-dialog">
-	<div class="modal-dialog modal-lg">
+	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>

@@ -239,6 +239,7 @@ switch ($_REQUEST['action']) {
 					if ($vacancy['startdate'] == $_REQUEST['startdate'] && $vacancy['enddate'] == $_REQUEST['enddate']) {
 						// Vacancy found. Delete it.
 						$isVacancyDeleted = true;
+						$result['data'] = $vacancy;
 					} else {
 						$playerVacanciesToStore[] = $vacancy;
 					}

@@ -249,7 +249,8 @@
 	"vacancy": {
 		"novacancy": "Aucune absence prévue.",
 		"add": "Ajouter une absence",
-		"reason": "Raison"
+		"reason": "Raison",
+		"showpast": "Afficher les absences passées"
 	},
 	"event": {
 		"title": "Titre",

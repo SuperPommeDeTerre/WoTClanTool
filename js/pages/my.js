@@ -219,17 +219,17 @@ var onLoad = function() {
 							myVacancy = dataMyVacancies[myVacancyIndex];
 							additionalClass = '';
 							if (myCurrentTime > myVacancy.enddate) {
-								additionalClass = ' class="past"';
+								additionalClass = ' class="past warning hidden"';
 							} else if (myCurrentTime < myVacancy.startdate) {
 								additionalClass = ' class="future"';
 							} else {
-								additionalClass = ' class="present"';
+								additionalClass = ' class="present success"';
 							}
 							myVacanciesContent += '<tr' + additionalClass + '>';
-							myVacanciesContent += '<td data-value="' + myVacancy.startdate + '">' + moment.unix(myVacancy.startdate).format('LL') + '</td>';
-							myVacanciesContent += '<td data-value="' + myVacancy.enddate + '">' + moment.unix(myVacancy.enddate).format('LL') + '</td>';
+							myVacanciesContent += '<td class="startdate" data-value="' + myVacancy.startdate + '">' + moment.unix(myVacancy.startdate).format('LL') + '</td>';
+							myVacanciesContent += '<td class="enddate" data-value="' + myVacancy.enddate + '">' + moment.unix(myVacancy.enddate).format('LL') + '</td>';
 							myVacanciesContent += '<td>' + myVacancy.reason + '</td>';
-							myVacanciesContent += '<td><button type="button" class="btn btn-danger btnRemoveVacancy"><span class="glyphicon glyphicon-remove"></span></button></td>';
+							myVacanciesContent += '<td><a href="/vacancy/' + myVacancy.startdate + '/' + myVacancy.enddate + '/delete" class="btn btn-danger btn-xs btnRemoveVacancy"><span class="glyphicon glyphicon-remove"></span></a></td>';
 							myVacanciesContent += '</tr>';
 						}
 						myVacanciesTable.find("tbody").append(myVacanciesContent);
@@ -258,35 +258,59 @@ var onLoad = function() {
 					$('#vacancyStartDate input, #vacancyEndDate input').on('focus', function(evt) {
 						$(this).closest('.date').data('DateTimePicker').show();
 					});
+					$('#chkPastVacancies').on('change', function(e) {
+						if ($(this).is(':checked')) {
+							myVacanciesTable.find('.past').removeClass('hidden');
+						} else {
+							myVacanciesTable.find('.past').addClass('hidden');
+						}
+					});
 					$('#btnVacancyOk').on('click', function(e) {
 						e.preventDefault();
 						myNoVacancy.hide();
-						var myVacanciesContent = '';
+						var myVacanciesContent = '',
+							myCurrentTime = moment().unix(),
+							additionalClass = '',
+							myVacancyStartDate = $('#vacancyStartDate').data('DateTimePicker').date().startOf('day'),
+							myVacancyEndDate = $('#vacancyEndDate').data('DateTimePicker').date().endOf('day'),
+							myVacancyReason = $('#vacancyReason').val();
 						$.post('./server/player.php', {
 							'action': 'addvacancy',
-							'startdate': $('#vacancyStartDate').data('DateTimePicker').date().unix(),
-							'enddate': $('#vacancyEndDate').data('DateTimePicker').date().unix(),
-							'reason': $('#vacancyReason').val()
+							'startdate': myVacancyStartDate.unix(),
+							'enddate': myVacancyEndDate.unix(),
+							'reason': myVacancyReason
 						}, function(addVacancyResult) {
-							myVacanciesContent += '<tr>';
-							myVacanciesContent += '<td data-value="' + $('#vacancyStartDate').data('DateTimePicker').date().unix() + '">' + $('#vacancyStartDate').data('DateTimePicker').date().format('LL') + '</td>';
-							myVacanciesContent += '<td data-value="' + $('#vacancyEndDate').data('DateTimePicker').date().unix() + '">' + $('#vacancyEndDate').data('DateTimePicker').date().format('LL') + '</td>';
-							myVacanciesContent += '<td>' + $('#vacancyReason').val() + '</td>';
-							myVacanciesContent += '<td><button type="button" class="btn btn-danger btnRemoveVacancy"><span class="glyphicon glyphicon-remove"></span></button></td>';
+							additionalClass = '';
+							if (myCurrentTime > myVacancyEndDate.unix()) {
+								additionalClass = ' class="past warning hidden"';
+							} else if (myCurrentTime < myVacancyStartDate.unix()) {
+								additionalClass = ' class="future"';
+							} else {
+								additionalClass = ' class="present success"';
+							}
+							myVacanciesContent += '<tr' + additionalClass + '>';
+							myVacanciesContent += '<td class="startdate" data-value="' + myVacancyStartDate.unix() + '">' + myVacancyStartDate.format('LL') + '</td>';
+							myVacanciesContent += '<td class="enddate" data-value="' + myVacancyEndDate.unix() + '">' + myVacancyEndDate.format('LL') + '</td>';
+							myVacanciesContent += '<td>' + myVacancyReason + '</td>';
+							myVacanciesContent += '<td><a href="/vacancy/' + myVacancyStartDate.unix() + '/' + myVacancyEndDate.unix() + '/delete" class="btn btn-danger btn-xs btnRemoveVacancy"><span class="glyphicon glyphicon-remove"></span></a></td>';
 							myVacanciesContent += '</tr>';
 							myVacanciesTable.find('tbody').append(myVacanciesContent);
+							$('#chkPastVacancies').trigger('change');
 							myVacanciesTable.show();
 							$('#vacancy-dialog').modal('hide');
 						}, 'json');
 					});
 					myVacanciesTable.on('click', '.btnRemoveVacancy', function(e) {
-						var myBtn = $(this);
+						var myBtn = $(this),
+							myLine = myBtn.closest('tr'),
+							myVacancyStartDate = myLine.find('td.startdate').data('value'),
+							myVacancyEndDate = myLine.find('td.enddate').data('value');
 						e.preventDefault();
 						$.post('./server/player.php', {
 							'action': 'delvacancy',
-							'startdate': $('#vacancyStartDate').data('DateTimePicker').date().unix(),
-							'enddate': $('#vacancyEndDate').data('DateTimePicker').date().unix()
-						}, function(addVacancyResponse) {
+							'startdate': myVacancyStartDate,
+							'enddate': myVacancyEndDate
+						}, function(delVacancyResponse) {
 							myBtn.closest('tr').remove();
 							if (myVacanciesTable.find('tbody tr').length == 0) {
 								myVacanciesTable.hide();

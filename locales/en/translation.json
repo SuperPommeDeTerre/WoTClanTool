@@ -247,7 +247,8 @@
 	},
 	"vacancy": {
 		"novacancy": "No vacancy planned.",
-		"add": "Add vacancy"
+		"add": "Add vacancy",
+		"showpast": "Show past vacancies"
 	},
 	"event": {
 		"title": "Title",
