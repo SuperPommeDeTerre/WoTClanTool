@@ -35,6 +35,7 @@ include(WCT_INC_DIR . 'ads.php');
 			<h3 id="agendaTitle"></h3>
 			<div id="clanCalendar"></div>
 			<div style="text-align:center"><a class="btn btn-lg btn-primary btn-material-grey-500" href="#" role="button" id="addEvent" data-id="-1" data-target="#eventDialog" data-toggle="modal"><span class="mdi-action-alarm-add" aria-hidden="true"></span> <span data-i18n="action.event.add"></span></a></div>
+			<h2 class="page-header"><span class="glyphicon glyphicon-send"></span> <span data-i18n="elems.vacancies"></span></h2>
 		</div>
 	</div>
 </div>

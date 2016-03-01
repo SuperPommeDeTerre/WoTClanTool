@@ -195,7 +195,8 @@
 		"stats": "Statistiques",
 		"personalmissions": "Missions personnelles",
 		"players": "Joueurs",
-		"garage": "Garage"
+		"garage": "Garage",
+		"vacancies": "Absences"
 	},
 	"action": {
 		"identification": "Se connecter",
@@ -244,6 +245,11 @@
 		"modify": "Modifier",
 		"delete": "Supprimer",
 		"exportcsv": "Exporter en CSV"
+	},
+	"vacancy": {
+		"novacancy": "Aucune absence prévue.",
+		"add": "Ajouter une absence",
+		"reason": "Raison"
 	},
 	"event": {
 		"title": "Titre",
@@ -318,6 +324,7 @@
 		"maps": "Chargement des cartes...",
 		"events": "Chargement des évènements...",
 		"provisions": "Chargement de la référence des équipements et consommables...",
+		"getvacancies": "Chargement des absences...",
 		"personalmissions": {
 			"my" : "Chargement de mes missions personnelles...",
 			"reference": "Chargement des missions personnelles..."

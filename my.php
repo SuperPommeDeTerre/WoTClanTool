@@ -46,6 +46,25 @@ include(WCT_INC_DIR . 'ads.php');
 					</div>
 				</div>
 			</div>
+			<h3 class="page-header"><span class="glyphicon glyphicon-send"></span> <span data-i18n="elems.vacancies"></span></h3>
+			<div id="myVacancies">
+				<p id="noVacancy" data-i18n="vacancy.novacancy"></p>
+				<div class="table-responsive" id="myVacanciesTableContainer">
+					<table class="table table-hover header-fixed" id="myVacanciesTable" data-sortable="true">
+						<thead>
+							<tr>
+								<th class="startdate" data-i18n="event.startdate"></th>
+								<th class="enddate" data-i18n="event.enddate"></th>
+								<th class="reason" data-i18n="vacancy.reason"></th>
+								<th class="delete" data-sortable="false">&nbsp;</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+				<button type="button" id="btnAddVacancy" class="btn btn-default btn-material-grey-500" data-target="#vacancy-dialog" data-toggle="modal"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <span data-i18n="vacancy.add"></span></button>
+			</div>
 			<h2 class="sub-header" id="garage"><span class="glyphicon glyphicon-oil"></span> <span data-i18n="elems.garage"></span></h2>
 			<div class="btn-group" role="group">
 				<button type="button" id="btnShowTanksTable" class="btn btn-default btn-material-grey-500 active"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span></button>
@@ -226,6 +245,31 @@ include(WCT_INC_DIR . 'ads.php');
 			</div>
 			<div class="modal-footer">
 				<a href="#" data-dismiss="modal" class="btn" data-i18n="btn.close"></a>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="vacancy-dialog">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h3 data-i18n="vacancy.add"></h3>
+			</div>
+			<div class="modal-body">
+				<div class="input-group date eventDatePicker" id="vacancyStartDate">
+					<input type="text" class="form-control" data-i18n="[placeholder]event.startdate;" />
+					<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+				</div>
+				<div class="input-group date eventDatePicker" id="vacancyEndDate">
+					<input type="text" class="form-control" data-i18n="[placeholder]event.enddate;" />
+					<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+				</div>
+				<textarea id="vacancyReason" class="form-control" data-i18n="[placeholder]action.calendar.prop.description;" aria-describedby="sizing-addon1"></textarea>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-default" data-dismiss="modal" data-i18n="btn.cancel"></button>
+				<button class="btn btn-primary" id="btnVacancyOk" data-i18n="btn.ok"></button>
 			</div>
 		</div>
 	</div>

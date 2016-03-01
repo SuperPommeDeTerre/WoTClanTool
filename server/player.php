@@ -105,6 +105,12 @@ switch ($_REQUEST['action']) {
 			} else {
 				$playerTanksStats[$userId] = array();
 			}
+			$playerVacancies = array();
+			if (array_key_exists('tankstats', $playerTanksStats[$userId])) {
+				// Store vacancies to preserve them.
+				$playerVacancies = $playerTanksStats[$userId]['vacancies'];
+				$playerTanksStats[$userId] = $playerTanksStats[$userId]['tankstats'];
+			}
 			$playerTanksStatsToStore[$userId] = array();
 			if ($doParseData) {
 				$doCalcWN8 = false;
@@ -160,7 +166,8 @@ switch ($_REQUEST['action']) {
 					}
 				}
 				$myfile = fopen($userFile, 'w') or die('Unable to open file!');
-				fwrite($myfile, json_encode($playerTanksStatsToStore[$userId]));
+				$playerInfos = array('vacancies' => $playerVacancies, 'tankstats' => $playerTanksStatsToStore[$userId]);
+				fwrite($myfile, json_encode($playerInfos));
 				fclose($myfile);
 			}
 		}
@@ -174,6 +181,10 @@ switch ($_REQUEST['action']) {
 		$playerTanksStats = file_get_contents($userFile);
 		$playerTanksStats = json_decode($playerTanksStats, true);
 		$playerTanksStats = is_array($playerTanksStats) ? $playerTanksStats : array($playerTanksStats);
+		// Handle file version format
+		if (array_key_exists('tankstats', $playerTanksStats)) {
+			$playerTanksStats = $playerTanksStats['tankstats'];
+		}
 		foreach ($playerTanksStats as &$valueStored) {
 			if ($valueStored['tank_id'] == $tankId) {
 				if (isset($_REQUEST['is_full'])) {
@@ -189,6 +200,80 @@ switch ($_REQUEST['action']) {
 		$myfile = fopen($userFile, 'w') or die('Unable to open file!');
 		fwrite($myfile, json_encode($playerTanksStats));
 		fclose($myfile);
+		break;
+	case 'addvacancy':
+		// Define vacancy for player
+		if (array_key_exists('startdate', $_REQUEST) && array_key_exists('enddate', $_REQUEST)) {
+			$playerVacancies = array();
+			$playerTankStats = array();
+			$playerInfos = file_get_contents($userFile);
+			$playerInfos = json_decode($playerInfos, true);
+			$playerInfos = is_array($playerInfos) ? $playerInfos : array($playerInfos);
+			// Handle file version format
+			if (array_key_exists('vacancies', $playerInfos)) {
+				$playerVacancies = $playerInfos['vacancies'];
+				$playerTankStats = $playerInfos['tankstats'];
+			}
+			array_push($playerVacancies, array('startdate' => $_REQUEST['startdate'], 'enddate' => $_REQUEST['enddate'], 'reason' => $_REQUEST['reason']));
+			// Persist data
+			$myfile = fopen($userFile, 'w') or die('Unable to open file!');
+			fwrite($myfile, json_encode(array('vacancies' => $playerVacancies, 'tankstats' => $playerTankStats)));
+			fclose($myfile);
+		}
+		break;
+	case 'delvacancy':
+		// Define vacancy for player
+		if (array_key_exists('startdate', $_REQUEST) && array_key_exists('enddate', $_REQUEST)) {
+			$playerVacancies = array();
+			$playerTankStats = array();
+			$playerInfos = file_get_contents($userFile);
+			$playerInfos = json_decode($playerInfos, true);
+			$playerInfos = is_array($playerInfos) ? $playerInfos : array($playerInfos);
+			$isVacancyDeleted = false;
+			// Handle file version format
+			if (array_key_exists('vacancies', $playerInfos)) {
+				$playerVacancies = $playerInfos['vacancies'];
+				$playerVacanciesToStore = array();
+				$playerTankStats = $playerInfos['tankstats'];
+				foreach ($playerVacancies as $vacancy) {
+					if ($vacancy['startdate'] == $_REQUEST['startdate'] && $vacancy['enddate'] == $_REQUEST['enddate']) {
+						// Vacancy found. Delete it.
+						$isVacancyDeleted = true;
+					} else {
+						$playerVacanciesToStore[] = $vacancy;
+					}
+				}
+			}
+			// Persist data
+			if ($isVacancyDeleted == true) {
+				$myfile = fopen($userFile, 'w') or die('Unable to open file!');
+				fwrite($myfile, json_encode(array('vacancies' => $playerVacanciesToStore, 'tankstats' => $playerTankStats)));
+				fclose($myfile);
+			}
+		}
+		break;
+	case 'getvacancies':
+		// Get vacancies for player(s)
+		$playerIds = array();
+		$playerVacancies = array();
+		if (array_key_exists('account_id', $_REQUEST)) {
+			$playerIds = explode(',', $_REQUEST['account_id']);
+		} else {
+			$playerIds[] = $_SESSION['account_id'];
+		}
+		foreach ($playerIds as $userId) {
+			$userFile = getUserFile($userId);
+			$playerVacancies[$userId] = [];
+			if (file_exists($userFile)) {
+				$playerInfos = file_get_contents($userFile);
+				$playerInfos = json_decode($playerInfos, true);
+				$playerInfos = is_array($playerInfos) ? $playerInfos : array($playerInfos);
+				if (array_key_exists('vacancies', $playerInfos)) {
+					$playerVacancies[$userId] = $playerInfos['vacancies'];
+				}
+			}
+		}
+		$result['data'] = $playerVacancies;
 		break;
 }
 $result['result'] = 'ok';

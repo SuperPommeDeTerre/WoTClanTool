@@ -199,6 +199,104 @@ var onLoad = function() {
 				'action': 'gettanksstats',
 				'data': JSON.stringify(dataMyTanks)
 			}, function(dataMyTanksResponse) {
+				advanceProgress(i18n.t('loading.getvacancies'));
+				$.post('./server/player.php', {
+					'action': 'getvacancies'
+				}, function(dataMyVacanciesResponse) {
+					var dataMyVacancies = dataMyVacanciesResponse.data[gConfig.PLAYER_ID],
+						myVacanciesTable = $('#myVacanciesTableContainer'),
+						myNoVacancy = $('#noVacancy');
+					if (dataMyVacancies == null || dataMyVacancies.length == 0) {
+						myVacanciesTable.hide();
+						myNoVacancy.show();
+					} else {
+						myNoVacancy.hide();
+						var myVacanciesContent = '',
+							myCurrentTime = moment().unix(),
+							myVacancy = null,
+							additionalClass = '';
+						for (var myVacancyIndex in dataMyVacancies) {
+							myVacancy = dataMyVacancies[myVacancyIndex];
+							additionalClass = '';
+							if (myCurrentTime > myVacancy.enddate) {
+								additionalClass = ' class="past"';
+							} else if (myCurrentTime < myVacancy.startdate) {
+								additionalClass = ' class="future"';
+							} else {
+								additionalClass = ' class="present"';
+							}
+							myVacanciesContent += '<tr' + additionalClass + '>';
+							myVacanciesContent += '<td data-value="' + myVacancy.startdate + '">' + moment.unix(myVacancy.startdate).format('LL') + '</td>';
+							myVacanciesContent += '<td data-value="' + myVacancy.enddate + '">' + moment.unix(myVacancy.enddate).format('LL') + '</td>';
+							myVacanciesContent += '<td>' + myVacancy.reason + '</td>';
+							myVacanciesContent += '<td><button type="button" class="btn btn-danger btnRemoveVacancy"><span class="glyphicon glyphicon-remove"></span></button></td>';
+							myVacanciesContent += '</tr>';
+						}
+						myVacanciesTable.find("tbody").append(myVacanciesContent);
+						myVacanciesTable.show();
+					}
+					$('.eventDatePicker').datetimepicker({
+						locale: gConfig.LANG,
+						format: 'LL',
+						minDate: moment()
+					});
+					// Handle min and max dates
+					$('#vacancyStartDate').on('dp.change', function(e) {
+						if ($(this).val() == '') {
+							$('#vacancyEndDate').data('DateTimePicker').minDate($(this).data('DateTimePicker').date());
+						} else {
+							$('#vacancyEndDate').data('DateTimePicker').minDate(e.date);
+						}
+					}).trigger('dp.change');
+					$('#vacancyEndDate').on('dp.change', function(e) {
+						if ($(this).val() == '') {
+							$('#vacancyStartDate').data('DateTimePicker').maxDate(false);
+						} else {
+							$('#vacancyStartDate').data('DateTimePicker').maxDate(e.date);
+						}
+					}).trigger('dp.change');
+					$('#vacancyStartDate input, #vacancyEndDate input').on('focus', function(evt) {
+						$(this).closest('.date').data('DateTimePicker').show();
+					});
+					$('#btnVacancyOk').on('click', function(e) {
+						e.preventDefault();
+						myNoVacancy.hide();
+						var myVacanciesContent = '';
+						$.post('./server/player.php', {
+							'action': 'addvacancy',
+							'startdate': $('#vacancyStartDate').data('DateTimePicker').date().unix(),
+							'enddate': $('#vacancyEndDate').data('DateTimePicker').date().unix(),
+							'reason': $('#vacancyReason').val()
+						}, function(addVacancyResult) {
+							myVacanciesContent += '<tr>';
+							myVacanciesContent += '<td data-value="' + $('#vacancyStartDate').data('DateTimePicker').date().unix() + '">' + $('#vacancyStartDate').data('DateTimePicker').date().format('LL') + '</td>';
+							myVacanciesContent += '<td data-value="' + $('#vacancyEndDate').data('DateTimePicker').date().unix() + '">' + $('#vacancyEndDate').data('DateTimePicker').date().format('LL') + '</td>';
+							myVacanciesContent += '<td>' + $('#vacancyReason').val() + '</td>';
+							myVacanciesContent += '<td><button type="button" class="btn btn-danger btnRemoveVacancy"><span class="glyphicon glyphicon-remove"></span></button></td>';
+							myVacanciesContent += '</tr>';
+							myVacanciesTable.find('tbody').append(myVacanciesContent);
+							myVacanciesTable.show();
+							$('#vacancy-dialog').modal('hide');
+						}, 'json');
+					});
+					myVacanciesTable.on('click', '.btnRemoveVacancy', function(e) {
+						var myBtn = $(this);
+						e.preventDefault();
+						$.post('./server/player.php', {
+							'action': 'delvacancy',
+							'startdate': $('#vacancyStartDate').data('DateTimePicker').date().unix(),
+							'enddate': $('#vacancyEndDate').data('DateTimePicker').date().unix()
+						}, function(addVacancyResponse) {
+							myBtn.closest('tr').remove();
+							if (myVacanciesTable.find('tbody tr').length == 0) {
+								myVacanciesTable.hide();
+								myNoVacancy.show();
+							}
+						}, 'json');
+					});
+					advanceProgress(i18n.t('loading.complete'));
+					afterLoad();
+				}, 'json');
 				var dataMyTanksAdditionalInfos = dataMyTanksResponse.data[gConfig.PLAYER_ID],
 					statsTanksByType = [],
 					statsTanksByLevel = [],
@@ -797,9 +895,7 @@ var onLoad = function() {
 						});
 					}
 				});
-				advanceProgress(i18n.t('loading.complete'));
 				new ZeroClipboard($('#copy-button'));
-				afterLoad();
 			}, 'json');
 		}, 'json');
 	}, 'json');

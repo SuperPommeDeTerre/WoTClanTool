@@ -193,7 +193,9 @@
 		"stats": "Statistics",
 		"personalmissions": "Personal missions",
 		"players": "Players",
-		"garage": "Garage"
+		"garage": "Garage",
+		"vacancies": "Vacancies",
+		"reason": "Reason"
 	},
 	"action": {
 		"identification": "Login",
@@ -242,6 +244,10 @@
 		"modify": "Modify",
 		"delete": "Delete",
 		"exportcsv": "Export as CSV"
+	},
+	"vacancy": {
+		"novacancy": "No vacancy planned.",
+		"add": "Add vacancy"
 	},
 	"event": {
 		"title": "Title",
@@ -317,6 +323,7 @@
 		"maps": "Loading maps...",
 		"events": "Loading events...",
 		"provisions": "Loading equipments and consumables reference...",
+		"getvacancies": "Loading vacancies...",
 		"personalmissions": {
 			"my" : "Loading my personal missions data...",
 			"reference": "Loading personal missions data..."
