@@ -80,7 +80,7 @@ var onLoad = function() {
 									colSpanInner += daysAfterVacancy;
 								}
 								if (colSpanInner > 0) {
-									tableContent += '<td colspan="' + colSpanInner + '"><div class="progress" data-toggle="tooltip" data-placement="top" title="' + myVacancyStartMoment.format('L') + ' - ' + myVacancyEndMoment.format('L') + (myVacancy.reason!=''?' (' + myVacancy.reason + ')':'') + '"><div class="progress-bar progress-bar-' + (isActive==true?'success':'info') + '" style="width:100%"></div></div></td>';
+									tableContent += '<td colspan="' + colSpanInner + '"><div class="progress progress-centered" data-toggle="tooltip" data-placement="top" title="' + myVacancyStartMoment.format('L') + ' - ' + myVacancyEndMoment.format('L') + (myVacancy.reason!=''?' (' + myVacancy.reason + ')':'') + '"><div class="progress-bar progress-bar-' + (isActive==true?'success':'info') + '" style="width:100%"></div></div></td>';
 								}
 								lastEndMoment = myVacancyEndMoment.clone().add(1, 'days').startOf('day');
 							}
