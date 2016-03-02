@@ -20,8 +20,38 @@ var onLoad = function() {
 			access_token: gConfig.ACCESS_TOKEN,
 			account_id: membersList
 		}, function(dataPlayersResponse) {
-			advanceProgress(i18n.t('loading.generating'));
 			gDataPlayers = dataPlayersResponse.data;
+			advanceProgress(i18n.t('loading.getvacancies'));
+			$.post('./server/player.php', {
+				'action': 'getvacancies',
+				'account_id': membersList
+			}, function(dataMyVacanciesResponse) {
+				advanceProgress(i18n.t('loading.generating'));
+				var tableContent = '',
+					nbVacancies = 0,
+					curTime = moment().unix();
+				for (var memberId in dataMyVacanciesResponse.data) {
+					var myPlayerInfos = gDataPlayers[memberId],
+						myPlayerVacancies = dataMyVacanciesResponse.data[memberId];
+					for (var myVacancyIndex in myPlayerVacancies) {
+						var myVacancy = myPlayerVacancies[myVacancyIndex];
+						if (curTime < myVacancy.enddate) {
+							tableContent += '<tr>';
+							tableContent += '<td>' + myPlayerInfos.nickname + '</td>';
+							tableContent += '<td data-value="' + myVacancy.startdate + '">' + moment.unix(myVacancy.startdate).format('LL') + '</td>';
+							tableContent += '<td data-value="' + myVacancy.enddate + '">' + moment.unix(myVacancy.enddate).format('LL') + '</td>';
+							tableContent += '<td>' + myVacancy.reason + '</td>';
+							tableContent += '</tr>';
+						}
+						nbVacancies++;
+					}
+				}
+				$('#listVacanciesTable tbody').append(tableContent);
+				if (nbVacancies > 0) {
+					$('#noVacancy').remove();
+				}
+				afterLoad();
+			}, 'json');
 		}, 'json');
 	});
 	gCalendar = $('#clanCalendar').calendar({
@@ -177,5 +207,4 @@ var onLoad = function() {
 			}
 		}, 'json');
 	});
-	afterLoad();
 };

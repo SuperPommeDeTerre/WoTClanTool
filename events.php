@@ -36,6 +36,25 @@ include(WCT_INC_DIR . 'ads.php');
 			<div id="clanCalendar"></div>
 			<div style="text-align:center"><a class="btn btn-lg btn-primary btn-material-grey-500" href="#" role="button" id="addEvent" data-id="-1" data-target="#eventDialog" data-toggle="modal"><span class="mdi-action-alarm-add" aria-hidden="true"></span> <span data-i18n="action.event.add"></span></a></div>
 			<h2 class="page-header"><span class="glyphicon glyphicon-send"></span> <span data-i18n="elems.vacancies"></span></h2>
+			<div id="listVacancies">
+				<div class="table-responsive" id="listVacanciesTableContainer">
+					<table class="table table-hover header-fixed" id="listVacanciesTable" data-sortable="true">
+						<thead>
+							<tr>
+								<th class="player" data-i18n="player.headers.nickname"></th>
+								<th class="startdate" data-i18n="event.startdate"></th>
+								<th class="enddate" data-i18n="event.enddate"></th>
+								<th class="reason" data-i18n="vacancy.reason"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr id="noVacancy">
+								<td colspan="4" style="text-align:center" data-i18n="vacancy.novacancy"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
