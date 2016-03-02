@@ -292,7 +292,8 @@ function fillEventDialog(pDialog, pEvents) {
 			modifyPanelHtml += '</div>';
 			modifyPanelHtml += '</div>';
 			modifyPanelHtml += '</div>';
-			modifyPanelHtml += '<button type="button" id="modifyEventOk" class="btn btn-default btn-success">' + i18n.t('btn.ok') + '</button>';
+			//modifyPanelHtml += '<button type="button" id="modifyEventOk" class="btn btn-default btn-success">' + i18n.t('btn.ok') + '</button>';
+			$('#btnModifyEventOk').removeClass('hidden');
 			gModifyPanel.html(modifyPanelHtml);
 			$.material.init(gModifyPanel);
 			// Init date time pickers
@@ -380,61 +381,64 @@ function fillEventDialog(pDialog, pEvents) {
 			if (curMapName != '') {
 				gModifyPanel.find('#modifyEventMapName').change();
 			}
-			gModifyPanel.find('#modifyEventOk').on('click', function(evt) {
-				// Prevent default action of button
-				evt.preventDefault();
-				var lStartDate = gModifyPanel.find('#modifyEventStartDate').data('DateTimePicker').date(),
-					lStartTime = gModifyPanel.find('#modifyEventStartTime').data('DateTimePicker').date(),
-					lEndDate = gModifyPanel.find('#modifyEventEndDate').data('DateTimePicker').date(),
-					lEndTime = gModifyPanel.find('#modifyEventEndTime').data('DateTimePicker').date(),
-					startDateToSent = lStartDate,
-					endDateToSent = lEndDate;
-				// Compute start and end final dates.
-				startDateToSent = startDateToSent.hour(lStartTime.hour());
-				startDateToSent = startDateToSent.minute(lStartTime.minute());
-				endDateToSent = moment(lStartDate);
-				endDateToSent = endDateToSent.hour(lEndTime.hour());
-				endDateToSent = endDateToSent.minute(lEndTime.minute());
-				// Post data to server
-				$.post('./server/calendar.php', {
-					a: 'save',
-					eventId: pDialog.find('.eventDetails').data('event-id'),
-					eventTitle: $('#modifyEventTitle').val(),
-					eventType: $('[name=modifyEventType]:checked').val(),
-					eventDescription: $('#modifyEventDescription').val(),
-					eventStartDate: startDateToSent.unix(),
-					eventEndDate: endDateToSent.unix(),
-					eventAllowSpare: $('#modifyEventSpareAllowed').is(':checked'),
-					eventMapName: $('#modifyEventMapName').val(),
-					eventStrategyId: $('#modifyEventStrategy').val()
-				}, function(addEventResult) {
-					// Handle result
-					if (addEventResult.result == 'ok') {
-						// Update display pane
-						pDialog.find('.modal-header h3 .eventTitle').text(addEventResult.data.title);
-						pDialog.find('.eventDetails').data('event-type', addEventResult.data.type);
-						gDisplayPanel.find('.eventDescription').text(addEventResult.data.description);
-						pDialog.find('.eventStartDate').data('date', addEventResult.data.start).text(moment(addEventResult.data.start * 1).format('LT'));
-						pDialog.find('.eventEndDate').data('date', addEventResult.data.end).text(moment(addEventResult.data.end * 1).format('LT'));
-						if (addEventResult.data.spareallowed) {
-							pDialog.find('.btnEnrol[data-attendance="spare"]').show();
-						} else {
-							pDialog.find('.btnEnrol[data-attendance="spare"]').hide();
-						}
-						doFillMapsInfos(addEventResult.data);
-						// Show display pane
-						gModifyPanel.hide();
-						gDisplayPanel.fadeIn('fast');
-						// Refresh calendar
-						if (typeof(gCalendar) != 'undefined') {
-							gCalendar.view();
-						}
-					}
-				}, 'json');
-			});
 		}
 		gDisplayPanel.hide();
 		gModifyPanel.fadeIn('fast');
+	});
+	$('#btnModifyEventOk').on('click', function(evt) {
+		// Prevent default action of button
+		evt.preventDefault();
+		gModifyPanel = pDialog.find('.eventDetailsModify');
+		var lStartDate = gModifyPanel.find('#modifyEventStartDate').data('DateTimePicker').date(),
+			lStartTime = gModifyPanel.find('#modifyEventStartTime').data('DateTimePicker').date(),
+			lEndDate = gModifyPanel.find('#modifyEventEndDate').data('DateTimePicker').date(),
+			lEndTime = gModifyPanel.find('#modifyEventEndTime').data('DateTimePicker').date(),
+			startDateToSent = lStartDate,
+			endDateToSent = lEndDate;
+		// Compute start and end final dates.
+		startDateToSent = startDateToSent.hour(lStartTime.hour());
+		startDateToSent = startDateToSent.minute(lStartTime.minute());
+		endDateToSent = moment(lStartDate);
+		endDateToSent = endDateToSent.hour(lEndTime.hour());
+		endDateToSent = endDateToSent.minute(lEndTime.minute());
+		// Post data to server
+		$.post('./server/calendar.php', {
+			a: 'save',
+			eventId: pDialog.find('.eventDetails').data('event-id'),
+			eventTitle: $('#modifyEventTitle').val(),
+			eventType: $('[name=modifyEventType]:checked').val(),
+			eventDescription: $('#modifyEventDescription').val(),
+			eventStartDate: startDateToSent.unix(),
+			eventEndDate: endDateToSent.unix(),
+			eventAllowSpare: $('#modifyEventSpareAllowed').is(':checked'),
+			eventMapName: $('#modifyEventMapName').val(),
+			eventStrategyId: $('#modifyEventStrategy').val()
+		}, function(addEventResult) {
+			// Handle result
+			if (addEventResult.result == 'ok') {
+				// Update display pane
+				var myResultEvent = addEventResult.data[0];
+				pDialog.find('.modal-header h3 .eventTitle').text(myResultEvent.title);
+				pDialog.find('.eventDetails').data('event-type', myResultEvent.type);
+				gDisplayPanel.find('.eventDescription').text(myResultEvent.description);
+				pDialog.find('.eventStartDate').data('date', myResultEvent.start).text(moment(myResultEvent.start * 1).format('LT'));
+				pDialog.find('.eventEndDate').data('date', myResultEvent.end).text(moment(myResultEvent.end * 1).format('LT'));
+				if (myResultEvent.spareallowed) {
+					pDialog.find('.btnEnrol[data-attendance="spare"]').show();
+				} else {
+					pDialog.find('.btnEnrol[data-attendance="spare"]').hide();
+				}
+				doFillMapsInfos(myResultEvent);
+				// Show display pane
+				$('#btnModifyEventOk').addClass('hidden');
+				gModifyPanel.hide();
+				gDisplayPanel.fadeIn('fast');
+				// Refresh calendar
+				if (typeof(gCalendar) != 'undefined') {
+					gCalendar.view();
+				}
+			}
+		}, 'json');
 	});
 	// Handle enrolment
 	pDialog.find('.btnEnrol').on('click', function(evt) {

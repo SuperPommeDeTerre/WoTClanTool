@@ -58,7 +58,8 @@ require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR
 					<div class="modal-body">
 					</div>
 					<div class="modal-footer">
-						<a href="#" data-dismiss="modal" class="btn" data-i18n="btn.close"></a>
+						<button class="btn btn-default" data-dismiss="modal" data-i18n="btn.close"></button>
+						<button class="btn btn-primary hidden" id="btnModifyEventOk" data-i18n="btn.ok"></button>
 					</div>
 				</div>
 			</div>

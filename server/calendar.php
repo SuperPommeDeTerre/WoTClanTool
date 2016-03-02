@@ -51,95 +51,127 @@ switch ($_REQUEST['a']) {
 		// This service must return JSON to page
 		header('Content-Type: application/json');
 		// Parse event from request
-		$myEvent = new wctEvent();
 		$eventId = '';
+		$isEventReccurent = false;
+		$reccurencyDay = -1;
+		$eventsDates = array();
+		if (isset($_REQUEST['eventIsRecurrent'])) {
+			$isEventReccurent = ($_REQUEST['eventIsRecurrent'] == 'true' ? true : false);
+		}
 		if (isset($_REQUEST['eventId'])) {
 			$eventId = $_REQUEST['eventId'];
+		} else if ($isEventReccurent == true) {
+			// Build array of event dates
+			$reccurencyDay = intval($_REQUEST['eventRecurrencyDay']);
+			$dateStart = intval($_REQUEST['eventStartDate']);
+			$dateEnd = intval($_REQUEST['eventEndDate']);
+			$dateStartEvt = new DateTime();
+			$dateStartEvt->setTimestamp($dateStart);
+			$dateEndEvt = new DateTime();
+			$dateEndEvt->setTimestamp($dateEnd);
+			// Normalize end date
+			$dateEndEvt->setDate(intval($dateStartEvt->format('Y')), intval($dateStartEvt->format('n')), intval($dateStartEvt->format('j')));
+			$interval = new DateInterval('P7D');
+			while ($dateStartEvt->getTimestamp() <= $dateEnd) {
+				$eventsDates[] = array('start' => $dateStartEvt->getTimestamp(), 'end' => $dateEndEvt->getTimestamp());
+				$dateStartEvt->add($interval);
+				$dateEndEvt->add($interval);
+			}
+			// DEBUG
+			$result['evts'] = $eventsDates;
 		}
-		$myEvent->setOwner($_SESSION['account_id']);
-		if ($eventId != '') {
-			$myEvent->setId($eventId);
-		} else {
-			$myEvent->setDateCreation(time());
+		if ($isEventReccurent == false) {
+			$eventsDates[] = array('start' => intval($_REQUEST['eventStartDate']), 'end' => intval($_REQUEST['eventEndDate']));
+		}
+		$resultEvents = array();
+		foreach ($eventsDates as &$dateEvt) {
+			$myEvent = new wctEvent();
+			$myEvent->setOwner($_SESSION['account_id']);
+			if ($eventId != '') {
+				$myEvent->setId($eventId);
+			} else {
+				$myEvent->setDateCreation(time());
+			}
 			$myEvent->setDateModification(time());
-		}
-		$myEvent->setTitle($_REQUEST['eventTitle']);
-		$myEvent->setType($_REQUEST['eventType']);
-		if (isset($_REQUEST['eventDescription'])) {
-			$myEvent->setDescription($_REQUEST['eventDescription']);
-		}
-		if (isset($_REQUEST['eventAllowSpare'])) {
-			$myEvent->setSpareAllowed($_REQUEST['eventAllowSpare'] == 'true' ? true : false);
-		}
-		if (isset($_REQUEST['eventMapName'])) {
-			$myEvent->setMapName($_REQUEST['eventMapName']);
-		}
-		if (isset($_REQUEST['eventStrategyId'])) {
-			$myEvent->setStrategyId($_REQUEST['eventStrategyId']);
-		}
-		if (isset($_REQUEST['eventIsRecurrent'])) {
-			$myEvent->setRecurrent($_REQUEST['eventIsRecurrent'] == 'true' ? true : false);
-		}
-		if (isset($_REQUEST['eventRecurrencyDay'])) {
-		}
-		// Dates are passed as UNIX timestamps
-		$myEvent->setDateStart(intval($_REQUEST['eventStartDate']));
-		if (isset($_REQUEST['eventEndDate'])) {
-			$myEvent->setDateEnd(intval($_REQUEST['eventEndDate']));
-		}
-		// If the start date has changed, verify if the id must be computed again...
-		if ($eventId != '') {
-			if (wctEvent::computeBaseId($myEvent->getDateStart()) != wctEvent::getBaseIdFromId($eventId)) {
-				$saveFile = wctEvent::getFileFromId($eventId);
-				$fileContents = json_decode(file_get_contents($saveFile), true);
-				$fileContents = is_array($fileContents) ? $fileContents : array($fileContents);
-				if (count($fileContents) == 1 && $fileContents[0] == NULL) {
-					array_splice($fileContents, 0, 1);
+			$myEvent->setTitle($_REQUEST['eventTitle']);
+			$myEvent->setType($_REQUEST['eventType']);
+			if (isset($_REQUEST['eventDescription'])) {
+				$myEvent->setDescription($_REQUEST['eventDescription']);
+			}
+			if (isset($_REQUEST['eventAllowSpare'])) {
+				$myEvent->setSpareAllowed($_REQUEST['eventAllowSpare'] == 'true' ? true : false);
+			}
+			if (isset($_REQUEST['eventMapName'])) {
+				$myEvent->setMapName($_REQUEST['eventMapName']);
+			}
+			if (isset($_REQUEST['eventStrategyId'])) {
+				$myEvent->setStrategyId($_REQUEST['eventStrategyId']);
+			}
+			// Dates are passed as UNIX timestamps
+			$myEvent->setDateStart($dateEvt['start']);
+			$myEvent->setDateEnd($dateEvt['end']);
+			// If the start date has changed, verify if the id must be computed again...
+			if ($eventId != '') {
+				if (wctEvent::computeBaseId($myEvent->getDateStart()) != wctEvent::getBaseIdFromId($eventId)) {
+					$saveFile = wctEvent::getFileFromId($eventId);
+					$fileContents = json_decode(file_get_contents($saveFile), true);
+					$fileContents = is_array($fileContents) ? $fileContents : array($fileContents);
+					if (count($fileContents) == 1 && $fileContents[0] == NULL) {
+						array_splice($fileContents, 0, 1);
+					}
+					foreach ($fileContents as $eventIndex => &$eventData) {
+						$tmpEvent = wctEvent::fromJson($eventData);
+						if ($eventId == $tmpEvent->getId()) {
+							$myEvent->setDateCreation($tmpEvent->getDateCreation());
+							$myEvent->setParticipants($tmpEvent->getParticipants());
+							$myEvent->setTanks($tmpEvent->getTanks());
+							// The actual event is found. Update it.
+							array_splice($fileContents, $eventIndex, 1);
+							break;
+						}
+					}
+					file_put_contents($saveFile, json_encode($fileContents), LOCK_EX);
+					$eventId = '';
 				}
-				foreach ($fileContents as $eventIndex => &$eventData) {
-					$tmpEvent = wctEvent::fromJson($eventData);
+			}
+			// Load events from data file
+			$saveFile = wctEvent::getFileFromDate($myEvent->getDateStart());
+			$fileContents = json_decode(file_get_contents($saveFile), true);
+			$fileContents = is_array($fileContents) ? $fileContents : array($fileContents);
+			if (count($fileContents) == 1 && $fileContents[0] == NULL) {
+				array_splice($fileContents, 0, 1);
+			}
+			// Find a free id or locate actual event to update it.
+			$localId = 0;
+			$tmpEvent = array();
+			foreach ($fileContents as $eventIndex => &$eventData) {
+				$tmpEvent = wctEvent::fromJson($eventData);
+				if ($eventId != '') {
 					if ($eventId == $tmpEvent->getId()) {
 						// The actual event is found. Update it.
 						array_splice($fileContents, $eventIndex, 1);
+						$myEvent->setDateCreation($tmpEvent->getDateCreation());
+						$myEvent->setParticipants($tmpEvent->getParticipants());
+						$myEvent->setTanks($tmpEvent->getTanks());
 						break;
 					}
+				} else {
+					$localId = max($localId, $tmpEvent->getLocalId());
 				}
-				file_put_contents($saveFile, json_encode($fileContents), LOCK_EX);
-				$eventId = '';
 			}
-		}
-		// Load events from data file
-		$saveFile = wctEvent::getFileFromDate($myEvent->getDateStart());
-		$fileContents = json_decode(file_get_contents($saveFile), true);
-		$fileContents = is_array($fileContents) ? $fileContents : array($fileContents);
-		if (count($fileContents) == 1 && $fileContents[0] == NULL) {
-			array_splice($fileContents, 0, 1);
-		}
-		// Find a free id or locate actual event to update it.
-		$localId = 0;
-		$tmpEvent = array();
-		foreach ($fileContents as $eventIndex => &$eventData) {
-			$tmpEvent = wctEvent::fromJson($eventData);
-			if ($eventId != '') {
-				if ($eventId == $tmpEvent->getId()) {
-					// The actual event is found. Update it.
-					array_splice($fileContents, $eventIndex, 1);
-					break;
-				}
-			} else {
-				$localId = max($localId, $tmpEvent->getLocalId());
+			// Add event if it's a new event
+			if ($eventId == '') {
+				$eventId = wctEvent::computeBaseId($myEvent->getDateStart()) . ($localId + 1);
+				$myEvent->setId($eventId);
 			}
+			// Replace event
+			array_push($fileContents, $myEvent->toCalendarArray(true));
+			file_put_contents($saveFile, json_encode($fileContents), LOCK_EX);
+			$resultEvents[] = $myEvent->toCalendarArray();
+			$eventId = '';
 		}
-		// Add event if it's a new event
-		if ($eventId == '') {
-			$eventId = wctEvent::computeBaseId($myEvent->getDateStart()) . ($localId + 1);
-			$myEvent->setId($eventId);
-		}
-		// Replace event
-		array_push($fileContents, $myEvent->toCalendarArray(true));
-		file_put_contents($saveFile, json_encode($fileContents), LOCK_EX);
 		$result['result'] = 'ok';
-		$result['data'] = $myEvent->toCalendarArray();
+		$result['data'] = $resultEvents;
 		break;
 	case 'delete':
 		// This service must return JSON to page
@@ -242,6 +274,10 @@ switch ($_REQUEST['a']) {
 	case 'get':
 		// This service must return HTML to page
 		header('Content-Type: text/html');
+		header('Cache-Control: no-cache, no-store, must-revalidate, max-age=0');
+		header('Pragma: no-cache');
+		header('Expires: 0');
+		header('Vary: *');
 		$result = '';
 		$isJsonResult = false;
 		$myEventId = $_REQUEST['id'];

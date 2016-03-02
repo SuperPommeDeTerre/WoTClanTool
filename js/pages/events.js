@@ -206,13 +206,26 @@ var onLoad = function() {
 	}
 	$('#containerEventPeriodicity').append(periodicityDaysHtml);
 	// Change periodicity property
+	$('[name=eventPeriodicityDay]').on('change', function(e) {
+		var listDaysToDisable = [],
+			daySelected = $(this).val();
+		for (var i = 0; i<7; i++) {
+			if (i != daySelected) {
+				listDaysToDisable[listDaysToDisable.length] = i;
+			}
+		}
+		$('#eventStartDate').data('DateTimePicker').daysOfWeekDisabled(listDaysToDisable);
+		$('#eventEndDate').data('DateTimePicker').daysOfWeekDisabled(listDaysToDisable);
+	});
 	$('#eventRecurrent').on('change', function(evt) {
 		if ($(this).is(':checked')) {
 			$('#eventEndDate').fadeIn('fast');
 			$('#containerEventPeriodicity').slideDown('fast');
+			$('[name=eventPeriodicityDay]:checked').trigger('change');
 			isPeriodic = true;
 		} else {
-			$('#eventEndDate').fadeOut('fast');
+			$('#eventEndDate').fadeOut('fast').data('DateTimePicker').daysOfWeekDisabled([]);
+			$('#eventStartDate').data('DateTimePicker').daysOfWeekDisabled([]);
 			$('#containerEventPeriodicity').slideUp('fast');
 			isPeriodic = false;
 		}
@@ -231,11 +244,13 @@ var onLoad = function() {
 		// Compute start and end final dates.
 		startDateToSent = startDateToSent.hour(lStartTime.hour());
 		startDateToSent = startDateToSent.minute(lStartTime.minute());
+		startDateToSent = startDateToSent.second(0);
 		if (!isPeriodic) {
 			endDateToSent = moment(lStartDate);
 		}
 		endDateToSent = endDateToSent.hour(lEndTime.hour());
 		endDateToSent = endDateToSent.minute(lEndTime.minute());
+		endDateToSent = endDateToSent.second(0);
 		$.post('./server/calendar.php', {
 			a: 'save',
 			eventTitle: $('#eventTitle').val(),
