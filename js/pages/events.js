@@ -28,27 +28,76 @@ var onLoad = function() {
 			}, function(dataMyVacanciesResponse) {
 				advanceProgress(i18n.t('loading.generating'));
 				var tableContent = '',
+					tableContent2 = '',
 					nbVacancies = 0,
-					curTime = moment().unix();
+					curTime = moment();
+					curTimeUnix = curTime.unix(),
+					periodStart = curTime.clone(),
+					periodEnd = curTime.clone().add(1, 'months'),
+					periodNumberOfDays = periodEnd.diff(periodStart, 'days'),
+					lastEndMoment = periodStart.clone();
+				tableContent2 = '';
+				for (var i = 0; i<periodNumberOfDays; i++) {
+					var curDay = periodStart.clone().add(i, 'days');
+					//tableContent2 += '<th data-sortable="false" title="' + curDay.format('LL') + '"' + (curTime.diff(curDay, 'days') == 0?' class="info"':'') + '>&nbsp;</th>';
+					tableContent2 += '<th data-sortable="false" title="' + curDay.format('LL') + '">&nbsp;</th>';
+				}
+				$('#listVacanciesTable thead tr').append(tableContent2);
+				tableContent2 = '';
 				for (var memberId in dataMyVacanciesResponse.data) {
 					var myPlayerInfos = gDataPlayers[memberId],
-						myPlayerVacancies = dataMyVacanciesResponse.data[memberId];
+						myPlayerVacancies = dataMyVacanciesResponse.data[memberId],
+						playerNbVacanciesInPeriod = 0;
 					for (var myVacancyIndex in myPlayerVacancies) {
 						var myVacancy = myPlayerVacancies[myVacancyIndex];
-						if (curTime < myVacancy.enddate) {
-							tableContent += '<tr>';
-							tableContent += '<td>' + myPlayerInfos.nickname + '</td>';
-							tableContent += '<td data-value="' + myVacancy.startdate + '">' + moment.unix(myVacancy.startdate).format('LL') + '</td>';
-							tableContent += '<td data-value="' + myVacancy.enddate + '">' + moment.unix(myVacancy.enddate).format('LL') + '</td>';
-							tableContent += '<td>' + myVacancy.reason + '</td>';
-							tableContent += '</tr>';
+						if (periodStart.unix() < myVacancy.enddate || periodEnd.unix() > myVacancy.startdate) {
+							playerNbVacanciesInPeriod++;
 						}
-						nbVacancies++;
+					}
+					if (playerNbVacanciesInPeriod > 0) {
+						myPlayerVacancies.sort(function(a, b) {
+							return a.startdate - b.startdate;
+						});
+						tableContent += '<tr>';
+						tableContent += '<td>' + myPlayerInfos.nickname + '</td>';
+						for (var myVacancyIndex in myPlayerVacancies) {
+							var myVacancy = myPlayerVacancies[myVacancyIndex];
+							if (periodStart.unix() < myVacancy.enddate) {
+								var myVacancyStartMoment = moment.unix(myVacancy.startdate),
+									myVacancyEndMoment = moment.unix(myVacancy.enddate),
+									colSpanBefore = 0,
+									colSpanInner = 0,
+									daysAfterVacancy = periodEnd.diff(myVacancyEndMoment, 'days'),
+									isActive = (myVacancy.startdate < curTimeUnix) && (myVacancy.enddate > curTimeUnix);
+								colSpanBefore = myVacancyStartMoment.diff(lastEndMoment, 'days');
+								colSpanInner = myVacancyEndMoment.clone().add(1, 'days').startOf('day').diff(myVacancyStartMoment, 'days');
+								if (colSpanBefore > 0) {
+									tableContent += '<td colspan="' + colSpanBefore + '">&nbsp;</td>';
+								} else if (colSpanBefore < 0) {
+									colSpanInner += colSpanBefore;
+								}
+								if (daysAfterVacancy < 0) {
+									colSpanInner += daysAfterVacancy;
+								}
+								if (colSpanInner > 0) {
+									tableContent += '<td colspan="' + colSpanInner + '"><div class="progress" data-toggle="tooltip" data-placement="top" title="' + myVacancyStartMoment.format('L') + ' - ' + myVacancyEndMoment.format('L') + (myVacancy.reason!=''?' (' + myVacancy.reason + ')':'') + '"><div class="progress-bar progress-bar-' + (isActive==true?'success':'info') + '" style="width:100%"></div></div></td>';
+								}
+								lastEndMoment = myVacancyEndMoment.clone().add(1, 'days').startOf('day');
+							}
+							nbVacancies++;
+						}
+						colSpanAfter = periodEnd.diff(lastEndMoment, 'days');
+						if (colSpanAfter > 0) {
+							tableContent += '<td colspan="' + colSpanAfter + '">&nbsp;</td>';
+						}
+						tableContent += '</tr>';
 					}
 				}
 				$('#listVacanciesTable tbody').append(tableContent);
 				if (nbVacancies > 0) {
 					$('#noVacancy').remove();
+				} else {
+					$('#noVacancy').attr('colspan', periodNumberOfDays + 1);
 				}
 				afterLoad();
 			}, 'json');

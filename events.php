@@ -38,18 +38,15 @@ include(WCT_INC_DIR . 'ads.php');
 			<h2 class="page-header"><span class="glyphicon glyphicon-send"></span> <span data-i18n="elems.vacancies"></span></h2>
 			<div id="listVacancies">
 				<div class="table-responsive" id="listVacanciesTableContainer">
-					<table class="table table-hover header-fixed" id="listVacanciesTable" data-sortable="true">
+					<table class="table table-hover header-fixed table-condensed" id="listVacanciesTable" data-sortable="true">
 						<thead>
 							<tr>
 								<th class="player" data-i18n="player.headers.nickname"></th>
-								<th class="startdate" data-i18n="event.startdate"></th>
-								<th class="enddate" data-i18n="event.enddate"></th>
-								<th class="reason" data-i18n="vacancy.reason"></th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr id="noVacancy">
-								<td colspan="4" style="text-align:center" data-i18n="vacancy.novacancy"></td>
+								<td style="text-align:center" data-i18n="vacancy.novacancy"></td>
 							</tr>
 						</tbody>
 					</table>
