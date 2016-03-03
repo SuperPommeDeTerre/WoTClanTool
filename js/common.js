@@ -154,8 +154,7 @@ function fillEventDialog(pDialog, pEvents) {
 			success: function(data, textStatus, jqXHR) {
 				if (data.result == 'success') {
 					// Success so call function to process the form
-				} else {
-					// Handle errors here
+					
 				}
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
