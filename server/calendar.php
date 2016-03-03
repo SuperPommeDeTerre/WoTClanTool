@@ -307,10 +307,14 @@ switch ($_REQUEST['a']) {
 				$result .= '<p><span data-i18n="event.enrol.state.title"></span>: <span data-i18n="event.enrol.state.' . $userAttendance . '" class="eventEnrolment"></span></p>';
 				$result .= '</div>';
 			} else {
-				$result .= '<div class="pull-right">';
-				$result .= '<a href="#" class="button btn btn-default" id="btnAddReplay" data-i18n="[title]event.addreplay;" data-event-id="' . $myEvent->getId() . '"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>';
+				$result .= '<form class="pull-right form-inline">';
+				$result .= '<div class="form-group">';
+				$result .= '<input readonly="" class="form-control" data-i18n="[placeholder]event.addreplay;" type="text">';
+				$result .= '<input id="replayFile" name="replayFile" multiple="" type="file">';
 				$result .= '</div>';
-				$result .= '<div class="clearfix"></div>';
+				$result .= '<button class="btn btn-default" id="btnAddReplay" data-i18n="[title]event.addreplay;" data-event-id="' . $myEvent->getId() . '"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>';
+				$result .= '</form>';
+				//$result .= '<div class="clearfix"></div>';
 			}
 		}
 		$result .= '<p class="eventDescription">' . $myEvent->getDescription() . '</p>';

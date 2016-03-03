@@ -132,32 +132,35 @@ function fillEventDialog(pDialog, pEvents) {
 			}
 		}
 	});
+	var replayFiles = null;
+	$('#replayFile').on('change', function(e) {
+		replayFiles = e.target.files;
+	});
 	pDialog.find('#btnAddReplay').on('click', function(evt) {
 		evt.preventDefault();
-		var myButton = $(this);
-		myButton.hide();
-		myButton.after('<div class="pull-right form-inline form-group"><input type="text" class="form-control" placeholder="Replay URL" /><button class="btn btn-default" id="btnAddReplayOk"><span class="glyphicon glyphicon-ok"></button></div>');
-		myButton.parent().find('#btnAddReplayOk').on('click', function(evtAddReplay) {
-			evtAddReplay.preventDefault();
-			var myButtonAddReplay = $(this),
-				myRegexURL = /(http(s?))\:\/\//gi;
-			if (myRegexURL.test(myButtonAddReplay.prev().val())) {
-				// Analyse replay
-				$.get('./server/getreplay.php', { url: myButtonAddReplay.prev().val() }, function(response) {
-					var myReplayResponse = $(this.contentWindow.document).contents(),
-						myPlayer = myReplayResponse.find('.combat_effect .result_map_user_name, .personal .result-left .username').text();
-						//.wtst_team .wtst_half__left [uid]
-					alert(myPlayer);
-					// Add replay link to players table
-					// .html('<a href="' + myButtonAddReplay.prev().val() + '"><span class="glyphicon glyphicon-film"></span></a>');
-				}, 'html')
-				.always(function() {
-					myButton.show();
-					myButton.next().remove();
-				});
-			} else {
-				myButton.show();
-				myButton.next().remove();
+		var myButton = $(this),
+			data = new FormData();
+		$.each(replayFiles, function(key, value) {
+			data.append(key, value);
+		});
+		$.ajax({
+			url: './server/analysereplay.php',
+			type: 'POST',
+			data: data,
+			cache: false,
+			dataType: 'json',
+			processData: false, // Don't process the files
+			contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+			success: function(data, textStatus, jqXHR) {
+				if (data.result == 'success') {
+					// Success so call function to process the form
+				} else {
+					// Handle errors here
+				}
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				// Handle errors here
+				console.log('ERRORS: ' + textStatus);
 			}
 		});
 	});
