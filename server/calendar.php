@@ -336,7 +336,9 @@ switch ($_REQUEST['a']) {
 			$result .= '<th data-i18n="event.tanks" class="eventLineUp"></th>';
 			if ($myEvent->getDateStart() < time()) {
 				$result .= '<th class="eventParticipation" data-i18n="action.calendar.prop.present"></th>';
-				$result .= '<th class="eventReplays" data-i18n="event.replay"></th>';
+				if ($gKeepReplays) {
+					$result .= '<th class="eventReplays" data-i18n="event.replay"></th>';
+				}
 			}
 			$result .= '</tr>';
 			$result .= '</thead>';
@@ -351,8 +353,10 @@ switch ($_REQUEST['a']) {
 						$result .= '<td class="tank" data-i18n="event.notank"></td>';
 					}
 					if ($myEvent->getDateStart() < time()) {
-						$result .= '<td><div class="checkbox" style="margin-top:-5px;margin-bottom:-10px"><label><input type="checkbox" id="eventPlayerPresent' . $playerId . '" value="true" />&nbsp;</label></div></td>';
-						$result .= '<td>&nbsp;</td>';
+						$result .= '<td><div class="checkbox" style="margin-top:-5px;margin-bottom:-10px"><label><input type="checkbox" id="eventPlayerPresent' . $playerId . '" value="true" disabled="disabled" />&nbsp;</label></div></td>';
+						if ($gKeepReplays) {
+							$result .= '<td>&nbsp;</td>';
+						}
 					}
 					$result .= '</tr>';
 				}
