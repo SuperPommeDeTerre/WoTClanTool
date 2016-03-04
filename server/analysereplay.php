@@ -34,6 +34,9 @@ if (!$error) {
 		$matchResults = fread($handle, $chunkLength[1]);
 		fclose($handle);
 		$data['data'][] = array("metaInfos" => json_decode($metaInfos, true), "battleResults" => json_decode($matchResults, true));
+		if ($gKeepReplays) {
+			// Move replay to save directory
+		}
 		// Delete replay as it is no longer needed...
 		unlink($file);
 	}

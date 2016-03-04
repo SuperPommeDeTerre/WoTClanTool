@@ -30,7 +30,8 @@ if (!in_array($_SESSION["account_id"], $gAdmins)) {
 				"app" => array(
 					"theme" => "default",
 					"admins" => array(),
-					"showads" => true
+					"showads" => true,
+					"keepreplays" => false
 				),
 				"clans" => array(
 					"restric_to" => array()
@@ -51,6 +52,7 @@ if (!in_array($_SESSION["account_id"], $gAdmins)) {
 			$configToWrite["WG"]["clusters"] = $clusterArray;
 			$configToWrite["app"]["admins"] = array();
 			$configToWrite["app"]["showads"] = (isset($_REQUEST['showads'])?($_REQUEST['showads']=='true'?true:false):true);
+			$configToWrite["app"]["keepreplays"] = (isset($_REQUEST['keepreplays'])?($_REQUEST['keepreplays']=='true'?true:false):false);
 			$configToWrite["clans"]["restric_to"] = array();
 			foreach ($clusterArray as $lClusterId) {
 				$configToWrite["app"]["admins"][$lClusterId] = array();

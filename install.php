@@ -40,7 +40,8 @@ function install($pClusters, $pDefaultCluster) {
 		"app" => array(
 			"theme" => "default",
 			"admins" => array(),
-			"showads" => true
+			"showads" => true,
+			"keepreplays" => false
 		),
 		"clans" => array(
 			"restric_to" => array()
@@ -61,6 +62,7 @@ function install($pClusters, $pDefaultCluster) {
 	$configToWrite["WG"]["clusters"] = $clusterArray;
 	$configToWrite["app"]["admins"] = array();
 	$configToWrite["app"]["showads"] = (isset($_POST['showads'])?($_POST['showads']=='true'?true:false):true);
+	$configToWrite["app"]["keepreplays"] = (isset($_POST['keepreplays'])?($_POST['keepreplays']=='true'?true:false):false);
 	$configToWrite["clans"]["restric_to"] = array();
 	foreach ($clusterArray as $lClusterId) {
 		$configToWrite["app"]["admins"][$lClusterId] = array();
@@ -146,6 +148,13 @@ include_once(WCT_INC_DIR . 'analyticstracking.php');
 								<div class="togglebutton togglebutton-info">
 									<label><span data-i18n="install.showads"></span>
 										<input type="checkbox" id="showads" checked="checked" />
+									</label>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="togglebutton togglebutton-info">
+									<label><span data-i18n="install.keepreplays"></span>
+										<input type="checkbox" id="keepreplays" checked="checked" />
 									</label>
 								</div>
 							</div>

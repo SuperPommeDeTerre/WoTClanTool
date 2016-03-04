@@ -261,6 +261,7 @@ var onLoad = function() {
 			case 'configGeneral':
 				postParameters['a'] = 'saveGeneral';
 				postParameters['showads'] = $('#showads').is(':checked');
+				postParameters['keepreplays'] = $('#keepreplays').is(':checked');
 				postParameters['inactivitythreshold'] = parseInt(mySliderInactivityThreshold.val());
 				postParameters['clusters'] = [];
 				if (lClustersButtons.length != 0) {

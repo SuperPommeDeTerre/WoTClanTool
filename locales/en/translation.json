@@ -99,7 +99,8 @@
 			"title": "Player",
 			"hint": "Enter the name of player to search"
 		},
-		"showads": "Show advertisments (recommended)"
+		"showads": "Show advertisments (recommended)",
+		"keepreplays": "Keep replays (can consume a lot of disk space)"
 	},
 	"success": {
 		"title": "Success",

@@ -60,7 +60,14 @@ require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR
 							</label>
 						</div>
 					</div>
-					<label data-i18n="install.clusters"></label>
+					<div class="form-group">
+						<div class="togglebutton togglebutton-info">
+							<label><span data-i18n="install.keepreplays"></span>
+								<input type="checkbox" id="keepreplays"<?php echo($gKeepReplays?' checked="checked"':''); ?> />
+							</label>
+						</div>
+					</div>
+					<h3 data-i18n="install.clusters"></h3>
 					<div class="form-group">
 						<div class="btn-group" data-i18n="[aria-label]install.clusters;" id="btnClusters"><?php
 foreach ($gClusters as $clusterId => $clusterProps) {
@@ -70,8 +77,8 @@ foreach ($gClusters as $clusterId => $clusterProps) {
 ?>
 						</div>
 					</div>
+					<h3 data-i18n="install.clan.restrictions"></h3>
 					<div>
-						<label data-i18n="install.clan.restrictions"></label>
 						<div id="restrictedClans"><?php
 foreach ($gClusters as $clusterId => $clusterProps) {
 	if (in_array($clusterId, $gConfig["WG"]["clusters"])) {
@@ -86,8 +93,8 @@ foreach ($gClusters as $clusterId => $clusterProps) {
 						</div>
 						<button class="btn btn-default" data-i18n="" data-target="#dlgSearchClan" data-toggle="modal" id="btnAddClan"><span class="glyphicon glyphicon-plus"></span></button>
 					</div>
+					<h3 data-i18n="install.admins"></h3>
 					<div>
-						<label data-i18n="install.admins"></label>
 						<div id="listAdmins"><?php
 foreach ($gClusters as $clusterId => $clusterProps) {
 	if (in_array($clusterId, $gConfig["WG"]["clusters"])) {
@@ -105,7 +112,7 @@ foreach ($gClusters as $clusterId => $clusterProps) {
 						<button class="btn btn-default" data-target="#dlgSearchPlayer" data-toggle="modal" id="btnAddAdmin"><span class="glyphicon glyphicon-plus"></span></button>
 					</div>
 					<div>
-						<label><span data-i18n="install.inactivitythreshold.title"></span> <span class="badge" id="badgeInactivityThreshold" data-i18n="install.inactivitythreshold.value" data-i18n-options="{&quot;count&quot;:14}"></span></label>
+						<h3><span data-i18n="install.inactivitythreshold.title"></span> <span class="badge" id="badgeInactivityThreshold" data-i18n="install.inactivitythreshold.value" data-i18n-options="{&quot;count&quot;:14}"></span></h3>
 						<div id="sliderInactivityThreshold" style="background-color:#4caf50" class="slider shor slider-material-green"></div>
 					</div>
 				</div>

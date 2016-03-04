@@ -121,7 +121,7 @@ var onLoad = function() {
 			i = 0,
 			j = 0,
 			tempContentHtml = '';
-		for (i=0; i<gClanInfos.members_count; i++) {
+		for (i in gClanInfos.members) {
 			if (isFirst) {
 				isFirst = false;
 			} else {

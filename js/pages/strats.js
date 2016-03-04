@@ -1763,7 +1763,7 @@ var onLoad = function() {
 		var dataClan = dataClanResponse.data[gPersonalInfos.clan_id],
 			membersList = '',
 			isFirst = true;
-		for (var i=0; i<dataClan.members_count; i++) {
+		for (var i in dataClan.members) {
 			if (isFirst) {
 				isFirst = false;
 			} else {

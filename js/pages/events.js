@@ -5,7 +5,7 @@ var onLoad = function() {
 	setNavBrandWithClan(function() {
 		var membersList = '',
 			isFirst = true;
-		for (var i=0; i<gClanInfos.members_count; i++) {
+		for (var i=0 in gClanInfos.members) {
 			if (isFirst) {
 				isFirst = false;
 			} else {

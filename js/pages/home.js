@@ -16,7 +16,7 @@ var onLoad = function() {
 		gClanInfos = dataClan;
 		setUserRole();
 		$('#clansInfosTitle').html('<img src="' + clanEmblem + '" alt="' + i18n.t('clan.emblem') + '" /> <span style="color:' + gClanInfos.color + '">[' + gClanInfos.tag + ']</span> ' + gClanInfos.name + ' <small>' + gClanInfos.motto + '</small>');
-		$('#clanTotalPlayers').text(i18n.t('clan.nbplayers', { count: gClanInfos.members_count }));
+		$('#clanTotalPlayers').text(i18n.t('clan.nbplayers', { count: gClanInfos.members.length }));
 		$.post('./server/strat.php', {
 			'action': 'list'
 		}, function(dataListStratResponse) {
@@ -24,7 +24,7 @@ var onLoad = function() {
 		}, 'json');
 		var membersList = '',
 			isFirst = true;
-		for (var i=0; i<gClanInfos.members_count; i++) {
+		for (var i=0 in gClanInfos.members) {
 			if (isFirst) {
 				isFirst = false;
 			} else {
@@ -216,7 +216,7 @@ var onLoad = function() {
 					}, function(dataStoredPlayersTanksResponse) {
 						advanceProgress(i18n.t('loading.generating'));
 						var dataStoredPlayersTanks = dataStoredPlayersTanksResponse.data;
-						for (var i=0; i<dataClan.members_count; i++) {
+						for (var i in dataClan.members) {
 							var playerId = dataClan.members[i].account_id,
 								playerVehicles = dataPlayersVehicles[playerId],
 								playerStoredVehicules = dataStoredPlayersTanks[playerId],

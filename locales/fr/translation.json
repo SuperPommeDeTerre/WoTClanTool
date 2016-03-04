@@ -99,7 +99,8 @@
 			"title": "Joueur",
 			"hint": "Entrez le nom du joueur recherché"
 		},
-		"showads": "Afficher les publicités (recommandé)"
+		"showads": "Afficher les publicités (recommandé)",
+		"keepreplays": "Garder les replays (peut utiliser beaucoup d'espace disque)"
 	},
 	"success": {
 		"title": "Operation réussie",

@@ -99,6 +99,12 @@ $gThemeName = $gConfig["app"]["theme"];
 // Administrators
 $gAdmins = $gConfig["app"]["admins"][$gCluster];
 
+// Keep replays ? (No, by default)
+$gKeepReplays = false;
+if (array_key_exists('keepreplays', $gConfig["app"])) {
+	$gKeepReplays = $gConfig['app']['keepreplays'];
+}
+
 // Initialize clan configuration
 $gClanConfig = array();
 if (array_key_exists('clan_id', $_SESSION)) {
@@ -115,7 +121,6 @@ if (array_key_exists('showads', $gConfig["app"])) {
 		}
 	}
 }
-
 
 // Define the data dir (depends on cluster)
 define('WCT_DATA_DIR', WCT_BASE_DATA_DIR . DIRECTORY_SEPARATOR . $gCluster . DIRECTORY_SEPARATOR);
