@@ -23,8 +23,9 @@ var onLoad = function() {
 			$('#clanTotalStrats').text(i18n.t('clan.nbstrats', { count: dataListStratResponse.data.length }));
 		}, 'json');
 		var membersList = '',
-			isFirst = true;
-		for (var i=0 in gClanInfos.members) {
+			isFirst = true,
+			i = 0;
+		for (i in gClanInfos.members) {
 			if (isFirst) {
 				isFirst = false;
 			} else {
@@ -221,9 +222,10 @@ var onLoad = function() {
 								playerVehicles = dataPlayersVehicles[playerId],
 								playerStoredVehicules = dataStoredPlayersTanks[playerId],
 								vehiculeDetails = null,
-								nbVehiculesReady = 0;
+								nbVehiculesReady = 0,
+								j = 0;
 							if (playerStoredVehicules.length > 0) {
-								for (var j=0; j<playerStoredVehicules.length; j++) {
+								for (j=0; j<playerStoredVehicules.length; j++) {
 									if (playerStoredVehicules[j].in_garage) {
 										vehiculeDetails = gTankopedia[playerStoredVehicules[j].tank_id];
 										if (vehiculeDetails != null) {
@@ -247,8 +249,9 @@ var onLoad = function() {
 							}
 						}
 						$('#clanTotalVehicles').text(i18n.t('clan.nbtanks', { count: nbTotalVehicules }));
-						var myData = [];
-						for (var i=gTANKS_LEVEL.length - 1; i>=0; i--) {
+						var myData = [],
+							i = 0;
+						for (i=gTANKS_LEVEL.length - 1; i>=0; i--) {
 							if (nbClanVehiculesByTiers[i] > 0) {
 								myData.push({ label: gTANKS_LEVEL[i], value: nbClanVehiculesByTiers[i] });
 							}
