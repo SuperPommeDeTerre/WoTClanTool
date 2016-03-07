@@ -226,7 +226,7 @@ var onLoad = function() {
 								j = 0;
 							if (playerStoredVehicules.length > 0) {
 								for (j=0; j<playerStoredVehicules.length; j++) {
-									if (playerStoredVehicules[j].in_garage) {
+									if ((playerStoredVehicules[j] != null) && (playerStoredVehicules[j].in_garage)) {
 										vehiculeDetails = gTankopedia[playerStoredVehicules[j].tank_id];
 										if (vehiculeDetails != null) {
 											nbTotalVehicules++;
