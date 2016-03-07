@@ -57,9 +57,9 @@ include(WCT_INC_DIR . 'ads.php');
 						<h3 id="agendaTitle"></h3>
 						<div class="form-inline">
 							<div class="btn-group btn-group-agenda">
-								<button class="btn btn-primary" data-calendar-nav="prev" data-i18n="action.calendar.previous"></button>
+								<button class="btn btn-primary" data-calendar-nav="prev"><span class="glyphicon glyphicon-chevron-left"></span></button>
 								<button class="btn" data-calendar-nav="today" data-i18n="action.calendar.today"></button>
-								<button class="btn btn-primary" data-calendar-nav="next" data-i18n="action.calendar.next"></button>
+								<button class="btn btn-primary" data-calendar-nav="next"><span class="glyphicon glyphicon-chevron-right"></span></button>
 							</div>
 							<div class="btn-group btn-group-agenda">
 								<button class="btn btn-warning" data-calendar-view="year" data-i18n="action.calendar.view.year"></button>

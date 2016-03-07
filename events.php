@@ -22,9 +22,9 @@ include(WCT_INC_DIR . 'ads.php');
 			<h1 class="page-header"data-i18n="elems.calendar"></h1>
 			<div class="pull-right form-inline">
 				<div class="btn-group btn-group-agenda">
-					<button class="btn btn-primary" data-calendar-nav="prev" data-i18n="action.calendar.previous"></button>
+					<button class="btn btn-primary" data-calendar-nav="prev"><span class="glyphicon glyphicon-chevron-left"></span></button>
 					<button class="btn" data-calendar-nav="today" data-i18n="action.calendar.today"></button>
-					<button class="btn btn-primary" data-calendar-nav="next" data-i18n="action.calendar.next"></button>
+					<button class="btn btn-primary" data-calendar-nav="next"><span class="glyphicon glyphicon-chevron-right"></span></button>
 				</div>
 				<div class="btn-group btn-group-agenda">
 					<button class="btn btn-warning" data-calendar-view="year" data-i18n="action.calendar.view.year"></button>
@@ -79,8 +79,7 @@ include(WCT_INC_DIR . 'ads.php');
 					<button class="close" aria-hidden="true" data-dismiss="modal" type="button" data-i18n="[aria-label]btn.close;">&times;</button>
 					<h4 class="modal-title" data-i18n="elems.event"></h4>
 				</div>
-				<div class="modal-body">
-				<!--
+				<div class="modal-body"><?php /*
 					<nav class="navbar navbar-default navbar-material-indigo-600">
 						<div class="container-fluid">
 							<div class="collapse navbar-collapse">
@@ -92,7 +91,7 @@ include(WCT_INC_DIR . 'ads.php');
 							</div>
 						</div>
 					</nav>
-				-->
+*/ ?>
 					<div id="containerEventMain">
 						<input id="eventTitle" type="text" class="form-control" data-i18n="[placeholder]action.calendar.prop.title;" aria-describedby="sizing-addon1" />
 						<textarea id="eventDescription" class="form-control" data-i18n="[placeholder]action.calendar.prop.description;" aria-describedby="sizing-addon1"></textarea>
@@ -127,58 +126,66 @@ include(WCT_INC_DIR . 'ads.php');
 							</div>
 						</div>
 						<div class="container-fluid">
-							<div class="row">
-								<div class="col-xs-6">
-									<div class="input-group">
-										<div class="eventType">
-											<h5 data-i18n="action.calendar.prop.type"></h5>
-											<div class="radio radio-material-black">
-												<label>
-													<input type="radio" checked="checked" value="clanwar" name="eventType">
-													<abbr data-i18n="action.calendar.prop.types.clanwar"></abbr>
-												</label>
-											</div>
-											<div class="radio radio-material-red-800">
-												<label>
-													<input type="radio" value="compa" name="eventType">
-													<abbr data-i18n="action.calendar.prop.types.compa"></abbr>
-												</label>
-											</div>
-											<div class="radio radio-material-purple-600">
-												<label>
-													<input type="radio" value="stronghold" name="eventType">
-													<abbr data-i18n="action.calendar.prop.types.stronghold"></abbr>
-												</label>
-											</div>
-											<div class="radio radio-material-blue-700">
-												<label>
-													<input type="radio" value="7vs7" name="eventType">
-													<abbr data-i18n="action.calendar.prop.types.7vs7"></abbr>
-												</label>
-											</div>
-											<div class="radio radio-material-green-600">
-												<label>
-													<input type="radio" value="training" name="eventType">
-													<abbr data-i18n="action.calendar.prop.types.training"></abbr>
-												</label>
-											</div>
-											<div class="radio radio-material-grey-500">
-												<label>
-													<input type="radio" value="other" name="eventType">
-													<abbr data-i18n="action.calendar.prop.types.other"></abbr>
-												</label>
-											</div>
+							<div id="eventsRestrictionsContainer">
+								<div class="form-inline">
+									<div class="input-group pull-left">
+										<span class="input-group-addon glyphicon glyphicon-asterisk"></span>
+										<div class="btn-group">
+											<button type="button" id="eventType" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" data-value="all" aria-expanded="false"><span class="btnVal" data-i18n="action.calendar.prop.types.clanwar"></span> <span class="caret"></span></button>
+											<ul class="dropdown-menu" role="menu">
+												<li data-value="clanwar"><a href="#" data-i18n="action.calendar.prop.types.clanwar"></a></li>
+												<li data-value="compa"><a href="#" data-i18n="action.calendar.prop.types.compa"></a></li>
+												<li data-value="stronghold"><a href="#" data-i18n="action.calendar.prop.types.stronghold"></a></li>
+												<li data-value="7vs7"><a href="#" data-i18n="action.calendar.prop.types.7vs7"></a></li>
+												<li data-value="training"><a href="#" data-i18n="action.calendar.prop.types.training"></a></li>
+												<li data-value="other"><a href="#" data-i18n="action.calendar.prop.types.other"></a></li>
+											</ul>
+										</div>
+									</div>
+									<div class="input-group pull-left">
+										<span class="input-group-addon glyphicon glyphicon-tasks"></span>
+										<div class="btn-group">
+											<button type="button" id="tankFilterLevel" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" data-value="all" aria-expanded="false"><span class="btnVal" data-i18n="tank.alllevels"></span> <span class="caret"></span></button>
+											<ul class="dropdown-menu" role="menu">
+												<li data-value="all"><a href="#" data-i18n="tank.alllevels"></a></li>
+												<li class="divider"></li>
+												<li data-value="1"><a href="#" data-i18n="tank.level.0"></a></li>
+												<li data-value="2"><a href="#" data-i18n="tank.level.1"></a></li>
+												<li data-value="3"><a href="#" data-i18n="tank.level.2"></a></li>
+												<li data-value="4"><a href="#" data-i18n="tank.level.3"></a></li>
+												<li data-value="5"><a href="#" data-i18n="tank.level.4"></a></li>
+												<li data-value="6"><a href="#" data-i18n="tank.level.5"></a></li>
+												<li data-value="7"><a href="#" data-i18n="tank.level.6"></a></li>
+												<li data-value="8"><a href="#" data-i18n="tank.level.7"></a></li>
+												<li data-value="9"><a href="#" data-i18n="tank.level.8"></a></li>
+												<li data-value="10"><a href="#" data-i18n="tank.level.9"></a></li>
+											</ul>
+										</div>
+									</div>
+									<div class="input-group pull-left" style="margin-right:.25em">
+										<span class="input-group-addon glyphicon glyphicon-knight"></span>
+										<div class="btn-group">
+											<button type="button" id="tankFilterType" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" data-value="all" aria-expanded="false"><span class="btnVal" data-i18n="tank.alltypes"></span> <span class="caret"></span></button>
+											<ul class="dropdown-menu" role="menu">
+												<li data-value="all"><a href="#" data-i18n="tank.alltypes"></a></li>
+												<li class="divider"></li>
+												<li data-value="lightTank"><a href="#" data-i18n="tank.type.lightTank"></a></li>
+												<li data-value="mediumTank"><a href="#" data-i18n="tank.type.mediumTank"></a></li>
+												<li data-value="heavyTank"><a href="#" data-i18n="tank.type.heavyTank"></a></li>
+												<li data-value="AT-SPG"><a href="#" data-i18n="tank.type.AT-SPG"></a></li>
+												<li data-value="SPG"><a href="#" data-i18n="tank.type.SPG"></a></li>
+											</ul>
 										</div>
 									</div>
 								</div>
-								<div class="col-xs-6">
-									<div class="togglebutton">
-										<label><span data-i18n="action.calendar.prop.periodic"></span>:
-											<input type="checkbox" id="eventRecurrent" value="true" />
-										</label>
-									</div>
-									<div id="containerEventPeriodicity">
-									</div>
+							</div>
+							<div class="togglebutton">
+								<label><span data-i18n="action.calendar.prop.periodic"></span>:
+									<input type="checkbox" id="eventRecurrent" value="true" />
+								</label>
+							</div>
+							<div class="form-inline">
+								<div id="containerEventPeriodicity" class="pull-left">
 								</div>
 							</div>
 						</div>
@@ -186,14 +193,13 @@ include(WCT_INC_DIR . 'ads.php');
 							<label><span data-i18n="action.calendar.prop.allowspare"></span>
 								<input type="checkbox" id="eventSpareAllowed" value="true" />
 							</label>
-						</div>
-			<!--
+						</div><?php /*
 						<div class="togglebutton">
 							<label><span data-i18n="action.calendar.prop.private"></span>
 								<input type="checkbox" id="eventPrivate" value="true" />
 							</label>
 						</div>
-			-->
+*/ ?>
 					</div>
 				</div>
 				<div class="modal-footer">
