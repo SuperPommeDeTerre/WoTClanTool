@@ -155,7 +155,8 @@ var onLoad = function() {
 					var dataPlayersYesterdayRatings = dataRatingYesterdayResponse.data,
 						dayTotalBattles = 0,
 						dayTotalFrags = 0,
-						queryParams = new URI('?' + this.data).search(true);
+						queryParams = new URI('?' + this.data).search(true),
+						playerId = 0;
 					for (playerId in dataPlayersYesterdayRatings) {
 						var curPlayerRatings = dataPlayersYesterdayRatings[playerId];
 						if (curPlayerRatings != null) {
@@ -216,8 +217,9 @@ var onLoad = function() {
 						account_id: membersList
 					}, function(dataStoredPlayersTanksResponse) {
 						advanceProgress(i18n.t('loading.generating'));
-						var dataStoredPlayersTanks = dataStoredPlayersTanksResponse.data;
-						for (var i in dataClan.members) {
+						var dataStoredPlayersTanks = dataStoredPlayersTanksResponse.data,
+							i = 0;
+						for (i in dataClan.members) {
 							var playerId = dataClan.members[i].account_id,
 								playerVehicles = dataPlayersVehicles[playerId],
 								playerStoredVehicules = dataStoredPlayersTanks[playerId],
@@ -307,9 +309,11 @@ var onLoad = function() {
 											myTodayEventsHtml += '<p data-i18n="event.noparticipant"></p>';
 										} else {
 											myTodayEventsHtml += '<ul class="list-unstyled participants">';
-											for (var myParticipantId in myEvent.participants) {
+											var myParticipantId = 0,
+												j = 0;
+											for (myParticipantId in myEvent.participants) {
 												myParticipantAttendance = myEvent.participants[myParticipantId];
-												for (var j=0; j<clanMembers.length; j++) {
+												for (j=0; j<clanMembers.length; j++) {
 													clanMemberInfo = clanMembers[j];
 													if (clanMemberInfo.account_id == myParticipantId) {
 														myTodayEventsHtml += '<li data-id="' + myParticipantId + '" class="attendance-' + myParticipantAttendance + '"><span class="role role_' + clanMemberInfo.role + '">' + gDataPlayers[myParticipantId].nickname + '</span></li>';
