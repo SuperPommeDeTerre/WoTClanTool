@@ -97,11 +97,10 @@ if ($gPageProps["blocks"]["nav"]) { ?>
 							</li>
 							<li<?php if ($gPageProps["id"] == 'garage') { echo(' class="active"'); } ?>><a href="garage" data-i18n="nav.garage"></a></li>
 							<li<?php if ($gPageProps["id"] == 'events') { echo(' class="active"'); } ?>><a href="events" data-i18n="nav.events"></a></li><?php
-// Show forum link only if clan's forum URL is set
-if (array_key_exists('forumurl', $gClanConfig) && ($gClanConfig['forumurl'] != null)) {
-?>
+		// Show forum link only if clan's forum URL is set
+		if (array_key_exists('forumurl', $gClanConfig) && ($gClanConfig['forumurl'] != null)) { ?>
 							<li<?php if ($gPageProps["id"] == 'forum') { echo(' class="active"'); } ?>><a href="forum" data-i18n="nav.forum"></a></li><?php
-} ?>
+		} ?>
 							<!--<li<?php if ($gPageProps["id"] == 'stronghold') { echo(' class="active"'); } ?>><a href="stronghold.php" data-i18n="nav.stronghold"></a></li>-->
 							<li class="dropdown<?php if ($gPageProps["id"] == 'strats') { echo(' active'); } ?>">
 								<a href="/strats" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span data-i18n="nav.strats.title"></span> <span class="caret"></span></a>
@@ -115,7 +114,7 @@ if (array_key_exists('forumurl', $gClanConfig) && ($gClanConfig['forumurl'] != n
 								</ul>
 							</li><?php
 		// Show the clan settings only if the user is in the allowed users (commander and roles by clan settings)
-		if (in_array($_SESSION['account_id'], $gAdmins) || in_array($_SESSION["USER_ROLE"], array('commander', 'executive_officer'))) { ?>
+		if (in_array($_SESSION['account_id'], $gAdmins) || in_array($_SESSION["USER_ROLE"], array('commander'))) { ?>
 							<li<?php if ($gPageProps["id"] == 'clansettings') { echo(' class="active"'); } ?>><a href="clansettings" data-i18n="[title]page.clansettings.title;"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></li><?php
 		} ?>
 							<li class="paypal"><a href="https://www.paypal.com/cgi-bin/webscr" data-toggle="tooltip" data-placement="bottom" data-i18n="[title]share.paypal;"><span>Paypal</span></a>

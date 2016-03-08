@@ -7,6 +7,9 @@
 
 require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'version.php');
 
+// Include rights matrix
+require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'classes' . DIRECTORY_SEPARATOR . 'wct.rights.php');
+
 /**
  * Returns the path to the clan's configuration file.
  *
@@ -60,6 +63,24 @@ function getUserFile($pUserId, $pClusterId = WCT_DEFAULT_CLUSTER) {
 		mkdir($dirName, 0755, true);
 	}
 	return $userFileName;
+}
+
+/**
+ * Test connected user right to do specified action
+ *
+ * @param $pActionCode
+ *     Code of the action to test
+ */
+function isUserAllowed($pActionCode = null) {
+	// Return false by default
+	$returnVal = false;
+	// Global admins are allowed to do everything ! ("With great powers came great responsability")
+	if (in_array($_SESSION['account_id'], $gAdmins)) {
+		$returnVal = true;
+	} elseif (!empty($pActionCode)) {
+		// Test the right against settings and user's role
+	}
+	return $returnVal;
 }
 
 // Session lifetime (14 days = 14*24*3600 seconds = 1209600)
