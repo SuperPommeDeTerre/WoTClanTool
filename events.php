@@ -93,8 +93,14 @@ include(WCT_INC_DIR . 'ads.php');
 					</nav>
 */ ?>
 					<div id="containerEventMain">
-						<input id="eventTitle" type="text" class="form-control" data-i18n="[placeholder]action.calendar.prop.title;" aria-describedby="sizing-addon1" />
-						<textarea id="eventDescription" class="form-control" data-i18n="[placeholder]action.calendar.prop.description;" aria-describedby="sizing-addon1"></textarea>
+						<div class="form-group">
+							<label class="sr-only" for="eventTitle" data-i18n="action.calendar.prop.title"></label>
+							<input id="eventTitle" type="text" class="form-control" data-i18n="[placeholder]action.calendar.prop.title;" aria-describedby="sizing-addon1" />
+						</div>
+						<div class="form-group">
+							<label class="sr-only" for="eventDescription" data-i18n="action.calendar.prop.description"></label>
+							<textarea id="eventDescription" class="form-control" data-i18n="[placeholder]action.calendar.prop.description;" aria-describedby="sizing-addon1"></textarea>
+						</div>
 						<div class="container-fluid">
 							<div class="row">
 								<div class="col-xs-6">
@@ -131,7 +137,7 @@ include(WCT_INC_DIR . 'ads.php');
 									<div class="input-group pull-left">
 										<span class="input-group-addon glyphicon glyphicon-asterisk"></span>
 										<div class="btn-group">
-											<button type="button" id="eventType" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" data-value="all" aria-expanded="false"><span class="btnVal" data-i18n="action.calendar.prop.types.clanwar"></span> <span class="caret"></span></button>
+											<button type="button" id="eventType" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" data-value="clanwar" aria-expanded="false"><span class="btnVal" data-i18n="action.calendar.prop.types.clanwar"></span> <span class="caret"></span></button>
 											<ul class="dropdown-menu" role="menu">
 												<li data-value="clanwar"><a href="#" data-i18n="action.calendar.prop.types.clanwar"></a></li>
 												<li data-value="compa"><a href="#" data-i18n="action.calendar.prop.types.compa"></a></li>
@@ -145,7 +151,7 @@ include(WCT_INC_DIR . 'ads.php');
 									<div class="input-group pull-left" style="margin-right:.25em">
 										<span class="input-group-addon glyphicon glyphicon-refresh"></span>
 										<div class="btn-group">
-											<button type="button" id="tankFilterType" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" data-value="no" aria-expanded="false"><span class="btnVal" data-i18n="action.calendar.prop.periodicity"></span> <span class="caret"></span></button>
+											<button type="button" id="eventPeriodicity" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" data-value="no" aria-expanded="false"><span class="btnVal" data-i18n="action.calendar.prop.periodicity"></span> <span class="caret"></span></button>
 											<ul class="dropdown-menu" role="menu">
 												<li data-value="all"><a href="#" data-i18n="tank.alltypes"></a></li>
 												<li class="divider"></li>
@@ -155,7 +161,7 @@ include(WCT_INC_DIR . 'ads.php');
 									<div class="input-group pull-left">
 										<span class="input-group-addon glyphicon glyphicon-tasks"></span>
 										<div class="btn-group">
-											<button type="button" id="tankFilterLevel" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" data-value="all" aria-expanded="false"><span class="btnVal" data-i18n="tank.alllevels"></span> <span class="caret"></span></button>
+											<button type="button" id="eventTankLevel" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" data-value="all" aria-expanded="false"><span class="btnVal" data-i18n="tank.alllevels"></span> <span class="caret"></span></button>
 											<ul class="dropdown-menu" role="menu">
 												<li data-value="all"><a href="#" data-i18n="tank.alllevels"></a></li>
 												<li class="divider"></li>
@@ -175,7 +181,7 @@ include(WCT_INC_DIR . 'ads.php');
 									<div class="input-group pull-left" style="margin-right:.25em">
 										<span class="input-group-addon glyphicon glyphicon-knight"></span>
 										<div class="btn-group">
-											<button type="button" id="tankFilterType" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" data-value="all" aria-expanded="false"><span class="btnVal" data-i18n="tank.alltypes"></span> <span class="caret"></span></button>
+											<button type="button" id="eventTankTypes" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" data-value="all" aria-expanded="false"><span class="btnVal" data-i18n="tank.alltypes"></span> <span class="caret"></span></button>
 											<ul class="dropdown-menu" role="menu">
 												<li data-value="all"><a href="#" data-i18n="tank.alltypes"></a></li>
 												<li class="divider"></li>

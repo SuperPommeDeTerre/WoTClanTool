@@ -271,4 +271,14 @@ var onLoad = function() {
 			}
 		}, 'json');
 	});
+	var selEventType = $('#eventType'),
+		selTankLevel = $('#eventTankLevel'),
+		selTankType = ('#eventTankTypes');
+	selEventType.add(selTankLevel).add(selTankType).parent().on('click', 'a', function(evt) {
+		evt.preventDefault();
+		var myLink = $(this);
+		myLink.parent().parent().prev().data('value', myLink.parent().data('value')).find('.btnVal').text(myLink.text());
+	});
+	selEventType.parent().on('hide.bs.dropdown', function(evt) {
+	});
 };
