@@ -7,7 +7,7 @@ header('Cache: no-cache');
 header('Pragma: no-cache');
 */
 if ($gPageProps["authenticated"] && !array_key_exists("account_id", $_SESSION)) {
-	header('Location: unauthorized.php');
+	header('Location: unauthorized');
 	exit;
 }
 
@@ -23,7 +23,7 @@ header('Content-Type: text/html; charset=utf-8');
 		<base href="<?php echo(WCT_BASE_PATH) ?>" />
 		<link rel="icon" href="themes/<?php echo($gThemeName); ?>/style/favicon.ico" />
 		<link href="themes/<?php echo($gThemeName); ?>/style/favicon.png" type="image/x-icon" rel="icon" />
-		<title data-i18n="app.title" data-i18n-options="{&quot;page&quot;:&quot;<?php echo($gPageProps["id"]); ?>&quot;}"></title>
+		<title data-i18n="app.title" data-i18n-options="{&quot;page&quot;:&quot;$t(page.<?php echo($gPageProps["id"]); ?>.title)&quot;}"></title>
 		<!-- CSS -->
 		<link href="themes/<?php echo($gThemeName); ?>/style/style.css" rel="stylesheet" />
 		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -96,7 +96,12 @@ if ($gPageProps["blocks"]["nav"]) { ?>
 								</ul>
 							</li>
 							<li<?php if ($gPageProps["id"] == 'garage') { echo(' class="active"'); } ?>><a href="garage" data-i18n="nav.garage"></a></li>
-							<li<?php if ($gPageProps["id"] == 'events') { echo(' class="active"'); } ?>><a href="events" data-i18n="nav.events"></a></li>
+							<li<?php if ($gPageProps["id"] == 'events') { echo(' class="active"'); } ?>><a href="events" data-i18n="nav.events"></a></li><?php
+// Show forum link only if clan's forum URL is set
+if (array_key_exists('forumurl', $gClanConfig) && ($gClanConfig['forumurl'] != null)) {
+?>
+							<li<?php if ($gPageProps["id"] == 'forum') { echo(' class="active"'); } ?>><a href="forum" data-i18n="nav.forum"></a></li><?php
+} ?>
 							<!--<li<?php if ($gPageProps["id"] == 'stronghold') { echo(' class="active"'); } ?>><a href="stronghold.php" data-i18n="nav.stronghold"></a></li>-->
 							<li class="dropdown<?php if ($gPageProps["id"] == 'strats') { echo(' active'); } ?>">
 								<a href="/strats" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span data-i18n="nav.strats.title"></span> <span class="caret"></span></a>

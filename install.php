@@ -4,7 +4,7 @@ require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'server' . DIRECTORY_SEPA
 // If the config file exists, redirect to login page
 // this is to prevent multiple call to install.php
 if (file_exists(WCT_CONFIG_DIR . DIRECTORY_SEPARATOR . 'config.json')) {
-	header('Location: ./index.php');
+	header('Location: ./');
 	exit;
 }
 
@@ -264,8 +264,8 @@ foreach ($gClusters as $clusterId => $clusterProps) {
 				</form>
 			</div>
 		</div>
-		<script type="text/javascript" src="./js/jquery-2.2.0.min.js"></script>
-		<script type="text/javascript" src="./js/i18next-1.11.2.min.js"></script>
+		<script type="text/javascript" src="./js/jquery-2.2.1.min.js"></script>
+		<script type="text/javascript" src="./js/i18next.min.js"></script>
 		<script type="text/javascript" src="./js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="./js/material.min.js"></script>
 		<script type="text/javascript" src="./js/ripples.min.js"></script>

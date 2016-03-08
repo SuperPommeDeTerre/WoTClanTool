@@ -53,7 +53,7 @@
 			lResult += '<dd>' + pRewards.free_xp + '</dd>';
 		}
 		if (pRewards.slots > 0) {
-			lResult += '<dt><span class="glyphicon glyphicon-oil" aria-hidden="true" title="' + i18n.t('personalmissions.reward.slots', { count: pRewards.slots }) + '" /></dt>';
+			lResult += '<dt><span class="glyphicon glyphicon-oil" aria-hidden="true" title="' + $.t('personalmissions.reward.slots', { count: pRewards.slots }) + '" /></dt>';
 			lResult += '<dd>' + pRewards.slots + '</dd>';
 		}
 		if (pRewards.tokens > 0) {
@@ -109,7 +109,7 @@
 	checkConnected();
 	setNavBrandWithClan();
 	progressNbSteps = 3;
-	advanceProgress(i18n.t('loading.tanksinfos'));
+	advanceProgress($.t('loading.tanksinfos'));
 	$.post(gConfig.WG_API_URL + 'wot/encyclopedia/vehicles/', {
 		application_id: gConfig.WG_APP_ID,
 		access_token: gConfig.ACCESS_TOKEN,
@@ -117,7 +117,7 @@
 	}, function(dataTankopediaResponse) {
 		gTankopedia = dataTankopediaResponse.data;
 		// Get equipment and consumables reference
-		advanceProgress(i18n.t('loading.provisions'));
+		advanceProgress($.t('loading.provisions'));
 		$.post(gConfig.WG_API_URL + 'wot/encyclopedia/provisions/', {
 			application_id: gConfig.WG_APP_ID,
 			access_token: gConfig.ACCESS_TOKEN,
@@ -125,7 +125,7 @@
 		}, function(equipmentopediaResponse) {
 			gProvisionspedia = equipmentopediaResponse.data;
 			// Handle personal missions
-			advanceProgress(i18n.t('loading.personalmissions.reference'));
+			advanceProgress($.t('loading.personalmissions.reference'));
 			$.post(gConfig.WG_API_URL + 'wot/encyclopedia/personalmissions/', {
 				application_id: gConfig.WG_APP_ID,
 				access_token: gConfig.ACCESS_TOKEN,
@@ -136,7 +136,7 @@
 					lPersonalMissionHTMLNav = '',
 					isFirstCampaign = true,
 					isFirstOperation = true;
-				advanceProgress(i18n.t('loading.generating'));
+				advanceProgress($.t('loading.generating'));
 				for (var lCampaingId in lPMData) {
 					var lPMCampaign = lPMData[lCampaingId];
 					lPersonalMissionHTMLNav += '<li class="dropdown' + (isFirstCampaign === true?' active':'') + '"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" data-campaign="' + lPMCampaign.campaign_id + '">' + lPMCampaign.name + ' <span class="caret"></span></a>';
@@ -170,14 +170,14 @@
 					lOperationHTML += '<div class="col-md-3"><img src="' + lPMCampaignOperation.image + '" alt="'+ lPMCampaignOperation.name + '" class="img-responsive img-rounded" /></div>';
 					lOperationHTML += '<div class="col-md-9"><h2>' + lPMCampaignOperation.name + '</h2>';
 					lOperationHTML += '<p>' + lPMCampaignOperation.description + '</p>';
-					lOperationHTML += '<h3>' + i18n.t('personalmissions.reward.label', { count: (lPMCampaignOperation.reward.slots > 0?1:0) + (lPMCampaignOperation.reward.tanks.length > 0?1:0) }) + '</h3>';
+					lOperationHTML += '<h3>' + $.t('personalmissions.reward.label', { count: (lPMCampaignOperation.reward.slots > 0?1:0) + (lPMCampaignOperation.reward.tanks.length > 0?1:0) }) + '</h3>';
 					lOperationHTML += '<dl class="dl-horizontal">';
 					if (lPMCampaignOperation.reward.slots > 0) {
-						lOperationHTML += '<dt>' + i18n.t('personalmissions.reward.slots', { count: lPMCampaignOperation.reward.slots }) + '</dt>';
+						lOperationHTML += '<dt>' + $.t('personalmissions.reward.slots', { count: lPMCampaignOperation.reward.slots }) + '</dt>';
 						lOperationHTML += '<dd>' + lPMCampaignOperation.reward.slots + '</dd>';
 					}
 					if (lPMCampaignOperation.reward.tanks.length > 0) {
-						lOperationHTML += '<dt>' + i18n.t('personalmissions.reward.tanks', { count: lPMCampaignOperation.reward.tanks.length }) + '</dt>';
+						lOperationHTML += '<dt>' + $.t('personalmissions.reward.tanks', { count: lPMCampaignOperation.reward.tanks.length }) + '</dt>';
 						for (var rewarTankIdIndex in lPMCampaignOperation.reward.tanks) {
 							var myTankId = lPMCampaignOperation.reward.tanks[rewarTankIdIndex];
 							lOperationHTML += '<dd>' + gTankopedia[myTankId].name + '</dd>';
@@ -267,25 +267,25 @@
 							lMissionHtml = '<h3>' + lMission.name + '</h3>';
 						lMissionHtml += '<p>' + lMission.description + '</p>';
 						lMissionHtml += '<p>' + lMission.hint + '</p>';
-						lMissionHtml += '<h4>' + i18n.t('personalmissions.goal', { count: (getConditionsArray(lMission.rewards.primary.conditions).length - 1) + (getConditionsArray(lMission.rewards.secondary.conditions).length - 1) }) + '</h4>';
+						lMissionHtml += '<h4>' + $.t('personalmissions.goal', { count: (getConditionsArray(lMission.rewards.primary.conditions).length - 1) + (getConditionsArray(lMission.rewards.secondary.conditions).length - 1) }) + '</h4>';
 						lMissionHtml += '<div class="container-fluid">';
 						lMissionHtml += '<div class="row">';
 						lMissionHtml += '<div class="col-md-6">';
-						lMissionHtml += '<h5>' + i18n.t('personalmissions.primary', { count: getConditionsArray(lMission.rewards.primary.conditions).length - 1 }) + '</h5>';
+						lMissionHtml += '<h5>' + $.t('personalmissions.primary', { count: getConditionsArray(lMission.rewards.primary.conditions).length - 1 }) + '</h5>';
 						lMissionHtml += getConditionsHtml(lMission.rewards.primary.conditions);
 						lMissionHtml += '</div>';
 						lMissionHtml += '<div class="col-md-6">';
-						lMissionHtml += '<h5>' + i18n.t('personalmissions.secondary', { count: getConditionsArray(lMission.rewards.secondary.conditions).length - 1 }) + '</h5>';
+						lMissionHtml += '<h5>' + $.t('personalmissions.secondary', { count: getConditionsArray(lMission.rewards.secondary.conditions).length - 1 }) + '</h5>';
 						lMissionHtml += getConditionsHtml(lMission.rewards.secondary.conditions);
 						lMissionHtml += '</div>';
 						lMissionHtml += '</div>';
 						lMissionHtml += '<div class="row">';
 						lMissionHtml += '<div class="col-md-6">';
-						lMissionHtml += '<h5>' + i18n.t('personalmissions.reward.label', { count: getRewardsCount(lMission.rewards.primary) }) + '</h5>';
+						lMissionHtml += '<h5>' + $.t('personalmissions.reward.label', { count: getRewardsCount(lMission.rewards.primary) }) + '</h5>';
 						lMissionHtml += getRewardsHtml(lMission.rewards.primary);
 						lMissionHtml += '</div>';
 						lMissionHtml += '<div class="col-md-6">';
-						lMissionHtml += '<h5>' + i18n.t('personalmissions.reward.label', { count: getRewardsCount(lMission.rewards.secondary) }) + '</h5>';
+						lMissionHtml += '<h5>' + $.t('personalmissions.reward.label', { count: getRewardsCount(lMission.rewards.secondary) }) + '</h5>';
 						lMissionHtml += getRewardsHtml(lMission.rewards.secondary);
 						lMissionHtml += '</div>';
 						lMissionHtml += '</div>';
@@ -297,7 +297,7 @@
 					$('#navCampaignContainer').find('.active').removeClass('active');
 					$('#navCampaignContainer').find('.dropdown-toggle[data-campaign=' + myCampaignId + ']').parent().addClass('active').find('[data-operation=' + myOperationId + ']').parent().addClass('active');
 				}).first().click();
-				advanceProgress(i18n.t('loading.complete'));
+				advanceProgress($.t('loading.complete'));
 				afterLoad();
 			});
 		});

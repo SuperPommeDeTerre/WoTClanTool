@@ -162,86 +162,103 @@ $(document).ready(function() {
 	gProgressBar = $('#progressBar');
 	gProgressMessage = $('#progressInfoMessage');
 	moment.locale(gConfig.LANG);
-	i18n.init({ lng: gConfig.LANG, fallbackLng: 'en', useDataAttrOptions: true }, function(t) {
-		if (gConfig.SHOW_ADS) {
-			$.ajax({
-				url: './js/advertisement.js', // this is just an empty js file
-				dataType: "script"
-			})
-			.fail(function () {
-				$('#myContainerForAds').prepend('<div class="alert alert-info" role="alert">' + i18n.t('share.adblock') + '</div>');
+	$.get('./locales/' + gConfig.LANG + '/translation.json', function(dataLng) {
+		var myLngRessources = {};
+		myLngRessources[gConfig.LANG] = { 'translation': dataLng };
+		i18next.init({
+				lng: gConfig.LANG,
+				resources: myLngRessources,
+				debug: true }, function(err, t) {
+			i18nextJquery.init(i18next, $, {
+				tName: 't', // --> appends $.t = i18next.t
+				i18nName: 'i18n', // --> appends $.i18n = i18next
+				handleName: 'localize', // --> appends $(selector).localize(opts);
+				selectorAttr: 'data-i18n', // selector for translating elements
+				targetAttr: 'i18n-target', // element attribute to grab target element to translate (if different then itself)
+				optionsAttr: 'i18n-options', // element attribute that contains options, will load/set if useOptionsAttr = true
+				useOptionsAttr: true, // see optionsAttr
+				parseDefaultValueFromContent: true // parses default values from content ele.val or ele.text
 			});
-		}
-		$(document).i18n();
-		if (typeof(window.update_cookieconsent_options) == 'function') {
-			window.update_cookieconsent_options({
-				"message": i18n.t('cookieconsent.message'),
-				"dismiss": i18n.t('cookieconsent.dismiss'),
-				"learnMore": i18n.t('cookieconsent.learnmore'),
-				"link": null,
-				"theme": "dark-bottom"
+			if (gConfig.SHOW_ADS) {
+				$.ajax({
+					url: './js/advertisement.js', // this is just an empty js file
+					dataType: "script"
+				})
+				.fail(function () {
+					$('#myContainerForAds').prepend('<div class="alert alert-info" role="alert">' + $.t('share.adblock') + '</div>');
+				});
+			}
+			$(document).localize();
+			if (typeof(window.update_cookieconsent_options) == 'function') {
+				window.update_cookieconsent_options({
+					"message": $.t('cookieconsent.message'),
+					"dismiss": $.t('cookieconsent.dismiss'),
+					"learnMore": $.t('cookieconsent.learnmore'),
+					"link": null,
+					"theme": "dark-bottom"
+				});
+			}
+			$('li.paypal a').on('click', function(evt) {
+				evt.preventDefault();
+				$(this).siblings('form').submit();
 			});
-		}
-		$('li.paypal a').on('click', function(evt) {
-			evt.preventDefault();
-			$(this).siblings('form').submit();
-		});
-		if (typeof(gConfig.PLAYER_ID) != 'undefined') {
-			// Verify that user is member of one of the handled clans...
-			$.post(gConfig.WG_API_URL + 'wot/account/info/', {
-				application_id: gConfig.WG_APP_ID,
-				language: gConfig.LANG,
-				access_token: gConfig.ACCESS_TOKEN,
-				extra: 'private.personal_missions',
-				account_id: gConfig.PLAYER_ID
-			}, function(dataPlayersResponse) {
-				if (dataPlayersResponse.status == 'error') {
-					document.location = 'logout';
-					return;
-				}
-				var me = dataPlayersResponse.data[gConfig.PLAYER_ID],
-					isClanFound = (gConfig.USER_CLAN_ID != '');
-				if (!isClanFound) {
-					$.post('./server/player.php', {
-						'action': 'setclanid',
-						'clan_id': me.clan_id
-					}, function(dataSetUserInfos) {
-					}, 'json');
-				}
-				if (me.clan_id != null) {
-					if (gConfig.CLAN_IDS.length == 0) {
-						isClanFound = true;
-						gPersonalInfos = me;
-						onLoad();
-					} else {
-						for (var i=0; i<gConfig.CLAN_IDS.length; i++) {
-							if (me.clan_id == gConfig.CLAN_IDS[i]) {
-								isClanFound = true;
-								gPersonalInfos = me;
-								onLoad();
-								break;
+			if (typeof(gConfig.PLAYER_ID) != 'undefined') {
+				// Verify that user is member of one of the handled clans...
+				$.post(gConfig.WG_API_URL + 'wot/account/info/', {
+					application_id: gConfig.WG_APP_ID,
+					language: gConfig.LANG,
+					access_token: gConfig.ACCESS_TOKEN,
+					extra: 'private.personal_missions',
+					account_id: gConfig.PLAYER_ID
+				}, function(dataPlayersResponse) {
+					if (dataPlayersResponse.status == 'error') {
+						document.location = 'logout';
+						return;
+					}
+					var me = dataPlayersResponse.data[gConfig.PLAYER_ID],
+						isClanFound = (gConfig.USER_CLAN_ID != '');
+					if (!isClanFound) {
+						$.post('./server/player.php', {
+							'action': 'setclanid',
+							'clan_id': me.clan_id
+						}, function(dataSetUserInfos) {
+						}, 'json');
+					}
+					if (me.clan_id != null) {
+						if (gConfig.CLAN_IDS.length == 0) {
+							isClanFound = true;
+							gPersonalInfos = me;
+							onLoad();
+						} else {
+							for (var i=0; i<gConfig.CLAN_IDS.length; i++) {
+								if (me.clan_id == gConfig.CLAN_IDS[i]) {
+									isClanFound = true;
+									gPersonalInfos = me;
+									onLoad();
+									break;
+								}
 							}
 						}
 					}
-				}
-				if (!isClanFound) {
-					// Clan is not found. Redirect to unauthorized
-					window.location = 'unauthorized';
-				}
-			}, 'json');
-		} else {
-			onLoad();
-		}
-		$('#linkLogout').on('click', function(evt) {
-			evt.preventDefault();
-			$.post(gConfig.WG_API_URL + 'wot/auth/logout/', {
-				application_id: gConfig.WG_APP_ID,
-				access_token: gConfig.ACCESS_TOKEN
-			}, function(data) {
-				document.location = './logout';
-			}, 'json');
+					if (!isClanFound) {
+						// Clan is not found. Redirect to unauthorized
+						window.location = 'unauthorized';
+					}
+				}, 'json');
+			} else {
+				onLoad();
+			}
+			$('#linkLogout').on('click', function(evt) {
+				evt.preventDefault();
+				$.post(gConfig.WG_API_URL + 'wot/auth/logout/', {
+					application_id: gConfig.WG_APP_ID,
+					access_token: gConfig.ACCESS_TOKEN
+				}, function(data) {
+					document.location = './logout';
+				}, 'json');
+			});
 		});
-	});
+	}, 'json');
 });
 
 var afterLoad = function() {

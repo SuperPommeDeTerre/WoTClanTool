@@ -1,6 +1,6 @@
 var onLoad = function() {
 	afterLoad();
-	var listFAQ = i18n.t("FAQ", { returnObjectTrees: true }),
+	var listFAQ = $.t("FAQ", { returnObjectTrees: true }),
 		faqHTML = '';
 	for (var indexFaq in listFAQ) {
 		faqHTML += '<div class="panel panel-default">';

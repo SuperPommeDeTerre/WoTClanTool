@@ -2,7 +2,7 @@
 	"app": {
 		"name": "WoT C.T.",
 		"version": "Version :",
-		"title": "WoT C.T. :: $t(page.__page__.title)",
+		"title": "WoT C.T. :: {{page}}",
 		"description": "Outil de gestion de clan pour World of Tanks",
 		"projectpage": "Page du projet",
 		"bugreports": "Rapports de bug"
@@ -48,7 +48,7 @@
 			"maps": {
 				"title": "Cartes",
 				"size": "Taille",
-				"metrics": "__sizex__m x __sizey__m",
+				"metrics": "{{sizex}}m x {{sizey}}m",
 				"modes": "Modes de jeu",
 				"props": {
 					"sizex": {
@@ -69,12 +69,12 @@
 		},
 		"inactivitythreshold": {
 			"title": "Seuil d'inactivité",
-			"value": "__count__ jour",
-			"value_plural": "__count__ jours"
+			"value": "{{count}} jour",
+			"value_plural": "{{count}} jours"
 		},
 		"write": {
-			"ok": "[__file__] est accessible en écriture",
-			"ko": "[__file__] n'est pas accessible en écriture"
+			"ok": "[{{file}}] est accessible en écriture",
+			"ko": "[{{file}}] n'est pas accessible en écriture"
 		},
 		"modrewrite": {
 			"ok": "Module apache de réécriture d'url mod_rewrite disponible",
@@ -134,6 +134,10 @@
 			"validate": "Valider une stratégie"
 		}
 	},
+	"clansettings": {
+		"general": "Paramètres généraux",
+		"forumurl": "URL du forum"
+	},
 	"nav": {
 		"toggle": "Basculer navigation",
 		"home": "Accueil",
@@ -141,6 +145,7 @@
 		"events": "Evènements",
 		"stronghold": "Bastion",
 		"admin": "Administration",
+		"forum": "Forum",
 		"logout": "Se déconnecter",
 		"tscomments": "Contenu commentaire Mumble/TS",
 		"tscommentimage": "Image",
@@ -277,8 +282,8 @@
 		"noevent": "Aucun évènement",
 		"noparticipant": "Aucun participant",
 		"notank": "Aucun char sélectionné",
-		"participants": "__count__ participant",
-		"participants_plural": "__count__ participants",
+		"participants": "{{count}} participant",
+		"participants_plural": "{{count}} participants",
 		"participations": "Participations"
 	},
 	"stats": {
@@ -334,21 +339,21 @@
 	},
 	"clan": {
 		"emblem": "Emblême du clan",
-		"nbplayers": "__count__ joueur",
+		"nbplayers": "{{count}} joueur",
 		"nbplayers_plural_0" : "0 joueur",
-		"nbplayers_plural": "__count__ joueurs",
-		"nbtanks": "__count__ char",
+		"nbplayers_plural": "{{count}} joueurs",
+		"nbtanks": "{{count}} char",
 		"nbtanks_plural_0" : "0 char",
-		"nbtanks_plural": "__count__ chars",
-		"nbprovinces": "__count__ province",
+		"nbtanks_plural": "{{count}} chars",
+		"nbprovinces": "{{count}} province",
 		"nbprovinces_plural_0" : "0 province",
-		"nbprovinces_plural": "__count__ provinces",
-		"nbevents": "__count__ évènement",
+		"nbprovinces_plural": "{{count}} provinces",
+		"nbevents": "{{count}} évènement",
 		"nbevents_plural_0" : "0 évènement",
-		"nbevents_plural": "__count__ évènements",
-		"nbstrats": "__count__ stratégie",
+		"nbevents_plural": "{{count}} évènements",
+		"nbstrats": "{{count}} stratégie",
 		"nbstrats_plural_0" : "0 stratégie",
-		"nbstrats_plural": "__count__ stratégies"
+		"nbstrats_plural": "{{count}} stratégies"
 	},
 	"player": {
 		"name": "Nom",
@@ -388,61 +393,61 @@
 				"wargaming": {
 					"title": "Profil officiel",
 					"url": {
-						"EU": "http://worldoftanks.eu/community/accounts/__account_id__-__nickname__/",
-						"RU": "http://worldoftanks.ru/community/accounts/__account_id__-__nickname__/",
-						"NA": "http://worldoftanks.com/community/accounts/__account_id__-__nickname__/",
-						"ASIA": "http://worldoftanks.asia/community/accounts/__account_id__-__nickname__/",
-						"KR": "http://worldoftanks.kr/community/accounts/__account_id__-__nickname__/"
+						"EU": "http://worldoftanks.eu/community/accounts/{{account_id}}-{{nickname}}/",
+						"RU": "http://worldoftanks.ru/community/accounts/{{account_id}}-{{nickname}}/",
+						"NA": "http://worldoftanks.com/community/accounts/{{account_id}}-{{nickname}}/",
+						"ASIA": "http://worldoftanks.asia/community/accounts/{{account_id}}-{{nickname}}/",
+						"KR": "http://worldoftanks.kr/community/accounts/{{account_id}}-{{nickname}}/"
 					}
 				},
 				"noobmeter": {
 					"title": "Noobmeter",
 					"url": {
-						"EU": "http://www.noobmeter.com/player/eu/__nickname__/__account_id__",
-						"RU": "http://www.noobmeter.com/player/ru/__nickname__/__account_id__",
-						"NA": "http://www.noobmeter.com/player/na/__nickname__/__account_id__",
-						"ASIA": "http://www.noobmeter.com/player/sea/__nickname__/__account_id__",
-						"KR": "http://www.noobmeter.com/player/kr/__nickname__/__account_id__"
+						"EU": "http://www.noobmeter.com/player/eu/{{nickname}}/{{account_id}}",
+						"RU": "http://www.noobmeter.com/player/ru/{{nickname}}/{{account_id}}",
+						"NA": "http://www.noobmeter.com/player/na/{{nickname}}/{{account_id}}",
+						"ASIA": "http://www.noobmeter.com/player/sea/{{nickname}}/{{account_id}}",
+						"KR": "http://www.noobmeter.com/player/kr/{{nickname}}/{{account_id}}"
 					}
 				},
 				"wotlabs": {
 					"title": "Wot Labs",
 					"url": {
-						"EU": "http://wotlabs.net/eu/player/__nickname__",
-						"RU": "http://wotlabs.net/ru/player/__nickname__",
-						"NA": "http://wotlabs.net/na/player/__nickname__",
-						"ASIA": "http://wotlabs.net/sea/player/__nickname__",
-						"KR": "http://wotlabs.net/kr/player/__nickname__"
+						"EU": "http://wotlabs.net/eu/player/{{nickname}}",
+						"RU": "http://wotlabs.net/ru/player/{{nickname}}",
+						"NA": "http://wotlabs.net/na/player/{{nickname}}",
+						"ASIA": "http://wotlabs.net/sea/player/{{nickname}}",
+						"KR": "http://wotlabs.net/kr/player/{{nickname}}"
 					}
 				},
 				"wotstats": {
 					"title": "Wot Stats",
 					"url": {
-						"EU": "http://www.wotstats.org/stats/eu/__nickname__/",
-						"RU": "http://www.wotstats.org/stats/ru/__nickname__/",
-						"NA": "http://www.wotstats.org/stats/na/__nickname__/",
-						"ASIA": "http://www.wotstats.org/stats/asia/__nickname__/",
-						"KR": "http://www.wotstats.org/stats/kr/__nickname__/"
+						"EU": "http://www.wotstats.org/stats/eu/{{nickname}}/",
+						"RU": "http://www.wotstats.org/stats/ru/{{nickname}}/",
+						"NA": "http://www.wotstats.org/stats/na/{{nickname}}/",
+						"ASIA": "http://www.wotstats.org/stats/asia/{{nickname}}/",
+						"KR": "http://www.wotstats.org/stats/kr/{{nickname}}/"
 					}
 				},
 				"wotlife": {
 					"title": "WoT Life",
 					"url": {
-						"EU": "http://wot-life.com/eu/player/__nickname__",
-						"RU": "http://wot-life.com/ru/player/__nickname__",
-						"NA": "http://wot-life.com/na/player/__nickname__",
-						"ASIA": "http://wot-life.com/asia/player/__nickname__",
-						"KR": "http://wot-life.com/kr/player/__nickname__"
+						"EU": "http://wot-life.com/eu/player/{{nickname}}",
+						"RU": "http://wot-life.com/ru/player/{{nickname}}",
+						"NA": "http://wot-life.com/na/player/{{nickname}}",
+						"ASIA": "http://wot-life.com/asia/player/{{nickname}}",
+						"KR": "http://wot-life.com/kr/player/{{nickname}}"
 					}
 				},
 				"wotreplays": {
 					"title": "WoTReplays",
 					"url": {
-						"EU": "http://wotreplays.eu/player/__nickname__",
-						"RU": "http://wotreplays.ru/player/__nickname__",
-						"NA": "http://wotreplays.com/player/__nickname__",
-						"ASIA": "http://wotreplays.asia/player/__nickname__",
-						"KR": "http://wotreplays.kr/player/__nickname__"
+						"EU": "http://wotreplays.eu/player/{{nickname}}",
+						"RU": "http://wotreplays.ru/player/{{nickname}}",
+						"NA": "http://wotreplays.com/player/{{nickname}}",
+						"ASIA": "http://wotreplays.asia/player/{{nickname}}",
+						"KR": "http://wotreplays.kr/player/{{nickname}}"
 					}
 				}
 			}

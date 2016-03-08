@@ -1,7 +1,7 @@
 var onLoad = function() {
 	checkConnected();
 	progressNbSteps = 3;
-	advanceProgress(i18n.t('loading.claninfos'));
+	advanceProgress($.t('loading.claninfos'));
 	setNavBrandWithClan(function() {
 		var membersList = '',
 			isFirst = true;
@@ -13,14 +13,14 @@ var onLoad = function() {
 			}
 			membersList += gClanInfos.members[i].account_id;
 		}
-		advanceProgress(i18n.t('loading.membersinfos'));
+		advanceProgress($.t('loading.membersinfos'));
 		$.post(gConfig.WG_API_URL + 'wot/account/info/', {
 			application_id: gConfig.WG_APP_ID,
 			language: gConfig.G_API_LANG,
 			access_token: gConfig.ACCESS_TOKEN,
 			account_id: membersList
 		}, function(dataPlayersResponse) {
-			advanceProgress(i18n.t('loading.events'));
+			advanceProgress($.t('loading.events'));
 			gDataPlayers = dataPlayersResponse.data;
 			var now = moment(),
 				endDate = moment(now).startOf('day'),
@@ -30,7 +30,7 @@ var onLoad = function() {
 				from: startDate.valueOf(),
 				to: endDate.valueOf()
 			}, function(calendarDataResponse) {
-				advanceProgress(i18n.t('loading.generating'));
+				advanceProgress($.t('loading.generating'));
 				var myEvents = calendarDataResponse.result,
 					i = 0,
 					j = 0,
@@ -44,9 +44,9 @@ var onLoad = function() {
 					for (myParticipantId in myEvent.participants) {
 						myEventsHtml += '<tr>';
 						myEventsHtml += '<td>' + gDataPlayers[myParticipantId].nickname + '</td>';
-						myEventsHtml += '<td>' + i18n.t('event.enrol.state.' + myEvent.participants[myParticipantId]) + '</td>';
+						myEventsHtml += '<td>' + $.t('event.enrol.state.' + myEvent.participants[myParticipantId]) + '</td>';
 						myEventsHtml += '<td>' + myEvent.title + '</td>';
-						myEventsHtml += '<td>' + i18n.t('action.calendar.prop.types.' + myEvent.type) + '</td>';
+						myEventsHtml += '<td>' + $.t('action.calendar.prop.types.' + myEvent.type) + '</td>';
 						myEventsHtml += '<td data-value="' + myEvent.start + '">' + moment(myEvent.start * 1).format('LLL') + '</td>';
 						myEventsHtml += '<td data-value="' + myEvent.end + '">' + moment(myEvent.end * 1).format('LLL') + '</td>';
 						myEventsHtml += '</tr>';

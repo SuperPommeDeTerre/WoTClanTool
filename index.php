@@ -46,24 +46,25 @@ require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR
 			<div class="row">
 				<div class="main"><?php
 include(WCT_INC_DIR . 'ads.php');
-?>
-					<h1 data-i18n="app.name"></h1>
-					<p data-i18n="[html]page.index.lines.0"></p>
-					<p data-i18n="[html]page.index.lines.1"></p>
-					<ul>
-						<li data-i18n="page.index.features.0"></li>
-						<li data-i18n="page.index.features.1"></li>
-						<li data-i18n="page.index.features.2"></li>
-						<li data-i18n="page.index.features.3"></li>
-						<li data-i18n="page.index.features.4"></li>
-					</ul>
-					<p data-i18n="[html]page.index.lines.2"></p>
-					<p style="text-align:center"><?php
+?>					<div class="reduced">
+						<h1 data-i18n="app.name"></h1>
+						<p data-i18n="[html]page.index.lines.0"></p>
+						<p data-i18n="[html]page.index.lines.1"></p>
+						<ul>
+							<li data-i18n="page.index.features.0"></li>
+							<li data-i18n="page.index.features.1"></li>
+							<li data-i18n="page.index.features.2"></li>
+							<li data-i18n="page.index.features.3"></li>
+							<li data-i18n="page.index.features.4"></li>
+						</ul>
+						<p data-i18n="[html]page.index.lines.2"></p>
+						<p style="text-align:center"><?php
 if (count($gConfig["WG"]["clusters"]) > 1) {
 	?><a href="#" class="btn btn-lg btn-primary btn-material-grey-500" id="btnLogin" data-target="#dlgChooseCluster" data-toggle="modal" data-i18n="action.identification"></a><?php
 } else {
 	?><a href="#" class="btn btn-lg btn-primary btn-material-grey-500" id="btnLogin" data-i18n="action.identification"></a><?php
 } ?></p>
+					</div>
 				</div>
 			</div>
 		</div><?php

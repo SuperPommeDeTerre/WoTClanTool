@@ -106,7 +106,7 @@ var onLoad = function() {
 		applyFilter();
 	});
 	// Load data
-	advanceProgress(i18n.t('loading.claninfos'));
+	advanceProgress($.t('loading.claninfos'));
 	$.post(gConfig.WG_API_URL + 'wgn/clans/info/', {
 		application_id: gConfig.WG_APP_ID,
 		language: gConfig.LANG,
@@ -166,7 +166,7 @@ var onLoad = function() {
 			myButton.toggleClass('active');
 			applyFilter();
 		});
-		advanceProgress(i18n.t('loading.membersinfos'));
+		advanceProgress($.t('loading.membersinfos'));
 		$.post(gConfig.WG_API_URL + 'wot/account/info/', {
 			application_id: gConfig.WG_APP_ID,
 			language: gConfig.G_API_LANG,
@@ -174,14 +174,14 @@ var onLoad = function() {
 			account_id: membersList
 		}, function(dataPlayersResponse) {
 			var dataPlayers = dataPlayersResponse.data;
-			advanceProgress(i18n.t('loading.tanksinfos'));
+			advanceProgress($.t('loading.tanksinfos'));
 			$.post(gConfig.WG_API_URL + 'wot/encyclopedia/vehicles/', {
 				application_id: gConfig.WG_APP_ID,
 				access_token: gConfig.ACCESS_TOKEN,
 				language: gConfig.LANG
 			}, function(dataTankopediaResponse) {
 				gTankopedia = dataTankopediaResponse.data;
-				advanceProgress(i18n.t('loading.membertanksinfos'));
+				advanceProgress($.t('loading.membertanksinfos'));
 				$.post(gConfig.WG_API_URL + 'wot/account/tanks/', {
 					application_id: gConfig.WG_APP_ID,
 					language: gConfig.LANG,
@@ -189,12 +189,12 @@ var onLoad = function() {
 					account_id: membersList
 				}, function(dataPlayersVehiclesResponse) {
 					var dataPlayersVehicles = dataPlayersVehiclesResponse.data;
-					advanceProgress(i18n.t('loading.tanksadditionalinfos'));
+					advanceProgress($.t('loading.tanksadditionalinfos'));
 					$.post('./server/player.php', {
 						action: 'gettanksstats',
 						account_id: membersList
 					}, function(dataStoredPlayersTanksResponse) {
-						advanceProgress(i18n.t('loading.generating'));
+						advanceProgress($.t('loading.generating'));
 						var dataStoredPlayersTanks = dataStoredPlayersTanksResponse.data,
 							listToDisplay = [],
 							dataToAdd = {},
@@ -269,10 +269,10 @@ var onLoad = function() {
 							myElemToDisplay = listToDisplay[i];
 							tanksListHtml += '<tr>';
 							tanksListHtml += '<td><img src="' + myElemToDisplay.images.contour_icon + '" alt="' + myElemToDisplay.short_name + '" /></td>';
-							tanksListHtml += '<td data-value="' + myElemToDisplay.nation + '"><img src="./themes/' + gConfig.THEME + '/style/images/nation_' + myElemToDisplay.nation + '.png" alt="' + i18n.t('tank.nation.' + myElemToDisplay.nation) + '" title="' + i18n.t('tank.nation.' + myElemToDisplay.nation) + '" width="24" height="24" /></td>';
+							tanksListHtml += '<td data-value="' + myElemToDisplay.nation + '"><img src="./themes/' + gConfig.THEME + '/style/images/nation_' + myElemToDisplay.nation + '.png" alt="' + $.t('tank.nation.' + myElemToDisplay.nation) + '" title="' + $.t('tank.nation.' + myElemToDisplay.nation) + '" width="24" height="24" /></td>';
 							tanksListHtml += '<td class="' + (myElemToDisplay.is_premium?'ispremium':'') + '"><span class="tankname">' + myElemToDisplay.short_name + '</span></td>';
 							tanksListHtml += '<td class="tanklevel" data-value="' + myElemToDisplay.tier + '"><img src="./themes/' + gConfig.THEME + '/style/images/Tier_' + myElemToDisplay.tier + '_icon.png" alt="' + gTANKS_LEVEL[myElemToDisplay.tier - 1] + '" title="' + myElemToDisplay.tier + '" /></td>';
-							tanksListHtml += '<td class="tanktype" data-value="' + gTANKS_TYPES[myElemToDisplay.type] + '"><img src="./themes/' + gConfig.THEME + '/style/images/type-' + myElemToDisplay.type + '.png" alt="' + myElemToDisplay.type + '" title="' + i18n.t('tank.type.' + myElemToDisplay.type) + '" /></td>';
+							tanksListHtml += '<td class="tanktype" data-value="' + gTANKS_TYPES[myElemToDisplay.type] + '"><img src="./themes/' + gConfig.THEME + '/style/images/type-' + myElemToDisplay.type + '.png" alt="' + myElemToDisplay.type + '" title="' + $.t('tank.type.' + myElemToDisplay.type) + '" /></td>';
 							tanksListHtml += '<td class="tankowners">';
 							isFirst = true;
 							for (var userId in myElemToDisplay.owners) {
@@ -298,7 +298,7 @@ var onLoad = function() {
 							if (myPlayersDetailsContainer.find('#playerDetails' + userId).length == 0) {
 								playersDetailsHtml += '<div class="panel panel-default pull-left playerdetails" id="playerDetails' + userId + '">';
 								playersDetailsHtml += '<div class="panel-heading">';
-								playersDetailsHtml += '<button class="close" aria-hidden="true" data-dismiss="alert" data-target="#playerDetails' + userId + '" type="button" aria-label="' + i18n.t('btn.close') + '">&times;</button>';
+								playersDetailsHtml += '<button class="close" aria-hidden="true" data-dismiss="alert" data-target="#playerDetails' + userId + '" type="button" aria-label="' + $.t('btn.close') + '">&times;</button>';
 								playersDetailsHtml += '<h3 class="panel-title">' + myLink.text() + '</h3>';
 								playersDetailsHtml += '</div>';
 								playersDetailsHtml += '<div class="panel-body">';
@@ -324,7 +324,7 @@ var onLoad = function() {
 							}
 						});
 						Sortable.initTable(myTanksTable[0]);
-						advanceProgress(i18n.t('loading.complete'));
+						advanceProgress($.t('loading.complete'));
 						afterLoad();
 					}, 'json');
 				}, 'json');

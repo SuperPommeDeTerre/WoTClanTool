@@ -1,6 +1,6 @@
 var onLoad = function() {
 	checkConnected();
-	advanceProgress(i18n.t('loading.claninfos'));
+	advanceProgress($.t('loading.claninfos'));
 	setNavBrandWithClan();
 	// Fill infos from WG.
 	var listClans = { 'EU': [], 'NA': [], 'RU': [], 'ASIA': [], 'KR': [] },
@@ -59,7 +59,7 @@ var onLoad = function() {
 			}
 		}
 	}
-	advanceProgress(i18n.t('loading.maps'));
+	advanceProgress($.t('loading.maps'));
 	$.post('./res/wot/game.json', {}, function(stratsConfig) {
 		var myStratsTab = $('#configStrats'),
 			myMapsContainer = $('#listMaps'),
@@ -73,7 +73,7 @@ var onLoad = function() {
 		myMapsHtml += '<div class="row">';
 		// Sort maps by name
 		var mapsKeysSorted = Object.keys(stratsConfig.maps).sort(function(a, b) {
-			return i18n.t('strat.maps.' + a).localeCompare(i18n.t('strat.maps.' + b));
+			return $.t('strat.maps.' + a).localeCompare($.t('strat.maps.' + b));
 		});
 		for (var mapIndex in mapsKeysSorted) {
 			var mapName = mapsKeysSorted[mapIndex];
@@ -93,11 +93,11 @@ var onLoad = function() {
 				}
 			}
 			myMapsHtml += '<div class="col-xs-6 col-md-4 col-lg-3 mapstate' + myMapOptions.state + ' mapcamo' + myMapOptions.camo + '"><div class="thumbnail">';
-			myMapsHtml += '<img src="./res/wot/maps/' + myMapThumb + '" alt="' + i18n.t('strat.maps.' + mapName) + '" />';
-			myMapsHtml += '<div class="caption"><h3>' + i18n.t('strat.maps.' + mapName) + '</h3>';
-			myMapsHtml += '<p>' + i18n.t('install.strategies.maps.size') + ': ' + i18n.t('install.strategies.maps.metrics', { sizex: myMapOptions.size.x, sizey: myMapOptions.size.y }) + '</p>';
-			myMapsHtml += '<p>' + i18n.t('strat.camos.title') + ': ' + i18n.t('strat.camos.' + myMapOptions.camo) + '</p>';
-			myMapsHtml += '<p>' + i18n.t('install.strategies.maps.modes') + ': ';
+			myMapsHtml += '<img src="./res/wot/maps/' + myMapThumb + '" alt="' + $.t('strat.maps.' + mapName) + '" />';
+			myMapsHtml += '<div class="caption"><h3>' + $.t('strat.maps.' + mapName) + '</h3>';
+			myMapsHtml += '<p>' + $.t('install.strategies.maps.size') + ': ' + $.t('install.strategies.maps.metrics', { sizex: myMapOptions.size.x, sizey: myMapOptions.size.y }) + '</p>';
+			myMapsHtml += '<p>' + $.t('strat.camos.title') + ': ' + $.t('strat.camos.' + myMapOptions.camo) + '</p>';
+			myMapsHtml += '<p>' + $.t('install.strategies.maps.modes') + ': ';
 			isFirst = true;
 			for (var modeName in myMapOptions.modes) {
 				myModeOptions = myMapOptions.modes[modeName];
@@ -106,10 +106,10 @@ var onLoad = function() {
 				} else {
 					myMapsHtml += ', ';
 				}
-				myMapsHtml += i18n.t('strat.modes.' + modeName);
+				myMapsHtml += $.t('strat.modes.' + modeName);
 			}
 			myMapsHtml += '</p>';
-			myMapsHtml += '<p><a href="#" class="btn btn-primary" role="button" data-map-name="' + mapName + '" data-target="#dlgModifyMap" data-toggle="modal">' + i18n.t('btn.modify') + '</a></p>';
+			myMapsHtml += '<p><a href="#" class="btn btn-primary" role="button" data-map-name="' + mapName + '" data-target="#dlgModifyMap" data-toggle="modal">' + $.t('btn.modify') + '</a></p>';
 			myMapsHtml += '</div></div></div>';
 			nbMapsOnRow++;
 		}
@@ -127,15 +127,15 @@ var onLoad = function() {
 			myTeamHtml += '<option value="base">Base</option>';
 			myTeamHtml += '<option value="drop" selected="selected">Drop</option>';
 			myTeamHtml += '</select></div>';
-			myTeamHtml += '<label class="sr-only" for="mapSizeX">' + i18n.t('install.strategies.maps.props.sizex.title') + '</label>';
+			myTeamHtml += '<label class="sr-only" for="mapSizeX">' + $.t('install.strategies.maps.props.sizex.title') + '</label>';
 			myTeamHtml += '<div class="input-group">';
 			myTeamHtml += '<div class="input-group-addon"><span class="glyphicon glyphicon-resize-horizontal"></span></div>';
-			myTeamHtml += '<input class="form-control floating-label" data-hint="' + i18n.t('install.strategies.maps.props.sizex.hint') + '" placeholder="' + i18n.t('install.strategies.maps.props.sizex.title') + '" type="number" />';
+			myTeamHtml += '<input class="form-control floating-label" data-hint="' + $.t('install.strategies.maps.props.sizex.hint') + '" placeholder="' + $.t('install.strategies.maps.props.sizex.title') + '" type="number" />';
 			myTeamHtml += '</div>';
-			myTeamHtml += '<label class="sr-only" for="mapSizeY">' + i18n.t('install.strategies.maps.props.sizey.title') + '</label>';
+			myTeamHtml += '<label class="sr-only" for="mapSizeY">' + $.t('install.strategies.maps.props.sizey.title') + '</label>';
 			myTeamHtml += '<div class="input-group">';
 			myTeamHtml += '<div class="input-group-addon"><span class="glyphicon glyphicon-resize-vertical"></span></div>';
-			myTeamHtml += '<input class="form-control floating-label" data-hint="' + i18n.t('install.strategies.maps.props.sizey.hint') + '" placeholder="' + i18n.t('install.strategies.maps.props.sizey.title') + '" type="number" />';
+			myTeamHtml += '<input class="form-control floating-label" data-hint="' + $.t('install.strategies.maps.props.sizey.hint') + '" placeholder="' + $.t('install.strategies.maps.props.sizey.title') + '" type="number" />';
 			myTeamHtml += '</div>';
 			myTeamHtml += '<button class="btn btn-default btnRemoveSpawnPoint"><span class="glyphicon glyphicon-minus"></span></button>';
 			myTeamHtml += '<div class="clearfix"></div></div>';
@@ -164,7 +164,7 @@ var onLoad = function() {
 				mapName = myBtn.data('map-name');
 			$('#dlgModifyMap .nav-pills a:first').tab('show');
 			myMapOptions = stratsConfig.maps[mapName];
-			myDlgModifyMap.find('.modal-title').text(i18n.t('strat.maps.' + mapName));
+			myDlgModifyMap.find('.modal-title').text($.t('strat.maps.' + mapName));
 			myDlgModifyMap.find('#mapSizeX').val(myMapOptions.size.x).removeClass('empty');
 			myDlgModifyMap.find('#mapSizeY').val(myMapOptions.size.y).removeClass('empty');
 			myDlgModifyMap.find('#gameModeStandard').prop('checked', typeof(myMapOptions.modes['standard']) !== 'undefined');
@@ -217,15 +217,15 @@ var onLoad = function() {
 						myTeamHtml += '<option value="base"' + (myTeamSpawnPointOptions.type == 'base'?' selected="selected"':'') + '>Base</option>';
 						myTeamHtml += '<option value="drop"' + (myTeamSpawnPointOptions.type == 'drop'?' selected="selected"':'') + '>Drop</option>';
 						myTeamHtml += '</select></div>';
-						myTeamHtml += '<label class="sr-only" for="mapSizeX">' + i18n.t('install.strategies.maps.props.sizex.title') + '</label>';
+						myTeamHtml += '<label class="sr-only" for="mapSizeX">' + $.t('install.strategies.maps.props.sizex.title') + '</label>';
 						myTeamHtml += '<div class="input-group">';
 						myTeamHtml += '<div class="input-group-addon"><span class="glyphicon glyphicon-resize-horizontal"></span></div>';
-						myTeamHtml += '<input class="form-control floating-label" data-hint="' + i18n.t('install.strategies.maps.props.sizex.hint') + '" placeholder="' + i18n.t('install.strategies.maps.props.sizex.title') + '" type="number" value="' + myTeamSpawnPointOptions.x + '" />';
+						myTeamHtml += '<input class="form-control floating-label" data-hint="' + $.t('install.strategies.maps.props.sizex.hint') + '" placeholder="' + $.t('install.strategies.maps.props.sizex.title') + '" type="number" value="' + myTeamSpawnPointOptions.x + '" />';
 						myTeamHtml += '</div>';
-						myTeamHtml += '<label class="sr-only" for="mapSizeY">' + i18n.t('install.strategies.maps.props.sizey.title') + '</label>';
+						myTeamHtml += '<label class="sr-only" for="mapSizeY">' + $.t('install.strategies.maps.props.sizey.title') + '</label>';
 						myTeamHtml += '<div class="input-group">';
 						myTeamHtml += '<div class="input-group-addon"><span class="glyphicon glyphicon-resize-vertical"></span></div>';
-						myTeamHtml += '<input class="form-control floating-label" data-hint="' + i18n.t('install.strategies.maps.props.sizey.hint') + '" placeholder="' + i18n.t('install.strategies.maps.props.sizey.title') + '" type="number" value="' + myTeamSpawnPointOptions.y + '" />';
+						myTeamHtml += '<input class="form-control floating-label" data-hint="' + $.t('install.strategies.maps.props.sizey.hint') + '" placeholder="' + $.t('install.strategies.maps.props.sizey.title') + '" type="number" value="' + myTeamSpawnPointOptions.y + '" />';
 						myTeamHtml += '</div>';
 						myTeamHtml += '<button class="btn btn-default btnRemoveSpawnPoint"><span class="glyphicon glyphicon-minus"></span></button>';
 						myTeamHtml += '<div class="clearfix"></div></div>';
@@ -295,13 +295,13 @@ var onLoad = function() {
 			var alertHtml = '';
 			if (saveConfigResponse.status == 'success') {
 				alertHtml += '<div class="alert alert-success" role="alert" id="alertResult">';
-				alertHtml += '<button type="button" class="close" data-dismiss="alert" aria-label="' + i18n.t('btn.close') + '"><span aria-hidden="true">&times;</span></button>';
-				alertHtml += '<span><strong>' + i18n.t('success.title') + '</strong> ' + i18n.t('success.configsave') + '</span>';
+				alertHtml += '<button type="button" class="close" data-dismiss="alert" aria-label="' + $.t('btn.close') + '"><span aria-hidden="true">&times;</span></button>';
+				alertHtml += '<span><strong>' + $.t('success.title') + '</strong> ' + $.t('success.configsave') + '</span>';
 				alertHtml += '</div>';
 			} else {
 				alertHtml += '<div class="alert alert-danger" role="alert" id="alertResult">';
-				alertHtml += '<button type="button" class="close" data-dismiss="alert" aria-label="' + i18n.t('btn.close') + '"><span aria-hidden="true">&times;</span></button>';
-				alertHtml += '<span><strong>' + i18n.t('error.title') + '</strong> ' + i18n.t(saveConfigResponse.message) + '</span>';
+				alertHtml += '<button type="button" class="close" data-dismiss="alert" aria-label="' + $.t('btn.close') + '"><span aria-hidden="true">&times;</span></button>';
+				alertHtml += '<span><strong>' + $.t('error.title') + '</strong> ' + $.t(saveConfigResponse.message) + '</span>';
 				alertHtml += '</div>';
 			}
 			$('h1').before(alertHtml);
@@ -367,7 +367,7 @@ var onLoad = function() {
 			resultHtml = '';
 		if ($('#restrictedClans').find('[data-cluster=' + myItem.data('cluster') + '][data-clan-id=' + myItem.data('id') + ']').length == 0) {
 			resultHtml += '<div class="alert alert-material-grey alert-dismissible clan cluster' + myItem.data('cluster') + '" role="alert" data-clan-id="' + myItem.data('clan-id') + '" data-cluster="' + myItem.data('cluster') + '">';
-			resultHtml += '<button type="button" class="close" data-dismiss="alert" aria-label="' + i18n.t('btn.close') + '"><span aria-hidden="true">&times;</span></button>';
+			resultHtml += '<button type="button" class="close" data-dismiss="alert" aria-label="' + $.t('btn.close') + '"><span aria-hidden="true">&times;</span></button>';
 			resultHtml += '<span>' + myItem.html() + '</span>';
 			resultHtml += '</div>';
 			$('#restrictedClans').append(resultHtml);
@@ -416,7 +416,7 @@ var onLoad = function() {
 			resultHtml = '';
 		if ($('#listAdmins').find('[data-cluster=' + myItem.data('cluster') + '][data-account-id=' + myItem.data('id') + ']').length == 0) {
 			resultHtml += '<div class="alert alert-material-grey alert-dismissible player cluster' + myItem.data('cluster') + '" role="alert" data-account-id="' + myItem.data('account-id') + '" data-cluster="' + myItem.data('cluster') + '">';
-			resultHtml += '<button type="button" class="close" data-dismiss="alert" aria-label="' + i18n.t('btn.close') + '"><span aria-hidden="true">&times;</span></button>';
+			resultHtml += '<button type="button" class="close" data-dismiss="alert" aria-label="' + $.t('btn.close') + '"><span aria-hidden="true">&times;</span></button>';
 			resultHtml += '<span>' + myItem.html() + '</span>';
 			resultHtml += '</div>';
 			$('#listAdmins').append(resultHtml);
@@ -438,7 +438,7 @@ var onLoad = function() {
 	// Update inactivity threshold value on slide
 	mySliderInactivityThreshold.on({
 		'slide': function(evt) {
-			myBadgeInactivityThreshold.text(i18n.t('install.inactivitythreshold.value', { count: parseInt(mySliderInactivityThreshold.val()) }));
+			myBadgeInactivityThreshold.text($.t('install.inactivitythreshold.value', { count: parseInt(mySliderInactivityThreshold.val()) }));
 		},
 		'set': function(evt) {
 			// Sets the inactivity threshold on server
@@ -542,7 +542,7 @@ var onLoad = function() {
 				content: JSON.stringify($.parseJSON(fileContentsContainer.find('textarea').val()))
 			}, function(saveFileResponse) {
 				if (saveFileResponse.status == 'ok') {
-					fileContentsContainer.prepend('<div class="alert alert-success alert-dismissibl" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="' + i18n.t('btn.close') + '"><span aria-hidden="true">&times;</span></button>...</div>');
+					fileContentsContainer.prepend('<div class="alert alert-success alert-dismissibl" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="' + $.t('btn.close') + '"><span aria-hidden="true">&times;</span></button>...</div>');
 				}
 			}, 'json');
 		}
@@ -560,7 +560,7 @@ var onLoad = function() {
 				f: gShowedFile
 			}, function(deleteFileResponse) {
 				if (deleteFileResponse.status == 'ok') {
-					fileContentsContainer.prepend('<div class="alert alert-success alert-dismissibl" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="' + i18n.t('btn.close') + '"><span aria-hidden="true">&times;</span></button>...</div>');
+					fileContentsContainer.prepend('<div class="alert alert-success alert-dismissibl" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="' + $.t('btn.close') + '"><span aria-hidden="true">&times;</span></button>...</div>');
 				}
 			}, 'json');
 		}

@@ -142,6 +142,16 @@ include(WCT_INC_DIR . 'ads.php');
 											</ul>
 										</div>
 									</div>
+									<div class="input-group pull-left" style="margin-right:.25em">
+										<span class="input-group-addon glyphicon glyphicon-refresh"></span>
+										<div class="btn-group">
+											<button type="button" id="tankFilterType" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" data-value="no" aria-expanded="false"><span class="btnVal" data-i18n="action.calendar.prop.periodicity"></span> <span class="caret"></span></button>
+											<ul class="dropdown-menu" role="menu">
+												<li data-value="all"><a href="#" data-i18n="tank.alltypes"></a></li>
+												<li class="divider"></li>
+											</ul>
+										</div>
+									</div>
 									<div class="input-group pull-left">
 										<span class="input-group-addon glyphicon glyphicon-tasks"></span>
 										<div class="btn-group">
@@ -177,15 +187,6 @@ include(WCT_INC_DIR . 'ads.php');
 											</ul>
 										</div>
 									</div>
-								</div>
-							</div>
-							<div class="togglebutton">
-								<label><span data-i18n="action.calendar.prop.periodic"></span>:
-									<input type="checkbox" id="eventRecurrent" value="true" />
-								</label>
-							</div>
-							<div class="form-inline">
-								<div id="containerEventPeriodicity" class="pull-left">
 								</div>
 							</div>
 						</div>

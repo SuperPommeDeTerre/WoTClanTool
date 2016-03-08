@@ -42,7 +42,7 @@ var getTankAdditionalInfos = function(pTankID, pTanksAdditionalInfos) {
 var onLoad = function() {
 	checkConnected();
 	progressNbSteps = 5;
-	advanceProgress(i18n.t('loading.claninfos'));
+	advanceProgress($.t('loading.claninfos'));
 	setNavBrandWithClan(function() {
 		var membersList = '',
 			isFirst = true;
@@ -54,18 +54,18 @@ var onLoad = function() {
 			}
 			membersList += gClanInfos.members[i].account_id;
 		}
-		advanceProgress(i18n.t('loading.membersinfos'));
+		advanceProgress($.t('loading.membersinfos'));
 		$.post(gConfig.WG_API_URL + 'wot/account/info/', {
 			application_id: gConfig.WG_APP_ID,
 			language: gConfig.G_API_LANG,
 			access_token: gConfig.ACCESS_TOKEN,
 			account_id: membersList
 		}, function(dataPlayersResponse) {
-			advanceProgress(i18n.t('loading.generating'));
+			advanceProgress($.t('loading.generating'));
 			gDataPlayers = dataPlayersResponse.data;
 		}, 'json');
 	});
-	advanceProgress(i18n.t('loading.tanksinfos'));
+	advanceProgress($.t('loading.tanksinfos'));
 	var myTanksTable = $('#tableMyTanks'),
 		myTanksSmallContainer = $('#myTanksContainerSmall'),
 		myTanksBigContainer = $('#myTanksContainerBig');
@@ -118,13 +118,13 @@ var onLoad = function() {
 					myDayEventsHtml += '<div data-event-id="' + myEvent.id + '" data-participants="' + Object.keys(myEvent.participants).length + '">';
 					myDayEventsHtml += '<h4><span class="label label-default">' + myEventStartDate.format('LT') + '</span> <a href="#" class="lnkShowEvent" data-target="#events-modal" data-toggle="modal" data-event-id="' +  myEvent.id + '">' + myEvent.title + '</a></h4>';
 					myDayEventsHtml += '<p>' + myEvent.description + '</p>';
-					myDayEventsHtml += '<p>' + i18n.t('event.participants', { count: Object.keys(myEvent.participants).length }) + '</p>';
+					myDayEventsHtml += '<p>' + $.t('event.participants', { count: Object.keys(myEvent.participants).length }) + '</p>';
 					myDayEventsHtml += '</div>';
 				}
 			}
 			if (myDayEventsHtml == '') {
 				// No events for this day.
-				myDayEventsHtml = '<p>' + i18n.t('event.noevent') + '</p>';
+				myDayEventsHtml = '<p>' + $.t('event.noevent') + '</p>';
 			}
 			myElem.find('h3').after(myDayEventsHtml);
 			myElem.find('.lnkShowEvent').on('click', function(evt) {
@@ -158,7 +158,7 @@ var onLoad = function() {
 				if (enrolResponse.result == 'ok') {
 					var myEventContainer = myButton.closest('div');
 					myEventContainer.data('participants', (myEventContainer.data('participants') * 1) + 1);
-					myEventContainer.append('<p>' + i18n.t('event.participants', { count: myEventContainer.data('participants') }) + '</p>');
+					myEventContainer.append('<p>' + $.t('event.participants', { count: myEventContainer.data('participants') }) + '</p>');
 					myEventContainer.find('.btnEnrol').remove();
 				}
 			}, 'json');
@@ -170,7 +170,7 @@ var onLoad = function() {
 		language: gConfig.LANG
 	}, function(dataTankopediaResponse) {
 		gTankopedia = dataTankopediaResponse.data;
-		advanceProgress(i18n.t('loading.mytanksinfos'));
+		advanceProgress($.t('loading.mytanksinfos'));
 		$.post(gConfig.WG_API_URL + 'wot/tanks/stats/', {
 			application_id: gConfig.WG_APP_ID,
 			language: gConfig.LANG,
@@ -199,7 +199,7 @@ var onLoad = function() {
 				'action': 'gettanksstats',
 				'data': JSON.stringify(dataMyTanks)
 			}, function(dataMyTanksResponse) {
-				advanceProgress(i18n.t('loading.getvacancies'));
+				advanceProgress($.t('loading.getvacancies'));
 				$.post('./server/player.php', {
 					'action': 'getvacancies'
 				}, function(dataMyVacanciesResponse) {
@@ -318,7 +318,7 @@ var onLoad = function() {
 							}
 						}, 'json');
 					});
-					advanceProgress(i18n.t('loading.complete'));
+					advanceProgress($.t('loading.complete'));
 					afterLoad();
 				}, 'json');
 				var dataMyTanksAdditionalInfos = dataMyTanksResponse.data[gConfig.PLAYER_ID],
@@ -328,7 +328,7 @@ var onLoad = function() {
 					isStatFound = false,
 					index = 0;
 				dataMyTanks = dataMyTanks[gConfig.PLAYER_ID];
-				advanceProgress(i18n.t('loading.generating'));
+				advanceProgress($.t('loading.generating'));
 				// Sort tanks by tiers
 				dataMyTanks.sort(function(a, b) {
 					var tankInfosA = gTankopedia[a.tank_id],
@@ -371,7 +371,7 @@ var onLoad = function() {
 						}
 						if (!isStatFound) {
 							statsTanksByType.push({
-								label: i18n.t('tank.type.' + tankInfos.type),
+								label: $.t('tank.type.' + tankInfos.type),
 								type: tankInfos.type,
 								battles: 0,
 								wins: 0,
@@ -394,7 +394,7 @@ var onLoad = function() {
 						}
 						if (!isStatFound) {
 							statsTanksByLevel.push({
-								label: i18n.t('tank.level.' + (tankInfos.tier - 1)),
+								label: $.t('tank.level.' + (tankInfos.tier - 1)),
 								level: tankInfos.tier,
 								battles: 0,
 								wins: 0,
@@ -417,7 +417,7 @@ var onLoad = function() {
 						}
 						if (!isStatFound) {
 							statsTanksByNation.push({
-								label: i18n.t('tank.nation.' + tankInfos.nation),
+								label: $.t('tank.nation.' + tankInfos.nation),
 								nation: tankInfos.nation,
 								battles: 0,
 								wins: 0,
@@ -442,14 +442,14 @@ var onLoad = function() {
 							+ ' tanktype' + tankInfos.type + '">';
 						tableContent += '<td><img src="' + tankInfos.images.contour_icon + '" /></td>';
 						tableContent += '<td data-value="' + myTank.mark_of_mastery + '" class="tankmastery' + myTank.mark_of_mastery + '">&nbsp;</td>';
-						tableContent += '<td data-value="' + tankInfos.nation + '"><img src="./themes/' + gConfig.THEME + '/style/images/nation_' + tankInfos.nation + '.png" alt="' + tankInfos.nation + '" title="' + i18n.t('tank.nation.' + tankInfos.nation) + '" width="24" height="24" /></td>';
+						tableContent += '<td data-value="' + tankInfos.nation + '"><img src="./themes/' + gConfig.THEME + '/style/images/nation_' + tankInfos.nation + '.png" alt="' + tankInfos.nation + '" title="' + $.t('tank.nation.' + tankInfos.nation) + '" width="24" height="24" /></td>';
 						tableContent += '<td class="tankname">' + tankInfos.short_name + '</td>';
 						tableContent += '<td data-value="' + tankInfos.tier + '"><img src="./themes/' + gConfig.THEME + '/style/images/Tier_' + tankInfos.tier + '_icon.png" alt="' + gTANKS_LEVEL[tankInfos.tier - 1] + '" title="' + tankInfos.tier + '" /></td>';
-						tableContent += '<td data-value="' + gTANKS_TYPES[tankInfos.type] + '"><img src="./themes/' + gConfig.THEME + '/style/images/type-' + tankInfos.type + '.png" alt="' + tankInfos.type + '" title="' + i18n.t('tank.type.' + tankInfos.type) + '" /></td>';
+						tableContent += '<td data-value="' + gTANKS_TYPES[tankInfos.type] + '"><img src="./themes/' + gConfig.THEME + '/style/images/type-' + tankInfos.type + '.png" alt="' + tankInfos.type + '" title="' + $.t('tank.type.' + tankInfos.type) + '" /></td>';
 						tableContent += '<td>' + myTank.all.battles + '</td>';
 						tableContent += '<td><span class="label label-' + getWN8Class(tankAdditionalInfos.wn8) + '">' + (Math.round(tankAdditionalInfos.wn8 * 100) / 100) + '</span></td>';
 						tableContent += '<td data-value="' + winRatio + '">' + (winRatio > -1?(Math.round(winRatio * 100) / 100) + ' %':'-') + '</td>';
-						tableContent += '<td><div data-toggle="tooltip" data-placement="top" class="slider shor slider-info" title="' + (tankAdditionalInfos.is_ready?i18n.t('tank.status.2'):tankAdditionalInfos.is_full||tankInfos.is_premium?i18n.t('tank.status.1'):i18n.t('tank.status.0')) + '"></div></td>';
+						tableContent += '<td><div data-toggle="tooltip" data-placement="top" class="slider shor slider-info" title="' + (tankAdditionalInfos.is_ready?$.t('tank.status.2'):tankAdditionalInfos.is_full||tankInfos.is_premium?$.t('tank.status.1'):$.t('tank.status.0')) + '"></div></td>';
 						tableContent += '</tr>';
 						listContent += '<div class="small tank tankcontainer tankmastery' + myTank.mark_of_mastery +  (tankAdditionalInfos.in_garage?' ingarage':' hidden') + (tankInfos.is_premium?' ispremium':'') + (tankInfos.is_premium||tankAdditionalInfos.is_full?' isfull':'') +'">';
 						listContent += '<div class="tanklevel' + tankInfos.tier + '"><img src="' + tankInfos.images.small_icon  + '" /></div>';
@@ -492,7 +492,7 @@ var onLoad = function() {
 					data: statsTanksByType,
 					xkey: 'label',
 					ykeys: [ 'battles' ],
-					labels: [ i18n.t('stats.global.battles') ],
+					labels: [ $.t('stats.global.battles') ],
 					barColors: [ '#9e9e9e' ],
 					xLabelMargin: 0,
 					hideHover: true
@@ -502,7 +502,7 @@ var onLoad = function() {
 					data: statsTanksByLevel,
 					xkey: 'label',
 					ykeys: [ 'battles' ],
-					labels: [ i18n.t('stats.global.battles') ],
+					labels: [ $.t('stats.global.battles') ],
 					barColors: [ '#9e9e9e' ],
 					xLabelMargin: 0,
 					hideHover: true
@@ -512,7 +512,7 @@ var onLoad = function() {
 					data: statsTanksByNation,
 					xkey: 'label',
 					ykeys: [ 'battles' ],
-					labels: [ i18n.t('stats.global.battles') ],
+					labels: [ $.t('stats.global.battles') ],
 					barColors: [ '#9e9e9e' ],
 					xLabelMargin: 0,
 					hideHover: true
@@ -522,7 +522,7 @@ var onLoad = function() {
 					data: statsTanksByType,
 					xkey: 'label',
 					ykeys: [ 'wr' ],
-					labels: [ i18n.t('stats.global.winratio') ],
+					labels: [ $.t('stats.global.winratio') ],
 					barColors: [ '#9e9e9e' ],
 					xLabelMargin: 0,
 					hideHover: true
@@ -532,7 +532,7 @@ var onLoad = function() {
 					data: statsTanksByLevel,
 					xkey: 'label',
 					ykeys: [ 'wr' ],
-					labels: [ i18n.t('stats.global.winratio') ],
+					labels: [ $.t('stats.global.winratio') ],
 					barColors: [ '#9e9e9e' ],
 					xLabelMargin: 0,
 					hideHover: true
@@ -542,7 +542,7 @@ var onLoad = function() {
 					data: statsTanksByNation,
 					xkey: 'label',
 					ykeys: [ 'wr' ],
-					labels: [ i18n.t('stats.global.winratio') ],
+					labels: [ $.t('stats.global.winratio') ],
 					barColors: [ '#9e9e9e' ],
 					xLabelMargin: 0,
 					hideHover: true
@@ -600,7 +600,7 @@ var onLoad = function() {
 										break;
 								}
 								myElem.tooltip('hide')
-									.attr('data-original-title', i18n.t('tank.status.' + parseInt(myElem.val())))
+									.attr('data-original-title', $.t('tank.status.' + parseInt(myElem.val())))
 									.tooltip('fixTitle')
 									.tooltip('show');
 								$.post('./server/player.php', {
@@ -698,11 +698,11 @@ var onLoad = function() {
 						});
 					} else {
 						// We have some tanks to display
-						commentText += '<table border="1"><thead><tr><th>&nbsp;</th><th>' + i18n.t('tank.type.lightTank')
-							+ '</th><th>' + i18n.t('tank.type.mediumTank')
-							+ '</th><th>'+ i18n.t('tank.type.heavyTank')
-							+ '</th><th>' + i18n.t('tank.type.AT-SPG')
-							+ '</th><th>' + i18n.t('tank.type.SPG')
+						commentText += '<table border="1"><thead><tr><th>&nbsp;</th><th>' + $.t('tank.type.lightTank')
+							+ '</th><th>' + $.t('tank.type.mediumTank')
+							+ '</th><th>'+ $.t('tank.type.heavyTank')
+							+ '</th><th>' + $.t('tank.type.AT-SPG')
+							+ '</th><th>' + $.t('tank.type.SPG')
 							+ '</th></tr></thead><tbody>\n';
 						myCanvas.clearCanvas();
 						myCanvas.attr('height', canvasRealHeight);
@@ -821,11 +821,11 @@ var onLoad = function() {
 				var selTankLevelTSDefaultValue = selTankLevelTS.data('value'),
 					btnTexts = [];
 				for (var levelIndex in selTankLevelTSDefaultValue) {
-					btnTexts.push(i18n.t('tank.level.' + ((selTankLevelTSDefaultValue[levelIndex] * 1) - 1)));
+					btnTexts.push($.t('tank.level.' + ((selTankLevelTSDefaultValue[levelIndex] * 1) - 1)));
 				}
 				if (selTankLevelTSDefaultValue.length == gTANKS_LEVEL.length) {
 					// All levels are selected
-					selTankLevelTS.find('.btnVal').text(i18n.t('tank.alllevels'));
+					selTankLevelTS.find('.btnVal').text($.t('tank.alllevels'));
 				} else {
 					selTankLevelTS.find('.btnVal').text(btnTexts.join(', '));
 				}
@@ -854,11 +854,11 @@ var onLoad = function() {
 					// Compute text
 					var btnTexts = [];
 					for (var levelIndex in selectedLevels) {
-						btnTexts.push(i18n.t('tank.level.' + ((selectedLevels[levelIndex] * 1) - 1)));
+						btnTexts.push($.t('tank.level.' + ((selectedLevels[levelIndex] * 1) - 1)));
 					}
 					if (myChoice == 'all' || selectedLevels.length == gTANKS_LEVEL.length) {
 						// All levels are selected
-						myLink.parent().parent().prev().data('value', []).find('.btnVal').text(i18n.t('tank.alllevels'));
+						myLink.parent().parent().prev().data('value', []).find('.btnVal').text($.t('tank.alllevels'));
 					} else {
 						myLink.parent().parent().prev().data('value', selectedLevels).find('.btnVal').text(btnTexts.join(', '));
 					}
@@ -907,7 +907,7 @@ var onLoad = function() {
 				slideTankStatus.on({
 					'set': function(evt) {
 						slideTankStatus.tooltip('hide')
-							.attr('data-original-title', i18n.t('tank.status.' + parseInt(slideTankStatus.val())))
+							.attr('data-original-title', $.t('tank.status.' + parseInt(slideTankStatus.val())))
 							.tooltip('fixTitle')
 							.tooltip('show');
 						applyTableTanksFilters({

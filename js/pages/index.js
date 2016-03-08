@@ -20,7 +20,7 @@ var onLoad = function() {
 	if (myURI.search(true)['returnUrl']) {
 		destURI = URI(myURI.search(true)['returnUrl']);
 	}
-	$('.social .facebook a').attr('href', 'http://www.facebook.com/share.php?u=' + encodeURIComponent(myURI.href()) + '&title=' + encodeURIComponent(i18n.t('app.name')));
+	$('.social .facebook a').attr('href', 'http://www.facebook.com/share.php?u=' + encodeURIComponent(myURI.href()) + '&title=' + encodeURIComponent($.t('app.name')));
 	$('.cluster').on('click', function(evt) {
 		var destCluster = $(this).data('region');
 		$.post('./server/player.php', {

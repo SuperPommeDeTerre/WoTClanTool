@@ -1,6 +1,6 @@
 var onLoad = function() {
 	checkConnected();
-	advanceProgress(i18n.t('loading.claninfos'));
+	advanceProgress($.t('loading.claninfos'));
 	var now = moment();
 	// Get events on 6 days (because of 12 columns grid system of bootstrap)
 	$.post('./server/calendar.php', {
@@ -28,20 +28,20 @@ var onLoad = function() {
 					myDayEventsHtml += '<p>' + myEvent.description + '</p>';
 					if (typeof(myEvent.participants[gConfig.PLAYER_ID]) === 'undefined') {
 						myDayEventsHtml += '<div class="btn-group btnEnrolContainer" role="group">';
-						myDayEventsHtml += '<button type="button" class="btn btn-default btn-success btnEnrol" data-attendance="yes" title="' + i18n.t('event.enrol.yes') + '" data-event-id="' + myEvent.id + '"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>';
+						myDayEventsHtml += '<button type="button" class="btn btn-default btn-success btnEnrol" data-attendance="yes" title="' + $.t('event.enrol.yes') + '" data-event-id="' + myEvent.id + '"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>';
 						if (myEvent.spareallowed) {
-							myDayEventsHtml += '<button type="button" class="btn btn-default btn-info btnEnrol" data-attendance="spare" title="' + i18n.t('event.enrol.spare') + '" data-event-id="' + myEvent.id + '"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button>';
+							myDayEventsHtml += '<button type="button" class="btn btn-default btn-info btnEnrol" data-attendance="spare" title="' + $.t('event.enrol.spare') + '" data-event-id="' + myEvent.id + '"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button>';
 						}
 						myDayEventsHtml += '</div>';
 					} else {
-						myDayEventsHtml += '<p>' + i18n.t('event.participants', { count: Object.keys(myEvent.participants).length }) + '</p>';
+						myDayEventsHtml += '<p>' + $.t('event.participants', { count: Object.keys(myEvent.participants).length }) + '</p>';
 					}
 					myDayEventsHtml += '</div>';
 				}
 			}
 			if (myDayEventsHtml == '') {
 				// No events for this day.
-				myDayEventsHtml = '<p>' + i18n.t('event.noevent') + '</p>';
+				myDayEventsHtml = '<p>' + $.t('event.noevent') + '</p>';
 			}
 			myElem.find('h3').after(myDayEventsHtml);
 		});
@@ -56,7 +56,7 @@ var onLoad = function() {
 				if (enrolResponse.result == 'ok') {
 					var myEventContainer = myButton.closest('div.eventContainer');
 					myEventContainer.data('participants', (myEventContainer.data('participants') * 1) + 1);
-					myEventContainer.append('<p>' + i18n.t('event.participants', { count: myEventContainer.data('participants') }) + '</p>');
+					myEventContainer.append('<p>' + $.t('event.participants', { count: myEventContainer.data('participants') }) + '</p>');
 					myEventContainer.find('.btnEnrolContainer').parent().remove();
 				}
 			}, 'json');

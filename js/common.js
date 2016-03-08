@@ -42,12 +42,12 @@ function fillEventDialog(pDialog, pEvents) {
 			var myStratLinkContainer = gDisplayPanel.find('.eventStrategy'),
 				myMapInfos = gMaps[pStratProps.mapName],
 				myMapThumb = myMapInfos.file.substring(0, myMapInfos.file.lastIndexOf('.')) + '_thumb' + myMapInfos.file.substring(myMapInfos.file.lastIndexOf('.'));
-			gDisplayPanel.find('#eventMapThumb').data('map', pStratProps.mapName).attr('src', './res/wot/maps/' + myMapThumb).attr('alt', i18n.t('strat.maps.' + pStratProps.mapName)).next().text(i18n.t('strat.maps.' + pStratProps.mapName));
-			gDisplayPanel.find('.eventMapSize').text(i18n.t('install.strategies.maps.size') + ': ' + i18n.t('install.strategies.maps.metrics', { sizex: myMapInfos.size.x, sizey: myMapInfos.size.y }));
-			gDisplayPanel.find('.eventMapType').text(i18n.t('strat.camos.title') + ': ' + i18n.t('strat.camos.' + myMapInfos.camo));
+			gDisplayPanel.find('#eventMapThumb').data('map', pStratProps.mapName).attr('src', './res/wot/maps/' + myMapThumb).attr('alt', $.t('strat.maps.' + pStratProps.mapName)).next().text($.t('strat.maps.' + pStratProps.mapName));
+			gDisplayPanel.find('.eventMapSize').text($.t('install.strategies.maps.size') + ': ' + $.t('install.strategies.maps.metrics', { sizex: myMapInfos.size.x, sizey: myMapInfos.size.y }));
+			gDisplayPanel.find('.eventMapType').text($.t('strat.camos.title') + ': ' + $.t('strat.camos.' + myMapInfos.camo));
 			myStratLinkContainer.data('stratid', pStratProps.strategyId);
 			if (pStratProps.strategyId != -1 && pStratProps.strategyId != '') {
-				myStratLinkContainer.show().children().text(i18n.t('event.strat')).attr('href', './strats/show/' + pStratProps.strategyId);
+				myStratLinkContainer.show().children().text($.t('event.strat')).attr('href', './strats/show/' + pStratProps.strategyId);
 			} else {
 				myStratLinkContainer.hide();
 			}
@@ -89,12 +89,12 @@ function fillEventDialog(pDialog, pEvents) {
 				gMaps = dataMaps.maps;
 				gSortedMaps = Object.keys(gMaps);
 				gSortedMaps.sort(function(a, b) {
-					return i18n.t('strat.maps.' + a).localeCompare(i18n.t('strat.maps.' + b));
+					return $.t('strat.maps.' + a).localeCompare($.t('strat.maps.' + b));
 				});
 			}
 		});
 	}
-	pDialog.i18n();
+	pDialog.localize();
 	gEventStartDate = moment(pDialog.find('.eventStartDate').data('date') * 1);
 	gEventEndDate = moment(pDialog.find('.eventEndDate').data('date') * 1);
 	$.material.init(pDialog);
@@ -103,12 +103,12 @@ function fillEventDialog(pDialog, pEvents) {
 			myMapInfos = gMaps[mapName],
 			myMapThumb = myMapInfos.file.substring(0, myMapInfos.file.lastIndexOf('.')) + '_thumb' + myMapInfos.file.substring(myMapInfos.file.lastIndexOf('.')),
 			myStratLinkContainer = gDisplayPanel.find('.eventStrategy');
-		gDisplayPanel.find('#eventMapThumb').attr('src', './res/wot/maps/' + myMapThumb).attr('alt', i18n.t('strat.maps.' + mapName)).next().text(i18n.t('strat.maps.' + mapName));
-		gDisplayPanel.find('.eventMapSize').text(i18n.t('install.strategies.maps.size') + ': ' + i18n.t('install.strategies.maps.metrics', { sizex: myMapInfos.size.x, sizey: myMapInfos.size.y }));
-		gDisplayPanel.find('.eventMapType').text(i18n.t('strat.camos.title') + ': ' + i18n.t('strat.camos.' + myMapInfos.camo));
+		gDisplayPanel.find('#eventMapThumb').attr('src', './res/wot/maps/' + myMapThumb).attr('alt', $.t('strat.maps.' + mapName)).next().text($.t('strat.maps.' + mapName));
+		gDisplayPanel.find('.eventMapSize').text($.t('install.strategies.maps.size') + ': ' + $.t('install.strategies.maps.metrics', { sizex: myMapInfos.size.x, sizey: myMapInfos.size.y }));
+		gDisplayPanel.find('.eventMapType').text($.t('strat.camos.title') + ': ' + $.t('strat.camos.' + myMapInfos.camo));
 		if ((typeof(myStratLinkContainer.data('stratid')) === 'number' && myStratLinkContainer.data('stratid') != -1)
 				|| (typeof(myStratLinkContainer.data('stratid')) !== 'number' && myStratLinkContainer.data('stratid') != '-1' && myStratLinkContainer.data('stratid') != '')) {
-			myStratLinkContainer.show().children().text(i18n.t('event.strat')).attr('href', './strats/show/' + myStratLinkContainer.data('stratid'));
+			myStratLinkContainer.show().children().text($.t('event.strat')).attr('href', './strats/show/' + myStratLinkContainer.data('stratid'));
 		} else {
 			myStratLinkContainer.hide();
 		}
@@ -224,19 +224,19 @@ function fillEventDialog(pDialog, pEvents) {
 				currentType = pDialog.find('.eventDetails').data('event-type'),
 				curMapName = gDisplayPanel.find('#eventMapThumb').data('map'),
 				curStratId = gDisplayPanel.find('.eventStrategy').data('stratid');
-			modifyPanelHtml += '<input id="modifyEventTitle" type="text" class="form-control" placeholder="' + i18n.t('action.calendar.prop.title') + '" aria-describedby="sizing-addon1" value="' + pDialog.find('.modal-header h3 .eventTitle').text() + '" />';
-			modifyPanelHtml += '<textarea id="modifyEventDescription" class="form-control" placeholder="' + i18n.t('action.calendar.prop.description') + '" aria-describedby="sizing-addon1">' + pDialog.find('.eventDescription').text() + '</textarea>';
+			modifyPanelHtml += '<input id="modifyEventTitle" type="text" class="form-control" placeholder="' + $.t('action.calendar.prop.title') + '" aria-describedby="sizing-addon1" value="' + pDialog.find('.modal-header h3 .eventTitle').text() + '" />';
+			modifyPanelHtml += '<textarea id="modifyEventDescription" class="form-control" placeholder="' + $.t('action.calendar.prop.description') + '" aria-describedby="sizing-addon1">' + pDialog.find('.eventDescription').text() + '</textarea>';
 			modifyPanelHtml += '<div class="container-fluid">';
 			modifyPanelHtml += '<div class="row">';
 			modifyPanelHtml += '<div class="col-xs-6">';
 			modifyPanelHtml += '<div class="input-group date eventDatePicker" id="modifyEventStartDate">';
-			modifyPanelHtml += '<input type="text" class="form-control" placeholder="' + i18n.t('action.calendar.prop.startdate') + '" value="' + gEventStartDate.format('LL') + '" />';
+			modifyPanelHtml += '<input type="text" class="form-control" placeholder="' + $.t('action.calendar.prop.startdate') + '" value="' + gEventStartDate.format('LL') + '" />';
 			modifyPanelHtml += '<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>';
 			modifyPanelHtml += '</div>';
 			modifyPanelHtml += '</div>';
 			modifyPanelHtml += '<div class="col-xs-6">';
 			modifyPanelHtml += '<div class="input-group date eventTimePicker" id="modifyEventStartTime">';
-			modifyPanelHtml += '<input type="text" class="form-control" placeholder="' + i18n.t('action.calendar.prop.starttime') + '" value="' + gEventStartDate.format('LT') + '" />';
+			modifyPanelHtml += '<input type="text" class="form-control" placeholder="' + $.t('action.calendar.prop.starttime') + '" value="' + gEventStartDate.format('LT') + '" />';
 			modifyPanelHtml += '<span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>';
 			modifyPanelHtml += '</div>';
 			modifyPanelHtml += '</div>';
@@ -244,20 +244,20 @@ function fillEventDialog(pDialog, pEvents) {
 			modifyPanelHtml += '<div class="row">';
 			modifyPanelHtml += '<div class="col-xs-6">';
 			modifyPanelHtml += '<div class="input-group date eventDatePicker hidden" id="modifyEventEndDate">';
-			modifyPanelHtml += '<input type="text" class="form-control" placeholder="' + i18n.t('action.calendar.prop.enddate') + '" value="' + gEventEndDate.format('LL') + '" />';
+			modifyPanelHtml += '<input type="text" class="form-control" placeholder="' + $.t('action.calendar.prop.enddate') + '" value="' + gEventEndDate.format('LL') + '" />';
 			modifyPanelHtml += '<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>';
 			modifyPanelHtml += '</div>';
 			modifyPanelHtml += '</div>';
 			modifyPanelHtml += '<div class="col-xs-6">';
 			modifyPanelHtml += '<div class="input-group date eventTimePicker" id="modifyEventEndTime">';
-			modifyPanelHtml += '<input type="text" class="form-control" placeholder="' + i18n.t('action.calendar.prop.endtime') + '" value="' + gEventEndDate.format('LT') + '" />';
+			modifyPanelHtml += '<input type="text" class="form-control" placeholder="' + $.t('action.calendar.prop.endtime') + '" value="' + gEventEndDate.format('LT') + '" />';
 			modifyPanelHtml += '<span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>';
 			modifyPanelHtml += '</div>';
 			modifyPanelHtml += '</div>';
 			modifyPanelHtml += '</div>';
 			modifyPanelHtml += '</div>';
 			modifyPanelHtml += '<div class="togglebutton">';
-			modifyPanelHtml += '<label><span>' + i18n.t('action.calendar.prop.allowspare') + '</span>';
+			modifyPanelHtml += '<label><span>' + $.t('action.calendar.prop.allowspare') + '</span>';
 			modifyPanelHtml += '<input type="checkbox" id="modifyEventSpareAllowed" value="true"' + (pDialog.find('.btnEnrol[data-attendance="spare"]').is(':visible')?' checked="checked"':'') + ' />';
 			modifyPanelHtml += '</label>';
 			modifyPanelHtml += '</div>';
@@ -266,35 +266,35 @@ function fillEventDialog(pDialog, pEvents) {
 			modifyPanelHtml += '<div class="col-md-6 col-xs-6 col-lg-6">';
 			modifyPanelHtml += '<div class="input-group">';
 			modifyPanelHtml += '<div class="eventType">';
-			modifyPanelHtml += '<h4>' + i18n.t('action.calendar.prop.type') + '</h4>';
-			modifyPanelHtml += '<div class="radio radio-material-black"><label><input type="radio"' + (currentType=='clanwar'?' checked="checked"':'') + ' value="clanwar" name="modifyEventType"><abbr>' + i18n.t('action.calendar.prop.types.clanwar') + '</abbr></label></div>';
-			modifyPanelHtml += '<div class="radio radio-material-red-800"><label><input type="radio"' + (currentType=='compa'?' checked="checked"':'') + ' value="compa" name="modifyEventType"><abbr>' + i18n.t('action.calendar.prop.types.compa') + '</abbr></label></div>';
-			modifyPanelHtml += '<div class="radio radio-material-purple-600"><label><input type="radio"' + (currentType=='stronghold'?' checked="checked"':'') + ' value="stronghold" name="modifyEventType"><abbr>' + i18n.t('action.calendar.prop.types.stronghold') + '</abbr></label></div>';
-			modifyPanelHtml += '<div class="radio radio-material-blue-700"><label><input type="radio"' + (currentType=='7vs7'?' checked="checked"':'') + ' value="7vs7" name="modifyEventType"><abbr>' + i18n.t('action.calendar.prop.types.7vs7') + '</abbr></label></div>';
-			modifyPanelHtml += '<div class="radio radio-material-green-600"><label><input type="radio"' + (currentType=='training'?' checked="checked"':'') + ' value="training" name="modifyEventType"><abbr>' + i18n.t('action.calendar.prop.types.training') + '</abbr></label></div>';
-			modifyPanelHtml += '<div class="radio radio-material-grey-500"><label><input type="radio"' + (currentType=='other'?' checked="checked"':'') + ' value="other" name="modifyEventType"><abbr>' + i18n.t('action.calendar.prop.types.other') + '</abbr></label></div>';
+			modifyPanelHtml += '<h4>' + $.t('action.calendar.prop.type') + '</h4>';
+			modifyPanelHtml += '<div class="radio radio-material-black"><label><input type="radio"' + (currentType=='clanwar'?' checked="checked"':'') + ' value="clanwar" name="modifyEventType"><abbr>' + $.t('action.calendar.prop.types.clanwar') + '</abbr></label></div>';
+			modifyPanelHtml += '<div class="radio radio-material-red-800"><label><input type="radio"' + (currentType=='compa'?' checked="checked"':'') + ' value="compa" name="modifyEventType"><abbr>' + $.t('action.calendar.prop.types.compa') + '</abbr></label></div>';
+			modifyPanelHtml += '<div class="radio radio-material-purple-600"><label><input type="radio"' + (currentType=='stronghold'?' checked="checked"':'') + ' value="stronghold" name="modifyEventType"><abbr>' + $.t('action.calendar.prop.types.stronghold') + '</abbr></label></div>';
+			modifyPanelHtml += '<div class="radio radio-material-blue-700"><label><input type="radio"' + (currentType=='7vs7'?' checked="checked"':'') + ' value="7vs7" name="modifyEventType"><abbr>' + $.t('action.calendar.prop.types.7vs7') + '</abbr></label></div>';
+			modifyPanelHtml += '<div class="radio radio-material-green-600"><label><input type="radio"' + (currentType=='training'?' checked="checked"':'') + ' value="training" name="modifyEventType"><abbr>' + $.t('action.calendar.prop.types.training') + '</abbr></label></div>';
+			modifyPanelHtml += '<div class="radio radio-material-grey-500"><label><input type="radio"' + (currentType=='other'?' checked="checked"':'') + ' value="other" name="modifyEventType"><abbr>' + $.t('action.calendar.prop.types.other') + '</abbr></label></div>';
 			modifyPanelHtml += '</div>';
 			modifyPanelHtml += '</div>';
 			modifyPanelHtml += '</div>';
 			modifyPanelHtml += '<div class="col-md-6 col-xs-6 col-lg-6">';
-			modifyPanelHtml += '<h4>' + i18n.t('strat.map.select') + '</h4>';
+			modifyPanelHtml += '<h4>' + $.t('strat.map.select') + '</h4>';
 			modifyPanelHtml += '<select class="form-control" id="modifyEventMapName">';
 			modifyPanelHtml += '<option value=""' + (curMapName!=''?'':' selected="selected"') + '></option>';
 			for (var mapIndex in gSortedMaps) {
 				var mapName = gSortedMaps[mapIndex],
 					myMapInfos = gMaps[mapName];
-				modifyPanelHtml += '<option value="' + mapName + '"' + (curMapName!=mapName?'':' selected="selected"') + '>' + i18n.t('strat.maps.' + mapName) + '</option>';
+				modifyPanelHtml += '<option value="' + mapName + '"' + (curMapName!=mapName?'':' selected="selected"') + '>' + $.t('strat.maps.' + mapName) + '</option>';
 			}
 			modifyPanelHtml += '</select>';
 			modifyPanelHtml += '<img src="" alt="" class="img-thumbnail" />';
-			modifyPanelHtml += '<h4>' + i18n.t('event.strat') + '</h4>';
+			modifyPanelHtml += '<h4>' + $.t('event.strat') + '</h4>';
 			modifyPanelHtml += '<select class="form-control" id="modifyEventStrategy">';
 			modifyPanelHtml += '<option value="-1"' + (curStratId!=-1?'':' selected="selected"') + '></option>';
 			modifyPanelHtml += '</select>';
 			modifyPanelHtml += '</div>';
 			modifyPanelHtml += '</div>';
 			modifyPanelHtml += '</div>';
-			//modifyPanelHtml += '<button type="button" id="modifyEventOk" class="btn btn-default btn-success">' + i18n.t('btn.ok') + '</button>';
+			//modifyPanelHtml += '<button type="button" id="modifyEventOk" class="btn btn-default btn-success">' + $.t('btn.ok') + '</button>';
 			$('#btnModifyEventOk').removeClass('hidden');
 			gModifyPanel.html(modifyPanelHtml);
 			$.material.init(gModifyPanel);
@@ -358,7 +358,7 @@ function fillEventDialog(pDialog, pEvents) {
 					var mySelect = $(this),
 						myMapInfos = gMaps[mySelect.val()],
 						myMapThumb = myMapInfos.file.substring(0, myMapInfos.file.lastIndexOf('.')) + '_thumb' + myMapInfos.file.substring(myMapInfos.file.lastIndexOf('.'));
-					mySelect.parent().next().attr('src', './res/wot/maps/' + myMapThumb).attr('alt', i18n.t('strat.maps.' + mySelect.val()));
+					mySelect.parent().next().attr('src', './res/wot/maps/' + myMapThumb).attr('alt', $.t('strat.maps.' + mySelect.val()));
 					$.post('./server/strat.php', {
 						action: 'list',
 						filtername: 'valid'
@@ -456,7 +456,7 @@ function fillEventDialog(pDialog, pEvents) {
 					var myEnrolChooseContainer = myButton.closest('div');
 					myEnrolChooseContainer.find('.active').removeClass('active');
 					myButton.addClass('active');
-					pDialog.find('.eventEnrolment').text(i18n.t('event.enrol.state.' + myButton.data('attendance')));
+					pDialog.find('.eventEnrolment').text($.t('event.enrol.state.' + myButton.data('attendance')));
 					// Handle new attendance state
 					if (myButton.data('attendance') == 'no') {
 						pDialog.find('.eventParticipantsList [data-player-id="' + gConfig.PLAYER_ID + '"]').remove();
@@ -472,7 +472,7 @@ function fillEventDialog(pDialog, pEvents) {
 							myCurrentPlayerInfos.addClass('participant attendance-' + myButton.data('attendance'));
 						} else {
 							pDialog.find('.eventParticipantsList tbody').append('<tr data-player-id="' + gConfig.PLAYER_ID + '"><td class="participant attendance-' + myButton.data('attendance') + '"><span class="role role_' + getClanMember(gConfig.PLAYER_ID).role + '">' + gPersonalInfos.nickname
-								+ '</span></td><td class="tank">' + i18n.t('event.notank') + '</td></tr>');
+								+ '</span></td><td class="tank">' + $.t('event.notank') + '</td></tr>');
 						}
 					}
 				}

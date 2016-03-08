@@ -47,7 +47,7 @@ var onLoad = function() {
 	var comet = new Comet('./server/stratping.php', gConfig.CLUSTER, gPersonalInfos.clan_id);
 
 	progressNbSteps = 4;
-	advanceProgress(i18n.t('loading.claninfos'));
+	advanceProgress($.t('loading.claninfos'));
 	setNavBrandWithClan();
 	// Global variables to store configuration
 	var myGameToken = 'wot',
@@ -190,7 +190,7 @@ var onLoad = function() {
 						break;
 				}
 				pElemShor.tooltip('hide')
-					.attr('data-original-title', i18n.t('strat.state.' + myNewState))
+					.attr('data-original-title', $.t('strat.state.' + myNewState))
 					.tooltip('fixTitle')
 					.tooltip('show');
 				$.post('./server/strat.php', {
@@ -211,7 +211,7 @@ var onLoad = function() {
 							myLine.find('.btnDeleteStrat,.btnEditStrat').hide();
 							break;
 					}
-					pElemShor.closest('tr').find('.stratstatelib').text(i18n.t('strat.state.' + myStrat.state));
+					pElemShor.closest('tr').find('.stratstatelib').text($.t('strat.state.' + myStrat.state));
 				}, 'json');
 			}
 		});
@@ -238,7 +238,7 @@ var onLoad = function() {
 		$("#chkScale").change();
 		$("#windRoseOverlay, #elementsOverlay, #linesOverlay, #shapesOverlay, #textsOverlay").remove();
 		$("#chkDirections").change();
-		$("#mapDesc .mapName").text(i18n.t('strat.maps.' + pMapToken));
+		$("#mapDesc .mapName").text($.t('strat.maps.' + pMapToken));
 		$("#mapDesc .mapMetrics").text(myMapObj.size.x + "m x " + myMapObj.size.y + "m");
 		$("#mapDesc .mapSquareLength").text("(1px = 1m)");
 		var myCanvas = myCanvasContainer.svg().svg("get");
@@ -1471,7 +1471,7 @@ var onLoad = function() {
 				myMapsSizeFilterHtml = '';
 			// Populate the maps
 			var mapsKeysSorted = Object.keys(gMaps).sort(function(a, b) {
-				return i18n.t('strat.maps.' + a).localeCompare(i18n.t('strat.maps.' + b));
+				return $.t('strat.maps.' + a).localeCompare($.t('strat.maps.' + b));
 			});
 			for (var mapIndex in mapsKeysSorted) {
 				var mapName = mapsKeysSorted[mapIndex],
@@ -1487,13 +1487,13 @@ var onLoad = function() {
 						+ '" data-size="' + myMapOptions.size.x + 'x' + myMapOptions.size.y
 						+ '" data-minlevel="' + myMapOptions.levels.min
 						+ '" data-maxlevel="' + myMapOptions.levels.max + '"><div class="thumbnail">';
-					myMapsHtml += '<img src="./res/wot/maps/' + myMapThumb + '" alt="' + i18n.t('strat.maps.' + mapName) + '" />';
-					myMapsHtml += '<div class="caption"><h3>' + i18n.t('strat.maps.' + mapName) + '</h3>';
-					myMapsHtml += '<p>' + i18n.t('install.strategies.maps.size') + ': ' + i18n.t('install.strategies.maps.metrics', { sizex: myMapOptions.size.x, sizey: myMapOptions.size.y }) + '</p>';
-					myMapsHtml += '<p>' + i18n.t('strat.camos.title') + ': ' + i18n.t('strat.camos.' + myMapOptions.camo) + '</p>';
+					myMapsHtml += '<img src="./res/wot/maps/' + myMapThumb + '" alt="' + $.t('strat.maps.' + mapName) + '" />';
+					myMapsHtml += '<div class="caption"><h3>' + $.t('strat.maps.' + mapName) + '</h3>';
+					myMapsHtml += '<p>' + $.t('install.strategies.maps.size') + ': ' + $.t('install.strategies.maps.metrics', { sizex: myMapOptions.size.x, sizey: myMapOptions.size.y }) + '</p>';
+					myMapsHtml += '<p>' + $.t('strat.camos.title') + ': ' + $.t('strat.camos.' + myMapOptions.camo) + '</p>';
 					myMapsHtml += '<p>';
 					for (var modeName in myMapOptions.modes) {
-						myMapsHtml += '<a href="#" class="btn btn-primary createstrat" role="button" data-map-name="' + mapName + '" data-mode="' + modeName + '">' + i18n.t('strat.modes.' + modeName) + '</a>';
+						myMapsHtml += '<a href="#" class="btn btn-primary createstrat" role="button" data-map-name="' + mapName + '" data-mode="' + modeName + '">' + $.t('strat.modes.' + modeName) + '</a>';
 					}
 					myMapsHtml += '</p>';
 					myMapsHtml += '</div></div></div>';
@@ -1511,7 +1511,7 @@ var onLoad = function() {
 			});
 			for (var i = 0; i < myMapsSize.length; i++) {
 				var mapMetrics = myMapsSize[i].split('x');
-				myMapsSizeFilterHtml += '<li data-value="' + myMapsSize[i] + '"><a href="#">' + i18n.t('install.strategies.maps.metrics', { sizex: mapMetrics[0], sizey: mapMetrics[1] }) + '</a></li>';
+				myMapsSizeFilterHtml += '<li data-value="' + myMapsSize[i] + '"><a href="#">' + $.t('install.strategies.maps.metrics', { sizex: mapMetrics[0], sizey: mapMetrics[1] }) + '</a></li>';
 			}
 			$('#mapFilterSize').next().append(myMapsSizeFilterHtml);
 			myMapsContainer.find('#mapsListContainer').html(myMapsHtml);
@@ -1530,13 +1530,13 @@ var onLoad = function() {
 				for (myElementToken in gElements) {
 					gCountElems[myElementToken] = 0;
 					if (gElements[myElementToken].team0) {
-						myElements0 += "<li><a href=\"edit/add/element/" + myElementToken + "/0\" class=\"element " + myElementToken + "0\" rel=\"" + myElementToken + "0\" title=\"" + i18n.t('strat.elements.' + myElementToken) + "\"><span>" + i18n.t('strat.elements.' + myElementToken) + "</span></a></li>";
+						myElements0 += "<li><a href=\"edit/add/element/" + myElementToken + "/0\" class=\"element " + myElementToken + "0\" rel=\"" + myElementToken + "0\" title=\"" + $.t('strat.elements.' + myElementToken) + "\"><span>" + $.t('strat.elements.' + myElementToken) + "</span></a></li>";
 					}
 					if (gElements[myElementToken].team1) {
-						myElements1 += "<li><a href=\"edit/add/element/" + myElementToken + "/1\" class=\"element " + myElementToken + "1\" rel=\"" + myElementToken + "1\" title=\"" + i18n.t('strat.elements.' + myElementToken) + "\"><span>" + i18n.t('strat.elements.' + myElementToken) + "</span></a></li>";
+						myElements1 += "<li><a href=\"edit/add/element/" + myElementToken + "/1\" class=\"element " + myElementToken + "1\" rel=\"" + myElementToken + "1\" title=\"" + $.t('strat.elements.' + myElementToken) + "\"><span>" + $.t('strat.elements.' + myElementToken) + "</span></a></li>";
 					}
 					if (gElements[myElementToken].team2) {
-						myElements2 += "<li><a href=\"edit/add/element/" + myElementToken + "/2\" class=\"element " + myElementToken + "2\" rel=\"" + myElementToken + "2\" title=\"" + i18n.t('strat.elements.' + myElementToken) + "\"><span>" + i18n.t('strat.elements.' + myElementToken) + "</span></a></li>";
+						myElements2 += "<li><a href=\"edit/add/element/" + myElementToken + "/2\" class=\"element " + myElementToken + "2\" rel=\"" + myElementToken + "2\" title=\"" + $.t('strat.elements.' + myElementToken) + "\"><span>" + $.t('strat.elements.' + myElementToken) + "</span></a></li>";
 					}
 				}
 				// Clear old elements and add the new ones
@@ -1771,14 +1771,14 @@ var onLoad = function() {
 			}
 			membersList += dataClan.members[i].account_id;
 		}
-		advanceProgress(i18n.t('loading.membersinfos'));
+		advanceProgress($.t('loading.membersinfos'));
 		$.post(gConfig.WG_API_URL + 'wot/account/info/', {
 			application_id: gConfig.WG_APP_ID,
 			language: gConfig.G_API_LANG,
 			access_token: gConfig.ACCESS_TOKEN,
 			account_id: membersList
 		}, function(dataPlayersResponse) {
-			advanceProgress(i18n.t('loading.strats'));
+			advanceProgress($.t('loading.strats'));
 			var dataPlayers = dataPlayersResponse.data,
 				getListStratParameters = {
 					action: 'list'
@@ -1798,7 +1798,7 @@ var onLoad = function() {
 					break;
 			}
 			$.post('./server/strat.php', getListStratParameters, function(dataListStratResponse) {
-				advanceProgress(i18n.t('loading.generating'));
+				advanceProgress($.t('loading.generating'));
 				myListStrats = dataListStratResponse.data;
 				var i = 0,
 					myStrat = {},
@@ -1814,10 +1814,10 @@ var onLoad = function() {
 						myStratsTableHtml += '<tr data-stratid="' + myStrat.id + '">';
 						var myMapOptions = gMaps[myStrat.map];
 						myMapThumb = myMapOptions.file.substring(0, myMapOptions.file.lastIndexOf('.')) + '_thumb' + myMapOptions.file.substring(myMapOptions.file.lastIndexOf('.'));
-						myStratsTableHtml += '<td class="stratmap"><img width="100" src="./res/wot/maps/' + myMapThumb + '" alt="' + i18n.t('strat.maps.' + myStrat.map) + '" title="' + i18n.t('strat.maps.' + myStrat.map) + '" /></td>';
+						myStratsTableHtml += '<td class="stratmap"><img width="100" src="./res/wot/maps/' + myMapThumb + '" alt="' + $.t('strat.maps.' + myStrat.map) + '" title="' + $.t('strat.maps.' + myStrat.map) + '" /></td>';
 						myStratsTableHtml += '<td class="stratname">' + myStrat.name + '</td>';
 						myStratsTableHtml += '<td class="stratdesc"><span style="white-space:pre">' + myStrat.description + '</span></td>';
-						myStratsTableHtml += '<td class="stratstatelib">' + i18n.t('strat.state.' + myStrat.state) + '</td>';
+						myStratsTableHtml += '<td class="stratstatelib">' + $.t('strat.state.' + myStrat.state) + '</td>';
 						myStratsTableHtml += '<td class="stratdateadd">' + moment(myStrat.dateadd * 1000).format('LLL') + '</td>';
 						if (typeof(myStrat.datemod) == 'undefined') {
 							myStratsTableHtml += '<td class="stratdatemod">&nbsp;</td>';
@@ -1828,7 +1828,7 @@ var onLoad = function() {
 						myStratsTableHtml += '<td class="stratstate">';
 						// Only the creator can change the state of a strategy
 						if (gConfig.PLAYER_ID == myStrat.creator) {
-							myStratsTableHtml += '<div data-toggle="tooltip" data-placement="top" class="slider shor slider-info" title="' + i18n.t('strat.state.' + myStrat.state) + '"></div>';
+							myStratsTableHtml += '<div data-toggle="tooltip" data-placement="top" class="slider shor slider-info" title="' + $.t('strat.state.' + myStrat.state) + '"></div>';
 						} else {
 							myStratsTableHtml += '&nbsp;';
 						}
@@ -1930,7 +1930,7 @@ var onLoad = function() {
 									}
 								}
 								myRow = $('#tableMyStrats>tbody>tr[data-stratid="' + gStratId + '"]');
-								myRow.find('td.stratmap').html('<img width="100" src="./res/wot/maps/' + myMapThumb + '" alt="' + i18n.t('strat.maps.' + dataSaveStratResponse.data.map) + '" title="' + i18n.t('strat.maps.' + dataSaveStratResponse.data.map) + '" />');
+								myRow.find('td.stratmap').html('<img width="100" src="./res/wot/maps/' + myMapThumb + '" alt="' + $.t('strat.maps.' + dataSaveStratResponse.data.map) + '" title="' + $.t('strat.maps.' + dataSaveStratResponse.data.map) + '" />');
 								myRow.find('td.stratname').text(dataSaveStratResponse.data.name);
 								myRow.find('td.stratdesc span').text(dataSaveStratResponse.data.description);
 								myRow.find('td.stratdatemod').text(moment(dataSaveStratResponse.data.datemod * 1000).format('LLL'));
@@ -1938,14 +1938,14 @@ var onLoad = function() {
 								// It's a new strategy. Add to table.
 								myListStrats.push(dataSaveStratResponse.data);
 								myRow = '<tr data-stratid="' + dataSaveStratResponse.data.id + '">';
-								myRow += '<td class="stratmap"><img width="100" src="./res/wot/maps/' + myMapThumb + '" alt="' + i18n.t('strat.maps.' + dataSaveStratResponse.data.map) + '" title="' + i18n.t('strat.maps.' + dataSaveStratResponse.data.map) + '" /></td>';
+								myRow += '<td class="stratmap"><img width="100" src="./res/wot/maps/' + myMapThumb + '" alt="' + $.t('strat.maps.' + dataSaveStratResponse.data.map) + '" title="' + $.t('strat.maps.' + dataSaveStratResponse.data.map) + '" /></td>';
 								myRow += '<td class="stratname">' + dataSaveStratResponse.data.name + '</td>';
 								myRow += '<td class="stratdesc"><span style="white-space:pre">' + dataSaveStratResponse.data.description + '</span></td>';
-								myRow += '<td class="stratstatelib">' + i18n.t('strat.state.' + dataSaveStratResponse.data.state) + '</td>';
+								myRow += '<td class="stratstatelib">' + $.t('strat.state.' + dataSaveStratResponse.data.state) + '</td>';
 								myRow += '<td class="stratdateadd">' + moment(dataSaveStratResponse.data.dateadd * 1000).format('LLL') + '</td>';
 								myRow += '<td class="stratdatemod">&nbsp;</td>';
 								myRow += '<td class="stratcreator">' + dataPlayers[dataSaveStratResponse.data.creator].nickname + '</td>';
-								myRow += '<td class="stratstate"><div data-toggle="tooltip" data-placement="top" class="slider shor slider-info" title="' + i18n.t('strat.state.private') + '"></div></td>';
+								myRow += '<td class="stratstate"><div data-toggle="tooltip" data-placement="top" class="slider shor slider-info" title="' + $.t('strat.state.private') + '"></div></td>';
 								myRow += '<td><div class="btn-group btn-group-sm" role="group"><button data-target="/show/id=' + dataSaveStratResponse.data.id + '" class="btn btn-success btnShowStrat"><span class="glyphicon glyphicon-eye-open"></span></button> <button data-target="#" class="btn btn-info btnEditStrat"><span class="glyphicon glyphicon-edit"></span></button> <button data-target="#" class="btn btn-danger btnDeleteStrat"><span class="glyphicon glyphicon-trash"></span></button></div></td>';
 								myRow += '</tr>';
 								myRow = $(myRow);

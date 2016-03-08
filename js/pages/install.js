@@ -2,7 +2,7 @@ $(document).ready(function() {
 	var gLang = $('html').attr('lang');
 	moment.locale(gLang);
 	i18n.init({ lng: gLang, fallbackLng: 'en', useDataAttrOptions: true }, function(t) {
-		$(document).i18n();
+		$(document).localize();
 		$.material.init();
 	});
 	if ($('.alert-danger').length != 0) {
@@ -68,7 +68,7 @@ $(document).ready(function() {
 			resultHtml = '';
 		if ($('#restrictedClans').find('[data-cluster=' + myItem.data('cluster') + '][data-id=' + myItem.data('id') + ']').length == 0) {
 			resultHtml += '<div class="alert alert-material-grey alert-dismissible clan cluster' + myItem.data('cluster') + '" role="alert" data-id="' + myItem.data('id') + '" data-cluster="' + myItem.data('cluster') + '">';
-			resultHtml += '<button type="button" class="close" data-dismiss="alert" aria-label="' + i18n.t('btn.close') + '"><span aria-hidden="true">&times;</span></button>';
+			resultHtml += '<button type="button" class="close" data-dismiss="alert" aria-label="' + $.t('btn.close') + '"><span aria-hidden="true">&times;</span></button>';
 			resultHtml += '<p>' + myItem.html() + '</p>';
 			resultHtml += '</div>';
 			$('#restrictedClans').append(resultHtml);
@@ -117,7 +117,7 @@ $(document).ready(function() {
 			resultHtml = '';
 		if ($('#listAdmins').find('[data-cluster=' + myItem.data('cluster') + '][data-id=' + myItem.data('id') + ']').length == 0) {
 			resultHtml += '<div class="alert alert-material-grey alert-dismissible player cluster' + myItem.data('cluster') + '" role="alert" data-id="' + myItem.data('id') + '" data-cluster="' + myItem.data('cluster') + '">';
-			resultHtml += '<button type="button" class="close" data-dismiss="alert" aria-label="' + i18n.t('btn.close') + '"><span aria-hidden="true">&times;</span></button>';
+			resultHtml += '<button type="button" class="close" data-dismiss="alert" aria-label="' + $.t('btn.close') + '"><span aria-hidden="true">&times;</span></button>';
 			resultHtml += '<p>' + myItem.html() + '</p>';
 			resultHtml += '</div>';
 			$('#listAdmins').append(resultHtml);
@@ -139,7 +139,7 @@ $(document).ready(function() {
 	// Update inactivity threshold value on slide
 	mySliderInactivityThreshold.on({
 		'slide': function(evt) {
-			myBadgeInactivityThreshold.text(i18n.t('install.inactivitythreshold.value', { count: parseInt(mySliderInactivityThreshold.val()) }));
+			myBadgeInactivityThreshold.text($.t('install.inactivitythreshold.value', { count: parseInt(mySliderInactivityThreshold.val()) }));
 		}
 	});
 	$('#btnExecuteInstall').on('click', function(evt) {
@@ -180,7 +180,7 @@ $(document).ready(function() {
 		lPostParams['inactivitythreshold'] = parseInt(mySliderInactivityThreshold.val());
 		$.post('./install.php', lPostParams, function(saveConfigResponse) {
 			if (saveConfigResponse.status == 'ok') {
-				document.location = './index.php';
+				document.location = './';
 			}
 		}, 'json');
 		evt.preventDefault();

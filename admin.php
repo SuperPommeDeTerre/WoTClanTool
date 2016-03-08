@@ -3,7 +3,7 @@ require(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'server' . DIRECTORY_SEPARATOR
 
 // If the connected user is not an admin, redirect to home page
 if (!in_array($_SESSION["account_id"], $gAdmins)) {
-	header('Location: index.php');
+	header('Location: ./');
 }
 
 $gPageProps = array(

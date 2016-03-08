@@ -20,6 +20,8 @@ require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR
 include(WCT_INC_DIR . 'ads.php');
 ?>
 			<h1 class="page-header" data-i18n="page.clansettings.title"></h1>
+			<h2 class="sub-header" data-i18n="clansettings.general"></h2>
+			<input id="clanForumURL" type="text" class="form-control" data-i18n="[placeholder]clansettings.forumurl;" aria-describedby="sizing-addon1" /><?php /*
 			<h2 class="sub-header" data-i18n="rights.title"></h2>
 			<div class="table-responsive">
 				<table class="table table-hover header-fixed">
@@ -197,8 +199,8 @@ include(WCT_INC_DIR . 'ads.php');
 						</tr>
 					</tbody>
 				</table>
-			</div>
-			<button type="button" class="btn btn-info btnSave"><span class="glyphicon glyphicon-floppy-disk"></span> <span data-i18n="btn.save"></span></button>
+			</div> */ ?>
+			<button type="button" class="btn btn-info btnSave" id="btnSaveClanClanSettings"><span class="glyphicon glyphicon-floppy-disk"></span> <span data-i18n="btn.save"></span></button>
 		</div>
 	</div>
 </div>
