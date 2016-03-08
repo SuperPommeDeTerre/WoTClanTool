@@ -280,4 +280,3 @@ switch ($_REQUEST['action']) {
 $result['result'] = 'ok';
 
 echo json_encode($result);
-?>

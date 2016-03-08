@@ -597,6 +597,9 @@
 		},
 		"personalmissions": {
 			"title": "Personal missions"
+		},
+		"forum": {
+			"title": "Forum"
 		}
 	},
 	"strat": {

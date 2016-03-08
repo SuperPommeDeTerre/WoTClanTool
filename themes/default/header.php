@@ -115,7 +115,7 @@ if (array_key_exists('forumurl', $gClanConfig) && ($gClanConfig['forumurl'] != n
 								</ul>
 							</li><?php
 		// Show the clan settings only if the user is in the allowed users (commander and roles by clan settings)
-		if (in_array($_SESSION['account_id'], $gAdmins)) { ?>
+		if (in_array($_SESSION['account_id'], $gAdmins) || in_array($_SESSION["USER_ROLE"], array('commander', 'executive_officer'))) { ?>
 							<li<?php if ($gPageProps["id"] == 'clansettings') { echo(' class="active"'); } ?>><a href="clansettings" data-i18n="[title]page.clansettings.title;"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></li><?php
 		} ?>
 							<li class="paypal"><a href="https://www.paypal.com/cgi-bin/webscr" data-toggle="tooltip" data-placement="bottom" data-i18n="[title]share.paypal;"><span>Paypal</span></a>
