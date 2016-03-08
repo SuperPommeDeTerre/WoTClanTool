@@ -154,7 +154,7 @@ include_once(WCT_INC_DIR . 'analyticstracking.php');
 							<div class="form-group">
 								<div class="togglebutton togglebutton-info">
 									<label><span data-i18n="install.keepreplays"></span>
-										<input type="checkbox" id="keepreplays" checked="checked" />
+										<input type="checkbox" id="keepreplays" />
 									</label>
 								</div>
 							</div>
@@ -266,6 +266,7 @@ foreach ($gClusters as $clusterId => $clusterProps) {
 		</div>
 		<script type="text/javascript" src="./js/jquery-2.2.1.min.js"></script>
 		<script type="text/javascript" src="./js/i18next.min.js"></script>
+		<script type="text/javascript" src="./js/i18next-jquery.min.js"></script>
 		<script type="text/javascript" src="./js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="./js/material.min.js"></script>
 		<script type="text/javascript" src="./js/ripples.min.js"></script>

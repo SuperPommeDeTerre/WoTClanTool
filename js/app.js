@@ -167,8 +167,7 @@ $(document).ready(function() {
 		myLngRessources[gConfig.LANG] = { 'translation': dataLng };
 		i18next.init({
 				lng: gConfig.LANG,
-				resources: myLngRessources,
-				debug: true }, function(err, t) {
+				resources: myLngRessources }, function(err, t) {
 			i18nextJquery.init(i18next, $, {
 				tName: 't', // --> appends $.t = i18next.t
 				i18nName: 'i18n', // --> appends $.i18n = i18next

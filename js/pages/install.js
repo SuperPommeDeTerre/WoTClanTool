@@ -1,10 +1,24 @@
 $(document).ready(function() {
 	var gLang = $('html').attr('lang');
 	moment.locale(gLang);
-	i18n.init({ lng: gLang, fallbackLng: 'en', useDataAttrOptions: true }, function(t) {
-		$(document).localize();
-		$.material.init();
-	});
+	$.get('./locales/' + gLang + '/translation.json', function(dataLng) {
+		var myLngRessources = {};
+		myLngRessources[gLang] = { 'translation': dataLng };
+		i18next.init({ lng: gLang, resources: myLngRessources }, function(t) {
+			i18nextJquery.init(i18next, $, {
+				tName: 't', // --> appends $.t = i18next.t
+				i18nName: 'i18n', // --> appends $.i18n = i18next
+				handleName: 'localize', // --> appends $(selector).localize(opts);
+				selectorAttr: 'data-i18n', // selector for translating elements
+				targetAttr: 'i18n-target', // element attribute to grab target element to translate (if different then itself)
+				optionsAttr: 'i18n-options', // element attribute that contains options, will load/set if useOptionsAttr = true
+				useOptionsAttr: true, // see optionsAttr
+				parseDefaultValueFromContent: true // parses default values from content ele.val or ele.text
+			});
+			$(document).localize();
+			$.material.init();
+		});
+	}, 'json');
 	if ($('.alert-danger').length != 0) {
 		$('#btnExecuteInstall').attr('disabled', 'disabled');
 	}
