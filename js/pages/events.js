@@ -141,12 +141,17 @@ var onLoad = function() {
 	// Prevent default action on add event button
 	$('#addEvent').on('click', function(evt) {
 		evt.preventDefault();
+		// Reset form
 		$('#eventTitle').val('');
 		$('#eventDescription').val('');
 		$('#eventStartDate').data('DateTimePicker').date(moment());
 		$('#eventEndDate input').val('');
 		$('#eventStartTime').data('DateTimePicker').date(moment().add(1, 'hour').startOf('hour'));
-		$('#eventEndTime input').val('');
+		$('#eventSpareAllowed').removeAttr('checked');
+		$('#eventType').next().find('[data-value="clanwar"] a').trigger('click');
+		$('#eventPeriodicity').next().find('[data-value="no"] a').trigger('click');
+		$('#eventTankLevel').next().find('[data-value="all"] a').trigger('click');
+		$('#eventTankTypes').next().find('[data-value="all"] a').trigger('click');
 	});
 
 	// Init date time pickers
@@ -196,40 +201,10 @@ var onLoad = function() {
 		dayOfWeek = moment().startOf('week'),
 		isPeriodic = false;
 	for (var i=0; i<7; i++) {
-		periodicityDaysHtml += '<div class="radio radio-default">';
-		periodicityDaysHtml += '<label>';
-		periodicityDaysHtml += '<input type="radio" value="' + dayOfWeek.format('d') + '" name="eventPeriodicityDay" ' + (i==0?' checked="checked"':'') + '/>';
-		periodicityDaysHtml += '<abbr>' + dayOfWeek.format('dddd') + '</abbr>';
-		periodicityDaysHtml += '</label>';
-		periodicityDaysHtml += '</div>';
+		periodicityDaysHtml += '<li data-value="' + dayOfWeek.format('d') + '"><a href="#">' + $.t('action.calendar.prop.periodicityday', { dayname: dayOfWeek.format('dddd') }) + '</a></li>';
 		dayOfWeek = dayOfWeek.add(1, 'days');
 	}
-	$('#containerEventPeriodicity').append(periodicityDaysHtml);
-	// Change periodicity property
-	$('[name=eventPeriodicityDay]').on('change', function(e) {
-		var listDaysToDisable = [],
-			daySelected = $(this).val();
-		for (var i = 0; i<7; i++) {
-			if (i != daySelected) {
-				listDaysToDisable[listDaysToDisable.length] = i;
-			}
-		}
-		$('#eventStartDate').data('DateTimePicker').daysOfWeekDisabled(listDaysToDisable);
-		$('#eventEndDate').data('DateTimePicker').daysOfWeekDisabled(listDaysToDisable);
-	});
-	$('#eventRecurrent').on('change', function(evt) {
-		if ($(this).is(':checked')) {
-			$('#eventEndDate').fadeIn('fast');
-			$('#containerEventPeriodicity').slideDown('fast');
-			$('[name=eventPeriodicityDay]:checked').trigger('change');
-			isPeriodic = true;
-		} else {
-			$('#eventEndDate').fadeOut('fast').data('DateTimePicker').daysOfWeekDisabled([]);
-			$('#eventStartDate').data('DateTimePicker').daysOfWeekDisabled([]);
-			$('#containerEventPeriodicity').slideUp('fast');
-			isPeriodic = false;
-		}
-	}).change();
+	$('#eventPeriodicity').next().append(periodicityDaysHtml);
 	// Submit of event
 	$('#btnEventOk').on('click', function(evt) {
 		// Prevent default action of button
@@ -254,13 +229,15 @@ var onLoad = function() {
 		$.post('./server/calendar.php', {
 			a: 'save',
 			eventTitle: $('#eventTitle').val(),
-			eventType: $('[name=eventType]:checked').val(),
+			eventType: $('#eventType').data('value'),
 			eventDescription: $('#eventDescription').val(),
 			eventIsRecurrent: isPeriodic,
-			eventRecurrencyDay: $('[name=eventPeriodicityDay]').val(),
+			eventRecurrencyDay: $('#eventPeriodicity').data('value'),
 			eventStartDate: startDateToSent.unix(),
 			eventEndDate: endDateToSent.unix(),
-			eventAllowSpare: $('#eventSpareAllowed').is(':checked')
+			eventAllowSpare: $('#eventSpareAllowed').is(':checked'),
+			eventRestrictTankLevel: $('#eventTankLevel').data('value'),
+			eventRestrictTankType: $('#eventTankTypes').data('value')
 		}, function(addEventResult) {
 			// Handle result
 			if (addEventResult.result == 'ok') {
@@ -273,12 +250,132 @@ var onLoad = function() {
 	});
 	var selEventType = $('#eventType'),
 		selTankLevel = $('#eventTankLevel'),
-		selTankType = ('#eventTankTypes');
-	selEventType.add(selTankLevel).add(selTankType).parent().on('click', 'a', function(evt) {
+		selTankType = $('#eventTankTypes'),
+		selPeriodicity = $('#eventPeriodicity');
+	selEventType.add(selTankLevel).parent().on('click', 'a', function(evt) {
 		evt.preventDefault();
 		var myLink = $(this);
 		myLink.parent().parent().prev().data('value', myLink.parent().data('value')).find('.btnVal').text(myLink.text());
 	});
-	selEventType.parent().on('hide.bs.dropdown', function(evt) {
+	selPeriodicity.parent().on('click', 'a', function(evt) {
+		evt.preventDefault();
+		var myLink = $(this),
+			myPeriodicitySelected = myLink.parent().data('value');
+		if (myPeriodicitySelected != 'no') {
+			$('#eventEndDate').fadeIn('fast');
+			var listDaysToDisable = [];
+			for (var i = 0; i<7; i++) {
+				if (i != myPeriodicitySelected) {
+					listDaysToDisable[listDaysToDisable.length] = i;
+				}
+			}
+			$('#eventStartDate').data('DateTimePicker').daysOfWeekDisabled(listDaysToDisable);
+			$('#eventEndDate').data('DateTimePicker').daysOfWeekDisabled(listDaysToDisable);
+			isPeriodic = true;
+		} else {
+			$('#eventEndDate').fadeOut('fast').data('DateTimePicker').daysOfWeekDisabled([]);
+			$('#eventStartDate').data('DateTimePicker').daysOfWeekDisabled([]);
+			isPeriodic = false;
+		}
+		myLink.parent().parent().prev().data('value', myLink.parent().data('value')).find('.btnVal').text(myLink.text());
+	});
+	selTankType.parent().on('click', 'a', function(evt) {
+		evt.preventDefault();
+		var myLink = $(this),
+			myTypesSelectedContainer = myLink.parent().parent().prev(),
+			myTypesSelected = myTypesSelectedContainer.data('value').split(/,/g),
+			myChoosenType = myLink.parent().data('value'),
+			i = 0,
+			myTypesSelectedString = '',
+			indexOfAll = 0,
+			indexOfType = 0;
+		if (myChoosenType != 'all') {
+			indexOfType = myTypesSelected.indexOf(myChoosenType);
+			myLink.find('.glyphicon').toggleClass('glyphicon-unchecked').toggleClass('glyphicon-check');
+			if (indexOfType >= 0) {
+				myTypesSelected.splice(indexOfType, 1);
+			} else {
+				myTypesSelected.push(myChoosenType);
+			}
+			indexOfAll = myTypesSelected.indexOf('all');
+			if (myTypesSelected.length > 1 && indexOfAll >= 0) {
+				myTypesSelected.splice(indexOfAll, 1);
+			}
+		}
+		if (myTypesSelected.length == 0 || myChoosenType == 'all') {
+			myTypesSelected = [ 'all' ];
+			myTypesSelectedString = $.t('tank.alltypes');
+		} else {
+			// Sort tank types
+			myTypesSelected.sort(function(a, b) {
+				var returnVal = 0;
+				switch (a) {
+					case 'lightTank':
+						switch (b) {
+							case 'mediumTank':
+							case 'heavyTank':
+							case 'AT-SPG':
+							case 'SPG':
+								returnVal = -1;
+								break;
+						}
+						break;
+					case 'mediumTank':
+						switch (b) {
+							case 'lightTank':
+								returnVal = 1;
+								break;
+							case 'heavyTank':
+							case 'AT-SPG':
+							case 'SPG':
+								returnVal = -1;
+								break;
+						}
+						break;
+					case 'heavyTank':
+						switch (b) {
+							case 'lightTank':
+							case 'mediumTank':
+								returnVal = 1;
+								break;
+							case 'AT-SPG':
+							case 'SPG':
+								returnVal = -1;
+								break;
+						}
+						break;
+					case 'AT-SPG':
+						switch (b) {
+							case 'lightTank':
+							case 'mediumTank':
+							case 'heavyTank':
+								returnVal = 1;
+								break;
+							case 'SPG':
+								returnVal = -1;
+								break;
+						}
+						break;
+					case 'SPG':
+						switch (b) {
+							case 'lightTank':
+							case 'mediumTank':
+							case 'heavyTank':
+							case 'AT-SPG':
+								returnVal = 1;
+								break;
+						}
+						break;
+				}
+				return returnVal;
+			});
+			for (i in myTypesSelected) {
+				if (i != 0) {
+					myTypesSelectedString += ', ';
+				}
+				myTypesSelectedString += $.t('tank.type.' + myTypesSelected[i]);
+			}
+		}
+		myTypesSelectedContainer.data('value', myTypesSelected.join(',')).find('.btnVal').text(myTypesSelectedString);
 	});
 };

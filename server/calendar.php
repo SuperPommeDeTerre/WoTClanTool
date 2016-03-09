@@ -110,6 +110,12 @@ switch ($_REQUEST['a']) {
 			// Dates are passed as UNIX timestamps
 			$myEvent->setDateStart($dateEvt['start']);
 			$myEvent->setDateEnd($dateEvt['end']);
+			if (isset($_REQUEST['eventRestrictTankLevel'])) {
+				$myEvent->setTanksLevelsAllowed(explode(',', $_REQUEST['eventRestrictTankLevel']));
+			}
+			if (isset($_REQUEST['eventRestrictTankType'])) {
+				$myEvent->setTanksTypesAllowed(explode(',', $_REQUEST['eventRestrictTankType']));
+			}
 			// If the start date has changed, verify if the id must be computed again...
 			if ($eventId != '') {
 				if (wctEvent::computeBaseId($myEvent->getDateStart()) != wctEvent::getBaseIdFromId($eventId)) {
@@ -282,7 +288,13 @@ switch ($_REQUEST['a']) {
 		$isJsonResult = false;
 		$myEventId = $_REQUEST['id'];
 		$myEvent = wctEvent::fromId($_REQUEST['id']);
-		$result .= '<div id="eventDetails' . $myEvent->getId() . '" class="eventDetails" data-event-id="' . $myEvent->getId() . '" data-owner="' . $myEvent->getOwner() . '" data-event-type="' . $myEvent->getType() . '">';
+		$result .= '<div id="eventDetails' . $myEvent->getId()
+			. '" class="eventDetails" data-event-id="' . $myEvent->getId()
+			. '" data-owner="' . $myEvent->getOwner()
+			. '" data-event-type="' . $myEvent->getType()
+			. '" data-restriction-tanklevel="' . implode(',', $myEvent->getTanksLevelsAllowed())
+			. '" data-restriction-tanktype="' . implode(',', $myEvent->getTanksTypesAllowed())
+			. '">';
 		$result .= '<div class="eventDetailsDisplay">';
 		if (!$isReadOnly) {
 			if ($myEvent->getDateStart() > time()) {

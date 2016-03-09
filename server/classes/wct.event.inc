@@ -20,6 +20,7 @@ class wctEvent {
 	var $mapName;
 	var $strategyId;
 	var $tanksLevelsAllowed;
+	var $tanksTypesAllowed;
 
 	/**
 	 * Get a list of files used in an interval.
@@ -160,6 +161,7 @@ class wctEvent {
 		$this->mapName = '';
 		$this->strategyId = -1;
 		$this->tanksLevelsAllowed = array();
+		$this->tanksTypesAllowed = array();
 	}
 
 	public static function fromJson($json) {
@@ -180,6 +182,7 @@ class wctEvent {
 		$instance->mapName = isset($json['mapName'])?$json['mapName']:false;
 		$instance->strategyId = isset($json['strategyId'])?$json['strategyId']:false;
 		$instance->tanksLevelsAllowed = isset($json['tanksLevelsAllowed'])?$json['tanksLevelsAllowed']:array();
+		$instance->tanksTypesAllowed = isset($json['tanksTypesAllowed'])?$json['tanksTypesAllowed']:array();
 		return $instance;
 	}
 
@@ -201,6 +204,7 @@ class wctEvent {
 		$result['mapName'] = $this->mapName;
 		$result['strategyId'] = $this->strategyId;
 		$result['tanksLevelsAllowed'] = $this->tanksLevelsAllowed;
+		$result['tanksTypesAllowed'] = $this->tanksTypesAllowed;
 		if (!$pForStorage) {
 			$result['class'] = 'event-type-' . $this->type;
 			$eventUrl = './server/calendar.php?a=get&id=' . $this->id;
@@ -364,5 +368,13 @@ class wctEvent {
 	public function setTanksLevelsAllowed($pTanksLevelsAllowed) {
 		$this->tanksLevelsAllowed = $pTanksLevelsAllowed;
 	}
+
+	public function getTanksTypesAllowed() {
+		return $this->tanksTypesAllowed;
+	}
+
+	public function setTanksTypesAllowed($pTanksTypesAllowed) {
+		$this->tanksTypesAllowed = $pTanksTypesAllowed;
+	}
+	
 }
-?>

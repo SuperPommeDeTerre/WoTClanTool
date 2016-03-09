@@ -101,6 +101,32 @@ include(WCT_INC_DIR . 'ads.php');
 							<label class="sr-only" for="eventDescription" data-i18n="action.calendar.prop.description"></label>
 							<textarea id="eventDescription" class="form-control" data-i18n="[placeholder]action.calendar.prop.description;" aria-describedby="sizing-addon1"></textarea>
 						</div>
+						<div class="form-inline">
+							<div class="input-group pull-left">
+								<span class="input-group-addon glyphicon glyphicon-asterisk"></span>
+								<div class="btn-group">
+									<button type="button" id="eventType" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" data-value="clanwar" aria-expanded="false"><span class="btnVal" data-i18n="action.calendar.prop.types.clanwar"></span> <span class="caret"></span></button>
+									<ul class="dropdown-menu" role="menu">
+										<li data-value="clanwar"><a href="#" data-i18n="action.calendar.prop.types.clanwar"></a></li>
+										<li data-value="compa"><a href="#" data-i18n="action.calendar.prop.types.compa"></a></li>
+										<li data-value="stronghold"><a href="#" data-i18n="action.calendar.prop.types.stronghold"></a></li>
+										<li data-value="7vs7"><a href="#" data-i18n="action.calendar.prop.types.7vs7"></a></li>
+										<li data-value="training"><a href="#" data-i18n="action.calendar.prop.types.training"></a></li>
+										<li data-value="other"><a href="#" data-i18n="action.calendar.prop.types.other"></a></li>
+									</ul>
+								</div>
+							</div>
+							<div class="input-group pull-left">
+								<span class="input-group-addon glyphicon glyphicon-refresh"></span>
+								<div class="btn-group">
+									<button type="button" id="eventPeriodicity" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" data-value="no" aria-expanded="false"><span class="btnVal" data-i18n="action.calendar.prop.periodicityonce"></span> <span class="caret"></span></button>
+									<ul class="dropdown-menu" role="menu">
+										<li data-value="no"><a href="#" data-i18n="action.calendar.prop.periodicityonce"></a></li>
+										<li class="divider"></li>
+									</ul>
+								</div>
+							</div>
+						</div>
 						<div class="container-fluid">
 							<div class="row">
 								<div class="col-xs-6">
@@ -118,7 +144,7 @@ include(WCT_INC_DIR . 'ads.php');
 							</div>
 							<div class="row">
 								<div class="col-xs-6">
-									<div class="input-group date eventDatePicker" id="eventEndDate">
+									<div class="input-group date eventDatePicker" id="eventEndDate" style="display:none">
 										<input type="text" class="form-control" data-i18n="[placeholder]action.calendar.prop.enddate;" />
 										<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 									</div>
@@ -131,33 +157,15 @@ include(WCT_INC_DIR . 'ads.php');
 								</div>
 							</div>
 						</div>
+						<div class="togglebutton">
+							<label><span data-i18n="action.calendar.prop.allowspare"></span>
+								<input type="checkbox" id="eventSpareAllowed" value="true" />
+							</label>
+						</div>
 						<div class="container-fluid">
+							<h3 data-i18n="event.restrictions"></h3>
 							<div id="eventsRestrictionsContainer">
 								<div class="form-inline">
-									<div class="input-group pull-left">
-										<span class="input-group-addon glyphicon glyphicon-asterisk"></span>
-										<div class="btn-group">
-											<button type="button" id="eventType" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" data-value="clanwar" aria-expanded="false"><span class="btnVal" data-i18n="action.calendar.prop.types.clanwar"></span> <span class="caret"></span></button>
-											<ul class="dropdown-menu" role="menu">
-												<li data-value="clanwar"><a href="#" data-i18n="action.calendar.prop.types.clanwar"></a></li>
-												<li data-value="compa"><a href="#" data-i18n="action.calendar.prop.types.compa"></a></li>
-												<li data-value="stronghold"><a href="#" data-i18n="action.calendar.prop.types.stronghold"></a></li>
-												<li data-value="7vs7"><a href="#" data-i18n="action.calendar.prop.types.7vs7"></a></li>
-												<li data-value="training"><a href="#" data-i18n="action.calendar.prop.types.training"></a></li>
-												<li data-value="other"><a href="#" data-i18n="action.calendar.prop.types.other"></a></li>
-											</ul>
-										</div>
-									</div>
-									<div class="input-group pull-left" style="margin-right:.25em">
-										<span class="input-group-addon glyphicon glyphicon-refresh"></span>
-										<div class="btn-group">
-											<button type="button" id="eventPeriodicity" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" data-value="no" aria-expanded="false"><span class="btnVal" data-i18n="action.calendar.prop.periodicity"></span> <span class="caret"></span></button>
-											<ul class="dropdown-menu" role="menu">
-												<li data-value="all"><a href="#" data-i18n="tank.alltypes"></a></li>
-												<li class="divider"></li>
-											</ul>
-										</div>
-									</div>
 									<div class="input-group pull-left">
 										<span class="input-group-addon glyphicon glyphicon-tasks"></span>
 										<div class="btn-group">
@@ -185,21 +193,16 @@ include(WCT_INC_DIR . 'ads.php');
 											<ul class="dropdown-menu" role="menu">
 												<li data-value="all"><a href="#" data-i18n="tank.alltypes"></a></li>
 												<li class="divider"></li>
-												<li data-value="lightTank"><a href="#" data-i18n="tank.type.lightTank"></a></li>
-												<li data-value="mediumTank"><a href="#" data-i18n="tank.type.mediumTank"></a></li>
-												<li data-value="heavyTank"><a href="#" data-i18n="tank.type.heavyTank"></a></li>
-												<li data-value="AT-SPG"><a href="#" data-i18n="tank.type.AT-SPG"></a></li>
-												<li data-value="SPG"><a href="#" data-i18n="tank.type.SPG"></a></li>
+												<li data-value="lightTank"><a href="#"><span class="glyphicon glyphicon-unchecked"></span> <span data-i18n="tank.type.lightTank" /></a></li>
+												<li data-value="mediumTank"><a href="#"><span class="glyphicon glyphicon-unchecked"></span> <span data-i18n="tank.type.mediumTank" /></a></li>
+												<li data-value="heavyTank"><a href="#"><span class="glyphicon glyphicon-unchecked"></span> <span data-i18n="tank.type.heavyTank" /></a></li>
+												<li data-value="AT-SPG"><a href="#"><span class="glyphicon glyphicon-unchecked"></span> <span data-i18n="tank.type.AT-SPG" /></a></li>
+												<li data-value="SPG"><a href="#"><span class="glyphicon glyphicon-unchecked"></span> <span data-i18n="tank.type.SPG" /></a></li>
 											</ul>
 										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-						<div class="togglebutton">
-							<label><span data-i18n="action.calendar.prop.allowspare"></span>
-								<input type="checkbox" id="eventSpareAllowed" value="true" />
-							</label>
 						</div><?php /*
 						<div class="togglebutton">
 							<label><span data-i18n="action.calendar.prop.private"></span>

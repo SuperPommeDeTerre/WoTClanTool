@@ -18,6 +18,8 @@ function fillEventDialog(pDialog, pEvents) {
 		gOffsetListParticipants = null,
 		gEventStartDate = 0,
 		gEventEndDate = 0,
+		gTankLevelsRestriction = ($('.eventDetails').data('restriction-tanklevel') + '').split(/,/g),
+		gTankTypesRestriction =  ($('.eventDetails').data('restriction-tanktype') + '').split(/,/g),
 		gModifyPanel = pDialog.find('.eventDetailsModify'),
 		gDisplayPanel = pDialog.find('.eventDetailsDisplay');
 
@@ -544,9 +546,37 @@ function fillEventDialog(pDialog, pEvents) {
 						return (gTankopedia[b.tank_id].tier - gTankopedia[a.tank_id].tier);
 					});
 					for (var i=0; i<playerTanksAdditionalInfos.length; i++) {
-						var playerTankAdditionalInfos = playerTanksAdditionalInfos[i];
+						var playerTankAdditionalInfos = playerTanksAdditionalInfos[i],
+							j = 0,
+							doAddTank = true,
+							isTankLevelFound = false,
+							isTankTypeFound = false;
 						if (playerTankAdditionalInfos.in_garage && playerTankAdditionalInfos.is_ready) {
-							listTanksHtml += '<li><span class="playerTank" data-tank-id="' + playerTankAdditionalInfos.tank_id + '"><img src="' + gTankopedia[playerTankAdditionalInfos.tank_id].images.contour_icon + '" /><span class="label label-' + getWN8Class(playerTankAdditionalInfos.wn8) + '">' + (Math.round(playerTankAdditionalInfos.wn8 * 100) / 100) + '</span> ' + gTankopedia[playerTankAdditionalInfos.tank_id].short_name + '</span></li>';
+							isTankLevelFound = true;
+							isTankTypeFound = true;
+							if (gTankLevelsRestriction.length > 0 && gTankLevelsRestriction[0] != 'all') {
+								// Restrict tank levels.
+								isTankLevelFound = false;
+								for (j in gTankLevelsRestriction) {
+									if (gTankopedia[playerTankAdditionalInfos.tank_id].tier <= (gTankLevelsRestriction[j] * 1)) {
+										isTankLevelFound = true;
+										break;
+									}
+								}
+							}
+							if (gTankTypesRestriction.length > 0 && gTankTypesRestriction[0] != 'all') {
+								// Restrict tank types.
+								isTankTypeFound = false;
+								for (j in gTankTypesRestriction) {
+									if (gTankopedia[playerTankAdditionalInfos.tank_id].type == gTankTypesRestriction[j]) {
+										isTankTypeFound = true;
+										break;
+									}
+								}
+							}
+							if (isTankTypeFound && isTankLevelFound) {
+								listTanksHtml += '<li><span class="playerTank" data-tank-id="' + playerTankAdditionalInfos.tank_id + '"><img src="' + gTankopedia[playerTankAdditionalInfos.tank_id].images.contour_icon + '" /><span class="label label-' + getWN8Class(playerTankAdditionalInfos.wn8) + '">' + (Math.round(playerTankAdditionalInfos.wn8 * 100) / 100) + '</span> ' + gTankopedia[playerTankAdditionalInfos.tank_id].short_name + '</span></li>';
+							}
 						}
 					}
 					listTanksHtml += '</ul>';
