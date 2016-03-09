@@ -9,6 +9,84 @@ function getClanMember(pAccountId) {
 	}
 };
 
+function getTanksTypesString(pSelectedTypes) {
+	var myTypesSelectedString = $.t('tank.alltypes'),
+		i = 0;
+	if (pSelectedTypes.length > 0 && pSelectedTypes[0] != 'all') {
+		// Sort tank types
+		pSelectedTypes.sort(function(a, b) {
+			var returnVal = 0;
+			switch (a) {
+				case 'lightTank':
+					switch (b) {
+						case 'mediumTank':
+						case 'heavyTank':
+						case 'AT-SPG':
+						case 'SPG':
+							returnVal = -1;
+							break;
+					}
+					break;
+				case 'mediumTank':
+					switch (b) {
+						case 'lightTank':
+							returnVal = 1;
+							break;
+						case 'heavyTank':
+						case 'AT-SPG':
+						case 'SPG':
+							returnVal = -1;
+							break;
+					}
+					break;
+				case 'heavyTank':
+					switch (b) {
+						case 'lightTank':
+						case 'mediumTank':
+							returnVal = 1;
+							break;
+						case 'AT-SPG':
+						case 'SPG':
+							returnVal = -1;
+							break;
+					}
+					break;
+				case 'AT-SPG':
+					switch (b) {
+						case 'lightTank':
+						case 'mediumTank':
+						case 'heavyTank':
+							returnVal = 1;
+							break;
+						case 'SPG':
+							returnVal = -1;
+							break;
+					}
+					break;
+				case 'SPG':
+					switch (b) {
+						case 'lightTank':
+						case 'mediumTank':
+						case 'heavyTank':
+						case 'AT-SPG':
+							returnVal = 1;
+							break;
+					}
+					break;
+			}
+			return returnVal;
+		});
+		myTypesSelectedString = '';
+		for (i in pSelectedTypes) {
+			if (i != 0) {
+				myTypesSelectedString += ', ';
+			}
+			myTypesSelectedString += $.t('tank.type.' + pSelectedTypes[i]);
+		}
+	}
+	return myTypesSelectedString;
+};
+
 // Fill the event window and add event handlers
 function fillEventDialog(pDialog, pEvents) {
 	var myParticipants = [],
@@ -19,7 +97,8 @@ function fillEventDialog(pDialog, pEvents) {
 		gEventStartDate = 0,
 		gEventEndDate = 0,
 		gTankLevelsRestriction = ($('.eventDetails').data('restriction-tanklevel') + '').split(/,/g),
-		gTankTypesRestriction =  ($('.eventDetails').data('restriction-tanktype') + '').split(/,/g),
+		gTankTypesRestriction = ($('.eventDetails').data('restriction-tanktype') + '').split(/,/g),
+		gEventType = $('.eventDetails').data('event-type'),
 		gModifyPanel = pDialog.find('.eventDetailsModify'),
 		gDisplayPanel = pDialog.find('.eventDetailsDisplay');
 
@@ -226,8 +305,28 @@ function fillEventDialog(pDialog, pEvents) {
 				currentType = pDialog.find('.eventDetails').data('event-type'),
 				curMapName = gDisplayPanel.find('#eventMapThumb').data('map'),
 				curStratId = gDisplayPanel.find('.eventStrategy').data('stratid');
+			modifyPanelHtml += '<div class="form-group">';
+			modifyPanelHtml += '<label class="sr-only" for="modifyEventTitle">' + $.t('action.calendar.prop.title') + '</label>';
 			modifyPanelHtml += '<input id="modifyEventTitle" type="text" class="form-control" placeholder="' + $.t('action.calendar.prop.title') + '" aria-describedby="sizing-addon1" value="' + pDialog.find('.modal-header h3 .eventTitle').text() + '" />';
+			modifyPanelHtml += '</div>';
+			modifyPanelHtml += '<div class="form-group">';
+			modifyPanelHtml += '<label class="sr-only" for="modifyEventDescription">' + $.t('action.calendar.prop.description') + '</label>';
 			modifyPanelHtml += '<textarea id="modifyEventDescription" class="form-control" placeholder="' + $.t('action.calendar.prop.description') + '" aria-describedby="sizing-addon1">' + pDialog.find('.eventDescription').text() + '</textarea>';
+			modifyPanelHtml += '</div>';
+			modifyPanelHtml += '<div class="input-group">';
+			modifyPanelHtml += '<span class="input-group-addon glyphicon glyphicon-asterisk"></span>';
+			modifyPanelHtml += '<div class="btn-group">';
+			modifyPanelHtml += '<button type="button" id="modifyEventType" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" data-value="' + gEventType + '" aria-expanded="false"><span class="btnVal">' + $.t('action.calendar.prop.types.clanwar') + '</span> <span class="caret"></span></button>';
+			modifyPanelHtml += '<ul class="dropdown-menu" role="menu">';
+			modifyPanelHtml += '<li data-value="clanwar"><a href="#">' + $.t('action.calendar.prop.types.clanwar') + '</a></li>';
+			modifyPanelHtml += '<li data-value="compa"><a href="#">' + $.t('action.calendar.prop.types.compa') + '</a></li>';
+			modifyPanelHtml += '<li data-value="stronghold"><a href="#">' + $.t('action.calendar.prop.types.stronghold') + '</a></li>';
+			modifyPanelHtml += '<li data-value="7vs7"><a href="#">' + $.t('action.calendar.prop.types.7vs7') + '</a></li>';
+			modifyPanelHtml += '<li data-value="training"><a href="#">' + $.t('action.calendar.prop.types.training') + '</a></li>';
+			modifyPanelHtml += '<li data-value="other"><a href="#">' + $.t('action.calendar.prop.types.other') + '</a></li>';
+			modifyPanelHtml += '</ul>';
+			modifyPanelHtml += '</div>';
+			modifyPanelHtml += '</div>';
 			modifyPanelHtml += '<div class="container-fluid">';
 			modifyPanelHtml += '<div class="row">';
 			modifyPanelHtml += '<div class="col-xs-6">';
@@ -266,15 +365,40 @@ function fillEventDialog(pDialog, pEvents) {
 			modifyPanelHtml += '<div class="container-fluid">';
 			modifyPanelHtml += '<div class="row">';
 			modifyPanelHtml += '<div class="col-md-6 col-xs-6 col-lg-6">';
+			modifyPanelHtml += '<h3>' + $.t('event.restrictions') + '</h3>';
 			modifyPanelHtml += '<div class="input-group">';
-			modifyPanelHtml += '<div class="eventType">';
-			modifyPanelHtml += '<h4>' + $.t('action.calendar.prop.type') + '</h4>';
-			modifyPanelHtml += '<div class="radio radio-material-black"><label><input type="radio"' + (currentType=='clanwar'?' checked="checked"':'') + ' value="clanwar" name="modifyEventType"><abbr>' + $.t('action.calendar.prop.types.clanwar') + '</abbr></label></div>';
-			modifyPanelHtml += '<div class="radio radio-material-red-800"><label><input type="radio"' + (currentType=='compa'?' checked="checked"':'') + ' value="compa" name="modifyEventType"><abbr>' + $.t('action.calendar.prop.types.compa') + '</abbr></label></div>';
-			modifyPanelHtml += '<div class="radio radio-material-purple-600"><label><input type="radio"' + (currentType=='stronghold'?' checked="checked"':'') + ' value="stronghold" name="modifyEventType"><abbr>' + $.t('action.calendar.prop.types.stronghold') + '</abbr></label></div>';
-			modifyPanelHtml += '<div class="radio radio-material-blue-700"><label><input type="radio"' + (currentType=='7vs7'?' checked="checked"':'') + ' value="7vs7" name="modifyEventType"><abbr>' + $.t('action.calendar.prop.types.7vs7') + '</abbr></label></div>';
-			modifyPanelHtml += '<div class="radio radio-material-green-600"><label><input type="radio"' + (currentType=='training'?' checked="checked"':'') + ' value="training" name="modifyEventType"><abbr>' + $.t('action.calendar.prop.types.training') + '</abbr></label></div>';
-			modifyPanelHtml += '<div class="radio radio-material-grey-500"><label><input type="radio"' + (currentType=='other'?' checked="checked"':'') + ' value="other" name="modifyEventType"><abbr>' + $.t('action.calendar.prop.types.other') + '</abbr></label></div>';
+			modifyPanelHtml += '<span class="input-group-addon glyphicon glyphicon-tasks"></span>';
+			modifyPanelHtml += '<div class="btn-group">';
+			modifyPanelHtml += '<button type="button" id="modifyEventTankLevel" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" data-value="' + gTankLevelsRestriction[0] + '" aria-expanded="false"><span class="btnVal">' + ((gTankLevelsRestriction[0] == 'all') || (gTankLevelsRestriction[0] == '')?$.t('tank.alllevels'):$.t('tank.level.' + (gTankLevelsRestriction[0] - 1))) + '</span> <span class="caret"></span></button>';
+			modifyPanelHtml += '<ul class="dropdown-menu" role="menu">';
+			modifyPanelHtml += '<li data-value="all"><a href="#">' + $.t('tank.alllevels') + '</a></li>';
+			modifyPanelHtml += '<li class="divider"></li>';
+			modifyPanelHtml += '<li data-value="1"><a href="#">' + $.t('tank.level.0') + '</a></li>';
+			modifyPanelHtml += '<li data-value="2"><a href="#">' + $.t('tank.level.1') + '</a></li>';
+			modifyPanelHtml += '<li data-value="3"><a href="#">' + $.t('tank.level.2') + '</a></li>';
+			modifyPanelHtml += '<li data-value="4"><a href="#">' + $.t('tank.level.3') + '</a></li>';
+			modifyPanelHtml += '<li data-value="5"><a href="#">' + $.t('tank.level.4') + '</a></li>';
+			modifyPanelHtml += '<li data-value="6"><a href="#">' + $.t('tank.level.5') + '</a></li>';
+			modifyPanelHtml += '<li data-value="7"><a href="#">' + $.t('tank.level.6') + '</a></li>';
+			modifyPanelHtml += '<li data-value="8"><a href="#">' + $.t('tank.level.7') + '</a></li>';
+			modifyPanelHtml += '<li data-value="9"><a href="#">' + $.t('tank.level.8') + '</a></li>';
+			modifyPanelHtml += '<li data-value="10"><a href="#">' + $.t('tank.level.9') + '</a></li>';
+			modifyPanelHtml += '</ul>';
+			modifyPanelHtml += '</div>';
+			modifyPanelHtml += '</div>';
+			modifyPanelHtml += '<div class="input-group">';
+			modifyPanelHtml += '<span class="input-group-addon glyphicon glyphicon-knight"></span>';
+			modifyPanelHtml += '<div class="btn-group">';
+			modifyPanelHtml += '<button type="button" id="modifyEventTankTypes" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" data-value="' + gTankTypesRestriction.join(',') + '" aria-expanded="false"><span class="btnVal">' + getTanksTypesString(gTankTypesRestriction) + '</span> <span class="caret"></span></button>';
+			modifyPanelHtml += '<ul class="dropdown-menu" role="menu">';
+			modifyPanelHtml += '<li data-value="all"><a href="#">' + $.t('tank.alltypes') + '</a></li>';
+			modifyPanelHtml += '<li class="divider"></li>';
+			modifyPanelHtml += '<li data-value="lightTank"><a href="#"><span class="glyphicon glyphicon-' + (gTankTypesRestriction.indexOf('lightTank') >= 0?'check':'unchecked') + '"></span> <span>' + $.t('tank.type.lightTank') + '</span></a></li>';
+			modifyPanelHtml += '<li data-value="mediumTank"><a href="#"><span class="glyphicon glyphicon-' + (gTankTypesRestriction.indexOf('mediumTank') >= 0?'check':'unchecked') + '"></span> <span>' + $.t('tank.type.mediumTank') + '</span></a></li>';
+			modifyPanelHtml += '<li data-value="heavyTank"><a href="#"><span class="glyphicon glyphicon-' + (gTankTypesRestriction.indexOf('heavyTank') >= 0?'check':'unchecked') + '"></span> <span>' + $.t('tank.type.heavyTank') + '</span></a></li>';
+			modifyPanelHtml += '<li data-value="AT-SPG"><a href="#"><span class="glyphicon glyphicon-' + (gTankTypesRestriction.indexOf('AT-SPG') >= 0?'check':'unchecked') + '"></span> <span>' + $.t('tank.type.AT-SPG') + '</span></a></li>';
+			modifyPanelHtml += '<li data-value="SPG"><a href="#"><span class="glyphicon glyphicon-' + (gTankTypesRestriction.indexOf('SPG') >= 0?'check':'unchecked') + '"></span> <span>' + $.t('tank.type.SPG') + '</span></a></li>';
+			modifyPanelHtml += '</ul>';
 			modifyPanelHtml += '</div>';
 			modifyPanelHtml += '</div>';
 			modifyPanelHtml += '</div>';
@@ -296,8 +420,6 @@ function fillEventDialog(pDialog, pEvents) {
 			modifyPanelHtml += '</div>';
 			modifyPanelHtml += '</div>';
 			modifyPanelHtml += '</div>';
-			//modifyPanelHtml += '<button type="button" id="modifyEventOk" class="btn btn-default btn-success">' + $.t('btn.ok') + '</button>';
-			$('#btnModifyEventOk').removeClass('hidden');
 			gModifyPanel.html(modifyPanelHtml);
 			$.material.init(gModifyPanel);
 			// Init date time pickers
@@ -385,8 +507,45 @@ function fillEventDialog(pDialog, pEvents) {
 			if (curMapName != '') {
 				gModifyPanel.find('#modifyEventMapName').change();
 			}
+			var selEventType = gModifyPanel.find('#modifyEventType'),
+				selTankLevel = gModifyPanel.find('#modifyEventTankLevel'),
+				selTankType = gModifyPanel.find('#modifyEventTankTypes');
+			selEventType.add(selTankLevel).parent().on('click', 'a', function(evt) {
+				evt.preventDefault();
+				var myLink = $(this);
+				myLink.parent().parent().prev().data('value', myLink.parent().data('value')).find('.btnVal').text(myLink.text());
+			});
+			selTankType.parent().on('click', 'a', function(evt) {
+				evt.preventDefault();
+				var myLink = $(this),
+					myTypesSelectedContainer = myLink.parent().parent().prev(),
+					myTypesSelected = (myTypesSelectedContainer.data('value') + '').split(/,/g),
+					myChoosenType = myLink.parent().data('value'),
+					i = 0,
+					myTypesSelectedString = '',
+					indexOfAll = 0,
+					indexOfType = 0;
+				if (myChoosenType != 'all') {
+					indexOfType = myTypesSelected.indexOf(myChoosenType);
+					myLink.find('.glyphicon').toggleClass('glyphicon-unchecked').toggleClass('glyphicon-check');
+					if (indexOfType >= 0) {
+						myTypesSelected.splice(indexOfType, 1);
+					} else {
+						myTypesSelected.push(myChoosenType);
+					}
+					indexOfAll = myTypesSelected.indexOf('all');
+					if (myTypesSelected.length > 1 && indexOfAll >= 0) {
+						myTypesSelected.splice(indexOfAll, 1);
+					}
+				}
+				if (myTypesSelected.length == 0 || myChoosenType == 'all') {
+					myTypesSelected = [ 'all' ];
+				}
+				myTypesSelectedContainer.data('value', myTypesSelected.join(',')).find('.btnVal').text(getTanksTypesString(myTypesSelected));
+			});
 		}
 		gDisplayPanel.hide();
+		$('#btnModifyEventOk').removeClass('hidden');
 		gModifyPanel.fadeIn('fast');
 	});
 	$('#btnModifyEventOk').on('click', function(evt) {
@@ -410,13 +569,15 @@ function fillEventDialog(pDialog, pEvents) {
 			a: 'save',
 			eventId: pDialog.find('.eventDetails').data('event-id'),
 			eventTitle: $('#modifyEventTitle').val(),
-			eventType: $('[name=modifyEventType]:checked').val(),
+			eventType: $('#modifyEventType').data('value'),
 			eventDescription: $('#modifyEventDescription').val(),
 			eventStartDate: startDateToSent.unix(),
 			eventEndDate: endDateToSent.unix(),
 			eventAllowSpare: $('#modifyEventSpareAllowed').is(':checked'),
 			eventMapName: $('#modifyEventMapName').val(),
-			eventStrategyId: $('#modifyEventStrategy').val()
+			eventStrategyId: $('#modifyEventStrategy').val(),
+			eventRestrictTankLevel: $('#modifyEventTankLevel').data('value'),
+			eventRestrictTankType: $('#modifyEventTankTypes').data('value')
 		}, function(addEventResult) {
 			// Handle result
 			if (addEventResult.result == 'ok') {
@@ -433,6 +594,8 @@ function fillEventDialog(pDialog, pEvents) {
 					pDialog.find('.btnEnrol[data-attendance="spare"]').hide();
 				}
 				doFillMapsInfos(myResultEvent);
+				gTankLevelsRestriction = myResultEvent.tanksLevelsAllowed,
+				gTankTypesRestriction = myResultEvent.tanksTypesAllowed,
 				// Show display pane
 				$('#btnModifyEventOk').addClass('hidden');
 				gModifyPanel.hide();
