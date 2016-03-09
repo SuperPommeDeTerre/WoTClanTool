@@ -160,8 +160,8 @@ class wctEvent {
 		$this->isSpareAllowed = false;
 		$this->mapName = '';
 		$this->strategyId = -1;
-		$this->tanksLevelsAllowed = array();
-		$this->tanksTypesAllowed = array();
+		$this->tanksLevelsAllowed = array('all');
+		$this->tanksTypesAllowed = array('all');
 	}
 
 	public static function fromJson($json) {
@@ -181,8 +181,8 @@ class wctEvent {
 		$instance->isSpareAllowed = isset($json['spareallowed'])?$json['spareallowed']:false;
 		$instance->mapName = isset($json['mapName'])?$json['mapName']:false;
 		$instance->strategyId = isset($json['strategyId'])?$json['strategyId']:false;
-		$instance->tanksLevelsAllowed = isset($json['tanksLevelsAllowed'])?$json['tanksLevelsAllowed']:array();
-		$instance->tanksTypesAllowed = isset($json['tanksTypesAllowed'])?$json['tanksTypesAllowed']:array();
+		$instance->tanksLevelsAllowed = isset($json['tanksLevelsAllowed'])?$json['tanksLevelsAllowed']:array('all');
+		$instance->tanksTypesAllowed = isset($json['tanksTypesAllowed'])?$json['tanksTypesAllowed']:array('all');
 		return $instance;
 	}
 

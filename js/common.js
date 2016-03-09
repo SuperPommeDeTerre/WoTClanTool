@@ -554,7 +554,7 @@ function fillEventDialog(pDialog, pEvents) {
 						if (playerTankAdditionalInfos.in_garage && playerTankAdditionalInfos.is_ready) {
 							isTankLevelFound = true;
 							isTankTypeFound = true;
-							if (gTankLevelsRestriction.length > 0 && gTankLevelsRestriction[0] != 'all') {
+							if (gTankLevelsRestriction.length > 0 && gTankLevelsRestriction[0] != 'all' && gTankLevelsRestriction[0] != '') {
 								// Restrict tank levels.
 								isTankLevelFound = false;
 								for (j in gTankLevelsRestriction) {
@@ -564,7 +564,7 @@ function fillEventDialog(pDialog, pEvents) {
 									}
 								}
 							}
-							if (gTankTypesRestriction.length > 0 && gTankTypesRestriction[0] != 'all') {
+							if (gTankTypesRestriction.length > 0 && gTankTypesRestriction[0] != 'all' && gTankTypesRestriction[0] != '') {
 								// Restrict tank types.
 								isTankTypeFound = false;
 								for (j in gTankTypesRestriction) {
