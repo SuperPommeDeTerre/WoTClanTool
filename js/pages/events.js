@@ -152,6 +152,7 @@ var onLoad = function() {
 		$('#eventPeriodicity').next().find('[data-value="no"] a').trigger('click');
 		$('#eventTankLevel').next().find('[data-value="all"] a').trigger('click');
 		$('#eventTankTypes').next().find('[data-value="all"] a').trigger('click');
+		$('#eventTankTypes').next().find('.glyphicon').removeClass('glyphicon-check').addClass('glyphicon-unchecked')
 	});
 
 	// Init date time pickers
