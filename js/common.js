@@ -12,69 +12,16 @@ function getClanMember(pAccountId) {
 function getTanksTypesString(pSelectedTypes) {
 	var myTypesSelectedString = $.t('tank.alltypes'),
 		i = 0;
-	if (pSelectedTypes.length > 0 && pSelectedTypes[0] != 'all') {
+	if (pSelectedTypes.length > 0 && pSelectedTypes[0] != 'all' && pSelectedTypes[0] != '') {
 		// Sort tank types
 		pSelectedTypes.sort(function(a, b) {
-			var returnVal = 0;
-			switch (a) {
-				case 'lightTank':
-					switch (b) {
-						case 'mediumTank':
-						case 'heavyTank':
-						case 'AT-SPG':
-						case 'SPG':
-							returnVal = -1;
-							break;
-					}
-					break;
-				case 'mediumTank':
-					switch (b) {
-						case 'lightTank':
-							returnVal = 1;
-							break;
-						case 'heavyTank':
-						case 'AT-SPG':
-						case 'SPG':
-							returnVal = -1;
-							break;
-					}
-					break;
-				case 'heavyTank':
-					switch (b) {
-						case 'lightTank':
-						case 'mediumTank':
-							returnVal = 1;
-							break;
-						case 'AT-SPG':
-						case 'SPG':
-							returnVal = -1;
-							break;
-					}
-					break;
-				case 'AT-SPG':
-					switch (b) {
-						case 'lightTank':
-						case 'mediumTank':
-						case 'heavyTank':
-							returnVal = 1;
-							break;
-						case 'SPG':
-							returnVal = -1;
-							break;
-					}
-					break;
-				case 'SPG':
-					switch (b) {
-						case 'lightTank':
-						case 'mediumTank':
-						case 'heavyTank':
-						case 'AT-SPG':
-							returnVal = 1;
-							break;
-					}
-					break;
+			if (gTANKS_TYPES[a] < gTANKS_TYPES[b]) {
+				return -1;
 			}
-			return returnVal;
+			if (gTANKS_TYPES[a] > gTANKS_TYPES[b]) {
+				return 1;
+			}
+			return 0;
 		});
 		myTypesSelectedString = '';
 		for (i in pSelectedTypes) {
@@ -537,6 +484,8 @@ function fillEventDialog(pDialog, pEvents) {
 					if (myTypesSelected.length > 1 && indexOfAll >= 0) {
 						myTypesSelected.splice(indexOfAll, 1);
 					}
+				} else {
+					myLink.parent().parent().find('.glyphicon').removeClass('glyphicon-check').addClass('glyphicon-unchecked');
 				}
 				if (myTypesSelected.length == 0 || myChoosenType == 'all') {
 					myTypesSelected = [ 'all' ];

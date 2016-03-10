@@ -287,7 +287,6 @@ var onLoad = function() {
 			myTypesSelected = myTypesSelectedContainer.data('value').split(/,/g),
 			myChoosenType = myLink.parent().data('value'),
 			i = 0,
-			myTypesSelectedString = '',
 			indexOfAll = 0,
 			indexOfType = 0;
 		if (myChoosenType != 'all') {
@@ -302,81 +301,12 @@ var onLoad = function() {
 			if (myTypesSelected.length > 1 && indexOfAll >= 0) {
 				myTypesSelected.splice(indexOfAll, 1);
 			}
+		} else {
+			myLink.parent().parent().find('.glyphicon').removeClass('glyphicon-check').addClass('glyphicon-unchecked');
 		}
 		if (myTypesSelected.length == 0 || myChoosenType == 'all') {
 			myTypesSelected = [ 'all' ];
-			myTypesSelectedString = $.t('tank.alltypes');
-		} else {
-			// Sort tank types
-			myTypesSelected.sort(function(a, b) {
-				var returnVal = 0;
-				switch (a) {
-					case 'lightTank':
-						switch (b) {
-							case 'mediumTank':
-							case 'heavyTank':
-							case 'AT-SPG':
-							case 'SPG':
-								returnVal = -1;
-								break;
-						}
-						break;
-					case 'mediumTank':
-						switch (b) {
-							case 'lightTank':
-								returnVal = 1;
-								break;
-							case 'heavyTank':
-							case 'AT-SPG':
-							case 'SPG':
-								returnVal = -1;
-								break;
-						}
-						break;
-					case 'heavyTank':
-						switch (b) {
-							case 'lightTank':
-							case 'mediumTank':
-								returnVal = 1;
-								break;
-							case 'AT-SPG':
-							case 'SPG':
-								returnVal = -1;
-								break;
-						}
-						break;
-					case 'AT-SPG':
-						switch (b) {
-							case 'lightTank':
-							case 'mediumTank':
-							case 'heavyTank':
-								returnVal = 1;
-								break;
-							case 'SPG':
-								returnVal = -1;
-								break;
-						}
-						break;
-					case 'SPG':
-						switch (b) {
-							case 'lightTank':
-							case 'mediumTank':
-							case 'heavyTank':
-							case 'AT-SPG':
-								returnVal = 1;
-								break;
-						}
-						break;
-				}
-				return returnVal;
-			});
-			for (i in myTypesSelected) {
-				if (i != 0) {
-					myTypesSelectedString += ', ';
-				}
-				myTypesSelectedString += $.t('tank.type.' + myTypesSelected[i]);
-			}
 		}
-		myTypesSelectedContainer.data('value', myTypesSelected.join(',')).find('.btnVal').text(myTypesSelectedString);
+		myTypesSelectedContainer.data('value', myTypesSelected.join(',')).find('.btnVal').text(getTanksTypesString(myTypesSelected));
 	});
 };
