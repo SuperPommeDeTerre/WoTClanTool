@@ -182,152 +182,143 @@ var onLoad = function() {
 				language: gConfig.LANG
 			}, function(dataTankopediaResponse) {
 				gTankopedia = dataTankopediaResponse.data;
-				advanceProgress($.t('loading.membertanksinfos'));
-				$.post(gConfig.WG_API_URL + 'wot/account/tanks/', {
-					application_id: gConfig.WG_APP_ID,
-					language: gConfig.LANG,
-					access_token: gConfig.ACCESS_TOKEN,
+				advanceProgress($.t('loading.tanksadditionalinfos'));
+				$.post('./server/player.php', {
+					action: 'gettanksstats',
 					account_id: membersList
-				}, function(dataPlayersVehiclesResponse) {
-					var dataPlayersVehicles = dataPlayersVehiclesResponse.data;
-					advanceProgress($.t('loading.tanksadditionalinfos'));
-					$.post('./server/player.php', {
-						action: 'gettanksstats',
-						account_id: membersList
-					}, function(dataStoredPlayersTanksResponse) {
-						advanceProgress($.t('loading.generating'));
-						var dataStoredPlayersTanks = dataStoredPlayersTanksResponse.data,
-							listToDisplay = [],
-							dataToAdd = {},
-							curTank = {},
-							i = 0,
-							j = 0,
-							playerAdditionalInfos = [],
-							playerTankAdditionalInfos = {},
-							tankDetails = {};
-							playerId = '',
-							isTankInList = false,
-							indexTankInList = 0,
-							tanksListHtml = '',
-							myElemToDisplay = {};
-						for (playerId in dataStoredPlayersTanks) {
-							playerAdditionalInfos = dataStoredPlayersTanks[playerId];
-							if (playerAdditionalInfos.length > 0) {
-								// We have data for this player. Process it.
-								for (i=0; i<playerAdditionalInfos.length; i++) {
-									playerTankAdditionalInfos = playerAdditionalInfos[i];
-									if (playerTankAdditionalInfos.in_garage && playerTankAdditionalInfos.is_ready) {
-										// The tank is ready to fight. Add it to list
-										isTankInList = false;
-										for (curTank in listToDisplay) {
-											if (listToDisplay[curTank].tank_id == playerTankAdditionalInfos.tank_id) {
-												isTankInList = true;
-												dataToAdd = listToDisplay[curTank];
-												break;
-											}
-										}
-										if (!isTankInList) {
-											tankDetails = gTankopedia[playerTankAdditionalInfos.tank_id];
-											dataToAdd = tankDetails;
-											dataToAdd['owners'] = {};
-										}
-										dataToAdd.owners[playerId] = playerTankAdditionalInfos;
-										isTankInList = false;
-										for (j=0; j<listToDisplay.length; j++) {
-											if (listToDisplay[j].tank_id == playerTankAdditionalInfos.tank_id) {
-												isTankInList = true;
-												indexTankInList = j;
-												break;
-											}
-										}
-										if (!isTankInList) {
-											listToDisplay.push(dataToAdd);
-										} else {
-											listToDisplay[indexTankInList] = dataToAdd;
-										}
-									}
-								}
-							}
-						}
-						// Sort tanks by level and by type
-						listToDisplay.sort(function(a, b) {
-							if (a.level > b.level) {
-								return -1;
-							}
-							if (a.level < b.level) {
-								return 1;
-							}
-							if (gTANKS_TYPES[a.type] < gTANKS_TYPES[b.type]) {
-								return -1;
-							}
-							if (gTANKS_TYPES[a.type] > gTANKS_TYPES[b.type]) {
-								return 1;
-							}
-							return 0;
-						});
-						// Perform display
-						for (i=0; i<listToDisplay.length; i++) {
-							myElemToDisplay = listToDisplay[i];
-							tanksListHtml += '<tr>';
-							tanksListHtml += '<td><img src="' + myElemToDisplay.images.contour_icon + '" alt="' + myElemToDisplay.short_name + '" /></td>';
-							tanksListHtml += '<td data-value="' + myElemToDisplay.nation + '"><img src="./themes/' + gConfig.THEME + '/style/images/nation_' + myElemToDisplay.nation + '.png" alt="' + $.t('tank.nation.' + myElemToDisplay.nation) + '" title="' + $.t('tank.nation.' + myElemToDisplay.nation) + '" width="24" height="24" /></td>';
-							tanksListHtml += '<td class="' + (myElemToDisplay.is_premium?'ispremium':'') + '"><span class="tankname">' + myElemToDisplay.short_name + '</span></td>';
-							tanksListHtml += '<td class="tanklevel" data-value="' + myElemToDisplay.tier + '"><img src="./themes/' + gConfig.THEME + '/style/images/Tier_' + myElemToDisplay.tier + '_icon.png" alt="' + gTANKS_LEVEL[myElemToDisplay.tier - 1] + '" title="' + myElemToDisplay.tier + '" /></td>';
-							tanksListHtml += '<td class="tanktype" data-value="' + gTANKS_TYPES[myElemToDisplay.type] + '"><img src="./themes/' + gConfig.THEME + '/style/images/type-' + myElemToDisplay.type + '.png" alt="' + myElemToDisplay.type + '" title="' + $.t('tank.type.' + myElemToDisplay.type) + '" /></td>';
-							tanksListHtml += '<td class="tankowners">';
-							isFirst = true;
-							for (var userId in myElemToDisplay.owners) {
-								playerTankAdditionalInfos = myElemToDisplay.owners[userId];
-								if (isFirst) {
-									isFirst = false;
-								} else {
-									tanksListHtml += ', ';
-								}
-								tanksListHtml += '<span data-value="' + userId + '"><span class="label label-' + getWN8Class(playerTankAdditionalInfos.wn8) + '">' + (Math.round(playerTankAdditionalInfos.wn8 * 100) / 100) + '</span>&nbsp;<a href="#playerDetails' + userId + '" class="ign">' + dataPlayers[userId].nickname + '</a></span>';
-							}
-							tanksListHtml += '</td>';
-							tanksListHtml += '</tr>';
-						}
-						myTanksTable.attr('data-sortable', 'true');
-						myTanksTable.find('tbody').html(tanksListHtml);
-						myTanksTable.on('click', '.ign', function(evt) {
-							evt.preventDefault();
-							// Show user details when click on its IGN.
-							var myLink = $(this),
-								userId = myLink.closest('span').data('value'),
-								playersDetailsHtml = '';
-							if (myPlayersDetailsContainer.find('#playerDetails' + userId).length == 0) {
-								playersDetailsHtml += '<div class="panel panel-default pull-left playerdetails" id="playerDetails' + userId + '">';
-								playersDetailsHtml += '<div class="panel-heading">';
-								playersDetailsHtml += '<button class="close" aria-hidden="true" data-dismiss="alert" data-target="#playerDetails' + userId + '" type="button" aria-label="' + $.t('btn.close') + '">&times;</button>';
-								playersDetailsHtml += '<h3 class="panel-title">' + myLink.text() + '</h3>';
-								playersDetailsHtml += '</div>';
-								playersDetailsHtml += '<div class="panel-body">';
-								playersDetailsHtml += '<ul class="list-group">';
-								for (i=0; i<listToDisplay.length; i++) {
-									myElemToDisplay = listToDisplay[i];
-									for (var tankOwnerId in myElemToDisplay.owners) {
-										if (tankOwnerId == userId) {
-											// The player owns this tanks. Process it.
-											playerTankAdditionalInfos = myElemToDisplay.owners[userId];
-											playersDetailsHtml += '<li class="list-group-item' + (myElemToDisplay.is_premium?' ispremium':'') + '">';
-											playersDetailsHtml += '<img src="' + myElemToDisplay.images.contour_icon + '"  alt="' + myElemToDisplay.short_name + '" /><span class="pull-right label label-' + getWN8Class(playerTankAdditionalInfos.wn8) + '">' + (Math.round(playerTankAdditionalInfos.wn8 * 100) / 100) + '</span>&nbsp;<span class="tankname">' + myElemToDisplay.short_name + '</span>';
-											playersDetailsHtml += '</li>';
-											// Exit loop. We don't need to look up further owners...
+				}, function(dataStoredPlayersTanksResponse) {
+					advanceProgress($.t('loading.generating'));
+					var dataStoredPlayersTanks = dataStoredPlayersTanksResponse.data,
+						listToDisplay = [],
+						dataToAdd = {},
+						curTank = {},
+						i = 0,
+						j = 0,
+						playerAdditionalInfos = [],
+						playerTankAdditionalInfos = {},
+						tankDetails = {};
+						playerId = '',
+						isTankInList = false,
+						indexTankInList = 0,
+						tanksListHtml = '',
+						myElemToDisplay = {};
+					for (playerId in dataStoredPlayersTanks) {
+						playerAdditionalInfos = dataStoredPlayersTanks[playerId];
+						if (playerAdditionalInfos.length > 0) {
+							// We have data for this player. Process it.
+							for (i=0; i<playerAdditionalInfos.length; i++) {
+								playerTankAdditionalInfos = playerAdditionalInfos[i];
+								if (playerTankAdditionalInfos.in_garage && playerTankAdditionalInfos.is_ready) {
+									// The tank is ready to fight. Add it to list
+									isTankInList = false;
+									for (curTank in listToDisplay) {
+										if (listToDisplay[curTank].tank_id == playerTankAdditionalInfos.tank_id) {
+											isTankInList = true;
+											dataToAdd = listToDisplay[curTank];
 											break;
 										}
 									}
+									if (!isTankInList) {
+										tankDetails = gTankopedia[playerTankAdditionalInfos.tank_id];
+										dataToAdd = tankDetails;
+										dataToAdd['owners'] = {};
+									}
+									dataToAdd.owners[playerId] = playerTankAdditionalInfos;
+									isTankInList = false;
+									for (j=0; j<listToDisplay.length; j++) {
+										if (listToDisplay[j].tank_id == playerTankAdditionalInfos.tank_id) {
+											isTankInList = true;
+											indexTankInList = j;
+											break;
+										}
+									}
+									if (!isTankInList) {
+										listToDisplay.push(dataToAdd);
+									} else {
+										listToDisplay[indexTankInList] = dataToAdd;
+									}
 								}
-								playersDetailsHtml += '</ul>';
-								playersDetailsHtml += '</div>';
-								playersDetailsHtml += '</div>';
-								myPlayersDetailsContainer.append(playersDetailsHtml);
 							}
-						});
-						Sortable.initTable(myTanksTable[0]);
-						advanceProgress($.t('loading.complete'));
-						afterLoad();
-					}, 'json');
+						}
+					}
+					// Sort tanks by level and by type
+					listToDisplay.sort(function(a, b) {
+						if (a.level > b.level) {
+							return -1;
+						}
+						if (a.level < b.level) {
+							return 1;
+						}
+						if (gTANKS_TYPES[a.type] < gTANKS_TYPES[b.type]) {
+							return -1;
+						}
+						if (gTANKS_TYPES[a.type] > gTANKS_TYPES[b.type]) {
+							return 1;
+						}
+						return 0;
+					});
+					// Perform display
+					for (i=0; i<listToDisplay.length; i++) {
+						myElemToDisplay = listToDisplay[i];
+						tanksListHtml += '<tr>';
+						tanksListHtml += '<td><img src="' + myElemToDisplay.images.contour_icon + '" alt="' + myElemToDisplay.short_name + '" /></td>';
+						tanksListHtml += '<td data-value="' + myElemToDisplay.nation + '"><img src="./themes/' + gConfig.THEME + '/style/images/nation_' + myElemToDisplay.nation + '.png" alt="' + $.t('tank.nation.' + myElemToDisplay.nation) + '" title="' + $.t('tank.nation.' + myElemToDisplay.nation) + '" width="24" height="24" /></td>';
+						tanksListHtml += '<td class="' + (myElemToDisplay.is_premium?'ispremium':'') + '"><span class="tankname">' + myElemToDisplay.short_name + '</span></td>';
+						tanksListHtml += '<td class="tanklevel" data-value="' + myElemToDisplay.tier + '"><img src="./themes/' + gConfig.THEME + '/style/images/Tier_' + myElemToDisplay.tier + '_icon.png" alt="' + gTANKS_LEVEL[myElemToDisplay.tier - 1] + '" title="' + myElemToDisplay.tier + '" /></td>';
+						tanksListHtml += '<td class="tanktype" data-value="' + gTANKS_TYPES[myElemToDisplay.type] + '"><img src="./themes/' + gConfig.THEME + '/style/images/type-' + myElemToDisplay.type + '.png" alt="' + myElemToDisplay.type + '" title="' + $.t('tank.type.' + myElemToDisplay.type) + '" /></td>';
+						tanksListHtml += '<td class="tankowners">';
+						isFirst = true;
+						for (var userId in myElemToDisplay.owners) {
+							playerTankAdditionalInfos = myElemToDisplay.owners[userId];
+							if (isFirst) {
+								isFirst = false;
+							} else {
+								tanksListHtml += ', ';
+							}
+							tanksListHtml += '<span data-value="' + userId + '"><span class="label label-' + getWN8Class(playerTankAdditionalInfos.wn8) + '">' + (Math.round(playerTankAdditionalInfos.wn8 * 100) / 100) + '</span>&nbsp;<a href="#playerDetails' + userId + '" class="ign">' + dataPlayers[userId].nickname + '</a></span>';
+						}
+						tanksListHtml += '</td>';
+						tanksListHtml += '</tr>';
+					}
+					myTanksTable.attr('data-sortable', 'true');
+					myTanksTable.find('tbody').html(tanksListHtml);
+					myTanksTable.on('click', '.ign', function(evt) {
+						evt.preventDefault();
+						// Show user details when click on its IGN.
+						var myLink = $(this),
+							userId = myLink.closest('span').data('value'),
+							playersDetailsHtml = '';
+						if (myPlayersDetailsContainer.find('#playerDetails' + userId).length == 0) {
+							playersDetailsHtml += '<div class="panel panel-default pull-left playerdetails" id="playerDetails' + userId + '">';
+							playersDetailsHtml += '<div class="panel-heading">';
+							playersDetailsHtml += '<button class="close" aria-hidden="true" data-dismiss="alert" data-target="#playerDetails' + userId + '" type="button" aria-label="' + $.t('btn.close') + '">&times;</button>';
+							playersDetailsHtml += '<h3 class="panel-title">' + myLink.text() + '</h3>';
+							playersDetailsHtml += '</div>';
+							playersDetailsHtml += '<div class="panel-body">';
+							playersDetailsHtml += '<ul class="list-group">';
+							for (i=0; i<listToDisplay.length; i++) {
+								myElemToDisplay = listToDisplay[i];
+								for (var tankOwnerId in myElemToDisplay.owners) {
+									if (tankOwnerId == userId) {
+										// The player owns this tanks. Process it.
+										playerTankAdditionalInfos = myElemToDisplay.owners[userId];
+										playersDetailsHtml += '<li class="list-group-item' + (myElemToDisplay.is_premium?' ispremium':'') + '">';
+										playersDetailsHtml += '<img src="' + myElemToDisplay.images.contour_icon + '"  alt="' + myElemToDisplay.short_name + '" /><span class="pull-right label label-' + getWN8Class(playerTankAdditionalInfos.wn8) + '">' + (Math.round(playerTankAdditionalInfos.wn8 * 100) / 100) + '</span>&nbsp;<span class="tankname">' + myElemToDisplay.short_name + '</span>';
+										playersDetailsHtml += '</li>';
+										// Exit loop. We don't need to look up further owners...
+										break;
+									}
+								}
+							}
+							playersDetailsHtml += '</ul>';
+							playersDetailsHtml += '</div>';
+							playersDetailsHtml += '</div>';
+							myPlayersDetailsContainer.append(playersDetailsHtml);
+						}
+					});
+					Sortable.initTable(myTanksTable[0]);
+					advanceProgress($.t('loading.complete'));
+					afterLoad();
 				}, 'json');
 			}, 'json');
 		}, 'json');
