@@ -25,6 +25,6 @@ define('WCT_INC_DIR', WCT_ROOT_DIR . DIRECTORY_SEPARATOR . 'res' . DIRECTORY_SEP
 
 // Define base URL
 $protocol = (strstr('https',$_SERVER['SERVER_PROTOCOL']) === false)?'http':'https';
-define('WCT_BASE_PATH', $protocol . '://'.$_SERVER['HTTP_HOST'].(dirname($_SERVER['SCRIPT_NAME']) != '/' ? dirname($_SERVER["SCRIPT_NAME"]).'/' : '/'));
+define('WCT_BASE_PATH', $protocol . '://' . $_SERVER['HTTP_HOST'] . (dirname($_SERVER['SCRIPT_NAME']) != '/' ? dirname($_SERVER["SCRIPT_NAME"]) . '/' : '/'));
 unset($protocol);
 ?>

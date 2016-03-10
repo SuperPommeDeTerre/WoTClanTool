@@ -88,6 +88,14 @@ function install($pClusters, $pDefaultCluster) {
 		$result["status"] = "error";
 		$result["message"] = "Error while writing configuration file [" . $configFile . "].";
 	}
+	// Process .htaccess
+	$htaccessContents = file_get_contents('.htaccess.template');
+	$htaccessContents = str_replace('{{REWRITE_BASE}}', (dirname($_SERVER['SCRIPT_NAME']) != '/' ? dirname($_SERVER["SCRIPT_NAME"]) . '/' : ''), $htaccessContents);
+	if (!file_put_contents('.htaccess', $htaccessContents, LOCK_EX)) {
+		// Error while writing config file
+		$result["status"] = "error";
+		$result["message"] = "Error while writing configuration file [.htaccess].";
+	}
 	// Everything has running fine. Proceed...
 	echo(json_encode($result, true));
 }
@@ -187,6 +195,7 @@ foreach ($gClusters as $clusterId => $clusterProps) {
 						</div>
 						<div class="col-md-4">
 							<h2 data-i18n="install.tests"></h2>
+							<?php wctUtils::testWrite('.' . DIRECTORY_SEPARATOR); ?>
 							<?php wctUtils::testWrite('.' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR); ?>
 							<?php wctUtils::testWrite('.' . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR); ?>
 							<?php //wctUtils::testModReWrite(); ?>

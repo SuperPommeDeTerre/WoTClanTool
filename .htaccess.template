@@ -2,7 +2,7 @@ DirectoryIndex index.php
 #Options -Multiviews
 <IfModule mod_rewrite.c>
 	RewriteEngine on
-	RewriteBase /wct/
+	RewriteBase {{REWRITE_BASE}}
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteCond %{REQUEST_FILENAME} !-d
 	RewriteCond %{REQUEST_FILENAME} !-l
