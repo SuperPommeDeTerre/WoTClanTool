@@ -171,7 +171,8 @@ var onLoad = function() {
 			application_id: gConfig.WG_APP_ID,
 			language: gConfig.G_API_LANG,
 			access_token: gConfig.ACCESS_TOKEN,
-			account_id: membersList
+			account_id: membersList,
+			fields: 'nickname'
 		}, function(dataPlayersResponse) {
 			var dataPlayers = dataPlayersResponse.data;
 			advanceProgress($.t('loading.tanksinfos'));
