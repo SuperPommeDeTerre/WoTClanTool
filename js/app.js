@@ -258,6 +258,9 @@ $(document).ready(function() {
 			});
 		});
 	}, 'json');
+	$('#btnShowLogs').on('click', function(e) {
+		e.preventDefault();
+	});
 });
 
 var afterLoad = function() {

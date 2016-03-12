@@ -1,7 +1,8 @@
 		</div><?php
 if ($gPageProps["blocks"]["footer"]) { ?>
 		<div id="footer">
-			<h3><span data-i18n="app.name"></span> <span class="badge">v<?php echo(WCT_VERSION); ?></span></h3>
+			<h3><span data-i18n="app.name"></span> <span class="badge">v<?php echo(WCT_VERSION); ?></span>
+			<a class="btn btn-default btn-sm pull-right" id="btnShowLogs" href="#" role="button" data-i18n="[title]admin.showlogs;"><span class="glyphicon glyphicon-console" /></a></h3>
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-xs-12 col-md-6 col-lg-6">
