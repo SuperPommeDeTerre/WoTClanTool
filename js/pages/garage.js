@@ -114,6 +114,9 @@ var onLoad = function() {
 		clan_id: gPersonalInfos.clan_id
 	}, function(dataClanResponse) {
 		gClanInfos = dataClanResponse.data[gPersonalInfos.clan_id];
+		if (isDebugEnabled) {
+			logDebug('dataClanResponse=' + JSON.stringify(dataClanResponse, null, 4));
+		}
 		setNavBrandWithClan();
 		var membersList = '',
 			isFirst = true,
@@ -175,6 +178,9 @@ var onLoad = function() {
 			fields: 'nickname'
 		}, function(dataPlayersResponse) {
 			var dataPlayers = dataPlayersResponse.data;
+			if (isDebugEnabled) {
+				logDebug('dataPlayers=' + JSON.stringify(dataPlayers, null, 4));
+			}
 			advanceProgress($.t('loading.tanksinfos'));
 			$.post(gConfig.WG_API_URL + 'wot/encyclopedia/vehicles/', {
 				application_id: gConfig.WG_APP_ID,
@@ -187,6 +193,9 @@ var onLoad = function() {
 					action: 'gettanksstats',
 					account_id: membersList
 				}, function(dataStoredPlayersTanksResponse) {
+					if (dataStoredPlayersTanksResponse) {
+						logDebug('dataStoredPlayersTanksResponse=' + JSON.stringify(dataStoredPlayersTanksResponse, null, 4));
+					}
 					advanceProgress($.t('loading.generating'));
 					var dataStoredPlayersTanks = dataStoredPlayersTanksResponse.data,
 						listToDisplay = [],
@@ -319,8 +328,20 @@ var onLoad = function() {
 					Sortable.initTable(myTanksTable[0]);
 					advanceProgress($.t('loading.complete'));
 					afterLoad();
-				}, 'json');
-			}, 'json');
-		}, 'json');
-	}, 'json');
+				}, 'json')
+				.fail(function(jqXHR, textStatus) {
+					logErr('Error while loading [./server/player.php]: ' + textStatus + '.');
+				});
+			}, 'json')
+			.fail(function(jqXHR, textStatus) {
+				logErr('Error while loading [' + gConfig.WG_API_URL + 'wot/encyclopedia/vehicles/]: ' + textStatus + '.');
+			});
+		}, 'json')
+		.fail(function(jqXHR, textStatus) {
+			logErr('Error while loading [' + gConfig.WG_API_URL + 'wot/account/info/]: ' + textStatus + '.');
+		});
+	}, 'json')
+	.fail(function(jqXHR, textStatus) {
+		logErr('Error while loading [' + gConfig.WG_API_URL + 'wgn/clans/info/]: ' + textStatus + '.');
+	});
 };

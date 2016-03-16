@@ -1,8 +1,25 @@
+		</div>
+		<div class="modal fade" id="logsDlg" tabindex="-1" role="dialog" aria-labelledby="logsLabel">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" data-i18n="[aria-label]btn.close;"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="logsLabel" data-i18n="admin.logstitle"></h4>
+					</div>
+					<div class="modal-body">
+						<ul id="logsContent" class="list-unstyled">
+						</ul>
+					</div>
+					<div class="modal-footer">
+						<button id="copyLogButton" class="btn btn-default btn-material-grey-500" data-clipboard-target="logsContent" data-i18n="[title]action.copy;"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></button>
+						<button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="btn.close"></button>
+					</div>
+				</div>
+			</div>
 		</div><?php
 if ($gPageProps["blocks"]["footer"]) { ?>
 		<div id="footer">
-			<h3><span data-i18n="app.name"></span> <span class="badge">v<?php echo(WCT_VERSION); ?></span>
-			<a class="btn btn-default btn-sm pull-right" id="btnShowLogs" href="#" role="button" data-i18n="[title]admin.showlogs;"><span class="glyphicon glyphicon-console" /></a></h3>
+			<h3><span data-i18n="app.name"></span> <span class="badge">v<?php echo(WCT_VERSION); ?></span></h3>
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-xs-12 col-md-6 col-lg-6">

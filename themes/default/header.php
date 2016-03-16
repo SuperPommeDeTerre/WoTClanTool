@@ -52,6 +52,7 @@ include_once(WCT_INC_DIR . 'analyticstracking.php');
 				<div id="progressBar" class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">0 %</div>
 			</div>
 			<p id="progressInfoMessage">&nbsp;</p>
+			<a class="btn btn-default btn-sm pull-right" id="btnShowLogs" href="#" role="button" data-i18n="[title]admin.showlogs;" data-toggle="modal" data-target="#logsDlg"><span class="glyphicon glyphicon-console" /></a>
 		</div>
 		<div id="content"><?php
 if ($gPageProps["blocks"]["nav"]) { ?>

@@ -27,7 +27,7 @@
 body#forum .main{margin:0;padding:0}
 #unauthorized .main{position:relative;margin:auto;width:50em;text-align:center}
 #tableClanPlayers tr.oldBattle *{color:#F00}
-#progressDialog{position:absolute;top:0;bottom:0;left:0;right:0;z-index:2000;background-color:#eee}
+#progressDialog{position:absolute;top:0;bottom:0;left:0;right:0;z-index:1040;background-color:#eee}
 #progressInfoMessage{text-align:center;font-size:1.5em}
 /* Header */
 .navbar-brand small{position:absolute;left:52px;top:38px;font-size:0.4em;color:#999}
@@ -330,3 +330,5 @@ body{padding-top:50px}
 
 .navbar-brand{font-family:Gunplay;font-size:3em}
 .progress-centered{margin-top:10px !important;margin-bottom:10px !important}
+#btnShowLogs{position:fixed;bottom:0;right:0}
+#logsContent{overflow:auto;height:15em}

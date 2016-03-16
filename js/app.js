@@ -263,12 +263,78 @@ $(document).ready(function() {
 	});
 });
 
+// Log handling
+var gLogLevels = {
+	'ERR': 0,
+	'WARN': 1,
+	'INFO': 2,
+	'VERB': 3,
+	'DBG': 4
+};
+var gSelectedLogLevel = gLogLevels.DBG;
+
+var log = function(pMsg, pLevel) {
+	if (gSelectedLogLevel >= pLevel) {
+		var myContainer = $('#logsContent'),
+			lLevel = gLogLevels.INFO,
+			lLogMsgContent = $('<li><samp></samp></li>');
+		if (typeof(pLevel) != 'undefined' && pLevel != null) {
+			lLevel = pLevel;
+		}
+		switch (lLevel) {
+			case gLogLevels.ERR:
+				lLogMsgContent.addClass('text-danger');
+				break;
+			case gLogLevels.WARN:
+				lLogMsgContent.addClass('text-warning');
+				break;
+			case gLogLevels.INFO:
+				lLogMsgContent.addClass('text-info');
+				break;
+			case gLogLevels.VERB:
+				lLogMsgContent.addClass('text-primary');
+				break;
+			case gLogLevels.DBG:
+				lLogMsgContent.addClass('text-muted');
+				break;
+		}
+		lLogMsgContent.children().text(moment().format() + ': ' + pMsg);
+		myContainer.append(lLogMsgContent);
+	}
+};
+var logDebug = function(pMsg) { log(pMsg, gLogLevels.DBG); };
+var logVerb = function(pMsg) { log(pMsg, gLogLevels.VERB); };
+var logInfo = function(pMsg) { log(pMsg, gLogLevels.INFO); };
+var logWarn = function(pMsg) { log(pMsg, gLogLevels.WARN); };
+var logErr = function(pMsg) { log(pMsg, gLogLevels.ERR); };
+var isDebugEnabled = function() { return gSelectedLogLevel >= gLogLevels.DBG; };
+var isVerbEnabled = function() { return gSelectedLogLevel >= gLogLevels.VERB; };
+var isInfoEnabled = function() { return gSelectedLogLevel >= gLogLevels.INFO; };
+var isWarnEnabled = function() { return gSelectedLogLevel >= gLogLevels.WARN; };
+var gLogClipBoard = null;
+
 var afterLoad = function() {
 	$('#progressDialog').fadeOut('fast');
+	$('#btnShowLogs').detach().removeAttr('id').insertAfter('#footer h3 .badge');
 	$('.header-fixed').stickyTableHeaders({fixedOffset: $('#mainNavBar')});
 	$('[data-toggle="tooltip"]').tooltip();
 	$.material.init();
 	if (gHashDest != '') {
 		location.hash = gHashDest;
 	}
+	if (isInfoEnabled) {
+		logInfo('Finish !');
+	}
+	gLogClipBoard = new ZeroClipboard($('#copyLogButton'));
+	/*
+	gLogClipBoard.on('copy', function(copyEvent) {
+		var clipboard = copyEvent.clipboardData,
+			logMsgs = '';
+		$('#logsContent li').each(function(i) {
+			logMsgs += $(this).text() + '\n';
+		});
+		clipboard.setText(logMsgs);
+		clipboard.setHtml($('#logsContent').html());
+	});
+	*/
 };
