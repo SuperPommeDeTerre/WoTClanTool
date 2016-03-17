@@ -114,7 +114,7 @@
                 "min": 4,
                 "max": 11
             },
-            "modes": {}
+            "modes": { "domination": {} }
         },
         "Cliff": {
             "file": "18_cliff.jpg",
@@ -191,25 +191,16 @@
         },
         "EiffelTower": {
             "file": "112_eiffel_tower.jpg",
-            "size": { "x": 1000, "y": 1000 },
+            "size": { "x": 800, "y": 800 },
             "camo": "summer",
             "arena_id": "112_eiffel_tower",
             "type": "",
-            "state": "retired",
+            "state": "live",
             "levels": {
                 "min": 4,
                 "max": 11
             },
-            "modes": {
-                "standard": {
-                    "team1": [
-                        { "type": "base", "x": 550, "y": 150 }
-                    ],
-                    "team2": [
-                        { "type": "base", "x": 600, "y": 900 }
-                    ]
-                }
-            }
+            "modes": { "steelhunt" : {}, "domination": {} }
         },
         "ElHalluf": {
             "file": "29_el_hallouf.jpg",
@@ -867,7 +858,7 @@
                 "min": 4,
                 "max": 11
             },
-            "modes": {}
+            "modes": { "steelhunt" : {}, "domination": {} }
         },
         "Pilsen": {
             "file": "114_czech.jpg",

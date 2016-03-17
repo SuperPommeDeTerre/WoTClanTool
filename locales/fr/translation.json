@@ -745,7 +745,8 @@
 			"encounter": "Rencontre",
 			"assault": "Assaut",
 			"confrontation": "Bataille en équipe",
-			"domination": "Domination"
+			"domination": "Domination",
+			"steelhunt": "Traque d'acier"
 		},
 		"elements": {
 			"HT": "Char lourd",
@@ -804,7 +805,7 @@
 			"Cliff": "Falaise",
 			"DDay": "Overlord",
 			"DragonRidge": "Crête du dragon",
-			"EiffelTower": "Tour Eiffel",
+			"EiffelTower": "Capitale Ravagée",
 			"ElHalluf": "El Halluf",
 			"Ensk": "Ensk",
 			"Erlenberg": "Erlenberg",

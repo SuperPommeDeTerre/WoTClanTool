@@ -744,7 +744,8 @@
 			"encounter": "Encounter",
 			"assault": "Assault",
 			"confrontation": "Team battle",
-			"domination": "Domination"
+			"domination": "Domination",
+			"steelhunt": "Steel Hunt"
 		},
 		"elements": {
 			"HT": "Heavy tank",
@@ -803,7 +804,7 @@
 			"Cliff": "Cliff",
 			"DDay": "Overlord",
 			"DragonRidge": "Dragon Ridge",
-			"EiffelTower": "Eiffel Tower",
+			"EiffelTower": "Ravaged Capital",
 			"ElHalluf": "El Halluf",
 			"Ensk": "Ensk",
 			"Erlenberg": "Erlenberg",
