@@ -113,10 +113,10 @@ var onLoad = function() {
 		access_token: gConfig.ACCESS_TOKEN,
 		clan_id: gPersonalInfos.clan_id
 	}, function(dataClanResponse) {
-		gClanInfos = dataClanResponse.data[gPersonalInfos.clan_id];
-		if (isDebugEnabled) {
+		if (isDebugEnabled()) {
 			logDebug('dataClanResponse=' + JSON.stringify(dataClanResponse, null, 4));
 		}
+		gClanInfos = dataClanResponse.data[gPersonalInfos.clan_id];
 		setNavBrandWithClan();
 		var membersList = '',
 			isFirst = true,
@@ -177,10 +177,10 @@ var onLoad = function() {
 			account_id: membersList,
 			fields: 'nickname'
 		}, function(dataPlayersResponse) {
-			var dataPlayers = dataPlayersResponse.data;
-			if (isDebugEnabled) {
-				logDebug('dataPlayers=' + JSON.stringify(dataPlayers, null, 4));
+			if (isDebugEnabled()) {
+				logDebug('dataPlayersResponse=' + JSON.stringify(dataPlayersResponse, null, 4));
 			}
+			var dataPlayers = dataPlayersResponse.data;
 			advanceProgress($.t('loading.tanksinfos'));
 			$.post(gConfig.WG_API_URL + 'wot/encyclopedia/vehicles/', {
 				application_id: gConfig.WG_APP_ID,
@@ -193,7 +193,7 @@ var onLoad = function() {
 					action: 'gettanksstats',
 					account_id: membersList
 				}, function(dataStoredPlayersTanksResponse) {
-					if (dataStoredPlayersTanksResponse) {
+					if (isDebugEnabled()) {
 						logDebug('dataStoredPlayersTanksResponse=' + JSON.stringify(dataStoredPlayersTanksResponse, null, 4));
 					}
 					advanceProgress($.t('loading.generating'));
@@ -217,7 +217,7 @@ var onLoad = function() {
 							// We have data for this player. Process it.
 							for (i=0; i<playerAdditionalInfos.length; i++) {
 								playerTankAdditionalInfos = playerAdditionalInfos[i];
-								if (playerTankAdditionalInfos.in_garage && playerTankAdditionalInfos.is_ready) {
+								if (playerTankAdditionalInfos != null && playerTankAdditionalInfos.in_garage && playerTankAdditionalInfos.is_ready) {
 									// The tank is ready to fight. Add it to list
 									isTankInList = false;
 									for (curTank in listToDisplay) {

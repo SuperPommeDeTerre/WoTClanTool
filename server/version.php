@@ -1,6 +1,6 @@
 <?php
 // Define application version
-define('WCT_VERSION', '1.2');
+define('WCT_VERSION', '1.2.1');
 
 // Define default cluster
 define('WCT_DEFAULT_CLUSTER', 'EU');
