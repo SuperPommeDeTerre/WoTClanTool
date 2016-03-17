@@ -114,7 +114,7 @@
                 "min": 4,
                 "max": 11
             },
-            "modes": { "domination": {} }
+            "modes": {}
         },
         "Cliff": {
             "file": "18_cliff.jpg",
@@ -200,7 +200,7 @@
                 "min": 4,
                 "max": 11
             },
-            "modes": { "steelhunt" : {}, "domination": {} }
+            "modes": {}
         },
         "ElHalluf": {
             "file": "29_el_hallouf.jpg",
@@ -858,7 +858,7 @@
                 "min": 4,
                 "max": 11
             },
-            "modes": { "steelhunt" : {}, "domination": {} }
+            "modes": {}
         },
         "Pilsen": {
             "file": "114_czech.jpg",
