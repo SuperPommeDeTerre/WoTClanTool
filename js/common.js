@@ -167,20 +167,20 @@ function fillEventDialog(pDialog, pEvents) {
 	pDialog.find('#btnAddReplay').on('click', function(evt) {
 		evt.preventDefault();
 		var myButton = $(this),
-			data = new FormData();
+			dataReplayFiles = new FormData();
 		$.each(replayFiles, function(key, value) {
-			data.append(key, value);
+			dataReplayFiles.append(key, value);
 		});
 		$.ajax({
 			url: './server/analysereplay.php',
 			type: 'POST',
-			data: data,
+			data: dataReplayFiles,
 			cache: false,
 			dataType: 'json',
 			processData: false, // Don't process the files
 			contentType: false, // Set content type to false as jQuery will tell the server its a query string request
-			success: function(data, textStatus, jqXHR) {
-				if (data.result == 'success') {
+			success: function(dataResponse, textStatus, jqXHR) {
+				if (dataResponse.result == 'success') {
 					// Success so call function to process the form
 					
 				}

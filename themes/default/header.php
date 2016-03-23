@@ -97,6 +97,7 @@ if ($gPageProps["blocks"]["nav"]) { ?>
 								</ul>
 							</li>
 							<li<?php if ($gPageProps["id"] == 'garage') { echo(' class="active"'); } ?>><a href="garage" data-i18n="nav.garage"></a></li>
+							<!-- <li<?php if ($gPageProps["id"] == 'clanwars') { echo(' class="active"'); } ?>><a href="clanwars" data-i18n="nav.clanwars"></a></li> -->
 							<li<?php if ($gPageProps["id"] == 'events') { echo(' class="active"'); } ?>><a href="events" data-i18n="nav.events"></a></li><?php
 		// Show forum link only if clan's forum URL is set
 		if (array_key_exists('forumurl', $gClanConfig) && ($gClanConfig['forumurl'] != null)) { ?>

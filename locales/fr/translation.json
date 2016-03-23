@@ -146,6 +146,7 @@
 		"toggle": "Basculer navigation",
 		"home": "Accueil",
 		"garage": "Garage",
+		"clanwars": "Clan Wars",
 		"events": "Evènements",
 		"stronghold": "Bastion",
 		"admin": "Administration",
@@ -572,6 +573,9 @@
 		},
 		"garage": {
 			"title": "Garage"
+		},
+		"clanwars": {
+			"title": "Clan Wars"
 		},
 		"events": {
 			"title": "Evènements"
