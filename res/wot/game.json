@@ -551,7 +551,7 @@
             "camo": "summer",
             "arena_id": "15_komarin",
             "type": "",
-            "state": "live",
+            "state": "retired",
             "levels": {
                 "min": 4,
                 "max": 8
@@ -888,7 +888,7 @@
             "camo": "summer",
             "arena_id": "60_asia_miao",
             "type": "",
-            "state": "live",
+            "state": "retired",
             "levels": {
                 "min": 4,
                 "max": 11
@@ -1107,7 +1107,7 @@
             "size": { "x": 800, "y": 800 },
             "camo": "summer",
             "type": "",
-            "state": "live",
+            "state": "retired",
             "levels": {
                 "min": 4,
                 "max": 11
@@ -1270,7 +1270,7 @@
             "size": { "x": 1000, "y": 1000 },
             "camo": "winter",
             "type": "",
-            "state": "live",
+            "state": "retired",
             "levels": {
                 "min": 4,
                 "max": 11
@@ -1369,7 +1369,7 @@
             "camo": "summer",
             "arena_id": "39_crimea",
             "type": "",
-            "state": "live",
+            "state": "retired",
             "levels": {
                 "min": 4,
                 "max": 11
