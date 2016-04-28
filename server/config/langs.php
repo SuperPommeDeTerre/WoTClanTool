@@ -1,6 +1,7 @@
 <?php
 // Defines the authorized lang codes
-$gAuthorizedLang = array("en", "ru", "pl", "de", "fr", "es", "zh", "tr", "cs", /*"th", "vi",*/ "ko");
+//$gAuthorizedLang = array("en", "ru", "pl", "de", "fr", "es", "zh", "tr", "cs", /*"th", "vi",*/ "ko");
+$gAuthorizedLang = array("en", "fr");
 
 // Sets the lang code for the user from its preferences
 $gLang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
