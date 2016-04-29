@@ -100,6 +100,9 @@ var onLoad = function() {
 		from: now.valueOf(),
 		to: moment(now).add(6, 'days').valueOf()
 	}, function(calendarDataResponse) {
+		if (isDebugEnabled()) {
+			logDebug('calendarDataResponse=' + JSON.stringify(calendarDataResponse, null, 4));
+		}
 		var myEvents = calendarDataResponse.result;
 		$('#myCalendar .placeholder').each(function(idx, elem) {
 			var myElem = $(elem),
@@ -155,20 +158,32 @@ var onLoad = function() {
 				eventId: myButton.closest('div').data('event-id'),
 				attendance: myButton.data('attendance')
 			}, function(enrolResponse) {
+				if (isDebugEnabled()) {
+					logDebug('enrolResponse=' + JSON.stringify(enrolResponse, null, 4));
+				}
 				if (enrolResponse.result == 'ok') {
 					var myEventContainer = myButton.closest('div');
 					myEventContainer.data('participants', (myEventContainer.data('participants') * 1) + 1);
 					myEventContainer.append('<p>' + $.t('event.participants', { count: myEventContainer.data('participants') }) + '</p>');
 					myEventContainer.find('.btnEnrol').remove();
 				}
-			}, 'json');
+			}, 'json')
+			.fail(function(jqXHR, textStatus) {
+				logErr('Error while loading [./server/calendar.php]: ' + textStatus + '.');
+			});
 		});
-	}, 'json');
+	}, 'json')
+	.fail(function(jqXHR, textStatus) {
+		logErr('Error while loading [./server/calendar.php]: ' + textStatus + '.');
+	});
 	$.post(gConfig.WG_API_URL + 'wot/encyclopedia/vehicles/', {
 		application_id: gConfig.WG_APP_ID,
 		access_token: gConfig.ACCESS_TOKEN,
 		language: gConfig.LANG
 	}, function(dataTankopediaResponse) {
+		if (isDebugEnabled()) {
+			logDebug('dataTankopediaResponse=' + JSON.stringify(dataTankopediaResponse, null, 4));
+		}
 		gTankopedia = dataTankopediaResponse.data;
 		advanceProgress($.t('loading.mytanksinfos'));
 		$.post(gConfig.WG_API_URL + 'wot/tanks/stats/', {
@@ -199,10 +214,16 @@ var onLoad = function() {
 				'action': 'gettanksstats',
 				'data': JSON.stringify(dataMyTanks)
 			}, function(dataMyTanksResponse) {
+				if (isDebugEnabled()) {
+					logDebug('dataMyTanksResponse=' + JSON.stringify(dataMyTanksResponse, null, 4));
+				}
 				advanceProgress($.t('loading.getvacancies'));
 				$.post('./server/player.php', {
 					'action': 'getvacancies'
 				}, function(dataMyVacanciesResponse) {
+					if (isDebugEnabled()) {
+						logDebug('dataMyVacanciesResponse=' + JSON.stringify(dataMyVacanciesResponse, null, 4));
+					}
 					var dataMyVacancies = dataMyVacanciesResponse.data[gConfig.PLAYER_ID],
 						myVacanciesTable = $('#myVacanciesTableContainer'),
 						myNoVacancy = $('#noVacancy');
@@ -280,6 +301,9 @@ var onLoad = function() {
 							'enddate': myVacancyEndDate.unix(),
 							'reason': myVacancyReason
 						}, function(addVacancyResult) {
+							if (isDebugEnabled()) {
+								logDebug('addVacancyResult=' + JSON.stringify(addVacancyResult, null, 4));
+							}
 							additionalClass = '';
 							if (myCurrentTime > myVacancyEndDate.unix()) {
 								additionalClass = ' class="past warning hidden"';
@@ -311,6 +335,9 @@ var onLoad = function() {
 							'startdate': myVacancyStartDate,
 							'enddate': myVacancyEndDate
 						}, function(delVacancyResponse) {
+							if (isDebugEnabled()) {
+								logDebug('delVacancyResponse=' + JSON.stringify(delVacancyResponse, null, 4));
+							}
 							myBtn.closest('tr').remove();
 							if (myVacanciesTable.find('tbody tr').length == 0) {
 								myVacanciesTable.hide();
@@ -920,7 +947,16 @@ var onLoad = function() {
 					}
 				});
 				new ZeroClipboard($('#copy-button'));
-			}, 'json');
-		}, 'json');
-	}, 'json');
+			}, 'json')
+			.fail(function(jqXHR, textStatus) {
+				logErr('Error while loading [./server/player.php]: ' + textStatus + '.');
+			});
+		}, 'json')
+		.fail(function(jqXHR, textStatus) {
+			logErr('Error while loading [' + gConfig.WG_API_URL + 'wot/tanks/stats/]: ' + textStatus + '.');
+		});
+	}, 'json')
+	.fail(function(jqXHR, textStatus) {
+		logErr('Error while loading [' + gConfig.WG_API_URL + 'wot/encyclopedia/vehicles/]: ' + textStatus + '.');
+	});
 };
