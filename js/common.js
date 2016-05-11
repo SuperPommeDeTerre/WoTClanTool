@@ -181,13 +181,16 @@ function fillEventDialog(pDialog, pEvents) {
 			contentType: false, // Set content type to false as jQuery will tell the server its a query string request
 			success: function(dataResponse, textStatus, jqXHR) {
 				if (dataResponse.result == 'success') {
-					// Success so call function to process the form
-					
+					// Display battle result
+					var batlleResultData = dataResponse.data,
+						battleResultHtml = '';
+				} else {
+					logErr('Error during uploading of replay: ' . dataResponse.message);
 				}
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
 				// Handle errors here
-				console.log('ERRORS: ' + textStatus);
+				logErr('Error during uploading of replay: ' + textStatus);
 			}
 		});
 	});
@@ -595,6 +598,10 @@ function fillEventDialog(pDialog, pEvents) {
 	});
 	if (gEventStartDate.isAfter(moment())) {
 		pDialog.find('.eventParticipantsList').on('click', '.participant', function(evt) {
+			if (gTankopedia == null) {
+				alert('Tankopedia not yet loaded. Please wait...');
+				return;
+			}
 			if (gOffsetListParticipants == null) {
 				gOffsetListParticipants = pDialog.find('.eventParticipantsList tbody').offset();
 			}
@@ -653,6 +660,18 @@ function fillEventDialog(pDialog, pEvents) {
 								});
 							}
 						});
+					}
+					// Remove tanks not in tankopedia
+					var tanksToRemove = [];
+					for (var i=0; i<playerTanksAdditionalInfos.length; i++) {
+						if (typeof(gTankopedia[playerTanksAdditionalInfos[i].tank_id]) == 'undefined') {
+							tanksToRemove.push(i);
+						}
+					}
+					if (tanksToRemove.length > 0) {
+						for (var i=tanksToRemove.length - 1; i>=0; i--) {
+							playerTanksAdditionalInfos.splice(tanksToRemove[i], 1);
+						}
 					}
 					playerTanksAdditionalInfos.sort(function(a, b) {
 						return (gTankopedia[b.tank_id].tier - gTankopedia[a.tank_id].tier);

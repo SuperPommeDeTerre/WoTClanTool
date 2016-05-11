@@ -7,6 +7,7 @@ $baseUploadDir = '..' . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . 
 header('Content-Type: application/json');
 $data = array();
 $error = false;
+$errorMsg = '';
 $files = array();
 $data = array();
 
@@ -18,6 +19,7 @@ foreach($_FILES as $file) {
 		$files[] = $baseUploadDir . $file['name'];
 	} else {
 		$error = true;
+		$errorMsg = 'Fail to move replay to [' . $baseUploadDir . $file['name'] . ']'.;
 	}
 }
 if (!$error) {
@@ -45,5 +47,6 @@ if (!$error) {
 	$data['result'] = 'success';
 } else {
 	$data['result'] = 'error';
+	$data['message'] = $errorMsg;
 }
 echo json_encode($data);
