@@ -180,10 +180,64 @@ function fillEventDialog(pDialog, pEvents) {
 			processData: false, // Don't process the files
 			contentType: false, // Set content type to false as jQuery will tell the server its a query string request
 			success: function(dataResponse, textStatus, jqXHR) {
+				function builTeamResultTable(pBattleResultData, pTeam) {
+					var battleResultHtml = '';
+					battleResultHtml += '<div class="table-responsive">';
+					battleResultHtml += '<table class="table table-hover header-fixed replayteamresult" data-sortable="true">';
+					battleResultHtml += '<thead>';
+					battleResultHtml += '<tr>';
+					battleResultHtml += '<th>Player</th>';
+					battleResultHtml += '<th>Tank</th>';
+					battleResultHtml += '<th>Dmg</th>';
+					battleResultHtml += '<th>Frags</th>';
+					battleResultHtml += '<th>XP</th>';
+					battleResultHtml += '</tr>';
+					battleResultHtml += '</thead>';
+					battleResultHtml += '<tbody>';
+					for (var vehicleInternalId in pBattleResultData.battleResults[0].vehicles) {
+						var myVehicle = pBattleResultData.battleResults[0].vehicles[vehicleInternalId][0],
+							myVehicleExtras = pBattleResultData.battleResults[1][vehicleInternalId],
+							myPlayer = pBattleResultData.battleResults[0].players[myVehicle.accountDBID],
+							myVehicleInfos = gTankopedia[myVehicle.typeCompDescr];
+						if (myPlayer.team == pTeam) {
+							battleResultHtml += '<tr' + (!myVehicleExtras.isAlive?' style="background:#EEE"':'') + '>';
+							battleResultHtml += '<td>' + myPlayer.name + (myPlayer.clanAbbrev != ''?' [' + myPlayer.clanAbbrev + ']':'') + '</td>';
+							battleResultHtml += '<td style="background:url(\'' + myVehicleInfos.images.small_icon + '\') no-repeat left top;padding-left:5em;white-space:pre">' + myVehicleInfos.short_name + '</td>';
+							battleResultHtml += '<td>' + myVehicle.damageDealt + '</td>';
+							battleResultHtml += '<td>' + myVehicle.kills + '</td>';
+							battleResultHtml += '<td>' + myVehicle.xp + '</td>';
+							battleResultHtml += '</tr>';
+						}
+					}
+					battleResultHtml += '</tbody>';
+					battleResultHtml += '</table>';
+					battleResultHtml += '</div>';
+					return battleResultHtml;
+				}
 				if (dataResponse.result == 'success') {
 					// Display battle result
-					var batlleResultData = dataResponse.data,
-						battleResultHtml = '';
+					var battleResultData = dataResponse.data[0],
+						battleResultHtml = '',
+						ourTeam = battleResultData.battleResults[0].personal.avatar.team,
+						ennemyTeam = (ourTeam == 1?2:1);
+						winnerTeam = battleResultData.battleResults[0].common.winnerTeam;
+					battleResultHtml += '<div class="eventReplay"><h3>Replay - ' + (winnerTeam == 0?'Draw':(ourTeam == winnerTeam?'Victory':'Defeat')) + '</h3>';
+					battleResultHtml += '<div class="container-fluid">';
+					battleResultHtml += '<div class="row">';
+					battleResultHtml += '<div class="col-md-6"><h4>Notre équipe</h4>';
+					battleResultHtml += builTeamResultTable(battleResultData, ourTeam);
+					battleResultHtml += '</div>';
+					battleResultHtml += '<div class="col-md-6"><h4>Equipe adverse</h4>';
+					battleResultHtml += builTeamResultTable(battleResultData, ennemyTeam);
+					battleResultHtml += '</div>';
+					battleResultHtml += '</div>';
+					battleResultHtml += '</div>';
+					battleResultHtml += '</div>';
+					pDialog.find('.eventReplay').remove();
+					pDialog.find('.eventParticipantsContainer').before(battleResultHtml);
+					var teamTables = pDialog.find('.replayteamresult');
+					Sortable.initTable(teamTables[0]);
+					Sortable.initTable(teamTables[1]);
 				} else {
 					logErr('Error during uploading of replay: ' . dataResponse.message);
 				}

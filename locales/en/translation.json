@@ -169,6 +169,11 @@
 			"strats": "My strategies",
 			"stats": "My statistics",
 			"personalmissions": "My personal missions"
+		},
+		"encyclopedia": {
+			"title": "Encyclopedias",
+			"tanks": "Tanks",
+			"wn8": "WN8 Expected values"
 		}
 	},
 	"personalmissions": {
@@ -611,6 +616,9 @@
 		},
 		"forum": {
 			"title": "Forum"
+		},
+		"encyclopedia": {
+			"title": "Encyclopedias"
 		}
 	},
 	"strat": {

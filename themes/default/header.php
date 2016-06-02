@@ -85,7 +85,7 @@ if ($gPageProps["blocks"]["nav"]) { ?>
 						</nav><?php
 	} else { ?>
 						<ul class="nav navbar-nav navbar-right">
-							<li class="dropdown<?php if ($gPageProps["id"] == 'my') { echo(' active'); } ?>">
+							<li class="dropdown<?php if ($gPageProps["id"] == 'my' || $gPageProps["id"] == 'personalmissions') { echo(' active'); } ?>">
 								<a href="my.php" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span id="playerNickName"><?php echo($_SESSION["nickname"]); ?></span> <span class="caret"></span></a>
 								<ul class="dropdown-menu" role="menu">
 									<li><a href="my#calendar"><span class="glyphicon glyphicon-calendar"></span> <span data-i18n="nav.my.calendar"></span></a></li>
@@ -113,6 +113,13 @@ if ($gPageProps["blocks"]["nav"]) { ?>
 									<li class="dropdown-header" data-i18n="nav.strats.shared"></li>
 									<li><a href="strats/list/valid"><span class="glyphicon glyphicon-star"></span> <span data-i18n="nav.strats.valid"></span></a></li>
 									<li><a href="strats/list/review"><span class="glyphicon glyphicon-check"></span> <span data-i18n="nav.strats.review"></span></a></li>
+								</ul>
+							</li>
+							<li class="dropdown<?php if ($gPageProps["id"] == 'encyclopedia') { echo(' active'); } ?>">
+								<a href="/encyclopedia" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span data-i18n="nav.encyclopedia.title"></span> <span class="caret"></span></a>
+								<ul class="dropdown-menu" role="menu">
+									<li><a href="encyclopedia/tanks"><span class="glyphicon glyphicon-education"></span> <span data-i18n="nav.encyclopedia.tanks"></span></a></li>
+									<li><a href="encyclopedia/wn8"><span class="glyphicon glyphicon-stats"></span> <span data-i18n="nav.encyclopedia.wn8"></span></a></li>
 								</ul>
 							</li><?php
 		// Show the clan settings only if the user is in the allowed users (commander and roles by clan settings)

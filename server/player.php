@@ -58,6 +58,9 @@ if (isset($_SESSION['account_id'])) {
 }
 $result = array();
 switch ($_REQUEST['action']) {
+	case 'getwn8expectedvals':
+		$result['data'] = $tanksExpectedVals;
+		break;
 	case 'setclanid':
 		$_SESSION["clan_id"] = $_REQUEST["clan_id"];
 		break;

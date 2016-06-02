@@ -169,6 +169,11 @@
 			"strats": "Mes stratégies",
 			"stats": "Mes statistiques",
 			"personalmissions": "Mes missions personnelles"
+		},
+		"encyclopedia": {
+			"title": "Encyclopédies",
+			"tanks": "Chars",
+			"wn8": "Attendus WN8"
 		}
 	},
 	"personalmissions": {
@@ -612,6 +617,9 @@
 		},
 		"forum": {
 			"title": "Forum"
+		},
+		"encyclopedia": {
+			"title": "Encyclopédies"
 		}
 	},
 	"strat": {

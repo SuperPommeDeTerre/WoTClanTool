@@ -8,6 +8,7 @@ DirectoryIndex index.php
 	RewriteCond %{REQUEST_FILENAME} !-l
 	RewriteRule ^strats/(.+)/(.+)$					strats.php?action=$1&view=$2				[QSA,PT,L]
 	RewriteRule ^strats/(.+)$						strats.php?action=$1						[QSA,PT,L]
+	RewriteRule ^encyclopedia/(.+)$					encyclopedia.php#$1							[QSA,PT,L]
 	RewriteRule ^locales/resources/(.+)/(.+).json$	locales/resources.php?a=get&lng=$1&ns=$2	[QSA,PT,L]
 	RewriteRule ^([a-zA-Z0-9]+)$					$1.php										[QSA,PT,L]
 </IfModule>

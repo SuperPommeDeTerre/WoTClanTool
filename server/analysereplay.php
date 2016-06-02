@@ -19,7 +19,7 @@ foreach($_FILES as $file) {
 		$files[] = $baseUploadDir . $file['name'];
 	} else {
 		$error = true;
-		$errorMsg = 'Fail to move replay to [' . $baseUploadDir . $file['name'] . ']'.;
+		$errorMsg = 'Fail to move replay to [' . $baseUploadDir . $file['name'] . ']';
 	}
 }
 if (!$error) {
