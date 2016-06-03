@@ -1,17 +1,16 @@
 <?php
-/*
-header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
-header('Last-Modified: '.gmdate( 'D, d M Y H:i:s' ).' GMT');
-header('Cache-Control: no-cache, must-revalidate, max-age=0');
-header('Cache: no-cache');
-header('Pragma: no-cache');
-*/
 if ($gPageProps["authenticated"] && !array_key_exists("account_id", $_SESSION)) {
 	header('Location: unauthorized');
 	exit;
 }
 
+header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
+header('Last-Modified: '.gmdate( 'D, d M Y H:i:s' ).' GMT');
+header('Cache-Control: no-cache, must-revalidate, max-age=0');
+header('Cache: no-cache');
+header('Pragma: no-cache');
 header('Content-Type: text/html; charset=utf-8');
+$gPageBaseURL = htmlentities($_SERVER['REQUEST_URI'], ENT_QUOTES, 'UTF-8');
 ?><!DOCTYPE html>
 <html lang="<?php echo($gLang); ?>">
 	<head>
@@ -86,7 +85,7 @@ if ($gPageProps["blocks"]["nav"]) { ?>
 	} else { ?>
 						<ul class="nav navbar-nav navbar-right">
 							<li class="dropdown<?php if ($gPageProps["id"] == 'my' || $gPageProps["id"] == 'personalmissions') { echo(' active'); } ?>">
-								<a href="my.php" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span id="playerNickName"><?php echo($_SESSION["nickname"]); ?></span> <span class="caret"></span></a>
+								<a href="/my" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span id="playerNickName"><?php echo($_SESSION["nickname"]); ?></span> <span class="caret"></span></a>
 								<ul class="dropdown-menu" role="menu">
 									<li><a href="my#calendar"><span class="glyphicon glyphicon-calendar"></span> <span data-i18n="nav.my.calendar"></span></a></li>
 									<li><a href="my#garage"><span class="glyphicon glyphicon-oil"></span> <span data-i18n="nav.my.garage"></span></a></li>
@@ -96,13 +95,18 @@ if ($gPageProps["blocks"]["nav"]) { ?>
 									<li><a href="logout" id="linkLogout" data-i18n="[title]nav.logout;"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> <span data-i18n="nav.logout"></span></a></li>
 								</ul>
 							</li>
-							<li<?php if ($gPageProps["id"] == 'garage') { echo(' class="active"'); } ?>><a href="garage" data-i18n="nav.garage"></a></li>
-							<!-- <li<?php if ($gPageProps["id"] == 'clanwars') { echo(' class="active"'); } ?>><a href="clanwars" data-i18n="nav.clanwars"></a></li> -->
-							<li<?php if ($gPageProps["id"] == 'events') { echo(' class="active"'); } ?>><a href="events" data-i18n="nav.events"></a></li><?php
+							<li class="dropdown<?php if ($gPageProps["id"] == 'garage' || $gPageProps["id"] == 'events' || $gPageProps["id"] == 'forum') { echo(' active'); } ?>">
+								<a href="/clan" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span id="clanName"></span> <span class="caret"></span></a>
+								<ul class="dropdown-menu" role="menu">
+									<li><a href="garage"><span class="glyphicon glyphicon-oil"></span> <span data-i18n="nav.garage"></span></a></li>
+									<!-- <li<?php if ($gPageProps["id"] == 'clanwars') { echo(' class="active"'); } ?>><a href="clanwars" data-i18n="nav.clanwars"></a></li> -->
+									<li><a href="events"><span class="glyphicon glyphicon-calendar"></span> <span data-i18n="nav.events"></span></a></li><?php
 		// Show forum link only if clan's forum URL is set
 		if (array_key_exists('forumurl', $gClanConfig) && ($gClanConfig['forumurl'] != null)) { ?>
-							<li<?php if ($gPageProps["id"] == 'forum') { echo(' class="active"'); } ?>><a href="forum" data-i18n="nav.forum"></a></li><?php
+									<li><a href="forum" data-i18n="nav.forum"></a></li><?php
 		} ?>
+								</ul>
+							</li>
 							<!--<li<?php if ($gPageProps["id"] == 'stronghold') { echo(' class="active"'); } ?>><a href="stronghold.php" data-i18n="nav.stronghold"></a></li>-->
 							<li class="dropdown<?php if ($gPageProps["id"] == 'strats') { echo(' active'); } ?>">
 								<a href="/strats" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span data-i18n="nav.strats.title"></span> <span class="caret"></span></a>
@@ -118,8 +122,8 @@ if ($gPageProps["blocks"]["nav"]) { ?>
 							<li class="dropdown<?php if ($gPageProps["id"] == 'encyclopedia') { echo(' active'); } ?>">
 								<a href="/encyclopedia" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span data-i18n="nav.encyclopedia.title"></span> <span class="caret"></span></a>
 								<ul class="dropdown-menu" role="menu">
-									<li><a href="encyclopedia/tanks"><span class="glyphicon glyphicon-education"></span> <span data-i18n="nav.encyclopedia.tanks"></span></a></li>
-									<li><a href="encyclopedia/wn8"><span class="glyphicon glyphicon-stats"></span> <span data-i18n="nav.encyclopedia.wn8"></span></a></li>
+									<li><a href="encyclopedia#tankopedia"><span class="glyphicon glyphicon-education"></span> <span data-i18n="nav.encyclopedia.tanks"></span></a></li>
+									<li><a href="encyclopedia#wn8"><span class="glyphicon glyphicon-stats"></span> <span data-i18n="nav.encyclopedia.wn8"></span></a></li>
 								</ul>
 							</li><?php
 		// Show the clan settings only if the user is in the allowed users (commander and roles by clan settings)

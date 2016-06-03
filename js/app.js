@@ -126,6 +126,7 @@ var setNavBrandWithClan = function(pCallbackFunction) {
 			.css('background', 'url(\'' + gClanInfos.emblems.x32.portal + '\') no-repeat 15px center')
 			// Add padding to avoid overlap of emblem and text
 			.css('padding-left', '51px');
+		$('#clanName').text('[' + gClanInfos.tag + ']');
 		setUserRole();
 		if (pCallbackFunction && (typeof(pCallbackFunction) == "function")) {
 			pCallbackFunction();
@@ -145,6 +146,7 @@ var setNavBrandWithClan = function(pCallbackFunction) {
 				.css('background', 'url(\'' + gClanInfos.emblems.x32.portal + '\') no-repeat 15px center')
 				// Add padding to avoid overlap of emblem and text
 				.css('padding-left', '51px');
+			$('#clanName').text('[' + gClanInfos.tag + ']');
 			setUserRole();
 			if (pCallbackFunction && (typeof(pCallbackFunction) == "function")) {
 				pCallbackFunction();
