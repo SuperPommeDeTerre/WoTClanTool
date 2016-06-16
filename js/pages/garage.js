@@ -231,7 +231,7 @@ var onLoad = function() {
 										tankDetails = gTankopedia[playerTankAdditionalInfos.tank_id];
 										if (typeof(tankDetails) == 'undefined' || tankDetails == null) {
 											// the tank can not be found in toankopedia. Process next...
-											break;
+											continue;
 										}
 										dataToAdd = tankDetails;
 										dataToAdd['owners'] = {};
