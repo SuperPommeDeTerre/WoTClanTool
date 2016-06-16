@@ -229,9 +229,11 @@ var onLoad = function() {
 									}
 									if (!isTankInList) {
 										tankDetails = gTankopedia[playerTankAdditionalInfos.tank_id];
+										if (typeof(tankDetails) == 'undefined' || tankDetails == null) {
+											// the tank can not be found in toankopedia. Process next...
+											break;
+										}
 										dataToAdd = tankDetails;
-									}
-									if (typeof(dataToAdd['owners']) == 'undefined') {
 										dataToAdd['owners'] = {};
 									}
 									dataToAdd.owners[playerId] = playerTankAdditionalInfos;
