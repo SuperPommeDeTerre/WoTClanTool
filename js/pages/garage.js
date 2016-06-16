@@ -230,6 +230,8 @@ var onLoad = function() {
 									if (!isTankInList) {
 										tankDetails = gTankopedia[playerTankAdditionalInfos.tank_id];
 										dataToAdd = tankDetails;
+									}
+									if (typeof(dataToAdd['owners']) == 'undefined') {
 										dataToAdd['owners'] = {};
 									}
 									dataToAdd.owners[playerId] = playerTankAdditionalInfos;
