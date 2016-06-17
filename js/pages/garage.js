@@ -230,25 +230,27 @@ var onLoad = function() {
 									if (!isTankInList) {
 										tankDetails = gTankopedia[playerTankAdditionalInfos.tank_id];
 										if (typeof(tankDetails) == 'undefined' || tankDetails == null) {
-											// the tank can not be found in toankopedia. Process next...
+											// the tank can not be found in tankopedia. Process next...
 											continue;
 										}
 										dataToAdd = tankDetails;
 										dataToAdd['owners'] = {};
 									}
-									dataToAdd.owners[playerId] = playerTankAdditionalInfos;
-									isTankInList = false;
-									for (j=0; j<listToDisplay.length; j++) {
-										if (listToDisplay[j].tank_id == playerTankAdditionalInfos.tank_id) {
-											isTankInList = true;
-											indexTankInList = j;
-											break;
+									if (typeof(dataToAdd) != 'undefined' && dataToAdd != null) {
+										dataToAdd.owners[playerId] = playerTankAdditionalInfos;
+										isTankInList = false;
+										for (j=0; j<listToDisplay.length; j++) {
+											if (listToDisplay[j].tank_id == playerTankAdditionalInfos.tank_id) {
+												isTankInList = true;
+												indexTankInList = j;
+												break;
+											}
 										}
-									}
-									if (!isTankInList) {
-										listToDisplay.push(dataToAdd);
-									} else {
-										listToDisplay[indexTankInList] = dataToAdd;
+										if (!isTankInList) {
+											listToDisplay.push(dataToAdd);
+										} else {
+											listToDisplay[indexTankInList] = dataToAdd;
+										}
 									}
 								}
 							}
