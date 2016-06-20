@@ -867,7 +867,7 @@ var onLoad = function() {
 					if (selectedLevels.indexOf(myChoice) < 0) {
 						selectedLevels.push(myChoice);
 					} else {
-						selectedLevels.splice(selectedLevels.indexOf(myChoice, 1));
+						selectedLevels.splice(selectedLevels.indexOf(myChoice), 1);
 					}
 					selectedLevels.sort(function(a, b) {
 						if (a < b) {
