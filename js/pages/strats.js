@@ -621,7 +621,7 @@ var onLoad = function() {
 			myLine = null,
 			myLineHandlers = null;
 		if (gIsDrawingLine) {
-			if (pConfLine.points.length > 1) {
+			if (!gIsImporting && pConfLine.points.length > 1) {
 				// We're adding a segment to the line
 				myElemId = "line_" + --gCountLines;
 				gCurrentConf.lines.pop();
@@ -678,7 +678,7 @@ var onLoad = function() {
 		});
 		if (!gIsImporting) {
 			gCurrentConf.lines.push(pConfLine);
-			myLine.data("index",  gCurrentConf.lines.length - 1);
+			myLine.data("index", gCurrentConf.lines.length - 1);
 		} else {
 			myLine.data("index", pIndex);
 		}
