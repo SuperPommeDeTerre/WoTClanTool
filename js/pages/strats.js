@@ -1824,7 +1824,7 @@ var onLoad = function() {
 						} else {
 							myStratsTableHtml += '<td class="stratdatemod">' + moment(myStrat.datemod * 1000).format('LLL') + '</td>';
 						}
-						myStratsTableHtml += '<td class="stratcreator">' + dataPlayers[myStrat.creator].nickname + '</td>';
+						myStratsTableHtml += '<td class="stratcreator">' + (dataPlayers[myStrat.creator]?dataPlayers[myStrat.creator].nickname:myStrat.creator) + '</td>';
 						myStratsTableHtml += '<td class="stratstate">';
 						// Only the creator can change the state of a strategy
 						if (gConfig.PLAYER_ID == myStrat.creator) {
