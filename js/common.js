@@ -728,6 +728,11 @@ function fillEventDialog(pDialog, pEvents) {
 						}
 					}
 					playerTanksAdditionalInfos.sort(function(a, b) {
+						if (!gTankopedia[b.tank_id]) {
+							return -1;
+						} else if (!gTankopedia[a.tank_id]) {
+							return 1;
+						}
 						return (gTankopedia[b.tank_id].tier - gTankopedia[a.tank_id].tier);
 					});
 					for (var i=0; i<playerTanksAdditionalInfos.length; i++) {
@@ -736,7 +741,7 @@ function fillEventDialog(pDialog, pEvents) {
 							doAddTank = true,
 							isTankLevelFound = false,
 							isTankTypeFound = false;
-						if (playerTankAdditionalInfos.in_garage && playerTankAdditionalInfos.is_ready) {
+						if (playerTankAdditionalInfos.in_garage && playerTankAdditionalInfos.is_ready && gTankopedia[playerTankAdditionalInfos.tank_id]) {
 							isTankLevelFound = true;
 							isTankTypeFound = true;
 							if (gTankLevelsRestriction.length > 0 && gTankLevelsRestriction[0] != 'all' && gTankLevelsRestriction[0] != '') {
