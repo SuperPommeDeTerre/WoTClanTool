@@ -475,6 +475,7 @@ var onLoad = function() {
 						tableContent += '<td data-value="' + gTANKS_TYPES[tankInfos.type] + '"><img src="./themes/' + gConfig.THEME + '/style/images/type-' + tankInfos.type + '.png" alt="' + tankInfos.type + '" title="' + $.t('tank.type.' + tankInfos.type) + '" /></td>';
 						tableContent += '<td>' + myTank.all.battles + '</td>';
 						tableContent += '<td><span class="label label-' + getWN8Class(tankAdditionalInfos.wn8) + '">' + (Math.round(tankAdditionalInfos.wn8 * 100) / 100) + '</span></td>';
+						tableContent += '<td><span class="label label-' + getWN9Class(tankAdditionalInfos.wn9) + '">' + (Math.round(tankAdditionalInfos.wn9 * 100) / 100) + '</span></td>';
 						tableContent += '<td data-value="' + winRatio + '">' + (winRatio > -1?(Math.round(winRatio * 100) / 100) + ' %':'-') + '</td>';
 						tableContent += '<td><div data-toggle="tooltip" data-placement="top" class="slider shor slider-info" title="' + (tankAdditionalInfos.is_ready?$.t('tank.status.2'):tankAdditionalInfos.is_full||tankInfos.is_premium?$.t('tank.status.1'):$.t('tank.status.0')) + '"></div></td>';
 						tableContent += '</tr>';

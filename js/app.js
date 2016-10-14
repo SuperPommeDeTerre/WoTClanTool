@@ -25,6 +25,18 @@ var gTANKS_LEVEL = [ 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'
 		'unicum':			{ min: 2350,	max: 2900,	color: '#83579d',	cssclass: 'material-purple-300' },
 		'super-unicum':		{ min: 2900,	max: -1,	color: '#5a3175',	cssclass: 'material-purple-800' }
 	},
+	gWN9_SCALE = {
+		'beginner':			{ min: 0,		max: 200,	color: '#000000',	cssclass: 'material-black' },
+		'very-bad':			{ min: 200,		max: 300,	color: '#000000',	cssclass: 'material-black' },
+		'bad': 				{ min: 300,		max: 600,	color: '#cd3333',	cssclass: 'material-red-900' },
+		'below-average':	{ min: 400,		max: 900,	color: '#d77900',	cssclass: 'material-orange-900' },
+		'average':			{ min: 500,		max: 1250,	color: '#d7b600',	cssclass: 'material-yellow-500' },
+		'good':				{ min: 600,		max: 1600,	color: '#6d9521',	cssclass: 'material-green-500' },
+		'very-good':		{ min: 700,		max: 1900,	color: '#4c762e',	cssclass: 'material-green-900' },
+		'great':			{ min: 800,		max: 2350,	color: '#4a92b7',	cssclass: 'material-blue-500' },
+		'unicum':			{ min: 900,		max: 2900,	color: '#83579d',	cssclass: 'material-purple-300' },
+		'super-unicum':		{ min: 1000,	max: -1,	color: '#5a3175',	cssclass: 'material-purple-800' }
+	},
 	gPersonalInfos = null,
 	gClanInfos = null,
 	gProgressBar,
@@ -72,6 +84,40 @@ var getWN8Color = function(pWN8Rating) {
 			returnVal = lClassObj.color;
 			break;
 		} else if (pWN8Rating >= lClassObj.min && pWN8Rating < lClassObj.max) {
+			returnVal = lClassObj.color;
+			break;
+		}
+	}
+	return returnVal;
+};
+
+var getWN9Class = function(pWN9Rating) {
+	var returnVal = '',
+		lRatingLevel = '';
+	for (lRatingLevel in gWN9_SCALE) {
+		var lClassObj = gWN9_SCALE[lRatingLevel];
+		// Handle last case
+		if (lClassObj.max < 0 && pWN9Rating >= lClassObj.min) {
+			returnVal = lClassObj.cssclass;
+			break;
+		} else if (pWN9Rating >= lClassObj.min && pWN9Rating < lClassObj.max) {
+			returnVal = lClassObj.cssclass;
+			break;
+		}
+	}
+	return returnVal;
+};
+
+var getWN9Color = function(pWN9Rating) {
+	var returnVal = '#666',
+		lRatingLevel = '';
+	for (lRatingLevel in gWN9_SCALE) {
+		var lClassObj = gWN9_SCALE[lRatingLevel];
+		// Handle last case
+		if (lClassObj.max < 0 && pWN9Rating >= lClassObj.min) {
+			returnVal = lClassObj.color;
+			break;
+		} else if (pWN9Rating >= lClassObj.min && pWN9Rating < lClassObj.max) {
 			returnVal = lClassObj.color;
 			break;
 		}

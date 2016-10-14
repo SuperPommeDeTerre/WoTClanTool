@@ -173,7 +173,8 @@
 		"encyclopedia": {
 			"title": "Encyclopedias",
 			"tanks": "Tanks",
-			"wn8": "WN8 Expected values"
+			"wn8": "WN8 Expected values",
+			"wn9": "WN9 Expected values"
 		}
 	},
 	"personalmissions": {
@@ -528,6 +529,7 @@
 			"mastery": "M",
 			"battles": "Battles",
 			"wn8": "WN8",
+			"wn9": "WN9",
 			"winratio": "Win ratio",
 			"owners": "Owners",
 			"ownerscount": "Owners count"

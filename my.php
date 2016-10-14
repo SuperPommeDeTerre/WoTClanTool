@@ -148,6 +148,7 @@ include(WCT_INC_DIR . 'ads.php');
 									<th class="tanktype" data-i18n="tank.infos.type"></th>
 									<th class="tankbattles" data-i18n="tank.stats.battles"></th>
 									<th class="tankwn8" data-i18n="tank.stats.wn8"></th>
+									<th class="tankwn9" data-i18n="tank.stats.wn9"></th>
 									<th class="tankwinratio" data-i18n="tank.stats.winratio"></th>
 									<th class="tankstate"><abbr data-i18n="[title]tank.infos.state_title;tank.infos.state"></abbr></th>
 								</tr>

@@ -7,7 +7,22 @@ header('Content-Type: application/json');
 
 // Gets the WN8 expected vals as requested by the algorithm
 $WN8_EXPECTED_VALS = json_decode(file_get_contents(WCT_BASE_DATA_DIR . DIRECTORY_SEPARATOR . 'WN8_expected_tank_values.json'), true);
-$tanksExpectedVals = is_array($WN8_EXPECTED_VALS['data']) ? $WN8_EXPECTED_VALS['data'] : array($WN8_EXPECTED_VALS['data']);
+$WN8_tanksExpectedVals = is_array($WN8_EXPECTED_VALS['data']) ? $WN8_EXPECTED_VALS['data'] : array($WN8_EXPECTED_VALS['data']);
+// Gets the WN9 expected vals as requested by the algorithm
+$WN9_EXPECTED_VALS = json_decode(file_get_contents(WCT_BASE_DATA_DIR . DIRECTORY_SEPARATOR . 'WN9_expected_tank_values.json'), true);
+$WN9_tanksExpectedVals = is_array($WN9_EXPECTED_VALS['data']) ? $WN9_EXPECTED_VALS['data'] : array($WN9_EXPECTED_VALS['data']);
+$gWN9TierAvg = array(	// from 150816 EU avgs exc scout/arty
+	array("win" => 0.477, "dmg" => 88.9,   "frag" => 0.68, "spot" => 0.90, "def" => 0.53, "cap" => 1.0, "weight" => 0.40 ),
+	array("win" => 0.490, "dmg" => 118.2,  "frag" => 0.66, "spot" => 0.85, "def" => 0.65, "cap" => 1.0, "weight" => 0.41 ),
+	array("win" => 0.495, "dmg" => 145.1,  "frag" => 0.59, "spot" => 1.05, "def" => 0.51, "cap" => 1.0, "weight" => 0.44 ),
+	array("win" => 0.492, "dmg" => 214.0,  "frag" => 0.60, "spot" => 0.81, "def" => 0.55, "cap" => 1.0, "weight" => 0.44 ),
+	array("win" => 0.495, "dmg" => 388.3,  "frag" => 0.75, "spot" => 0.93, "def" => 0.63, "cap" => 1.0, "weight" => 0.60 ),
+	array("win" => 0.497, "dmg" => 578.7,  "frag" => 0.74, "spot" => 0.93, "def" => 0.52, "cap" => 1.0, "weight" => 0.70 ),
+	array("win" => 0.498, "dmg" => 791.1,  "frag" => 0.76, "spot" => 0.87, "def" => 0.58, "cap" => 1.0, "weight" => 0.82 ),
+	array("win" => 0.497, "dmg" => 1098.7, "frag" => 0.79, "spot" => 0.87, "def" => 0.58, "cap" => 1.0, "weight" => 1.00 ),
+	array("win" => 0.498, "dmg" => 1443.2, "frag" => 0.86, "spot" => 0.94, "def" => 0.56, "cap" => 1.0, "weight" => 1.23 ),
+	array("win" => 0.498, "dmg" => 1963.8, "frag" => 1.04, "spot" => 1.08, "def" => 0.61, "cap" => 1.0, "weight" => 1.60 )
+);
 
 /**
  * Compute the WN8 of a tank respect to the algorithm specified here :
@@ -16,7 +31,7 @@ $tanksExpectedVals = is_array($WN8_EXPECTED_VALS['data']) ? $WN8_EXPECTED_VALS['
  * @param $pTanksExpectedVals
  *     Tank expected values (for all tanks) as needed by the algrithm (http://www.wnefficiency.net/wnexpected/)
  * @param $pTankStats
- *     Actual tank staistics.
+ *     Actual tank statistics.
  * @return The WN8 rating of the tank.
  */
 function calcTankWN8($pTanksExpectedVals, $pTankStats) {
@@ -51,6 +66,48 @@ function calcTankWN8($pTanksExpectedVals, $pTankStats) {
 	return $returnVal;
 }
 
+/**
+ * Compute the WN9 of a tank respect to the algorithm specified here :
+ * http://jaj22.org.uk/wn9implement.html
+ *
+ * @param $pTanksExpectedVals
+ *     Tank expected values (for all tanks) as needed by the algrithm (http://jaj22.org.uk/expvals.html)
+ * @param $pTankStats
+ *     Actual tank statistics.
+ * @return The WN9 rating of the tank.
+ */
+function calcTankWN9($pTankStats, $pMaxhist) {
+	global $gWN9TierAvg, $WN9_tanksExpectedVals;
+	$returnVal = 0;
+	foreach ($WN9_tanksExpectedVals as $tankExpectedVals) {
+		if ($tankExpectedVals['id'] == $pTankStats['tank_id']) {
+			$lTankBattles = $pTankStats['all']['battles'];
+			if ($lTankBattles > 0) {
+				$avg = $gWN9TierAvg[$tankExpectedVals['mmrange'] >= 3 ? $tankExpectedVals['tier'] : $tankExpectedVals['tier'] - 1 ];
+				$rdmg = $pTankStats['all']['damage_dealt'] / ($lTankBattles * $avg['dmg']);
+				$rfrag = $pTankStats['all']['frags'] / ($lTankBattles * $avg['frag']);
+				$rspot = $pTankStats['all']['spotted'] / ($lTankBattles * $avg['spot']);
+				$rdef = $pTankStats['all']['dropped_capture_points'] / ($lTankBattles * $avg['def']);
+
+				// Calculate raw winrate-correlated wn9base
+				// Use different formula for low battle counts
+				$wn9base = 0.7 * $rdmg;
+				if ($lTankBattles < 5) {
+					$wn9base += 0.14 * $rfrag + 0.13 * sqrt($rspot) + 0.03 * sqrt($rdef);
+				} else {
+					$wn9base += 0.25 * sqrt($rfrag * $rspot) + 0.05 * sqrt($rfrag * sqrt($rdef));
+				}
+				// Adjust expected value if generating maximum historical value
+				$wn9exp = $pMaxhist ? $tankExpectedVals['wn9exp'] * (1 + $tankExpectedVals['wn9nerf']) : $tankExpectedVals['wn9exp'];
+				// Calculate final WN9 based on tank expected value & skill scaling 
+				$returnVal = 666 * max(0, 1 + ($wn9base / $wn9exp - 1) / $tankExpectedVals['wn9scale']);
+			}
+			break;
+		}
+	}
+	return $returnVal;
+}
+
 // Switch between requested action
 $userFile = '';
 if (isset($_SESSION['account_id'])) {
@@ -59,7 +116,10 @@ if (isset($_SESSION['account_id'])) {
 $result = array();
 switch ($_REQUEST['action']) {
 	case 'getwn8expectedvals':
-		$result['data'] = $tanksExpectedVals;
+		$result['data'] = $WN8_tanksExpectedVals;
+		break;
+	case 'getwn9expectedvals':
+		$result['data'] = $WN9_tanksExpectedVals;
 		break;
 	case 'setclanid':
 		$_SESSION["clan_id"] = $_REQUEST["clan_id"];
@@ -116,7 +176,6 @@ switch ($_REQUEST['action']) {
 			}
 			$playerTanksStatsToStore[$userId] = array();
 			if ($doParseData) {
-				$doCalcWN8 = false;
 				// Handle modifications
 				if (file_exists($userFile)) {
 					$valueToStore = array();
@@ -133,12 +192,22 @@ switch ($_REQUEST['action']) {
 									$valueToStore['is_ready'] = $valueStored['is_ready'];
 								}
 								$valueToStore['in_garage'] = $valueWG['in_garage'] != null?$valueWG['in_garage']:false;
-								// Calculate WN8 if battles have been recorded since last storage
+								// Calculate stats if battles have been recorded since last storage
 								if ($valueStored['battles'] != $valueWG['all']['battles']) {
-									$valueToStore['wn8'] = calcTankWN8($tanksExpectedVals, $valueWG);
+									$valueToStore['wn8'] = calcTankWN8($WN8_tanksExpectedVals, $valueWG);
+									$valueToStore['wn9'] = calcTankWN9($valueWG, false);
 								} else {
-									// Gets the old WN8 if the tank has not been played
-									$valueToStore['wn8'] = $valueStored['wn8'];
+									// Gets the old stats if the tank has not been played
+									if (!array_key_exists('wn8', $valueStored)) {
+										$valueToStore['wn8'] = calcTankWN8($WN8_tanksExpectedVals, $valueWG);
+									} else {
+										$valueToStore['wn8'] = $valueStored['wn8'];
+									}
+									if (!array_key_exists('wn9', $valueStored)) {
+										$valueToStore['wn9'] = calcTankWN9($valueWG, false);
+									} else {
+										$valueToStore['wn9'] = $valueStored['wn9'];
+									}
 								}
 								$valueToStore['battles'] = $valueWG['all']['battles'];
 								$isTankFound = true;
@@ -152,7 +221,8 @@ switch ($_REQUEST['action']) {
 							$valueToStore['in_garage'] = $valueWG['in_garage'] != null?$valueWG['in_garage']:false;
 							$valueToStore['is_full'] = false;
 							$valueToStore['is_ready'] = false;
-							$valueToStore['wn8'] = calcTankWN8($tanksExpectedVals, $valueWG);
+							$valueToStore['wn8'] = calcTankWN8($WN8_tanksExpectedVals, $valueWG);
+							$valueToStore['wn9'] = calcTankWN9($valueWG, false);
 						}
 						$playerTanksStatsToStore[$userId][] = $valueToStore;
 					}
@@ -164,7 +234,8 @@ switch ($_REQUEST['action']) {
 						$valueToStore['in_garage'] = $valueWG['in_garage'] != null?$valueWG['in_garage']:false;
 						$valueToStore['is_full'] = false;
 						$valueToStore['is_ready'] = false;
-						$valueToStore['wn8'] = calcTankWN8($tanksExpectedVals, $valueWG);
+						$valueToStore['wn8'] = calcTankWN8($WN8_tanksExpectedVals, $valueWG);
+						$valueToStore['wn9'] = calcTankWN9($valueWG, false);
 						$playerTanksStatsToStore[$userId][] = $valueToStore;
 					}
 				}

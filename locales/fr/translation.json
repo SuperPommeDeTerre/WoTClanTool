@@ -173,7 +173,8 @@
 		"encyclopedia": {
 			"title": "Encyclopédies",
 			"tanks": "Chars",
-			"wn8": "Attendus WN8"
+			"wn8": "Attendus WN8",
+			"wn9": "Attendus WN9"
 		}
 	},
 	"personalmissions": {
@@ -529,6 +530,7 @@
 			"mastery": "M",
 			"battles": "Batailles",
 			"wn8": "WN8",
+			"wn9": "WN9",
 			"winratio": "% victoires",
 			"owners": "Propriétaires",
 			"ownerscount": "Nombre de propriétaires"
