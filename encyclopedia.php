@@ -45,12 +45,33 @@ include(WCT_INC_DIR . 'ads.php');
 								</tbody>
 							</table>
 						</div>
+						<h2 class="page-header" data-i18n="nav.encyclopedia.wn9" id="wn9"></h2>
+						<div class="table-responsive" id="wn9ExpectedValsContainer">
+							<table class="table table-hover header-fixed tableTanks" id="wn9ExpectedVals">
+								<thead>
+									<tr>
+										<th class="tankcontour" data-sortable="false">&nbsp;</th>
+										<th class="tanknation" data-i18n="tank.infos.nation"></th>
+										<th class="tankname" data-i18n="tank.infos.name"></th>
+										<th class="tanktiers" data-sorted="true" data-sorted-direction="descending" data-i18n="tank.infos.level"></th>
+										<th class="tanktype" data-i18n="tank.infos.type"></th>
+										<th>mmrange</th>
+										<th>wn9exp</th>
+										<th>wn9scale</th>
+										<th>wn9nerf</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+						</div>
 					</div>
 					<div class="col-md-3" role="complementary">
 						<nav class="hidden-print hidden-xs hidden-sm affix" id="pageNavbar">
 							<ul class="nav nav-pills nav-stacked">
 								<li role="presentation"><a href="<?php echo $gPageBaseURL; ?>#tankopedia" data-i18n="nav.encyclopedia.tanks"></a></li>
 								<li role="presentation"><a href="<?php echo $gPageBaseURL; ?>#wn8" data-i18n="nav.encyclopedia.wn8"></a></li>
+								<li role="presentation"><a href="<?php echo $gPageBaseURL; ?>#wn9" data-i18n="nav.encyclopedia.wn9"></a></li>
 							</ul>
 						</nav>
 					</div>
