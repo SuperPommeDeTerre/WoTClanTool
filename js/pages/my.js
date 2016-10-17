@@ -479,12 +479,12 @@ var onLoad = function() {
 						tableContent += '<td data-value="' + winRatio + '">' + (winRatio > -1?(Math.round(winRatio * 100) / 100) + ' %':'-') + '</td>';
 						tableContent += '<td><div data-toggle="tooltip" data-placement="top" class="slider shor slider-info" title="' + (tankAdditionalInfos.is_ready?$.t('tank.status.2'):tankAdditionalInfos.is_full||tankInfos.is_premium?$.t('tank.status.1'):$.t('tank.status.0')) + '"></div></td>';
 						tableContent += '</tr>';
-						listContent += '<div class="small tank tankcontainer tankmastery' + myTank.mark_of_mastery +  (tankAdditionalInfos.in_garage?' ingarage':' hidden') + (tankInfos.is_premium?' ispremium':'') + (tankInfos.is_premium||tankAdditionalInfos.is_full?' isfull':'') +'">';
-						listContent += '<div class="tanklevel' + tankInfos.tier + '"><img src="' + tankInfos.images.small_icon  + '" /></div>';
+						listContent += '<div class="small tank tankcontainer tankmastery' + myTank.mark_of_mastery +  (tankAdditionalInfos.in_garage?' ingarage':' hidden') + (tankInfos.is_premium?' ispremium':'') + (tankInfos.is_premium||tankAdditionalInfos.is_full?' isfull':'') + ' tanklevel' + tankInfos.tier + ' tanktype' + tankInfos.type + '">';
+						listContent += '<div><img src="' + tankInfos.images.small_icon  + '" /></div>';
 						listContent += '<p class="tankname">' + tankInfos.short_name + '</p>';
 						listContent += '</div>';
-						listLargeContent += '<div class="big tank tankcontainer tankmastery' + myTank.mark_of_mastery + (tankAdditionalInfos.in_garage?' ingarage':' hidden') + (tankInfos.is_premium?' ispremium':'') + (tankInfos.is_premium||tankAdditionalInfos.is_full?' isfull':'') +'">';
-						listLargeContent += '<div class="tanklevel' + tankInfos.tier + '"><img src="' + tankInfos.images.big_icon + '" /></div>';
+						listLargeContent += '<div class="big tank tankcontainer tankmastery' + myTank.mark_of_mastery + (tankAdditionalInfos.in_garage?' ingarage':' hidden') + (tankInfos.is_premium?' ispremium':'') + (tankInfos.is_premium||tankAdditionalInfos.is_full?' isfull':'') + ' tanklevel' + tankInfos.tier + ' tanktype' + tankInfos.type + '">';
+						listLargeContent += '<div><img src="' + tankInfos.images.big_icon + '" /></div>';
 						listLargeContent += '<p class="tankname">' + tankInfos.short_name + '</p>';
 						listLargeContent += '</div>';
 					}
