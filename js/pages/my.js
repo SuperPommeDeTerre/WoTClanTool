@@ -27,7 +27,7 @@ var applyTableTanksFilters = function(filter) {
 	// Hide all elements
 	myElems.addClass('hidden');
 	// And show filtered elements
-	myFilteredElems.removeClass('hidden')
+	myFilteredElems.removeClass('hidden');
 };
 
 var getTankAdditionalInfos = function(pTankID, pTanksAdditionalInfos) {
