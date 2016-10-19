@@ -156,17 +156,23 @@ var onLoad = function() {
 					var dataPlayersYesterdayRatings = dataRatingYesterdayResponse.data,
 						dayTotalBattles = 0,
 						dayTotalFrags = 0,
+						dayWinRatio = .5,
+						dayBattlesWin = 0,
 						queryParams = new URI('?' + this.data).search(true),
 						playerId = 0;
 					for (playerId in dataPlayersYesterdayRatings) {
 						var curPlayerRatings = dataPlayersYesterdayRatings[playerId];
 						if (curPlayerRatings != null) {
 							dayTotalBattles += curPlayerRatings.battles_count.value;
+							dayTotalFrags += curPlayerRatings.frags_count.value;
+							dayBattlesWin += curPlayerRatings.battles_count.value * (curPlayerRatings.wins_ratio.value / 100);
 						}
 					}
 					dataToDraw.push({
 						date: queryParams.date * 1000,
-						battles: dayTotalBattles
+						battles: dayTotalBattles,
+						frags: dayTotalFrags,
+						winratio: Math.round((dayBattlesWin / dayTotalBattles) * 10000) / 100
 					});
 					nbCompletedRequests++;
 					if (nbCompletedRequests >= gNbDaysHistory) {
@@ -185,10 +191,10 @@ var onLoad = function() {
 							data: dataToDraw,
 							xLabels: 'day',
 							xkey: 'date',
-							ykeys: [ 'battles' ],
+							ykeys: [ 'battles', 'frags', 'winratio' ],
 							dateFormat: function(x) { return moment(x).format('LL'); },
-							labels: [ $.t('stats.global.battles') ],
-							lineColors: [ '#4caf50' ]
+							labels: [ $.t('stats.global.battles'), $.t('stats.global.frags'), $.t('stats.global.winratio') ],
+							lineColors: [ '#4caf50', '#f44336', '#2196f3' ]
 						});
 					}
 				}, 'json');

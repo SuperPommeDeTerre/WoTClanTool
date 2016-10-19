@@ -318,7 +318,8 @@
 			"battlesdescription": "Daily battles fought",
 			"victories": "Victories",
 			"defeats": "Defeats",
-			"draws": "Draws"
+			"draws": "Draws",
+			"frags": "Frags"
 		},
 		"player": {
 			"tanksbyleveldescription": "Player's tanks by level",

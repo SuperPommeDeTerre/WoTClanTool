@@ -319,7 +319,8 @@
 			"battlesdescription": "Nombres de batailles effectuées par jour",
 			"victories": "Victoires",
 			"defeats": "Défaites",
-			"draws": "Egalités"
+			"draws": "Egalités",
+			"frags": "Frags"
 		},
 		"player": {
 			"tanksbyleveldescription": "Chars du joueur par tiers",
