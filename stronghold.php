@@ -20,6 +20,10 @@ require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR
 include(WCT_INC_DIR . 'ads.php');
 ?>
 			<h1 class="page-header" data-i18n="nav.stronghold"></h1>
+			<h2 class="sub-header" data-i18n="stronghold.battles"></h2>
+			<h2 class="sub-header" data-i18n="stronghold.buildings"></h2>
+			<div class="container-fluid" id="strongholdBuildings">
+			</div>
 		</div>
 	</div>
 </div>

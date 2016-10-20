@@ -621,6 +621,9 @@
 		"forum": {
 			"title": "Forum"
 		},
+		"stronghold": {
+			"title": "Bastion"
+		},
 		"encyclopedia": {
 			"title": "Encyclopédies"
 		}
@@ -884,5 +887,9 @@
 			"question": "Q3",
 			"answer": "R3"
 		}
-	]
+	],
+	"stronghold": {
+		"battles": "Batailles",
+		"buildings": "Bâtiments"
+	}
 }

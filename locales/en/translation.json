@@ -620,6 +620,9 @@
 		"forum": {
 			"title": "Forum"
 		},
+		"stronghold": {
+			"title": "Stronghold"
+		},
 		"encyclopedia": {
 			"title": "Encyclopedias"
 		}
@@ -883,5 +886,9 @@
 			"question": "Q3",
 			"answer": "R3"
 		}
-	]
+	],
+	"stronghold": {
+		"battles": "Battles",
+		"buildings": "Buildings"
+	}
 }

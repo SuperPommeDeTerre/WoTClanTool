@@ -95,19 +95,24 @@ if ($gPageProps["blocks"]["nav"]) { ?>
 									<li><a href="logout" id="linkLogout" data-i18n="[title]nav.logout;"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> <span data-i18n="nav.logout"></span></a></li>
 								</ul>
 							</li>
-							<li class="dropdown<?php if ($gPageProps["id"] == 'garage' || $gPageProps["id"] == 'events' || $gPageProps["id"] == 'forum') { echo(' active'); } ?>">
+							<li class="dropdown<?php if (in_array($gPageProps["id"], array('garage', 'events', 'forum', 'clansettings'))) { echo(' active'); } ?>">
 								<a href="/clan" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span id="clanName"></span> <span class="caret"></span></a>
 								<ul class="dropdown-menu" role="menu">
-									<li><a href="garage"><span class="glyphicon glyphicon-oil"></span> <span data-i18n="nav.garage"></span></a></li>
+									<li<?php if ($gPageProps["id"] == 'garage') { echo(' class="active"'); } ?>><a href="garage"><span class="glyphicon glyphicon-oil"></span> <span data-i18n="nav.garage"></span></a></li>
 									<!-- <li<?php if ($gPageProps["id"] == 'clanwars') { echo(' class="active"'); } ?>><a href="clanwars" data-i18n="nav.clanwars"></a></li> -->
-									<li><a href="events"><span class="glyphicon glyphicon-calendar"></span> <span data-i18n="nav.events"></span></a></li><?php
+									<li<?php if ($gPageProps["id"] == 'events') { echo(' class="active"'); } ?>><a href="events"><span class="glyphicon glyphicon-calendar"></span> <span data-i18n="nav.events"></span></a></li>
+									<li<?php if ($gPageProps["id"] == 'stronghold') { echo(' class="active"'); } ?>><a href="stronghold.php"><span class="glyphicon glyphicon-home"></span> <span data-i18n="nav.stronghold"></span></a></li><?php
 		// Show forum link only if clan's forum URL is set
 		if (array_key_exists('forumurl', $gClanConfig) && ($gClanConfig['forumurl'] != null)) { ?>
-									<li><a href="forum" data-i18n="nav.forum"></a></li><?php
+									<li><a href="forum"><span class="glyphicon glyphicon-bullhorn"></span> <span data-i18n="nav.forum"></span></a></li><?php
+		}
+		// Show the clan settings only if the user is in the allowed users (commander and roles by clan settings)
+		if (in_array($_SESSION['account_id'], $gAdmins) || WctRights::isUserHasProfile('commander')) { ?>
+									<li class="divider"></li>
+							       <li<?php if ($gPageProps["id"] == 'clansettings') { echo(' class="active"'); } ?>><a href="clansettings" data-i18n="[title]page.clansettings.title;"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> <span data-i18n="page.clansettings.title"></span></a></li><?php
 		} ?>
 								</ul>
 							</li>
-							<!--<li<?php if ($gPageProps["id"] == 'stronghold') { echo(' class="active"'); } ?>><a href="stronghold.php" data-i18n="nav.stronghold"></a></li>-->
 							<li class="dropdown<?php if ($gPageProps["id"] == 'strats') { echo(' active'); } ?>">
 								<a href="/strats" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span data-i18n="nav.strats.title"></span> <span class="caret"></span></a>
 								<ul class="dropdown-menu" role="menu">
@@ -122,14 +127,11 @@ if ($gPageProps["blocks"]["nav"]) { ?>
 							<li class="dropdown<?php if ($gPageProps["id"] == 'encyclopedia') { echo(' active'); } ?>">
 								<a href="/encyclopedia" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span data-i18n="nav.encyclopedia.title"></span> <span class="caret"></span></a>
 								<ul class="dropdown-menu" role="menu">
-									<li><a href="encyclopedia#tankopedia"><span class="glyphicon glyphicon-education"></span> <span data-i18n="nav.encyclopedia.tanks"></span></a></li>
+									<!-- <li><a href="encyclopedia#tankopedia"><span class="glyphicon glyphicon-education"></span> <span data-i18n="nav.encyclopedia.tanks"></span></a></li> -->
 									<li><a href="encyclopedia#wn8"><span class="glyphicon glyphicon-stats"></span> <span data-i18n="nav.encyclopedia.wn8"></span></a></li>
+									<li><a href="encyclopedia#wn9"><span class="glyphicon glyphicon-stats"></span> <span data-i18n="nav.encyclopedia.wn9"></span></a></li>
 								</ul>
-							</li><?php
-		// Show the clan settings only if the user is in the allowed users (commander and roles by clan settings)
-		if (in_array($_SESSION['account_id'], $gAdmins) || in_array($_SESSION["USER_ROLE"], array('commander'))) { ?>
-							<li<?php if ($gPageProps["id"] == 'clansettings') { echo(' class="active"'); } ?>><a href="clansettings" data-i18n="[title]page.clansettings.title;"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></li><?php
-		} ?>
+							</li>
 							<li class="paypal"><a href="https://www.paypal.com/cgi-bin/webscr" data-toggle="tooltip" data-placement="bottom" data-i18n="[title]share.paypal;"><span>Paypal</span></a>
 								<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" style="display:none">
 									<input type="hidden" name="cmd" value="_s-xclick" />
