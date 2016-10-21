@@ -87,7 +87,7 @@ if (isset($typeselection) && $typeselection == "clanproperty" && $clanid != '') 
 	}
 	$parametretransmis = (json_encode($parametres));
 } else {
-	$parametretransmis = "error" . $typeselection . $clanid;
+	$parametretransmis = '{"error":"' . $typeselection . $clanid . '"}';
 }
 
 // Envoi du retour (on renvoi le tableau $retour encod� en JSON)

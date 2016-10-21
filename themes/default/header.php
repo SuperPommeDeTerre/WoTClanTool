@@ -95,12 +95,12 @@ if ($gPageProps["blocks"]["nav"]) { ?>
 									<li><a href="logout" id="linkLogout" data-i18n="[title]nav.logout;"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> <span data-i18n="nav.logout"></span></a></li>
 								</ul>
 							</li>
-							<li class="dropdown<?php if (in_array($gPageProps["id"], array('garage', 'events', 'forum', 'clansettings'))) { echo(' active'); } ?>">
+							<li class="dropdown<?php if (in_array($gPageProps["id"], array('garage', 'events', 'forum', 'clansettings', 'stronghold', 'clanwars'))) { echo(' active'); } ?>">
 								<a href="/clan" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span id="clanName"></span> <span class="caret"></span></a>
 								<ul class="dropdown-menu" role="menu">
 									<li<?php if ($gPageProps["id"] == 'garage') { echo(' class="active"'); } ?>><a href="garage"><span class="glyphicon glyphicon-oil"></span> <span data-i18n="nav.garage"></span></a></li>
-									<!-- <li<?php if ($gPageProps["id"] == 'clanwars') { echo(' class="active"'); } ?>><a href="clanwars" data-i18n="nav.clanwars"></a></li> -->
 									<li<?php if ($gPageProps["id"] == 'events') { echo(' class="active"'); } ?>><a href="events"><span class="glyphicon glyphicon-calendar"></span> <span data-i18n="nav.events"></span></a></li>
+									<li<?php if ($gPageProps["id"] == 'clanwars') { echo(' class="active"'); } ?>><a href="clanwars"><span class="glyphicon glyphicon-tower"></span> <span data-i18n="nav.clanwars"></span></a></li>
 									<li<?php if ($gPageProps["id"] == 'stronghold') { echo(' class="active"'); } ?>><a href="stronghold.php"><span class="glyphicon glyphicon-home"></span> <span data-i18n="nav.stronghold"></span></a></li><?php
 		// Show forum link only if clan's forum URL is set
 		if (array_key_exists('forumurl', $gClanConfig) && ($gClanConfig['forumurl'] != null)) { ?>
