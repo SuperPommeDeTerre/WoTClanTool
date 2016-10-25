@@ -6,7 +6,7 @@ $gPageProps = array(
 	"authenticated" => true,
 	"role" => array(),
 	"blocks" => array (
-		"ads" => true,
+		"ads" => false,
 		"nav" => true,
 		"footer" => true
 	)

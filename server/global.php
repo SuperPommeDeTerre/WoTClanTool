@@ -142,6 +142,12 @@ if (array_key_exists('showads', $gConfig["app"])) {
 		}
 	}
 }
+// Handle inactivity thresold
+if (!array_key_exists('inactivitythreshold', $gClanConfig)) {
+	$gClanConfig['inactivitythreshold'] = $gMAX_BATTLE_TIME;
+} else {
+	$gMAX_BATTLE_TIME = $gClanConfig['inactivitythreshold'];
+}
 
 // Define the data dir (depends on cluster)
 define('WCT_DATA_DIR', WCT_BASE_DATA_DIR . DIRECTORY_SEPARATOR . $gCluster . DIRECTORY_SEPARATOR);

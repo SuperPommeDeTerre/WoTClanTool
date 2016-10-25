@@ -108,7 +108,8 @@
 	},
 	"success": {
 		"title": "Operation réussie",
-		"configsave": "La configuration de l'application a été sauvegardée correctement !"
+		"configsave": "La configuration de l'application a été sauvegardée correctement !",
+		"clansettingssave": "La sauvegarde des paramètres du clan s'est déroulée correctement !"
 	},
 	"error": {
 		"title": "Erreur",

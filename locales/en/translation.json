@@ -108,7 +108,8 @@
 	},
 	"success": {
 		"title": "Success",
-		"configsave": "Application configuration saved successfully!"
+		"configsave": "Application configuration saved successfully!",
+		"clansettingssave": "Clan's settings saved successfully!"
 	},
 	"error": {
 		"title": "Error",
