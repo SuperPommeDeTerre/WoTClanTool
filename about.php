@@ -34,7 +34,7 @@ include(WCT_INC_DIR . 'ads.php');
 						<a class="list-group-item" href="http://calebevans.me/projects/jcanvas/">jCanvas</a>
 						<a class="list-group-item" href="http://keith-wood.name/svg.html">jQuery SVG</a>
 						<a class="list-group-item" href="http://morrisjs.github.io/morris.js/">Morris</a>
-						<a class="list-group-item" href="http://raphaeljs.com/">Rapha&euml;l</a>
+						<a class="list-group-item" href="http://dmitrybaranovskiy.github.io/raphael/">Rapha&euml;l</a>
 						<a class="list-group-item" href="http://github.hubspot.com/sortable/">Sortable</a>
 						<a class="list-group-item" href="http://ripplejs.github.io/">ripples.js</a>
 						<a class="list-group-item" href="http://medialize.github.io/URI.js/jquery-uri-plugin.html">URI.js</a>
