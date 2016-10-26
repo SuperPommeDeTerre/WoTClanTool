@@ -1,7 +1,18 @@
+var applyCWFilter = function() {
+	
+};
+
 var onLoad = function() {
 	checkConnected();
 	setNavBrandWithClan();
 	advanceProgress($.t('loading.complete'));
+	$('#mapFilterFront').parent().on('hide.bs.dropdown', function(evt) {
+		applyCWFilter();
+	}).on('click', 'a', function(evt) {
+		evt.preventDefault();
+		var myLink = $(this);
+		myLink.parent().parent().prev().data('value', myLink.parent().data('value')).find('.btnVal').text(myLink.text());
+	});
 	var map = new ol.Map({
 			controls: ol.control.defaults().extend([
 				new ol.control.FullScreen({
@@ -43,7 +54,7 @@ var onLoad = function() {
 				maxZoom: 9
 			})
 		}),
-		gProvinceGeomUrl = 'https://cwxstatic-eu.wargaming.net/v25/provinces_geojson/';
+		gProvinceGeomUrl = gConfig.CLUSTERS[gConfig.CLUSTER].cwgeojsonbaseurl;
 	map.getView().setCenter(ol.proj.transform([2.349014, 48.864716], 'EPSG:4326', 'EPSG:3857'));
 	var vector = map.getLayers(),
 		vectorSource = map.getLayers().a[1],
@@ -93,12 +104,14 @@ var onLoad = function() {
 			var globalMapFronts = dataFrontsResponse.data,
 				frontIndex = 0,
 				tranformFn = ol.proj.getTransform('EPSG:4326', 'EPSG:3857'),
-				gProvinces = [];
+				gProvinces = [],
+				frontSelectHtml = '';
 			for (frontIndex in globalMapFronts) {
 				// Get provinces of front
 				var myFrontInfos = globalMapFronts[frontIndex],
 					nbPages = Math.ceil(myFrontInfos.provinces_count / 100),
 					numPage = 1;
+				frontSelectHtml += '<li data-value="' + myFrontInfos.front_id + '"><a href="#' + myFrontInfos.front_id + '">' + myFrontInfos.front_name + '</a></li>';
 				for (numPage = 1; numPage <= nbPages; numPage++) {
 					$.post(gConfig.WG_API_URL + 'wot/globalmap/provinces/', {
 						application_id: gConfig.WG_APP_ID,
@@ -142,6 +155,7 @@ var onLoad = function() {
 					});
 				}
 			}
+			$("#mapFilterFront").next().append(frontSelectHtml);
 			$.post(gConfig.WG_API_URL + 'wot/globalmap/clanprovinces/', {
 				application_id: gConfig.WG_APP_ID,
 				access_token: gConfig.ACCESS_TOKEN,

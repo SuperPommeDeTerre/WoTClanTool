@@ -905,5 +905,16 @@
 	"stronghold": {
 		"battles": "Batailles",
 		"buildings": "Bâtiments"
+	},
+	"clanwars": {
+		"mode": {
+			"byincome": "Par revenu",
+			"byclan": "Par clan",
+			"bybattles": "Par batailles"
+		},
+		"fronts": {
+			"title": "Fronts",
+			"all": "Tous les fronts"
+		}
 	}
 }
