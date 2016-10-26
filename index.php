@@ -31,7 +31,7 @@ if (isset($_SESSION["access_token"])) {
 $gPageProps = array(
 	"id" => "index",
 	"authenticated" => false,
-	"role" => array(),
+	"rights" => array(),
 	"blocks" => array (
 		"ads" => true,
 		"nav" => true,

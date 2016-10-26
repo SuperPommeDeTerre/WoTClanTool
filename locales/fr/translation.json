@@ -174,8 +174,21 @@
 		"encyclopedia": {
 			"title": "Encyclopédies",
 			"tanks": "Chars",
-			"wn8": "Attendus WN8",
-			"wn9": "Attendus WN9"
+			"wn8": {
+				"title": "Attendus WN8",
+				"expfrag": "Frags attendus",
+				"expdmg": "Dégâts attendus",
+				"expspot": "Spots attendus",
+				"expdef": "Défense attendue",
+				"expwr": "Winrate attendu"
+			},
+			"wn9": {
+				"title": "Attendus WN9",
+				"mmrange": "Ecart MM",
+				"wn9exp": "WN9 attendus",
+				"wn9scale": "Echelle WN9",
+				"wn9nerf": "Nerf WN9"
+			}
 		}
 	},
 	"personalmissions": {

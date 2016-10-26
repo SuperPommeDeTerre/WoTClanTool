@@ -4,7 +4,7 @@ require(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'server' . DIRECTORY_SEPARATOR
 $gPageProps = array(
 	"id" => "strats",
 	"authenticated" => true,
-	"role" => array(),
+	"rights" => array(),
 	"blocks" => array (
 		"ads" => true,
 		"nav" => true,
@@ -139,7 +139,7 @@ include(WCT_INC_DIR . 'ads.php');
 									<option value="3" data-i18n="strat.line.thickness.3"></option>
 									<option value="5" data-i18n="strat.line.thickness.5"></option>
 								</select></p>
-							<p><label for="typeSelectorLine"><span data-i18n="strat.line.type.title">: </label><select id="typeSelectorLine" class="form-control">
+							<p><label for="typeSelectorLine"><span data-i18n="strat.line.type.title"></span>: </label><select id="typeSelectorLine" class="form-control">
 									<option value="solid" data-i18n="strat.line.type.solid"></option>
 									<option value="dotted" data-i18n="strat.line.type.dotted"></option>
 									<option value="dashed" data-i18n="strat.line.type.dashed"></option>

@@ -7,14 +7,10 @@ header('Content-Type: application/json');
 
 // If the connected user has no clan, then do nothing
 $result = array();
-if (!(in_array($_SESSION["account_id"], $gAdmins) || WctRights::isUserHasProfile('commander'))) {
+if (!WctRights::isUserHasRight("clansettings.modify")) {
 	// If the user is not an administrator or the clan commander, refuse action
 	$result['status'] = 'error';
-	if (!WctRights::isUserHasProfile('commander')) {
-		$result['message'] = 'error.notallowed';
-	} else if (!in_array($_SESSION["account_id"], $gAdmins)) {
-		$result['message'] = 'error.notadmin';
-	}
+	$result['message'] = 'error.notallowed';
 } else {
 	$result['status'] = 'ok';
 	$needSaveConfig = false;
@@ -30,7 +26,10 @@ if (!(in_array($_SESSION["account_id"], $gAdmins) || WctRights::isUserHasProfile
 				if (array_key_exists('inactivitythreshold', $_REQUEST) && !empty(trim($_REQUEST['inactivitythreshold']))) {
 					$gClanConfig['inactivitythreshold'] = $_REQUEST['inactivitythreshold'];
 				} else {
-					$gClanConfig['inactivitythreshold'] = null;
+					$gClanConfig['inactivitythreshold'] = 14;
+				}
+				if (array_key_exists('rights', $_REQUEST) && !empty(trim($_REQUEST['rights']))) {
+					$gClanConfig['rights'] = json_decode($_REQUEST['rights'], true);
 				}
 				$needSaveConfig = true;
 				break;

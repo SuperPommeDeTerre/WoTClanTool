@@ -1,18 +1,22 @@
 <?php
 require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'server' . DIRECTORY_SEPARATOR . 'global.php');
 
-$gPageProps = array(
+$gPageProps = [
 	"id" => "clansettings",
 	"authenticated" => true,
-	"role" => array('commander'),
-	"blocks" => array (
+	"rights" => [ "clansettings.view" ],
+	"blocks" => [
 		"ads" => true,
 		"nav" => true,
 		"footer" => true
-	)
-);
+	]
+];
 
 require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR . 'header.php');
+
+
+// Disable inputs is the user doesn't have view permission
+$isReadOnly = !WctRights::isUserHasRight("clansettings.modify");
 ?>
 <div class="container-fluid">
 	<div class="row">
@@ -31,10 +35,10 @@ include(WCT_INC_DIR . 'ads.php');
 						</button>
 					</div>
 					<div class="collapse navbar-collapse" id="bs-admin-navbar-collapse">
-						<button type="button" class="btn btn-info navbar-btn pull-right" id="btnSaveClanClanSettings"><span class="glyphicon glyphicon-floppy-disk"></span> <span data-i18n="btn.save"></span></button>
+						<button type="button" class="btn btn-info navbar-btn pull-right" id="btnSaveClanClanSettings"<?php echo($isReadOnly?' disabled="disabled"':''); ?>><span class="glyphicon glyphicon-floppy-disk"></span> <span data-i18n="btn.save"></span></button>
 						<ul class="nav navbar-nav" role="tablist">
 							<li role="presentation" class="active"><a href="#configGeneral" role="tab" aria-controls="configGeneral" data-toggle="tab" data-i18n="clansettings.general"></a></li>
-							<!--<li role="presentation"><a href="#configRights" role="tab" aria-controls="configRights" data-toggle="tab" data-i18n="rights.title"></a></li>-->
+							<li role="presentation"><a href="#configRights" role="tab" aria-controls="configRights" data-toggle="tab" data-i18n="rights.title"></a></li>
 						</ul>
 					</div>
 				</div>
@@ -44,14 +48,13 @@ include(WCT_INC_DIR . 'ads.php');
 					<h2 class="sub-header" data-i18n="clansettings.general"></h2>
 					<div>
 						<h3 data-i18n="clansettings.forumurl"></h3>
-						<input id="clanForumURL" type="text" class="form-control" data-i18n="[placeholder]clansettings.forumurl;" aria-describedby="sizing-addon1" value="<?php echo($gClanConfig['forumurl']); ?>" />
+						<input id="clanForumURL" type="text" class="form-control" data-i18n="[placeholder]clansettings.forumurl;" aria-describedby="sizing-addon1" value="<?php echo($gClanConfig['forumurl']); ?>"<?php echo($isReadOnly?' disabled="disabled"':''); ?> />
 					</div>
 					<div>
 						<h3><span data-i18n="install.inactivitythreshold.title"></span> <span class="badge" id="badgeInactivityThreshold" data-i18n="install.inactivitythreshold.value" data-i18n-options="{&quot;count&quot;:<?php echo($gClanConfig['inactivitythreshold']); ?>}"></span></h3>
-						<div id="sliderInactivityThreshold" style="background-color:#4caf50" class="slider shor slider-material-green"></div>
+						<div id="sliderInactivityThreshold" style="background-color:#4caf50" class="slider shor slider-material-green"<?php echo($isReadOnly?' disabled="disabled"':''); ?>></div>
 					</div>
 				</div>
-				<!--
 				<div role="tabpanel" class="tab-pane" id="configRights">
 					<h2 class="sub-header" data-i18n="rights.title"></h2>
 					<div class="table-responsive">
@@ -60,178 +63,86 @@ include(WCT_INC_DIR . 'ads.php');
 								<tr>
 									<th data-i18n="rights.permission"></th>
 									<th data-i18n="player.role.self" class="rightrole"></th>
-									<th data-i18n="player.role.owner" class="rightrole"></th>
-									<th data-i18n="player.role.commander" class="rightrole"></th>
-									<th data-i18n="player.role.executive_officer" class="rightrole"></th>
-									<th data-i18n="player.role.personnel_officer" class="rightrole"></th>
-									<th data-i18n="player.role.intelligence_officer" class="rightrole"></th>
-									<th data-i18n="player.role.quartermaster" class="rightrole"></th>
-									<th data-i18n="player.role.combat_officer" class="rightrole"></th>
-									<th data-i18n="player.role.junior_officer" class="rightrole"></th>
-									<th data-i18n="player.role.recruitment_officer" class="rightrole"></th>
-									<th data-i18n="player.role.private" class="rightrole"></th>
-									<th data-i18n="player.role.reservist" class="rightrole"></th>
-									<th data-i18n="player.role.recruit" class="rightrole"></th>
+									<th data-i18n="player.role.owner" class="rightrole"></th><?php
+foreach (WctRights::$ROLES as $roleName) { ?>
+									<th data-i18n="player.role.<?php echo($roleName); ?>" class="rightrole"></th><?php
+} ?>
 								</tr>
 							</thead>
-							<tbody>
+							<tbody><?php
+$lClanRights = WctRights::getClanRights();
+// Loop on rights categories
+foreach (WctRights::$RIGHTS_MATRIX as $rightCategory => $rightsArray) { ?>
 								<tr>
-									<td colspan="14"><h3 data-i18n="rights.clansettings.title"></h3></td>
-								</tr>
-								<tr data-right="clansettings.view">
-									<td data-i18n="rights.clansettings.view"></td>
-									<td>-</td>
-									<td>-</td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="commander" value="true" disabled="disabled" checked="checked" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="executive_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="personnel_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="intelligence_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="quartermaster" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="combat_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="junior_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="recruitment_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="private" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="reservist" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="recruit" value="true" /></label></div></td>
-								</tr>
-								<tr data-right="clansettings.modify">
-									<td data-i18n="rights.clansettings.modify"></td>
-									<td>-</td>
-									<td>-</td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="commander" value="true" disabled="disabled" checked="checked" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="executive_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="personnel_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="intelligence_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="quartermaster" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="combat_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="junior_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="recruitment_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="private" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="reservist" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="recruit" value="true" /></label></div></td>
-								</tr>
-								<tr>
-									<td colspan="14"><h3 data-i18n="rights.events.title"></h3></td>
-								</tr>
-								<tr data-right="events.create">
-									<td data-i18n="rights.events.create"></td>
-									<td>-</td>
-									<td>-</td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="commander" value="true" disabled="disabled" checked="checked" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="executive_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="personnel_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="intelligence_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="quartermaster" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="combat_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="junior_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="recruitment_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="private" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="reservist" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="recruit" value="true" /></label></div></td>
-								</tr>
-								<tr data-right="events.modify">
-									<td data-i18n="rights.events.modify"></td>
-									<td>-</td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="owner" value="true" disabled="disabled" checked="checked" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="commander" value="true" disabled="disabled" checked="checked" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="executive_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="personnel_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="intelligence_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="quartermaster" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="combat_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="junior_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="recruitment_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="private" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="reservist" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="recruit" value="true" /></label></div></td>
-								</tr>
-								<tr data-right="events.assigntanks">
-									<td data-i18n="rights.events.assigntanks"></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="self" value="true" disabled="disabled" checked="checked" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="owner" value="true" disabled="disabled" checked="checked" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="commander" value="true" disabled="disabled" checked="checked" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="executive_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="personnel_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="intelligence_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="quartermaster" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="combat_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="junior_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="recruitment_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="private" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="reservist" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="recruit" value="true" /></label></div></td>
-								</tr>
-								<tr data-right="events.assignmap">
-									<td data-i18n="rights.events.assignmap"></td>
-									<td>-</td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="owner" value="true" disabled="disabled" checked="checked" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="commander" value="true" disabled="disabled" checked="checked" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="executive_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="personnel_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="intelligence_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="quartermaster" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="combat_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="junior_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="recruitment_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="private" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="reservist" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="recruit" value="true" /></label></div></td>
-								</tr>
-								<tr>
-									<td colspan="14"><h3 data-i18n="rights.strategy.title"></h3></td>
-								</tr>
-								<tr data-right="strategy.create">
-									<td data-i18n="rights.strategy.create"></td>
-									<td>-</td>
-									<td>-</td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="commander" value="true" disabled="disabled" checked="checked" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="executive_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="personnel_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="intelligence_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="quartermaster" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="combat_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="junior_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="recruitment_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="private" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="reservist" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="recruit" value="true" /></label></div></td>
-								</tr>
-								<tr data-right="strategy.modify">
-									<td data-i18n="rights.strategy.modify"></td>
-									<td>-</td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="owner" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="commander" value="true" disabled="disabled" checked="checked" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="executive_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="personnel_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="intelligence_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="quartermaster" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="combat_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="junior_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="recruitment_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="private" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="reservist" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="recruit" value="true" /></label></div></td>
-								</tr>
-								<tr data-right="strategy.validate">
-									<td data-i18n="rights.strategy.validate"></td>
-									<td>-</td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="owner" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="commander" value="true" disabled="disabled" checked="checked" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="executive_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="personnel_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="intelligence_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="quartermaster" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="combat_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="junior_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="recruitment_officer" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="private" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="reservist" value="true" /></label></div></td>
-									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" data-role="recruit" value="true" /></label></div></td>
-								</tr>
+									<td colspan="<?php echo(count(WctRights::$ROLES) + 3); ?>"><h3 data-i18n="rights.<?php echo($rightCategory); ?>.title"></h3></td>
+								</tr><?php
+	// Then on individual rights
+	$lClanRightsCategory = $lClanRights[$rightCategory];
+	foreach ($rightsArray as $rightName => $rightProperties) { ?>
+								<tr data-right="<?php echo($rightCategory); ?>.<?php echo($rightName); ?>">
+									<td data-i18n="rights.<?php echo($rightCategory); ?>.<?php echo($rightName); ?>"></td><?php
+		if (array_key_exists("special", $rightProperties) && in_array(WctRights::SPECIAL_ROLE_SELF, $rightProperties["special"])) {
+			$isDisabled = false;
+			$isChecked = false;
+			// If the role is required for the right, then make it disabled and checked by default.
+			if (array_key_exists("requiredroles", $rightProperties) && in_array($roleName, $rightProperties["requiredroles"])) {
+				$isDisabled = true;
+				$isChecked = true;
+			}
+			if (in_array(WctRights::SPECIAL_ROLE_SELF, $lClanRightsCategory[$rightName])) {
+				$isChecked = true;
+			}
+			if ($isReadOnly) {
+				$isDisabled = true;
+			} ?>
+									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" class="rightselect" id="<?php echo($rightCategory . '.' . $rightName . '.' . WctRights::SPECIAL_ROLE_SELF); ?>" data-role="<?php echo(WctRights::SPECIAL_ROLE_SELF); ?>" data-category="<?php echo($rightCategory); ?>" data-rightname="<?php echo($rightName); ?>" value="true"<?php echo($isDisabled?'  disabled="disabled"':''); echo($isChecked?' checked="checked"':''); ?> /></label></div></td><?php
+		} else { ?>
+									<td>-</td><?php
+		}
+		if (array_key_exists("special", $rightProperties) && in_array(WctRights::SPECIAL_ROLE_OWNER, $rightProperties["special"])) {
+			$isDisabled = false;
+			$isChecked = false;
+			// If the role is required for the right, then make it disabled and checked by default.
+			if (array_key_exists("requiredroles", $rightProperties) && in_array($roleName, $rightProperties["requiredroles"])) {
+				$isDisabled = true;
+				$isChecked = true;
+			}
+			if (in_array(WctRights::SPECIAL_ROLE_OWNER, $lClanRightsCategory[$rightName])) {
+				$isChecked = true;
+			}
+			if ($isReadOnly) {
+				$isDisabled = true;
+			} ?>
+									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" class="rightselect" id="<?php echo($rightCategory . '.' . $rightName . '.' . WctRights::SPECIAL_ROLE_OWNER); ?>" data-role="<?php echo(WctRights::SPECIAL_ROLE_OWNER); ?>" data-category="<?php echo($rightCategory); ?>" data-rightname="<?php echo($rightName); ?>" value="true"<?php echo($isDisabled?'  disabled="disabled"':''); echo($isChecked?' checked="checked"':''); ?> /></label></div></td><?php
+			} else { ?>
+									<td>-</td><?php
+		}
+
+		// And finally on roles
+		foreach (WctRights::$ROLES as $roleName) {
+			$isDisabled = false;
+			$isChecked = false;
+			// If the role is required for the right, then make it disabled and checked by default.
+			if (array_key_exists("requiredroles", $rightProperties) && in_array($roleName, $rightProperties["requiredroles"])) {
+				$isDisabled = true;
+				$isChecked = true;
+			}
+			if (in_array($roleName, $lClanRightsCategory[$rightName])) {
+				$isChecked = true;
+			}
+			if ($isReadOnly) {
+				$isDisabled = true;
+			} ?>
+									<td><div class="togglebutton"><label>&nbsp;<input type="checkbox" class="rightselect" id="<?php echo($rightCategory . '.' . $rightName . '.' . $roleName); ?>" data-role="<?php echo($roleName); ?>" data-category="<?php echo($rightCategory); ?>" data-rightname="<?php echo($rightName); ?>" value="true"<?php echo($isDisabled?'  disabled="disabled"':''); echo($isChecked?' checked="checked"':''); ?> /></label></div></td><?php
+		}
+	} ?>
+								</tr><?php
+}
+?>
 							</tbody>
 						</table>
 					</div>
-				</div>-->
+				</div>
 			</div>
 		</div>
 	</div>

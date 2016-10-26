@@ -4,7 +4,7 @@ require(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'server' . DIRECTORY_SEPARATOR
 $gPageProps = array(
 	"id" => "clanwars",
 	"authenticated" => true,
-	"role" => array(),
+	"rights" => array(),
 	"blocks" => array (
 		"ads" => false,
 		"nav" => true,

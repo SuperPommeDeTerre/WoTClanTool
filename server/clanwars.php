@@ -2,8 +2,7 @@
 // Clan wars service
 require(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'global.php');
 
-$cluster = "demo";
-set_time_limit(10000);
+// set_time_limit(10000);
 
 /*
  *  Script PHP qui traite les requ�tes AJAX envoy�es par le client 

@@ -4,7 +4,7 @@ require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'server' . DIRECTORY_SEPA
 $gPageProps = array(
 	"id" => "calendarview",
 	"authenticated" => false,
-	"role" => array(),
+	"rights" => array(),
 	"blocks" => array (
 		"ads" => false,
 		"nav" => false,

@@ -4,7 +4,7 @@ require(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'server' . DIRECTORY_SEPARATOR
 $gPageProps = array(
 	"id" => "events",
 	"authenticated" => true,
-	"role" => array(),
+	"rights" => array(),
 	"blocks" => array (
 		"ads" => true,
 		"nav" => true,
@@ -193,11 +193,11 @@ include(WCT_INC_DIR . 'ads.php');
 											<ul class="dropdown-menu" role="menu">
 												<li data-value="all"><a href="#" data-i18n="tank.alltypes"></a></li>
 												<li class="divider"></li>
-												<li data-value="lightTank"><a href="#"><span class="glyphicon glyphicon-unchecked"></span> <span data-i18n="tank.type.lightTank" /></a></li>
-												<li data-value="mediumTank"><a href="#"><span class="glyphicon glyphicon-unchecked"></span> <span data-i18n="tank.type.mediumTank" /></a></li>
-												<li data-value="heavyTank"><a href="#"><span class="glyphicon glyphicon-unchecked"></span> <span data-i18n="tank.type.heavyTank" /></a></li>
-												<li data-value="AT-SPG"><a href="#"><span class="glyphicon glyphicon-unchecked"></span> <span data-i18n="tank.type.AT-SPG" /></a></li>
-												<li data-value="SPG"><a href="#"><span class="glyphicon glyphicon-unchecked"></span> <span data-i18n="tank.type.SPG" /></a></li>
+												<li data-value="lightTank"><a href="#"><span class="glyphicon glyphicon-unchecked"></span> <span data-i18n="tank.type.lightTank"></span></a></li>
+												<li data-value="mediumTank"><a href="#"><span class="glyphicon glyphicon-unchecked"></span> <span data-i18n="tank.type.mediumTank"></span></a></li>
+												<li data-value="heavyTank"><a href="#"><span class="glyphicon glyphicon-unchecked"></span> <span data-i18n="tank.type.heavyTank"></span></a></li>
+												<li data-value="AT-SPG"><a href="#"><span class="glyphicon glyphicon-unchecked"></span> <span data-i18n="tank.type.AT-SPG"></span></a></li>
+												<li data-value="SPG"><a href="#"><span class="glyphicon glyphicon-unchecked"></span> <span data-i18n="tank.type.SPG"></span></a></li>
 											</ul>
 										</div>
 									</div>

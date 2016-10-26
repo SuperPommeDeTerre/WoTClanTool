@@ -9,7 +9,7 @@ if (!in_array($_SESSION["account_id"], $gAdmins)) {
 $gPageProps = array(
 	"id" => "admin",
 	"authenticated" => true,
-	"role" => array( "admin" ),
+	"rights" => array(),
 	"blocks" => array (
 		"ads" => false,
 		"nav" => true,

@@ -4,6 +4,16 @@ if ($gPageProps["authenticated"] && !array_key_exists("account_id", $_SESSION)) 
 	exit;
 }
 
+if (is_array($gPageProps["rights"]) && count($gPageProps["rights"]) > 0) {
+	foreach ($gPageProps["rights"] as $rightName) {
+		// If the user don't have the role, redirect him where he come from.
+		if (!WctRights::isUserHasRight($rightName)) {
+			header('Location: ' . $_SERVER['HTTP_REFERER']);
+			exit;
+		}
+	}
+}
+
 header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
 header('Last-Modified: '.gmdate( 'D, d M Y H:i:s' ).' GMT');
 header('Cache-Control: no-cache, must-revalidate, max-age=0');
@@ -107,18 +117,20 @@ if ($gPageProps["blocks"]["nav"]) { ?>
 									<li><a href="forum"><span class="glyphicon glyphicon-bullhorn"></span> <span data-i18n="nav.forum"></span></a></li><?php
 		}
 		// Show the clan settings only if the user is in the allowed users (commander and roles by clan settings)
-		if (in_array($_SESSION['account_id'], $gAdmins) || WctRights::isUserHasProfile('commander')) { ?>
+		if (WctRights::isUserHasRight("clansettings.view")) { ?>
 									<li class="divider"></li>
-							       <li<?php if ($gPageProps["id"] == 'clansettings') { echo(' class="active"'); } ?>><a href="clansettings" data-i18n="[title]page.clansettings.title;"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> <span data-i18n="page.clansettings.title"></span></a></li><?php
+									<li<?php if ($gPageProps["id"] == 'clansettings') { echo(' class="active"'); } ?>><a href="clansettings" data-i18n="[title]page.clansettings.title;"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> <span data-i18n="page.clansettings.title"></span></a></li><?php
 		} ?>
 								</ul>
 							</li>
 							<li class="dropdown<?php if ($gPageProps["id"] == 'strats') { echo(' active'); } ?>">
 								<a href="/strats" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span data-i18n="nav.strats.title"></span> <span class="caret"></span></a>
-								<ul class="dropdown-menu" role="menu">
+								<ul class="dropdown-menu" role="menu"><?php
+		if (WctRights::isUserHasRight("strategy.create")) { ?>
 									<li><a href="strats/new"><span class="glyphicon glyphicon-plus"></span> <span data-i18n="nav.strats.new"></span></a></li>
 									<li><a href="strats/list/my"><span class="glyphicon glyphicon-picture"></span> <span data-i18n="nav.my.strats"></span></a></li>
-									<li class="divider"></li>
+									<li class="divider"></li><?php
+		} ?>
 									<li class="dropdown-header" data-i18n="nav.strats.shared"></li>
 									<li><a href="strats/list/valid"><span class="glyphicon glyphicon-star"></span> <span data-i18n="nav.strats.valid"></span></a></li>
 									<li><a href="strats/list/review"><span class="glyphicon glyphicon-check"></span> <span data-i18n="nav.strats.review"></span></a></li>
@@ -128,10 +140,15 @@ if ($gPageProps["blocks"]["nav"]) { ?>
 								<a href="/encyclopedia" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span data-i18n="nav.encyclopedia.title"></span> <span class="caret"></span></a>
 								<ul class="dropdown-menu" role="menu">
 									<!-- <li><a href="encyclopedia#tankopedia"><span class="glyphicon glyphicon-education"></span> <span data-i18n="nav.encyclopedia.tanks"></span></a></li> -->
-									<li><a href="encyclopedia#wn8"><span class="glyphicon glyphicon-stats"></span> <span data-i18n="nav.encyclopedia.wn8"></span></a></li>
-									<li><a href="encyclopedia#wn9"><span class="glyphicon glyphicon-stats"></span> <span data-i18n="nav.encyclopedia.wn9"></span></a></li>
+									<li><a href="encyclopedia#wn8"><span class="glyphicon glyphicon-stats"></span> <span data-i18n="nav.encyclopedia.wn8.title"></span></a></li>
+									<li><a href="encyclopedia#wn9"><span class="glyphicon glyphicon-stats"></span> <span data-i18n="nav.encyclopedia.wn9.title"></span></a></li>
 								</ul>
 							</li>
+<?php
+	// Show the administration only if the user is in the admins group
+	if (array_key_exists("account_id", $_SESSION) && WctRights::isUserAdmin()) { ?>
+							<li><a href="admin" data-i18n="[title]page.admin.title;"><span class="glyphicon glyphicon-cog"></span></a></li><?php
+	} ?>
 							<li class="paypal"><a href="https://www.paypal.com/cgi-bin/webscr" data-toggle="tooltip" data-placement="bottom" data-i18n="[title]share.paypal;"><span>Paypal</span></a>
 								<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" style="display:none">
 									<input type="hidden" name="cmd" value="_s-xclick" />

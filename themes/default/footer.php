@@ -34,11 +34,7 @@ if ($gPageProps["blocks"]["footer"]) { ?>
 						<ul class="list-unstyled">
 							<li><a href="about" data-i18n="page.about.title"></a></li>
 							<li><a href="http://superpommedeterre.github.io/WoTClanTool/" data-i18n="app.projectpage"></a></li>
-							<li><a href="https://github.com/SuperPommeDeTerre/WoTClanTool/issues" data-i18n="app.bugreports"></a></li><?php
-	// Show the administration only if the user is in the admins group
-	if (array_key_exists("account_id", $_SESSION) && in_array($_SESSION["account_id"], $gAdmins)) { ?>
-							<li><a href="admin" data-i18n="page.admin.title"></a></li><?php
-	} ?>
+							<li><a href="https://github.com/SuperPommeDeTerre/WoTClanTool/issues" data-i18n="app.bugreports"></a></li>
 						</ul>
 					</div>
 				</div>

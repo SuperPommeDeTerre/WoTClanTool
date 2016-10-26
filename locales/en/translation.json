@@ -174,8 +174,21 @@
 		"encyclopedia": {
 			"title": "Encyclopedias",
 			"tanks": "Tanks",
-			"wn8": "WN8 Expected values",
-			"wn9": "WN9 Expected values"
+			"wn8": {
+				"title": "WN8 Expected values",
+				"expfrag": "Expected frags",
+				"expdmg": "Expected damage",
+				"expspot": "Expected spot",
+				"expdef": "Expected defense",
+				"expwr": "Expected winrate"
+			},
+			"wn9": {
+				"title": "WN9 Expected values",
+				"mmrange": "MM range",
+				"wn9exp": "WN9 expected",
+				"wn9scale": "WN9 scale",
+				"wn9nerf": "WN9 nerf"
+			}
 		}
 	},
 	"personalmissions": {

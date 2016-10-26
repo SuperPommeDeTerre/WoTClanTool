@@ -4,7 +4,7 @@ require(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'server' . DIRECTORY_SEPARATOR
 $gPageProps = array(
 	"id" => "documentation",
 	"authenticated" => false,
-	"role" => array(),
+	"rights" => array(),
 	"blocks" => array (
 		"ads" => true,
 		"nav" => true,
