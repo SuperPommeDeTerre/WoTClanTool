@@ -10,9 +10,9 @@ $result = array();
 if (!(in_array($_SESSION["account_id"], $gAdmins) || WctRights::isUserHasProfile('commander'))) {
 	// If the user is not an administrator or the clan commander, refuse action
 	$result['status'] = 'error';
-	if (!WctRights::isUserHasProfile('commander'))) {
+	if (!WctRights::isUserHasProfile('commander')) {
 		$result['message'] = 'error.notallowed';
-	} elseif (!in_array($_SESSION["account_id"], $gAdmins)) {
+	} else if (!in_array($_SESSION["account_id"], $gAdmins)) {
 		$result['message'] = 'error.notadmin';
 	}
 } else {
