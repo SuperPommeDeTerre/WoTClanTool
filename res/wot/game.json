@@ -190,17 +190,26 @@
             }
         },
         "EiffelTower": {
-            "file": "112_eiffel_tower.jpg",
+            "file": "112_eiffel_tower_ctf.jpg",
             "size": { "x": 800, "y": 800 },
             "camo": "summer",
-            "arena_id": "112_eiffel_tower",
+            "arena_id": "112_eiffel_tower_ctf",
             "type": "",
             "state": "live",
             "levels": {
                 "min": 4,
                 "max": 11
             },
-            "modes": {}
+            "modes": {
+                "standard": {
+                    "team1": [
+                        { "type": "base", "x": 53, "y": 423 }
+                    ],
+                    "team2": [
+                        { "type": "base", "x": 747, "y": 420 }
+                    ]
+                }
+            }
         },
         "ElHalluf": {
             "file": "29_el_hallouf.jpg",
