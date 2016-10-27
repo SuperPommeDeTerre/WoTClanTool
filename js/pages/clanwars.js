@@ -1,3 +1,5 @@
+var gMapInfos = {},
+	gMaps = {};
 var applyCWFilter = function() {
 	
 };
@@ -25,9 +27,7 @@ var onLoad = function() {
 	});
 	var map = new ol.Map({
 			controls: ol.control.defaults().extend([
-				new ol.control.FullScreen({
-					source: 'fullscreen'
-				}),
+				new ol.control.FullScreen(),
 				new ol.control.OverviewMap()
 			]),
 			layers: [
@@ -40,14 +40,6 @@ var onLoad = function() {
 						url: 'https://{a-c}.tile.opentopomap.org/{z}/{x}/{y}.png'
 					})
 				}),
-				/*
-				new ol.layer.Tile({
-					title: 'Global Imagery',
-					source: new ol.source.TileWMS({
-						url: 'http://demo.boundlessgeo.com/geoserver/wms',
-						params: {LAYERS: 'ne:NE1_HR_LC_SR_W_DR', VERSION: '1.1.1'}
-					})
-				}),*/
 				new ol.layer.Image({
 					source: new ol.source.ImageVector({
 						source: new ol.source.Vector({
@@ -72,7 +64,8 @@ var onLoad = function() {
 				zoom: 5,
 				minZoom: 3,
 				maxZoom: 6
-			})
+			}),
+			logo: null
 		}),
 		gProvinceGeomUrl = gConfig.CLUSTERS[gConfig.CLUSTER].cwgeojsonbaseurl;
 	map.getView().setCenter(ol.proj.transform([2.349014, 48.864716], 'EPSG:4326', 'EPSG:3857'));
@@ -112,6 +105,9 @@ var onLoad = function() {
 				})
 			});
 
+		$.getJSON("./res/wot/game.json", {}, function(data) {
+			gMaps = data.maps;
+		}, 'json');
 		advanceProgress($.t('loading.clanwars.map'));
 		$.post('./server/clanwars.php', { 'a': 'getcwmap' }, function(dataCWMapResponse) {
 			if (isDebugEnabled()) {
@@ -120,6 +116,7 @@ var onLoad = function() {
 			var dataCWMap = (typeof(dataCWMapResponse.data) != 'undefined'?dataCWMapResponse.data:null),
 				tranformFn = ol.proj.getTransform('EPSG:4326', 'EPSG:3857'),
 				frontSelectHtml = '';
+			gMapInfos = dataCWMap;
 			advanceProgress($.t('loading.clanwars.fronts'));
 			$.post(gConfig.WG_API_URL + 'wot/globalmap/fronts/', {
 				application_id: gConfig.WG_APP_ID,
@@ -169,13 +166,57 @@ var onLoad = function() {
 						thing = new ol.geom.Polygon(myProvince.geom.coordinates),
 						featureGeometryTf = thing.applyTransform(tranformFn),
 						featurething = new ol.Feature({
-							name: myProvince.province_id,
+							province_id: myProvince.province_id,
+							front_id: myProvince.front_id,
 							geometry: thing
 						}),
 						monfeature = varlayersource.addFeature(featurething);
-					featurething.setStyle(styleprovince);
+						featurething.setStyle(styleprovince);
 					}
 				}
+				var lModalDetailProvince = $("#modalProvinceDetails");
+				map.on('click', function(evt) {
+					var feature = map.forEachFeatureAtPixel(evt.pixel,
+							function(feature, layer) {
+								return feature;
+							});
+					if (feature) {
+						// Fill up the window
+						$.post(gConfig.WG_API_URL + 'wot/globalmap/provinces/', {
+							application_id: gConfig.WG_APP_ID,
+							access_token: gConfig.ACCESS_TOKEN,
+							front_id: feature.get('front_id'),
+							province_id: feature.get('province_id'),
+							language: gConfig.LANG
+						}, function(dataProvincesResponse) {
+							if (isDebugEnabled()) {
+								logDebug('dataProvincesResponse=' + JSON.stringify(dataProvincesResponse, null, 4));
+							}
+							var myProvince = dataProvincesResponse.data[0],
+								myProvinceDetailsHtml = '',
+								mapIndex = null,
+								myMap = null,
+								myMapName = '';
+							for (mapIndex in gMaps) {
+								if (gMaps[mapIndex].arena_id == myProvince.arena_id) {
+									myMap = gMaps[mapIndex];
+									myMapName = mapIndex;
+									break;
+								}
+							}
+							var myMapThumb = myMap.file.substring(0, myMap.file.lastIndexOf('.')) + '_thumb' + myMap.file.substring(myMap.file.lastIndexOf('.'));
+							myProvinceDetailsHtml += '<img src="./res/wot/maps/' + myMapThumb + '" alt="' + $.t('strat.maps.' + myMapName) + '" />';
+							lModalDetailProvince.find('.modal-body').html(myProvinceDetailsHtml);
+							lModalDetailProvince.find('.modal-title').text(myProvince.province_name);
+							lModalDetailProvince.modal('show');
+						}, 'json')
+						.fail(function(jqXHR, textStatus) {
+							logErr('Error while loading [/wot/globalmap/provinces/]: ' + textStatus + '.');
+						});
+					} else {
+						lModalDetailProvince.modal('hide');
+					}
+				});
 				afterLoad();
 			}, 'json')
 			.fail(function(jqXHR, textStatus) {
@@ -241,7 +282,7 @@ var onLoad = function() {
 									}
 									var myProvinceGeoInfos = dataProvinceGeoInfoResponse;
 									gCWMap.provinces.push({
-										'front_id': myFrontInfos.front_id,
+										'front_id': myProvince.front_id,
 										'province_id' : myProvince.province_id,
 										'geom': dataProvinceGeoInfoResponse.geom,
 										'center': dataProvinceGeoInfoResponse.center
