@@ -32,12 +32,22 @@ var onLoad = function() {
 			]),
 			layers: [
 				new ol.layer.Tile({
+					title: 'OpenTopoMap',
+					type: 'base',
+					visible: true,
+					source: new ol.source.XYZ({
+						// OpenTopoMap source
+						url: 'https://{a-c}.tile.opentopomap.org/{z}/{x}/{y}.png'
+					})
+				}),
+				/*
+				new ol.layer.Tile({
 					title: 'Global Imagery',
 					source: new ol.source.TileWMS({
-						url: 'http://demo.opengeo.org/geoserver/wms',
+						url: 'http://demo.boundlessgeo.com/geoserver/wms',
 						params: {LAYERS: 'ne:NE1_HR_LC_SR_W_DR', VERSION: '1.1.1'}
 					})
-				}), 
+				}),*/
 				new ol.layer.Image({
 					source: new ol.source.ImageVector({
 						source: new ol.source.Vector({
@@ -58,10 +68,10 @@ var onLoad = function() {
 			],
 			target: 'cwMap',
 			view: new ol.View({
-				center: [0, 0],
-				zoom: 3,
+				center: ol.proj.transform([0, 0], 'EPSG:4326', 'EPSG:3857'),
+				zoom: 5,
 				minZoom: 3,
-				maxZoom: 9
+				maxZoom: 6
 			})
 		}),
 		gProvinceGeomUrl = gConfig.CLUSTERS[gConfig.CLUSTER].cwgeojsonbaseurl;
@@ -80,27 +90,27 @@ var onLoad = function() {
 					color: '#FFFFFF',
 					width: 1
 				})
+			}),
+			// PROVINCES ATTAQUEE = vert
+			styleattaque = new ol.style.Style({
+				fill: new ol.style.Fill({
+					color: [0, 255,0, 0.5],
+				}),
+				stroke: new ol.style.Stroke({
+					color: '#FFFFFF',
+					width: 2
+				})
+			}),
+			// PROVINCES DEFENDUE = rouge
+			styledefense = new ol.style.Style({
+				fill: new ol.style.Fill({
+					color: [255, 0,0, 0.5],
+				}),
+				stroke: new ol.style.Stroke({
+					color: '#FFFFFF',
+					width: 2
+				})
 			});
-		// PROVINCES ATTAQUEE = vert
-		var styleattaque = new ol.style.Style({
-			fill: new ol.style.Fill({
-				color: [0, 255,0, 0.5],
-			}),
-			stroke: new ol.style.Stroke({
-				color: '#FFFFFF',
-				width: 2
-			})
-		});
-		// PROVINCES DEFENDUE = rouge
-		var styledefense = new ol.style.Style({
-			fill: new ol.style.Fill({
-				color: [255, 0,0, 0.5],
-			}),
-			stroke: new ol.style.Stroke({
-				color: '#FFFFFF',
-				width: 2
-			})
-		});
 
 		advanceProgress($.t('loading.clanwars.map'));
 		$.post('./server/clanwars.php', { 'a': 'getcwmap' }, function(dataCWMapResponse) {
