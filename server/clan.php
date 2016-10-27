@@ -5,8 +5,10 @@ require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'global.php');
 // This service must return JSON to page
 header('Content-Type: application/json');
 
-// If the connected user has no clan, then do nothing
+// Initialize result
 $result = array();
+
+// If the connected user has no clan, then do nothing
 if (!WctRights::isUserHasRight("clansettings.modify")) {
 	// If the user is not an administrator or the clan commander, refuse action
 	$result['status'] = 'error';
@@ -36,7 +38,7 @@ if (!WctRights::isUserHasRight("clansettings.modify")) {
 		}
 		// Perform save of configuration only when needed
 		if ($needSaveConfig) {
-			$myClanConfigFile = fopen(getClanConfigFile(), 'w') or die('Unable to open file!');
+			$myClanConfigFile = fopen(getClanConfigFile(null, $gCluster), 'w') or die('Unable to open file!');
 			fwrite($myClanConfigFile, json_encode($gClanConfig));
 			fclose($myClanConfigFile);
 		}

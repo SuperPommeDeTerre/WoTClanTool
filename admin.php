@@ -2,7 +2,7 @@
 require(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'server' . DIRECTORY_SEPARATOR . 'global.php');
 
 // If the connected user is not an admin, redirect to home page
-if (!in_array($_SESSION["account_id"], $gAdmins)) {
+if (!WctRights::isUserAdmin()) {
 	header('Location: ./');
 }
 

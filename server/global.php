@@ -75,7 +75,7 @@ function isUserAllowed($pActionCode = null) {
 	// Return false by default
 	$returnVal = false;
 	// Global admins are allowed to do everything ! ("With great powers came great responsability")
-	if (in_array($_SESSION['account_id'], $gAdmins)) {
+	if (WctRights::isUserAdmin()) {
 		$returnVal = true;
 	} elseif (!empty($pActionCode)) {
 		// Test the right against settings and user's role
@@ -100,7 +100,7 @@ $gConfig = json_decode(file_get_contents(WCT_CONFIG_DIR . DIRECTORY_SEPARATOR . 
 $gConfig = is_array($gConfig) ? $gConfig : array($gConfig);
 
 // Define cluster (default to EU)
-$gCluster = isset($_SESSION["cluster"]) ? $_SESSION["cluster"] : "EU";
+$gCluster = isset($_SESSION["cluster"]) ? $_SESSION["cluster"] : WCT_DEFAULT_CLUSTER;
 
 // Define the WG application ID.
 $gWG_APP_ID_CLIENT = $gClusters[$gCluster]["key"];
@@ -129,7 +129,7 @@ if (array_key_exists('keepreplays', $gConfig["app"])) {
 // Initialize clan configuration
 $gClanConfig = array();
 if (array_key_exists('clan_id', $_SESSION)) {
-	$gClanConfig = json_decode(file_get_contents(getClanConfigFile()), true);
+	$gClanConfig = json_decode(file_get_contents(getClanConfigFile(null, $gCluster)), true);
 }
 
 // Handle advertisement
@@ -151,6 +151,9 @@ if (!array_key_exists('inactivitythreshold', $gClanConfig)) {
 
 // Define the data dir (depends on cluster)
 define('WCT_DATA_DIR', WCT_BASE_DATA_DIR . DIRECTORY_SEPARATOR . $gCluster . DIRECTORY_SEPARATOR);
+
+// Define CW cache file
+define('CW_CACHE_FILE', WCT_DATA_DIR . 'cwcache.json');
 
 // Langs definition
 require_once(WCT_SERVER_DIR . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'langs.php');

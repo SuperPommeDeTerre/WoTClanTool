@@ -10,7 +10,7 @@ $configFile = WCT_CONFIG_DIR . DIRECTORY_SEPARATOR . 'config.json';
 // Define root directory for browsing
 define('FS_ROOT_DIR', WCT_BASE_DATA_DIR);
 
-if (!in_array($_SESSION["account_id"], $gAdmins)) {
+if (!WctRights::isUserAdmin()) {
 	// If the user is not an administrator, refuse action
 	$result['status'] = 'error';
 	$result['message'] = 'error.notadmin';

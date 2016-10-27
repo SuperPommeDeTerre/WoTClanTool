@@ -10,11 +10,14 @@ if (!is_dir(WCT_BASE_EVENT_DIR)) {
 }
 
 // Initialize result
-$result = array();
+$result = [
+	'status' => 'success'
+];
+
 // Configuration file
 $configFile = WCT_CONFIG_DIR . DIRECTORY_SEPARATOR . 'config.json';
 
-if (!in_array($_SESSION["account_id"], $gAdmins)) {
+if (!WctRights::isUserAdmin()) {
 	// If the user is not an administrator, refuse action
 	$result['status'] = 'error';
 	$result['message'] = 'error.notadmin';
@@ -23,25 +26,25 @@ if (!in_array($_SESSION["account_id"], $gAdmins)) {
 		case 'saveGeneral':
 			// Save configuration parameters
 			// Init config
-			$configToWrite = array(
-				"WG" => array(
-					"clusters" => array()
-				),
-				"app" => array(
+			$configToWrite = [
+				"WG" => [
+					"clusters" => []
+				],
+				"app" => [
 					"theme" => "default",
-					"admins" => array(),
+					"admins" => [],
 					"showads" => true,
 					"keepreplays" => false
-				),
-				"clans" => array(
-					"restric_to" => array()
-				),
-				"player" => array(
+				],
+				"clans" => [
+					"restric_to" => []
+				],
+				"player" => [
 					"max_battle_time" => intval($_REQUEST['inactivitythreshold'])
-				)
-			);
+				]
+			];
 			// Parse POST data
-			$clusterArray = array();
+			$clusterArray = [];
 			if (!isset($_REQUEST['clusters'])) {
 				foreach ($pClusters as $lClusterId => $lClusterProps) {
 					array_push($clusterArray, $lClusterId);

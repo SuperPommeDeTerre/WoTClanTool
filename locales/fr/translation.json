@@ -115,7 +115,9 @@
 		"title": "Erreur",
 		"notadmin": "Opération non autorisée. Vous n'êtes pas un administrateur !",
 		"notallowed": "Opération non autorisée. Vous n'êtes pas autorisé à effectuer cette opération, veuillez contacter votre commandant.",
-		"configfilewrite": "Impossible de sauvegarder les paramètres dans le fichier de configuration !"
+		"configfilewrite": "Impossible de sauvegarder les paramètres dans le fichier de configuration !",
+		"unknownaction": "Action inconnue.",
+		"missingcwmap": "Les données de la carte des Clan Wars sont absentes. Veuillez contacter l'administrateur de l'application."
 	},
 	"rights": {
 		"title": "Gestion des permissions",
@@ -217,7 +219,8 @@
 		"search": "Rechercher",
 		"close": "Fermer",
 		"save": "Sauvegarder",
-		"modify": "Modifier"
+		"modify": "Modifier",
+		"reloadcwinfos": "Actualiser la carte des Clan Wars"
 	},
 	"elems": {
 		"calendar": "Agenda",
@@ -364,6 +367,16 @@
 		"personalmissions": {
 			"my" : "Chargement de mes missions personnelles...",
 			"reference": "Chargement des missions personnelles..."
+		},
+		"clanwars": {
+			"map": "Chargement de la carte...",
+			"fronts": "Chargement des fronts...",
+			"provinces": "Chargement des provinces...",
+			"frontsloaded": "{{nbfronts}} fronts chargés.",
+			"frontprovinces": "Chargement de {{nbprovinces}} provinces du front \"{{frontname}}\"...",
+			"province": "Chargement de la province \"{{provincename}}\" du front \"{{frontname}}\"...",
+			"savedata": "Sauvegarde des données...",
+			"refresh": "Rafraîchissement..."
 		}
 	},
 	"clan": {

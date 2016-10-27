@@ -115,7 +115,9 @@
 		"title": "Error",
 		"notadmin": "Operation not allowed. You're not an andministrator!",
 		"notallowed": "Operation not allowed. You're not allowed do this operation. Please contact your clan's commander.",
-		"configfilewrite": "Unable to save configuration file!"
+		"configfilewrite": "Unable to save configuration file!",
+		"unknownaction": "Unknown action.",
+		"missingcwmap": "The clan wars map is missing. Please contact the server administrator."
 	},
 	"rights": {
 		"title": "Rights management",
@@ -215,7 +217,8 @@
 		"search": "Search",
 		"close": "Close",
 		"save": "Save",
-		"modify": "Modify"
+		"modify": "Modify",
+		"reloadcwinfos": "Reload CW infos"
 	},
 	"elems": {
 		"calendar": "Calendar",
@@ -362,6 +365,16 @@
 		"personalmissions": {
 			"my" : "Loading my personal missions data...",
 			"reference": "Loading personal missions data..."
+		},
+		"clanwars": {
+			"map": "Loading map...",
+			"fronts": "Loading fronts...",
+			"provinces": "Loading provinces...",
+			"frontsloaded": "{{nbfronts}} fronts loaded.",
+			"frontprovinces": "Loading {{nbprovinces}} of front \"{{frontname}}\"...",
+			"province": "Loading province \"{{provincename}}\" of front \"{{frontname}}\"...",
+			"savedata": "Saving data...",
+			"refresh": "Refeshing page..."
 		}
 	},
 	"clan": {
