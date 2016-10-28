@@ -241,7 +241,6 @@ var onLoad = function() {
 						monfeature = varlayersource.addFeature(featurething);
 						if (listPrimeTimes.indexOf(myProvince.prime_time) == -1) {
 							listPrimeTimes.push(myProvince.prime_time);
-							timeSelectHtml += '<li data-value="' + myProvince.prime_time + '"><a href="#' + myProvince.prime_time + '">' + myProvince.prime_time + '</a></li>';
 							nbTimes++;
 						}
 						if (listServers.indexOf(myProvince.server) == -1) {
@@ -249,6 +248,13 @@ var onLoad = function() {
 							serverSelectHtml += '<li data-value="' + myProvince.server + '"><a href="#' + myProvince.server + '">' + myProvince.server + '</a></li>';
 							nbServers++;
 						}
+					}
+					listPrimeTimes.sort();
+					for (var primeTimeIndex in listPrimeTimes) {
+						var myLocalizedPrimeTime = moment.utc(listPrimeTimes[primeTimeIndex], 'HH:mm');
+						myLocalizedPrimeTime = myLocalizedPrimeTime.local();
+						myLocalizedPrimeTime = myLocalizedPrimeTime.format('LT');
+						timeSelectHtml += '<li data-value="' + listPrimeTimes[primeTimeIndex] + '"><a href="#' + listPrimeTimes[primeTimeIndex] + '">' + myLocalizedPrimeTime + '</a></li>';
 					}
 					$("#mapFilterTime").next().append(timeSelectHtml);
 					if (nbTimes < 2) {
@@ -300,7 +306,7 @@ var onLoad = function() {
 							myProvinceDetailsHtml += '<dt>Revenu journalier</dt>';
 							myProvinceDetailsHtml += '<dd>' + myProvince.daily_revenue + '</dd>';
 							myProvinceDetailsHtml += '<dt>Heure de bataille</dt>';
-							myProvinceDetailsHtml += '<dd>' + myProvince.prime_time + '</dd>';
+							myProvinceDetailsHtml += '<dd>' + moment(myProvince.prime_time, 'HH:mm').format('LT') + '</dd>';
 							myProvinceDetailsHtml += '';
 							myProvinceDetailsHtml += '</dl>';
 							myProvinceDetailsHtml += '</div></div></div>';
@@ -359,6 +365,70 @@ var onLoad = function() {
 						'provinces': [],
 						'fronts': []
 					};
+				var loadProvinces = function(pFrontInfos) {
+					$.post(gConfig.WG_API_URL + 'wot/globalmap/provinces/', {
+						application_id: gConfig.WG_APP_ID,
+						access_token: gConfig.ACCESS_TOKEN,
+						front_id: pFrontInfos.front_id,
+						page_no: numPage,
+						language: gConfig.LANG
+					}, function(dataProvincesResponse) {
+						if (isDebugEnabled()) {
+							logDebug('dataProvincesResponse=' + JSON.stringify(dataProvincesResponse, null, 4));
+						}
+						var loadProvinceGeom = function(pProvince) {
+							$.get(gProvinceGeomUrl + pProvince.province_id + '.json', {}, function(dataProvinceGeoInfoResponse) {
+								if (isDebugEnabled()) {
+									logDebug('dataProvinceGeoInfoResponse=' + JSON.stringify(dataProvinceGeoInfoResponse, null, 4));
+								}
+								var myProvinceGeoInfos = dataProvinceGeoInfoResponse;
+								gCWMapData.provinces.push({
+									'front_id': pProvince.front_id,
+									'province_id': pProvince.province_id,
+									'prime_time': pProvince.prime_time,
+									'daily_revenue': pProvince.daily_revenue,
+									'server': pProvince.server,
+									'geom': dataProvinceGeoInfoResponse.geom,
+									'center': dataProvinceGeoInfoResponse.center
+								});
+								nbProvincesLoaded++;
+								if (nbProvincesLoaded == nbTotalProvinces) {
+									// We have finished loading all provinces.
+									// Pushing data to server.
+									advanceRefreshProgress($.t('loading.clanwars.savedata'));
+									$.post('./server/clanwars.php', {
+										'a': 'updatecwmap',
+										'data': JSON.stringify(gCWMapData)
+									}, function(saveConfigResponse) {
+										advanceRefreshProgress($.t('loading.clanwars.refresh'));
+										if (!gConfig.IS_ADMIN) {
+											location.reload();
+										}
+									}, 'json')
+									.fail(function(jqXHR, textStatus) {
+										logErr('Error while refreshing CW map: ' + textStatus + '.');
+									});
+								}
+							}, 'json')
+							.fail(function(jqXHR, textStatus) {
+								logErr('Error while loading [' + gProvinceGeomUrl + myProvince.province_id + '.json]: ' + textStatus + '.');
+							});
+						};
+						var globalMapFrontProvinces = dataProvincesResponse.data,
+							provinceIndex = 0;
+						for (provinceIndex in globalMapFrontProvinces) {
+							var myProvince = globalMapFrontProvinces[provinceIndex];
+							if (gCWMapData.provinces.indexOf(myProvince.province_id) == -1) {
+								// Get province geometry
+								advanceRefreshProgress($.t('loading.clanwars.province', { provincename: myProvince.province_name, frontname: pFrontInfos.front_name }));
+								loadProvinceGeom(myProvince);
+							}
+						}
+					}, 'json')
+					.fail(function(jqXHR, textStatus) {
+						logErr('Error while loading [/wot/globalmap/provinces/]: ' + textStatus + '.');
+					});
+				};
 				for (frontIndex in globalMapFronts) {
 					// Get provinces of front
 					var myFrontInfos = globalMapFronts[frontIndex],
@@ -374,65 +444,7 @@ var onLoad = function() {
 					gCWMapData.fronts.push(myFrontInfos);
 					advanceRefreshProgress($.t('loading.clanwars.frontprovinces', { nbprovinces: myFrontInfos.provinces_count, frontname: myFrontInfos.front_name }));
 					for (numPage = 1; numPage <= nbPages; numPage++) {
-						$.post(gConfig.WG_API_URL + 'wot/globalmap/provinces/', {
-							application_id: gConfig.WG_APP_ID,
-							access_token: gConfig.ACCESS_TOKEN,
-							front_id: myFrontInfos.front_id,
-							page_no: numPage,
-							language: gConfig.LANG
-						}, function(dataProvincesResponse) {
-							if (isDebugEnabled()) {
-								logDebug('dataProvincesResponse=' + JSON.stringify(dataProvincesResponse, null, 4));
-							}
-							var globalMapFrontProvinces = dataProvincesResponse.data,
-								provinceIndex = 0;
-							for (provinceIndex in globalMapFrontProvinces) {
-								var myProvince = globalMapFrontProvinces[provinceIndex];
-								if (gCWMapData.provinces.indexOf(myProvince.province_id) == -1) {
-									// Get province geometry
-									advanceRefreshProgress($.t('loading.clanwars.province', { provincename: myProvince.province_name, frontname: myFrontInfos.front_name }));
-									$.get(gProvinceGeomUrl + myProvince.province_id + '.json', {}, function(dataProvinceGeoInfoResponse) {
-										if (isDebugEnabled()) {
-											logDebug('dataProvinceGeoInfoResponse=' + JSON.stringify(dataProvinceGeoInfoResponse, null, 4));
-										}
-										var myProvinceGeoInfos = dataProvinceGeoInfoResponse;
-										gCWMapData.provinces.push({
-											'front_id': myProvince.front_id,
-											'province_id': myProvince.province_id,
-											'prime_time': myProvince.prime_time,
-											'daily_revenue': myProvince.daily_revenue,
-											'server': myProvince.server,
-											'geom': dataProvinceGeoInfoResponse.geom,
-											'center': dataProvinceGeoInfoResponse.center
-										});
-										nbProvincesLoaded++;
-										if (nbProvincesLoaded == nbTotalProvinces) {
-											// We have finished loading all provinces.
-											// Pushing data to server.
-											advanceRefreshProgress($.t('loading.clanwars.savedata'));
-											$.post('./server/clanwars.php', {
-												'a': 'updatecwmap',
-												'data': JSON.stringify(gCWMapData)
-											}, function(saveConfigResponse) {
-												advanceRefreshProgress($.t('loading.clanwars.refresh'));
-												if (!gConfig.IS_ADMIN) {
-													location.reload();
-												}
-											}, 'json')
-											.fail(function(jqXHR, textStatus) {
-												logErr('Error while refreshing CW map: ' + textStatus + '.');
-											});
-										}
-									}, 'json')
-									.fail(function(jqXHR, textStatus) {
-										logErr('Error while loading [' + gProvinceGeomUrl + myProvince.province_id + '.json]: ' + textStatus + '.');
-									});
-								}
-							}
-						}, 'json')
-						.fail(function(jqXHR, textStatus) {
-							logErr('Error while loading [/wot/globalmap/provinces/]: ' + textStatus + '.');
-						});
+						loadProvinces(myFrontInfos);
 					}
 				}
 //			}, 'json')
