@@ -301,11 +301,11 @@ var onLoad = function() {
 							myProvinceDetailsHtml += '<img src="./res/wot/maps/' + myMapThumb + '" alt="' + $.t('strat.maps.' + myMapName) + '" title="' + $.t('strat.maps.' + myMapName) + '" class="img-responsive" />';
 							myProvinceDetailsHtml += '</div><div class="col-md-8">';
 							myProvinceDetailsHtml += '<dl>';
-							myProvinceDetailsHtml += '<dt>Carte</dt>';
+							myProvinceDetailsHtml += '<dt>' + $.t('clanwars.map.name') + '</dt>';
 							myProvinceDetailsHtml += '<dd>' + $.t('strat.maps.' + myMapName) + '</dd>';
-							myProvinceDetailsHtml += '<dt>Revenu journalier</dt>';
+							myProvinceDetailsHtml += '<dt>' + $.t('clanwars.revenue.title') + '</dt>';
 							myProvinceDetailsHtml += '<dd>' + myProvince.daily_revenue + '</dd>';
-							myProvinceDetailsHtml += '<dt>Heure de bataille</dt>';
+							myProvinceDetailsHtml += '<dt>' + $.t('clanwars.primetime.title') + '</dt>';
 							var myLocalizedPrimeTime = moment.utc(listPrimeTimes[primeTimeIndex], 'HH:mm');
 							myLocalizedPrimeTime = myLocalizedPrimeTime.local();
 							myLocalizedPrimeTime = myLocalizedPrimeTime.format('LT');

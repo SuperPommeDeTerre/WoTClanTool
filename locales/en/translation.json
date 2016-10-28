@@ -934,6 +934,12 @@
 		"server": {
 			"title": "Server",
 			"all": "All servers"
+		},
+		"map": {
+			"name": "Map"
+		},
+		"revenue": {
+			"title": "Dayly income"
 		}
 	}
 }

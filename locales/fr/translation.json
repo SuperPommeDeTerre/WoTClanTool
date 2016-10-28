@@ -936,6 +936,12 @@
 		"server": {
 			"title": "Serveur",
 			"all": "Tous les serveurs"
+		},
+		"map": {
+			"name": "Carte"
+		},
+		"revenue": {
+			"title": "Revenu journalier"
 		}
 	}
 }
