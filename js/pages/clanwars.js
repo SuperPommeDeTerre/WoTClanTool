@@ -1,8 +1,5 @@
 var gMapInfos = {},
 	gMaps = {};
-var applyCWFilter = function() {
-	
-};
 
 var advanceRefreshProgress = function(pMessage) {
 	var myRefreshProgress = $('#refreshCWprogress'),
@@ -15,6 +12,60 @@ var advanceRefreshProgress = function(pMessage) {
 };
 
 var onLoad = function() {
+	styleHidden = new ol.style.Style({
+		fill: new ol.style.Fill({
+			color: [0, 0, 0, 0],
+		}),
+		stroke: new ol.style.Stroke({
+			color: [0, 0, 0, 0],
+		})
+	});
+	styleprovince = new ol.style.Style({
+		fill: new ol.style.Fill({
+			color: [0, 0, 0, 0.4],
+		}),
+		stroke: new ol.style.Stroke({
+			color: '#FFFFFF',
+			width: 1
+		})
+	}),
+	// PROVINCES ATTAQUEE = vert
+	styleattaque = new ol.style.Style({
+		fill: new ol.style.Fill({
+			color: [0, 255,0, 0.5],
+		}),
+		stroke: new ol.style.Stroke({
+			color: '#FFFFFF',
+			width: 2
+		})
+	}),
+	// PROVINCES DEFENDUE = rouge
+	styledefense = new ol.style.Style({
+		fill: new ol.style.Fill({
+			color: [255, 0,0, 0.5],
+		}),
+		stroke: new ol.style.Stroke({
+			color: '#FFFFFF',
+			width: 2
+		})
+	});
+
+	var applyCWFilter = function() {
+		var myFrontFilter = $('#mapFilterFront').data('value'),
+			myFeaturesList = varlayersource.getFeatures();
+		// Start by showing all
+		for (var myFeatureIndex in myFeaturesList) {
+			myFeaturesList[myFeatureIndex].setStyle(styleprovince);
+		}
+		if (myFrontFilter != 'all') {
+			for (var myFeatureIndex in myFeaturesList) {
+				if (myFeaturesList[myFeatureIndex].get('front_id') != myFrontFilter) {
+					myFeaturesList[myFeatureIndex].setStyle(styleHidden);
+				}
+			}
+		}
+	};
+
 	checkConnected();
 	setNavBrandWithClan();
 	progressNbSteps = 4;
@@ -25,7 +76,7 @@ var onLoad = function() {
 		var myLink = $(this);
 		myLink.parent().parent().prev().data('value', myLink.parent().data('value')).find('.btnVal').text(myLink.text());
 	});
-	var map = new ol.Map({
+	var gCWMap = new ol.Map({
 			controls: ol.control.defaults().extend([
 				new ol.control.FullScreen(),
 				new ol.control.OverviewMap()
@@ -63,47 +114,18 @@ var onLoad = function() {
 				center: ol.proj.transform([0, 0], 'EPSG:4326', 'EPSG:3857'),
 				zoom: 5,
 				minZoom: 3,
-				maxZoom: 6
+				maxZoom: 7
 			}),
 			logo: null
 		}),
 		gProvinceGeomUrl = gConfig.CLUSTERS[gConfig.CLUSTER].cwgeojsonbaseurl;
-	map.getView().setCenter(ol.proj.transform([2.349014, 48.864716], 'EPSG:4326', 'EPSG:3857'));
-	var vector = map.getLayers(),
-		vectorSource = map.getLayers().a[1],
+	gCWMap.getView().setCenter(ol.proj.transform([2.349014, 48.864716], 'EPSG:4326', 'EPSG:3857'));
+	var vector = gCWMap.getLayers(),
+		vectorSource = gCWMap.getLayers().a[1],
 		varlayersource = vectorSource.getSource().getSource();
 	if (varlayersource.getState() == 'ready') {
 		//PROVINCES POSSEDEES = noir
-		var features = varlayersource.getFeatures(),
-			styleprovince = new ol.style.Style({
-				fill: new ol.style.Fill({
-					color: [0, 0,0, 0.5],
-				}),
-				stroke: new ol.style.Stroke({
-					color: '#FFFFFF',
-					width: 1
-				})
-			}),
-			// PROVINCES ATTAQUEE = vert
-			styleattaque = new ol.style.Style({
-				fill: new ol.style.Fill({
-					color: [0, 255,0, 0.5],
-				}),
-				stroke: new ol.style.Stroke({
-					color: '#FFFFFF',
-					width: 2
-				})
-			}),
-			// PROVINCES DEFENDUE = rouge
-			styledefense = new ol.style.Style({
-				fill: new ol.style.Fill({
-					color: [255, 0,0, 0.5],
-				}),
-				stroke: new ol.style.Stroke({
-					color: '#FFFFFF',
-					width: 2
-				})
-			});
+		var features = varlayersource.getFeatures();
 
 		$.getJSON("./res/wot/game.json", {}, function(data) {
 			gMaps = data.maps;
@@ -170,13 +192,13 @@ var onLoad = function() {
 							front_id: myProvince.front_id,
 							geometry: thing
 						}),
-						monfeature = varlayersource.addFeature(featurething);
 						featurething.setStyle(styleprovince);
+						monfeature = varlayersource.addFeature(featurething);
 					}
 				}
 				var lModalDetailProvince = $("#modalProvinceDetails");
-				map.on('click', function(evt) {
-					var feature = map.forEachFeatureAtPixel(evt.pixel,
+				gCWMap.on('click', function(evt) {
+					var feature = gCWMap.forEachFeatureAtPixel(evt.pixel,
 							function(feature, layer) {
 								return feature;
 							});
@@ -205,7 +227,19 @@ var onLoad = function() {
 								}
 							}
 							var myMapThumb = myMap.file.substring(0, myMap.file.lastIndexOf('.')) + '_thumb' + myMap.file.substring(myMap.file.lastIndexOf('.'));
-							myProvinceDetailsHtml += '<img src="./res/wot/maps/' + myMapThumb + '" alt="' + $.t('strat.maps.' + myMapName) + '" />';
+							myProvinceDetailsHtml += '<div class="container-responsive"><div class="row"><div class="col-md-4">';
+							myProvinceDetailsHtml += '<img src="./res/wot/maps/' + myMapThumb + '" alt="' + $.t('strat.maps.' + myMapName) + '" title="' + $.t('strat.maps.' + myMapName) + '" class="img-responsive" />';
+							myProvinceDetailsHtml += '</div><div class="col-md-8">';
+							myProvinceDetailsHtml += '<dl>';
+							myProvinceDetailsHtml += '<dt>Carte</dt>';
+							myProvinceDetailsHtml += '<dd>' + $.t('strat.maps.' + myMapName) + '</dd>';
+							myProvinceDetailsHtml += '<dt>Revenu journalier</dt>';
+							myProvinceDetailsHtml += '<dd>' + myProvince.daily_revenue + '</dd>';
+							myProvinceDetailsHtml += '<dt>Heure de bataille</dt>';
+							myProvinceDetailsHtml += '<dd>' + myProvince.prime_time + '</dd>';
+							myProvinceDetailsHtml += '';
+							myProvinceDetailsHtml += '</dl>';
+							myProvinceDetailsHtml += '</div></div></div>';
 							lModalDetailProvince.find('.modal-body').html(myProvinceDetailsHtml);
 							lModalDetailProvince.find('.modal-title').text(myProvince.province_name);
 							lModalDetailProvince.modal('show');
@@ -241,80 +275,94 @@ var onLoad = function() {
 			if (isDebugEnabled()) {
 				logDebug('dataFrontsResponse=' + JSON.stringify(dataFrontsResponse, null, 4));
 			}
-			advanceRefreshProgress($.t('loading.clanwars.frontsloaded', { nbfronts: dataFrontsResponse.meta.count }));
-			var globalMapFronts = dataFrontsResponse.data,
-				frontIndex = 0,
-				nbTotalProvinces = 0,
-				nbProvincesLoaded = 0,
-				gCWMap = {
-					'provinces': [],
-					'fronts': []
-				};
-			for (frontIndex in globalMapFronts) {
-				// Get provinces of front
-				var myFrontInfos = globalMapFronts[frontIndex],
-					nbPages = Math.ceil(myFrontInfos.provinces_count / 100),
-					numPage = 1;
-				nbTotalProvinces += myFrontInfos.provinces_count;
-				gCWMap.fronts.push(myFrontInfos);
-				advanceRefreshProgress($.t('loading.clanwars.frontprovinces', { nbprovinces: myFrontInfos.provinces_count, frontname: myFrontInfos.front_name }));
-				for (numPage = 1; numPage <= nbPages; numPage++) {
-					$.post(gConfig.WG_API_URL + 'wot/globalmap/provinces/', {
-						application_id: gConfig.WG_APP_ID,
-						access_token: gConfig.ACCESS_TOKEN,
-						front_id: myFrontInfos.front_id,
-						page_no: numPage,
-						language: gConfig.LANG
-					}, function(dataProvincesResponse) {
-						if (isDebugEnabled()) {
-							logDebug('dataProvincesResponse=' + JSON.stringify(dataProvincesResponse, null, 4));
-						}
-						var globalMapFrontProvinces = dataProvincesResponse.data,
-							provinceIndex = 0;
-						for (provinceIndex in globalMapFrontProvinces) {
-							var myProvince = globalMapFrontProvinces[provinceIndex];
-							if (gCWMap.provinces.indexOf(myProvince.province_id) == -1) {
-								// Get province geometry
-								advanceRefreshProgress($.t('loading.clanwars.province', { provincename: myProvince.province_name, frontname: myFrontInfos.front_name }));
-								$.get(gProvinceGeomUrl + myProvince.province_id + '.json', {}, function(dataProvinceGeoInfoResponse) {
-									if (isDebugEnabled()) {
-										logDebug('dataProvinceGeoInfoResponse=' + JSON.stringify(dataProvinceGeoInfoResponse, null, 4));
-									}
-									var myProvinceGeoInfos = dataProvinceGeoInfoResponse;
-									gCWMap.provinces.push({
-										'front_id': myProvince.front_id,
-										'province_id' : myProvince.province_id,
-										'geom': dataProvinceGeoInfoResponse.geom,
-										'center': dataProvinceGeoInfoResponse.center
-									});
-									nbProvincesLoaded++;
-									if (nbProvincesLoaded == nbTotalProvinces) {
-										// We have finished loading all provinces.
-										// Pushing data to server.
-										advanceRefreshProgress($.t('loading.clanwars.savedata'));
-										$.post('./server/clanwars.php', {
-											'a': 'updatecwmap',
-											'data': JSON.stringify(gCWMap)
-										}, function(saveConfigResponse) {
-											advanceRefreshProgress($.t('loading.clanwars.refresh'));
-											location.reload();
-										}, 'json')
-										.fail(function(jqXHR, textStatus) {
-											logErr('Error while refreshing CW map: ' + textStatus + '.');
-										});
-									}
-								}, 'json')
-								.fail(function(jqXHR, textStatus) {
-									logErr('Error while loading [' + gProvinceGeomUrl + myProvince.province_id + '.json]: ' + textStatus + '.');
-								});
+//			$.post(gConfig.CLUSTERS[gConfig.CLUSTER].cwapibase + 'globalmap/game_api/wot/game_info/', {}, function(dataFrontsGeomResponse) {
+//				if (isDebugEnabled()) {
+//					logDebug('dataFrontsGeomResponse=' + JSON.stringify(dataFrontsGeomResponse, null, 4));
+//				}
+				advanceRefreshProgress($.t('loading.clanwars.frontsloaded', { nbfronts: dataFrontsResponse.meta.count }));
+				var globalMapFronts = dataFrontsResponse.data,
+					frontIndex = 0,
+					nbTotalProvinces = 0,
+					nbProvincesLoaded = 0,
+					gCWMapData = {
+						'provinces': [],
+						'fronts': []
+					};
+				for (frontIndex in globalMapFronts) {
+					// Get provinces of front
+					var myFrontInfos = globalMapFronts[frontIndex],
+						nbPages = Math.ceil(myFrontInfos.provinces_count / 100),
+						numPage = 1;
+//					for (var myFrontGeomIndex in dataFrontsGeomResponse.Fronts) {
+//						if (dataFrontsGeomResponse.Fronts[myFrontGeomIndex].id == myFrontInfos.front_id) {
+//							myFrontInfos['geom'] = dataFrontsGeomResponse.Fronts[myFrontGeomIndex].bounds;
+//							break;
+//						}
+//					}
+					nbTotalProvinces += myFrontInfos.provinces_count;
+					gCWMapData.fronts.push(myFrontInfos);
+					advanceRefreshProgress($.t('loading.clanwars.frontprovinces', { nbprovinces: myFrontInfos.provinces_count, frontname: myFrontInfos.front_name }));
+					for (numPage = 1; numPage <= nbPages; numPage++) {
+						$.post(gConfig.WG_API_URL + 'wot/globalmap/provinces/', {
+							application_id: gConfig.WG_APP_ID,
+							access_token: gConfig.ACCESS_TOKEN,
+							front_id: myFrontInfos.front_id,
+							page_no: numPage,
+							language: gConfig.LANG
+						}, function(dataProvincesResponse) {
+							if (isDebugEnabled()) {
+								logDebug('dataProvincesResponse=' + JSON.stringify(dataProvincesResponse, null, 4));
 							}
-						}
-					}, 'json')
-					.fail(function(jqXHR, textStatus) {
-						logErr('Error while loading [/wot/globalmap/provinces/]: ' + textStatus + '.');
-					});
+							var globalMapFrontProvinces = dataProvincesResponse.data,
+								provinceIndex = 0;
+							for (provinceIndex in globalMapFrontProvinces) {
+								var myProvince = globalMapFrontProvinces[provinceIndex];
+								if (gCWMapData.provinces.indexOf(myProvince.province_id) == -1) {
+									// Get province geometry
+									advanceRefreshProgress($.t('loading.clanwars.province', { provincename: myProvince.province_name, frontname: myFrontInfos.front_name }));
+									$.get(gProvinceGeomUrl + myProvince.province_id + '.json', {}, function(dataProvinceGeoInfoResponse) {
+										if (isDebugEnabled()) {
+											logDebug('dataProvinceGeoInfoResponse=' + JSON.stringify(dataProvinceGeoInfoResponse, null, 4));
+										}
+										var myProvinceGeoInfos = dataProvinceGeoInfoResponse;
+										gCWMapData.provinces.push({
+											'front_id': myProvince.front_id,
+											'province_id' : myProvince.province_id,
+											'geom': dataProvinceGeoInfoResponse.geom,
+											'center': dataProvinceGeoInfoResponse.center
+										});
+										nbProvincesLoaded++;
+										if (nbProvincesLoaded == nbTotalProvinces) {
+											// We have finished loading all provinces.
+											// Pushing data to server.
+											advanceRefreshProgress($.t('loading.clanwars.savedata'));
+											$.post('./server/clanwars.php', {
+												'a': 'updatecwmap',
+												'data': JSON.stringify(gCWMapData)
+											}, function(saveConfigResponse) {
+												advanceRefreshProgress($.t('loading.clanwars.refresh'));
+												location.reload();
+											}, 'json')
+											.fail(function(jqXHR, textStatus) {
+												logErr('Error while refreshing CW map: ' + textStatus + '.');
+											});
+										}
+									}, 'json')
+									.fail(function(jqXHR, textStatus) {
+										logErr('Error while loading [' + gProvinceGeomUrl + myProvince.province_id + '.json]: ' + textStatus + '.');
+									});
+								}
+							}
+						}, 'json')
+						.fail(function(jqXHR, textStatus) {
+							logErr('Error while loading [/wot/globalmap/provinces/]: ' + textStatus + '.');
+						});
+					}
 				}
-			}
+//			}, 'json')
+//			.fail(function(jqXHR, textStatus) {
+//				logErr('Error while loading [/globalmap/game_api/wot/game_info/]: ' + textStatus + '.');
+//			});
 		}, 'json')
 		.fail(function(jqXHR, textStatus) {
 			logErr('Error while loading [/wot/globalmap/fronts/]: ' + textStatus + '.');
