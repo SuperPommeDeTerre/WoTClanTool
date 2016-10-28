@@ -289,33 +289,57 @@ var onLoad = function() {
 								mapIndex = null,
 								myMap = null,
 								myMapName = '';
-							for (mapIndex in gMaps) {
-								if (gMaps[mapIndex].arena_id == myProvince.arena_id) {
-									myMap = gMaps[mapIndex];
-									myMapName = mapIndex;
-									break;
+							var fillProvinceDetails = function(pProvinceInfos, pClanDetails) {
+								for (mapIndex in gMaps) {
+									if (gMaps[mapIndex].arena_id == pProvinceInfos.arena_id) {
+										myMap = gMaps[mapIndex];
+										myMapName = mapIndex;
+										break;
+									}
 								}
+								var myMapThumb = myMap.file.substring(0, myMap.file.lastIndexOf('.')) + '_thumb' + myMap.file.substring(myMap.file.lastIndexOf('.'));
+								myProvinceDetailsHtml += '<div class="container-responsive"><div class="row"><div class="col-md-4">';
+								myProvinceDetailsHtml += '<img src="./res/wot/maps/' + myMapThumb + '" alt="' + $.t('strat.maps.' + myMapName) + '" title="' + $.t('strat.maps.' + myMapName) + '" class="img-responsive" />';
+								myProvinceDetailsHtml += '</div><div class="col-md-8">';
+								myProvinceDetailsHtml += '<dl>';
+								myProvinceDetailsHtml += '<dt>' + $.t('clanwars.map.name') + '</dt>';
+								myProvinceDetailsHtml += '<dd>' + $.t('strat.maps.' + myMapName) + '</dd>';
+								myProvinceDetailsHtml += '<dt>' + $.t('clanwars.revenue.title') + '</dt>';
+								myProvinceDetailsHtml += '<dd>' + pProvinceInfos.daily_revenue + '</dd>';
+								myProvinceDetailsHtml += '<dt>' + $.t('clanwars.primetime.title') + '</dt>';
+								var myLocalizedPrimeTime = moment.utc(pProvinceInfos.prime_time, 'HH:mm');
+								myLocalizedPrimeTime = myLocalizedPrimeTime.local();
+								myLocalizedPrimeTime = myLocalizedPrimeTime.format('LT');
+								myProvinceDetailsHtml += '<dd>' + myLocalizedPrimeTime + '</dd>';
+								if (pClanDetails != null) {
+									myProvinceDetailsHtml += '<dt>' + $.t('install.clan.title') + '</dt>';
+									myProvinceDetailsHtml += '<dd><img src="' + pClanDetails.emblems.x24.portal + '" /> ' + pClanDetails.tag + '</dd>';
+								}
+								myProvinceDetailsHtml += '';
+								myProvinceDetailsHtml += '</dl>';
+								myProvinceDetailsHtml += '</div></div></div>';
+								lModalDetailProvince.find('.modal-body').html(myProvinceDetailsHtml);
+								lModalDetailProvince.find('.modal-title').text(pProvinceInfos.province_name);
+								lModalDetailProvince.modal('show');
+							};
+							if (myProvince.owner_clan_id != null) {
+								$.post(gConfig.WG_API_URL + 'wgn/clans/info/', {
+									application_id: gConfig.WG_APP_ID,
+									access_token: gConfig.ACCESS_TOKEN,
+									language: gConfig.LANG,
+									clan_id: myProvince.owner_clan_id
+								}, function(dataClanDetailsResponse) {
+									if (isDebugEnabled()) {
+										logDebug('dataClanDetailsResponse=' + JSON.stringify(dataClanDetailsResponse, null, 4));
+									}
+									fillProvinceDetails(myProvince, dataClanDetailsResponse.data[myProvince.owner_clan_id]);
+								}, 'json')
+								.fail(function(jqXHR, textStatus) {
+									logErr('Error while loading [/wgn/clans/info/]: ' + textStatus + '.');
+								});
+							} else {
+								fillProvinceDetails(myProvince, null);
 							}
-							var myMapThumb = myMap.file.substring(0, myMap.file.lastIndexOf('.')) + '_thumb' + myMap.file.substring(myMap.file.lastIndexOf('.'));
-							myProvinceDetailsHtml += '<div class="container-responsive"><div class="row"><div class="col-md-4">';
-							myProvinceDetailsHtml += '<img src="./res/wot/maps/' + myMapThumb + '" alt="' + $.t('strat.maps.' + myMapName) + '" title="' + $.t('strat.maps.' + myMapName) + '" class="img-responsive" />';
-							myProvinceDetailsHtml += '</div><div class="col-md-8">';
-							myProvinceDetailsHtml += '<dl>';
-							myProvinceDetailsHtml += '<dt>' + $.t('clanwars.map.name') + '</dt>';
-							myProvinceDetailsHtml += '<dd>' + $.t('strat.maps.' + myMapName) + '</dd>';
-							myProvinceDetailsHtml += '<dt>' + $.t('clanwars.revenue.title') + '</dt>';
-							myProvinceDetailsHtml += '<dd>' + myProvince.daily_revenue + '</dd>';
-							myProvinceDetailsHtml += '<dt>' + $.t('clanwars.primetime.title') + '</dt>';
-							var myLocalizedPrimeTime = moment.utc(listPrimeTimes[primeTimeIndex], 'HH:mm');
-							myLocalizedPrimeTime = myLocalizedPrimeTime.local();
-							myLocalizedPrimeTime = myLocalizedPrimeTime.format('LT');
-							myProvinceDetailsHtml += '<dd>' + myLocalizedPrimeTime + '</dd>';
-							myProvinceDetailsHtml += '';
-							myProvinceDetailsHtml += '</dl>';
-							myProvinceDetailsHtml += '</div></div></div>';
-							lModalDetailProvince.find('.modal-body').html(myProvinceDetailsHtml);
-							lModalDetailProvince.find('.modal-title').text(myProvince.province_name);
-							lModalDetailProvince.modal('show');
 						}, 'json')
 						.fail(function(jqXHR, textStatus) {
 							logErr('Error while loading [/wot/globalmap/provinces/]: ' + textStatus + '.');
