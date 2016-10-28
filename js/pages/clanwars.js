@@ -178,6 +178,14 @@ var onLoad = function() {
 					$('#ctnCWMap').hide();
 				} else {
 					$('#ctnBtnReload').hide();
+					if (gConfig.IS_ADMIN) {
+						// The administrator can force refresh.
+						// And for design purpose, redesign the button
+						var myRefreshButton = $('#btnReloadCWInfos');
+						$('#frmCWFilter').append('<div class="input-group"><div class="btn-group" id="ctnBtnReloadAdmin"></div></div>');
+						myRefreshButton.find('.btnLabel').remove();
+						myRefreshButton.removeClass('btn-info').addClass('btn-default btn-sm').detach().appendTo($('#ctnBtnReloadAdmin'));
+					}
 					for (frontIndex in dataCWMap.fronts) {
 						var myFrontInfos = dataCWMap.fronts[frontIndex];
 						frontSelectHtml += '<li data-value="' + myFrontInfos.front_id + '"><a href="#' + myFrontInfos.front_id + '">' + myFrontInfos.front_name + ' <img src="./themes/' + gConfig.THEME + '/style/images/Tier_' + myFrontInfos.max_vehicle_level + '_icon.png" alt="' + gTANKS_LEVEL[myFrontInfos.max_vehicle_level - 1] + '" title="' + myFrontInfos.max_vehicle_level + '" /></a></li>';
@@ -258,7 +266,7 @@ var onLoad = function() {
 			});
 		}, 'json')
 		.fail(function(jqXHR, textStatus) {
-			logErr('Error while loading [./server/admin.php]: ' + textStatus + '.');
+			logErr('Error while loading [./server/clanwars.php]: ' + textStatus + '.');
 		});
 	}
 	$('#btnReloadCWInfos').on('click', function(evt) {

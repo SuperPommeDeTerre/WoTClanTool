@@ -21,7 +21,7 @@ include(WCT_INC_DIR . 'ads.php');
 ?>
 			<h1 class="page-header" data-i18n="page.clanwars.title"></h1>
 			<div class="center-block container-fluid" id="ctnBtnReload">
-				<button type="button" class="btn btn-info" id="btnReloadCWInfos"><span class="glyphicon glyphicon-refresh"></span> <span data-i18n="btn.reloadcwinfos"></span></button>
+				<button type="button" class="btn btn-info" id="btnReloadCWInfos"><span class="glyphicon glyphicon-refresh"></span> <span data-i18n="btn.reloadcwinfos" class="btnLabel"></span></button>
 				<div class="progress hidden">
 					<div id="refreshCWprogress" class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"><span class="sr-only">0 %</span></div>
 				</div>
@@ -29,7 +29,7 @@ include(WCT_INC_DIR . 'ads.php');
 			</div>
 			<div class="container-fluid" id="ctnCWMap">
 				<div class="row">
-					<form class="form-inline">
+					<form class="form-inline" id="frmCWFilter">
 						<div class="input-group">
 							<span class="input-group-addon glyphicon glyphicon-flag"></span>
 							<div class="btn-group">
@@ -87,9 +87,9 @@ include(WCT_INC_DIR . 'ads.php');
 						-->
 					</form>
 				</div>
-					<div class="row">
-						<div id="cwMap"></div>
-					</div>
+				<div class="row">
+					<div id="cwMap"></div>
+				</div>
 			</div>
 		</div>
 	</div>
