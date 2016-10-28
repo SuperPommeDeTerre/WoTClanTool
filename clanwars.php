@@ -40,6 +40,26 @@ include(WCT_INC_DIR . 'ads.php');
 								</ul>
 							</div>
 						</div>
+						<div class="input-group">
+							<span class="input-group-addon glyphicon glyphicon-time"></span>
+							<div class="btn-group">
+								<button type="button" id="mapFilterTime" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" data-value="all" aria-expanded="false"><span class="btnVal" data-i18n="clanwars.primetime.all"></span> <span class="caret"></span></button>
+								<ul class="dropdown-menu" role="menu">
+									<li data-value="all"><a href="#" data-i18n="clanwars.primetime.all"></a></li>
+									<li class="divider"></li>
+								</ul>
+							</div>
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon glyphicon glyphicon-equalizer"></span>
+							<div class="btn-group">
+								<button type="button" id="mapFilterServer" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" data-value="all" aria-expanded="false"><span class="btnVal" data-i18n="clanwars.server.all"></span> <span class="caret"></span></button>
+								<ul class="dropdown-menu" role="menu">
+									<li data-value="all"><a href="#" data-i18n="clanwars.server.all"></a></li>
+									<li class="divider"></li>
+								</ul>
+							</div>
+						</div>
 						<!--
 						<div class="input-group">
 							<span class="input-group-addon glyphicon glyphicon-fullscreen"></span>

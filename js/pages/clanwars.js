@@ -52,6 +52,8 @@ var onLoad = function() {
 
 	var applyCWFilter = function() {
 		var myFrontFilter = $('#mapFilterFront').data('value'),
+			myTimeFilter = $('#mapFilterTime').data('value'),
+			myServerFilter = $('#mapFilterServer').data('value'),
 			myFeaturesList = varlayersource.getFeatures();
 		// Start by showing all
 		for (var myFeatureIndex in myFeaturesList) {
@@ -64,12 +66,26 @@ var onLoad = function() {
 				}
 			}
 		}
+		if (myTimeFilter != 'all') {
+			for (var myFeatureIndex in myFeaturesList) {
+				if (myFeaturesList[myFeatureIndex].get('prime_time') != myTimeFilter) {
+					myFeaturesList[myFeatureIndex].setStyle(styleHidden);
+				}
+			}
+		}
+		if (myServerFilter != 'all') {
+			for (var myFeatureIndex in myFeaturesList) {
+				if (myFeaturesList[myFeatureIndex].get('server') != myServerFilter) {
+					myFeaturesList[myFeatureIndex].setStyle(styleHidden);
+				}
+			}
+		}
 	};
 
 	checkConnected();
 	setNavBrandWithClan();
 	progressNbSteps = 4;
-	$('#mapFilterFront').parent().on('hide.bs.dropdown', function(evt) {
+	$('#mapFilterFront, #mapFilterTime, #mapFilterServer').parent().on('hide.bs.dropdown', function(evt) {
 		applyCWFilter();
 	}).on('click', 'a', function(evt) {
 		evt.preventDefault();
@@ -137,7 +153,12 @@ var onLoad = function() {
 			}
 			var dataCWMap = (typeof(dataCWMapResponse.data) != 'undefined'?dataCWMapResponse.data:null),
 				tranformFn = ol.proj.getTransform('EPSG:4326', 'EPSG:3857'),
-				frontSelectHtml = '';
+				frontSelectHtml = '',
+				timeSelectHtml = '',
+				serverSelectHtml = '',
+				nbFronts = 0,
+				nbTimes = 0,
+				nbServers = 0;
 			gMapInfos = dataCWMap;
 			advanceProgress($.t('loading.clanwars.fronts'));
 			$.post(gConfig.WG_API_URL + 'wot/globalmap/fronts/', {
@@ -189,19 +210,42 @@ var onLoad = function() {
 					for (frontIndex in dataCWMap.fronts) {
 						var myFrontInfos = dataCWMap.fronts[frontIndex];
 						frontSelectHtml += '<li data-value="' + myFrontInfos.front_id + '"><a href="#' + myFrontInfos.front_id + '">' + myFrontInfos.front_name + ' <img src="./themes/' + gConfig.THEME + '/style/images/Tier_' + myFrontInfos.max_vehicle_level + '_icon.png" alt="' + gTANKS_LEVEL[myFrontInfos.max_vehicle_level - 1] + '" title="' + myFrontInfos.max_vehicle_level + '" /></a></li>';
+						nbFronts++;
 					}
 					$("#mapFilterFront").next().append(frontSelectHtml);
+					var listPrimeTimes = [],
+						listServers = [];
 					for (provinceIndex in dataCWMap.provinces) {
-						var myProvince = dataCWMap.provinces[provinceIndex];
-						thing = new ol.geom.Polygon(myProvince.geom.coordinates),
-						featureGeometryTf = thing.applyTransform(tranformFn),
-						featurething = new ol.Feature({
-							province_id: myProvince.province_id,
-							front_id: myProvince.front_id,
-							geometry: thing
-						}),
+						var myProvince = dataCWMap.provinces[provinceIndex],
+							thing = new ol.geom.Polygon(myProvince.geom.coordinates),
+							featureGeometryTf = thing.applyTransform(tranformFn),
+							featurething = new ol.Feature({
+								province_id: myProvince.province_id,
+								front_id: myProvince.front_id,
+								server: myProvince.server,
+								prime_time: myProvince.prime_time,
+								geometry: thing
+							});
 						featurething.setStyle(styleprovince);
 						monfeature = varlayersource.addFeature(featurething);
+						if (listPrimeTimes.indexOf(myProvince.prime_time) == -1) {
+							listPrimeTimes.push(myProvince.prime_time);
+							timeSelectHtml += '<li data-value="' + myProvince.prime_time + '"><a href="#' + myProvince.prime_time + '">' + myProvince.prime_time + '</a></li>';
+							nbTimes++;
+						}
+						if (listServers.indexOf(myProvince.server) == -1) {
+							listServers.push(myProvince.server);
+							serverSelectHtml += '<li data-value="' + myProvince.server + '"><a href="#' + myProvince.server + '">' + myProvince.server + '</a></li>';
+							nbServers++;
+						}
+					}
+					$("#mapFilterTime").next().append(timeSelectHtml);
+					if (nbTimes < 2) {
+						$("#mapFilterTime").parent().parent().hide();
+					}
+					$("#mapFilterServer").next().append(serverSelectHtml);
+					if (nbServers < 2) {
+						$("#mapFilterServer").parent().parent().hide();
 					}
 				}
 				var lModalDetailProvince = $("#modalProvinceDetails");
@@ -272,6 +316,13 @@ var onLoad = function() {
 	$('#btnReloadCWInfos').on('click', function(evt) {
 		evt.preventDefault();
 		$(this).hide();
+		if (gConfig.IS_ADMIN) {
+			// This can be triggered by admin.
+			// We nees to do some extra work...
+			$('#cwMap').hide().parent().append($('#refreshCWprogress').parent().detach());
+			$('#cwMap').parent().append($('#progressRefreshInfoMessage'));
+			$('#frmCWFilter').hide();
+		}
 		$('#refreshCWprogress').parent().removeClass('hidden');
 		var gProvinceGeomUrl = gConfig.CLUSTERS[gConfig.CLUSTER].cwgeojsonbaseurl;
 		advanceRefreshProgress($.t('loading.clanwars.fronts'));
@@ -335,7 +386,10 @@ var onLoad = function() {
 										var myProvinceGeoInfos = dataProvinceGeoInfoResponse;
 										gCWMapData.provinces.push({
 											'front_id': myProvince.front_id,
-											'province_id' : myProvince.province_id,
+											'province_id': myProvince.province_id,
+											'prime_time': myProvince.prime_time,
+											'daily_revenue': myProvince.daily_revenue,
+											'server': myProvince.server,
 											'geom': dataProvinceGeoInfoResponse.geom,
 											'center': dataProvinceGeoInfoResponse.center
 										});
@@ -349,7 +403,9 @@ var onLoad = function() {
 												'data': JSON.stringify(gCWMapData)
 											}, function(saveConfigResponse) {
 												advanceRefreshProgress($.t('loading.clanwars.refresh'));
-												location.reload();
+												if (!gConfig.IS_ADMIN) {
+													location.reload();
+												}
 											}, 'json')
 											.fail(function(jqXHR, textStatus) {
 												logErr('Error while refreshing CW map: ' + textStatus + '.');

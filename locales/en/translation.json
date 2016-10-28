@@ -926,6 +926,14 @@
 		"fronts": {
 			"title": "Fronts",
 			"all": "All fronts"
+		},
+		"primetime": {
+			"title": "Battle time",
+			"all": "All battle times"
+		},
+		"server": {
+			"title": "Server",
+			"all": "All servers"
 		}
 	}
 }

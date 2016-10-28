@@ -928,6 +928,14 @@
 		"fronts": {
 			"title": "Fronts",
 			"all": "Tous les fronts"
+		},
+		"primetime": {
+			"title": "Heure de bataille",
+			"all": "Tous les horaires"
+		},
+		"server": {
+			"title": "Serveur",
+			"all": "Tous les serveurs"
 		}
 	}
 }
