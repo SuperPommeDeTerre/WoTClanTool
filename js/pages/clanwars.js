@@ -54,29 +54,39 @@ var onLoad = function() {
 		var myFrontFilter = $('#mapFilterFront').data('value'),
 			myTimeFilter = $('#mapFilterTime').data('value'),
 			myServerFilter = $('#mapFilterServer').data('value'),
-			myFeaturesList = varlayersource.getFeatures();
+			myFeaturesList = varlayersource.getFeatures(),
+			myFeatureIndex = 0;
+			myFeature = null;
 		// Start by showing all
 		for (var myFeatureIndex in myFeaturesList) {
-			myFeaturesList[myFeatureIndex].setStyle(styleprovince);
+			myFeature = myFeaturesList[myFeatureIndex];
+			myFeature.setStyle(styleprovince);
+			myFeature.set('isvisible', true);
 		}
 		if (myFrontFilter != 'all') {
-			for (var myFeatureIndex in myFeaturesList) {
-				if (myFeaturesList[myFeatureIndex].get('front_id') != myFrontFilter) {
-					myFeaturesList[myFeatureIndex].setStyle(styleHidden);
+			for (myFeatureIndex in myFeaturesList) {
+				myFeature = myFeaturesList[myFeatureIndex];
+				if (myFeature.get('front_id') != myFrontFilter) {
+					myFeature.setStyle(styleHidden);
+					myFeature.set('isvisible', false);
 				}
 			}
 		}
 		if (myTimeFilter != 'all') {
-			for (var myFeatureIndex in myFeaturesList) {
-				if (myFeaturesList[myFeatureIndex].get('prime_time') != myTimeFilter) {
-					myFeaturesList[myFeatureIndex].setStyle(styleHidden);
+			for (myFeatureIndex in myFeaturesList) {
+				myFeature = myFeaturesList[myFeatureIndex];
+				if (myFeature.get('prime_time') != myTimeFilter) {
+					myFeature.setStyle(styleHidden);
+					myFeature.set('isvisible', false);
 				}
 			}
 		}
 		if (myServerFilter != 'all') {
-			for (var myFeatureIndex in myFeaturesList) {
-				if (myFeaturesList[myFeatureIndex].get('server') != myServerFilter) {
-					myFeaturesList[myFeatureIndex].setStyle(styleHidden);
+			for (myFeatureIndex in myFeaturesList) {
+				myFeature = myFeaturesList[myFeatureIndex];
+				if (myFeature.get('server') != myServerFilter) {
+					myFeature.setStyle(styleHidden);
+					myFeature.set('isvisible', false);
 				}
 			}
 		}
@@ -224,7 +234,8 @@ var onLoad = function() {
 								front_id: myProvince.front_id,
 								server: myProvince.server,
 								prime_time: myProvince.prime_time,
-								geometry: thing
+								geometry: thing,
+								isvisible: true
 							});
 						featurething.setStyle(styleprovince);
 						monfeature = varlayersource.addFeature(featurething);
@@ -249,12 +260,13 @@ var onLoad = function() {
 					}
 				}
 				var lModalDetailProvince = $("#modalProvinceDetails");
+				// Handle click on map
 				gCWMap.on('click', function(evt) {
 					var feature = gCWMap.forEachFeatureAtPixel(evt.pixel,
 							function(feature, layer) {
 								return feature;
 							});
-					if (feature) {
+					if (feature && feature.get('isvisible')) {
 						// Fill up the window
 						$.post(gConfig.WG_API_URL + 'wot/globalmap/provinces/', {
 							application_id: gConfig.WG_APP_ID,
