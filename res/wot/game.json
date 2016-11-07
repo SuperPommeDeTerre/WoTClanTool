@@ -1507,7 +1507,7 @@
             "file": "23_westfeld.jpg",
             "size": { "x": 1000, "y": 1000 },
             "camo": "summer",
-            "arena_id": "23_westfield",
+            "arena_id": "23_westfeld",
             "type": "mixed",
             "state": "live",
             "levels": {
