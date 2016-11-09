@@ -37,6 +37,18 @@ var gTANKS_LEVEL = [ 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'
 		'unicum':			{ min: 900,		max: 1000,	color: '#83579d',	cssclass: 'material-purple-300' },
 		'super-unicum':		{ min: 1000,	max: -1,	color: '#5a3175',	cssclass: 'material-purple-800' }
 	},
+	gWNR_SCALE = {
+		'beginner':			{ min: 0,		max: 46,	color: '#000000',	cssclass: 'material-black' },
+		'very-bad':			{ min: 46,		max: 47,	color: '#000000',	cssclass: 'material-black' },
+		'bad': 				{ min: 47,		max: 48,	color: '#cd3333',	cssclass: 'material-red-900' },
+		'below-average':	{ min: 48,		max: 50,	color: '#d77900',	cssclass: 'material-orange-900' },
+		'average':			{ min: 50,		max: 52,	color: '#d7b600',	cssclass: 'material-yellow-500' },
+		'good':				{ min: 52,		max: 54,	color: '#6d9521',	cssclass: 'material-green-500' },
+		'very-good':		{ min: 54,		max: 56,	color: '#4c762e',	cssclass: 'material-green-900' },
+		'great':			{ min: 56,		max: 60,	color: '#4a92b7',	cssclass: 'material-blue-500' },
+		'unicum':			{ min: 60,		max: 65,	color: '#83579d',	cssclass: 'material-purple-300' },
+		'super-unicum':		{ min: 65,		max: -1,	color: '#5a3175',	cssclass: 'material-purple-800' }
+	},
 	gPersonalInfos = null,
 	gClanInfos = null,
 	gProgressBar,
@@ -118,6 +130,40 @@ var getWN9Color = function(pWN9Rating) {
 			returnVal = lClassObj.color;
 			break;
 		} else if (pWN9Rating >= lClassObj.min && pWN9Rating < lClassObj.max) {
+			returnVal = lClassObj.color;
+			break;
+		}
+	}
+	return returnVal;
+};
+
+var getWRClass = function(pWR) {
+	var returnVal = '',
+		lRatingLevel = '';
+	for (lRatingLevel in gWNR_SCALE) {
+		var lClassObj = gWNR_SCALE[lRatingLevel];
+		// Handle last case
+		if (lClassObj.max < 0 && pWR >= lClassObj.min) {
+			returnVal = lClassObj.cssclass;
+			break;
+		} else if (pWR >= lClassObj.min && pWR < lClassObj.max) {
+			returnVal = lClassObj.cssclass;
+			break;
+		}
+	}
+	return returnVal;
+};
+
+var getWRColor = function(pWR) {
+	var returnVal = '#666',
+		lRatingLevel = '';
+	for (lRatingLevel in gWNR_SCALE) {
+		var lClassObj = gWNR_SCALE[lRatingLevel];
+		// Handle last case
+		if (lClassObj.max < 0 && pWR >= lClassObj.min) {
+			returnVal = lClassObj.color;
+			break;
+		} else if (pWR >= lClassObj.min && pWR < lClassObj.max) {
 			returnVal = lClassObj.color;
 			break;
 		}

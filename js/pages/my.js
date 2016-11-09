@@ -476,7 +476,7 @@ var onLoad = function() {
 						tableContent += '<td>' + myTank.all.battles + '</td>';
 						tableContent += '<td><span class="label label-' + getWN8Class(tankAdditionalInfos.wn8) + '">' + (Math.round(tankAdditionalInfos.wn8 * 100) / 100) + '</span></td>';
 						tableContent += '<td><span class="label label-' + getWN9Class(tankAdditionalInfos.wn9) + '">' + (Math.round(tankAdditionalInfos.wn9 * 100) / 100) + '</span></td>';
-						tableContent += '<td data-value="' + winRatio + '">' + (winRatio > -1?(Math.round(winRatio * 100) / 100) + ' %':'-') + '</td>';
+						tableContent += '<td data-value="' + winRatio + '"><span class="label label-' + getWRClass(winRatio) + '">' + (winRatio > -1?(Math.round(winRatio * 100) / 100) + ' %':'-') + '</span></td>';
 						tableContent += '<td><div data-toggle="tooltip" data-placement="top" class="slider shor slider-info" title="' + (tankAdditionalInfos.is_ready?$.t('tank.status.2'):tankAdditionalInfos.is_full||tankInfos.is_premium?$.t('tank.status.1'):$.t('tank.status.0')) + '"></div></td>';
 						tableContent += '</tr>';
 						listContent += '<div class="small tank tankcontainer tankmastery' + myTank.mark_of_mastery +  (tankAdditionalInfos.in_garage?' ingarage':' hidden') + (tankInfos.is_premium?' ispremium':'') + (tankInfos.is_premium||tankAdditionalInfos.is_full?' isfull':'') + ' tanklevel' + tankInfos.tier + ' tanktype' + tankInfos.type + '">';
