@@ -349,6 +349,7 @@
 	"loading": {
 		"generating": "Generating...",
 		"claninfos": "Loading of clan data...",
+		"clansinfos": "Loading of clans data...",
 		"membersinfos": "Loading of clan's members data...",
 		"provinceinfos": "Loading of clan's provinces data...",
 		"mytanksinfos": "Loading of my tanks...",

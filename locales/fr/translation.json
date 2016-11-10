@@ -351,6 +351,7 @@
 	"loading": {
 		"generating": "Génération...",
 		"claninfos": "Chargement des informations du clan...",
+		"clansinfos": "Chargement des informations des clans...",
 		"membersinfos": "Chargement des informations des membres du clan...",
 		"provinceinfos": "Chargement des informations de province du clan...",
 		"mytanksinfos": "Chargement de mes chars...",
