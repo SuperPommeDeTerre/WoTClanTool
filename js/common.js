@@ -95,7 +95,7 @@ function fillEventDialog(pDialog, pEvents) {
 			for (var i=0; i<playerTanksAdditionalInfos.length; i++) {
 				playerTankAdditionalInfos = playerTanksAdditionalInfos[i];
 				if (playerTankAdditionalInfos.tank_id == tankId) {
-					myElemHtml += '<span class="playerTank" data-tank-id="' + tankId + '"><img src="' + gTankopedia[tankId].images.contour_icon + '" /><span class="label label-' + getWN8Class(playerTankAdditionalInfos.wn8) + '">' + (Math.round(playerTankAdditionalInfos.wn8 * 100) / 100) + '</span> ' + gTankopedia[tankId].name + '</span>';
+					myElemHtml += '<span class="playerTank" data-tank-id="' + tankId + '"><img src="' + gTankopedia[tankId].images.contour_icon + '" /><span class="label label-' + getScaleClass('wn8', playerTankAdditionalInfos.wn8) + '">' + (Math.round(playerTankAdditionalInfos.wn8 * 100) / 100) + '</span> ' + gTankopedia[tankId].name + '</span>';
 					break;
 				}
 			}
@@ -765,7 +765,7 @@ function fillEventDialog(pDialog, pEvents) {
 								}
 							}
 							if (isTankTypeFound && isTankLevelFound) {
-								listTanksHtml += '<li><span class="playerTank" data-tank-id="' + playerTankAdditionalInfos.tank_id + '"><img src="' + gTankopedia[playerTankAdditionalInfos.tank_id].images.contour_icon + '" /><span class="label label-' + getWN8Class(playerTankAdditionalInfos.wn8) + '">' + (Math.round(playerTankAdditionalInfos.wn8 * 100) / 100) + '</span> ' + gTankopedia[playerTankAdditionalInfos.tank_id].short_name + '</span></li>';
+								listTanksHtml += '<li><span class="playerTank" data-tank-id="' + playerTankAdditionalInfos.tank_id + '"><img src="' + gTankopedia[playerTankAdditionalInfos.tank_id].images.contour_icon + '" /><span class="label label-' + getScaleClass('wn8', playerTankAdditionalInfos.wn8) + '">' + (Math.round(playerTankAdditionalInfos.wn8 * 100) / 100) + '</span> ' + gTankopedia[playerTankAdditionalInfos.tank_id].short_name + '</span></li>';
 							}
 						}
 					}

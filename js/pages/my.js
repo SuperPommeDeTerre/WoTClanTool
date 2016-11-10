@@ -474,9 +474,9 @@ var onLoad = function() {
 						tableContent += '<td data-value="' + tankInfos.tier + '"><img src="./themes/' + gConfig.THEME + '/style/images/Tier_' + tankInfos.tier + '_icon.png" alt="' + gTANKS_LEVEL[tankInfos.tier - 1] + '" title="' + tankInfos.tier + '" /></td>';
 						tableContent += '<td data-value="' + gTANKS_TYPES[tankInfos.type] + '"><img src="./themes/' + gConfig.THEME + '/style/images/type-' + tankInfos.type + '.png" alt="' + tankInfos.type + '" title="' + $.t('tank.type.' + tankInfos.type) + '" /></td>';
 						tableContent += '<td>' + myTank.all.battles + '</td>';
-						tableContent += '<td><span class="label label-' + getWN8Class(tankAdditionalInfos.wn8) + '">' + (Math.round(tankAdditionalInfos.wn8 * 100) / 100) + '</span></td>';
-						tableContent += '<td><span class="label label-' + getWN9Class(tankAdditionalInfos.wn9) + '">' + (Math.round(tankAdditionalInfos.wn9 * 100) / 100) + '</span></td>';
-						tableContent += '<td data-value="' + winRatio + '"><span class="label label-' + getWRClass(winRatio) + '">' + (winRatio > -1?(Math.round(winRatio * 100) / 100) + ' %':'-') + '</span></td>';
+						tableContent += '<td><span class="label label-' + getScaleClass('wn8', tankAdditionalInfos.wn8) + '">' + (Math.round(tankAdditionalInfos.wn8 * 100) / 100) + '</span></td>';
+						tableContent += '<td><span class="label label-' + getScaleClass('wn9', tankAdditionalInfos.wn9) + '">' + (Math.round(tankAdditionalInfos.wn9 * 100) / 100) + '</span></td>';
+						tableContent += '<td data-value="' + winRatio + '"><span class="label label-' + getScaleClass('wr', winRatio) + '">' + (winRatio > -1?(Math.round(winRatio * 100) / 100) + ' %':'-') + '</span></td>';
 						tableContent += '<td><div data-toggle="tooltip" data-placement="top" class="slider shor slider-info" title="' + (tankAdditionalInfos.is_ready?$.t('tank.status.2'):tankAdditionalInfos.is_full||tankInfos.is_premium?$.t('tank.status.1'):$.t('tank.status.0')) + '"></div></td>';
 						tableContent += '</tr>';
 						listContent += '<div class="small tank tankcontainer tankmastery' + myTank.mark_of_mastery +  (tankAdditionalInfos.in_garage?' ingarage':' hidden') + (tankInfos.is_premium?' ispremium':'') + (tankInfos.is_premium||tankAdditionalInfos.is_full?' isfull':'') + ' tanklevel' + tankInfos.tier + ' tanktype' + tankInfos.type + '">';
@@ -793,7 +793,7 @@ var onLoad = function() {
 											if (countTanksInType > 0) {
 												commentText += ', ';
 											}
-											commentText += '<span style="color:' + getWN8Color(aTank.wn8) + '">&#9646;</span><span style="color:' + textColor + '">' + aTank.name + '</span>';
+											commentText += '<span style="color:' + getScaleColor('wn8', aTank.wn8) + '">&#9646;</span><span style="color:' + textColor + '">' + aTank.name + '</span>';
 											if (nbTanksOnLine >= gIMAGE_PARAMS.nbTanksByLine) {
 												nbTanksOnLine = 0;
 												basePosX = 0;
@@ -814,7 +814,7 @@ var onLoad = function() {
 											});
 											// Draw tank user skill (WN8)
 											myCanvas.drawRect({
-												fillStyle: getWN8Color(aTank.wn8),
+												fillStyle: getScaleColor('wn8', aTank.wn8),
 												x: basePosX + (isResumeWithContourIcons?70:25), y: basePosY + 10,
 												width: 10, height: 10
 											});

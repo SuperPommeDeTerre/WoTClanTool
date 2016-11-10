@@ -14,40 +14,17 @@ var gTANKS_LEVEL = [ 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'
 		'tr': 'tr-TR',
 		'zh': 'zh-CN'
 	},
-	gWN8_SCALE = {
-		'very-bad':			{ min: 0,		max: 300,	color: '#000000',	cssclass: 'material-black' },
-		'bad': 				{ min: 300,		max: 600,	color: '#cd3333',	cssclass: 'material-red-900' },
-		'below-average':	{ min: 600,		max: 900,	color: '#d77900',	cssclass: 'material-orange-900' },
-		'average':			{ min: 900,		max: 1250,	color: '#d7b600',	cssclass: 'material-yellow-500' },
-		'good':				{ min: 1250,	max: 1600,	color: '#6d9521',	cssclass: 'material-green-500' },
-		'very-good':		{ min: 1600,	max: 1900,	color: '#4c762e',	cssclass: 'material-green-900' },
-		'great':			{ min: 1900,	max: 2350,	color: '#4a92b7',	cssclass: 'material-blue-500' },
-		'unicum':			{ min: 2350,	max: 2900,	color: '#83579d',	cssclass: 'material-purple-300' },
-		'super-unicum':		{ min: 2900,	max: -1,	color: '#5a3175',	cssclass: 'material-purple-800' }
-	},
-	gWN9_SCALE = {
-		'beginner':			{ min: 0,		max: 200,	color: '#000000',	cssclass: 'material-black' },
-		'very-bad':			{ min: 200,		max: 300,	color: '#000000',	cssclass: 'material-black' },
-		'bad': 				{ min: 300,		max: 400,	color: '#cd3333',	cssclass: 'material-red-900' },
-		'below-average':	{ min: 400,		max: 500,	color: '#d77900',	cssclass: 'material-orange-900' },
-		'average':			{ min: 500,		max: 600,	color: '#d7b600',	cssclass: 'material-yellow-500' },
-		'good':				{ min: 600,		max: 700,	color: '#6d9521',	cssclass: 'material-green-500' },
-		'very-good':		{ min: 700,		max: 800,	color: '#4c762e',	cssclass: 'material-green-900' },
-		'great':			{ min: 800,		max: 900,	color: '#4a92b7',	cssclass: 'material-blue-500' },
-		'unicum':			{ min: 900,		max: 1000,	color: '#83579d',	cssclass: 'material-purple-300' },
-		'super-unicum':		{ min: 1000,	max: -1,	color: '#5a3175',	cssclass: 'material-purple-800' }
-	},
-	gWNR_SCALE = {
-		'beginner':			{ min: 0,		max: 46,	color: '#000000',	cssclass: 'material-black' },
-		'very-bad':			{ min: 46,		max: 47,	color: '#000000',	cssclass: 'material-black' },
-		'bad': 				{ min: 47,		max: 48,	color: '#cd3333',	cssclass: 'material-red-900' },
-		'below-average':	{ min: 48,		max: 50,	color: '#d77900',	cssclass: 'material-orange-900' },
-		'average':			{ min: 50,		max: 52,	color: '#d7b600',	cssclass: 'material-yellow-500' },
-		'good':				{ min: 52,		max: 54,	color: '#6d9521',	cssclass: 'material-green-500' },
-		'very-good':		{ min: 54,		max: 56,	color: '#4c762e',	cssclass: 'material-green-900' },
-		'great':			{ min: 56,		max: 60,	color: '#4a92b7',	cssclass: 'material-blue-500' },
-		'unicum':			{ min: 60,		max: 65,	color: '#83579d',	cssclass: 'material-purple-300' },
-		'super-unicum':		{ min: 65,		max: -1,	color: '#5a3175',	cssclass: 'material-purple-800' }
+	gScales = {
+		'very-bad':			{ 'wr': 0,	'wgr': 0,		'wn8': 0,		'wn9': 0,		'color': '#930d0d',	'cssclass': 'material-black' },
+		'bad': 				{ 'wr': 46,	'wgr': 1500,	'wn8': 300,		'wn9': 200,		'color': '#cd3333',	'cssclass': 'material-red-900' },
+		'below-average':	{ 'wr': 47,	'wgr': 2000,	'wn8': 450,		'wn9': 300,		'color': '#cc7a00',	'cssclass': 'material-orange-900' },
+		'average':			{ 'wr': 48,	'wgr': 3000,	'wn8': 650,		'wn9': 400,		'color': '#ccb800',	'cssclass': 'material-yellow-500' },
+		'above-average':	{ 'wr': 50,	'wgr': 4000,	'wn8': 900,		'wn9': 500,		'color': '#849b24',	'cssclass': 'material-lime' },
+		'good':				{ 'wr': 52,	'wgr': 5000,	'wn8': 1200,	'wn9': 600,		'color': '#4d7326',	'cssclass': 'material-green-500' },
+		'very-good':		{ 'wr': 54,	'wgr': 6500,	'wn8': 1600,	'wn9': 700,		'color': '#4099bf',	'cssclass': 'material-green-900' },
+		'great':			{ 'wr': 56,	'wgr': 8500,	'wn8': 2000,	'wn9': 800,		'color': '#3972c6',	'cssclass': 'material-blue-500' },
+		'unicum':			{ 'wr': 60,	'wgr': 9000,	'wn8': 2450,	'wn9': 900,		'color': '#83579d',	'cssclass': 'material-purple-300' },
+		'super-unicum':		{ 'wr': 65,	'wgr': 9900,	'wn8': 2900,	'wn9': 1000,	'color': '#5a3175',	'cssclass': 'material-purple-800' }
 	},
 	gPersonalInfos = null,
 	gClanInfos = null,
@@ -68,103 +45,30 @@ var advanceProgress = function(pMessage) {
 		.css('width', progressToSet + '%')
 		.text(progressToSet + ' %');
 };
-
-var getWN8Class = function(pWN8Rating) {
+var getScaleClass = function(pTypeOfRating, pRating) {
 	var returnVal = '',
 		lRatingLevel = '';
-	for (lRatingLevel in gWN8_SCALE) {
-		var lClassObj = gWN8_SCALE[lRatingLevel];
-		// Handle last case
-		if (lClassObj.max < 0 && pWN8Rating >= lClassObj.min) {
+	for (lRatingLevel in gScales) {
+		var lClassObj = gScales[lRatingLevel];
+		if (pRating >= lClassObj[pTypeOfRating]) {
 			returnVal = lClassObj.cssclass;
-			break;
-		} else if (pWN8Rating >= lClassObj.min && pWN8Rating < lClassObj.max) {
-			returnVal = lClassObj.cssclass;
+		} else {
+			// Current rating is above the passed one. stop.
 			break;
 		}
 	}
 	return returnVal;
 };
 
-var getWN8Color = function(pWN8Rating) {
-	var returnVal = '#666',
-		lRatingLevel = '';
-	for (lRatingLevel in gWN8_SCALE) {
-		var lClassObj = gWN8_SCALE[lRatingLevel];
-		// Handle last case
-		if (lClassObj.max < 0 && pWN8Rating >= lClassObj.min) {
-			returnVal = lClassObj.color;
-			break;
-		} else if (pWN8Rating >= lClassObj.min && pWN8Rating < lClassObj.max) {
-			returnVal = lClassObj.color;
-			break;
-		}
-	}
-	return returnVal;
-};
-
-var getWN9Class = function(pWN9Rating) {
+var getScaleColor = function(pTypeOfRating, pRating) {
 	var returnVal = '',
 		lRatingLevel = '';
-	for (lRatingLevel in gWN9_SCALE) {
-		var lClassObj = gWN9_SCALE[lRatingLevel];
-		// Handle last case
-		if (lClassObj.max < 0 && pWN9Rating >= lClassObj.min) {
-			returnVal = lClassObj.cssclass;
-			break;
-		} else if (pWN9Rating >= lClassObj.min && pWN9Rating < lClassObj.max) {
-			returnVal = lClassObj.cssclass;
-			break;
-		}
-	}
-	return returnVal;
-};
-
-var getWN9Color = function(pWN9Rating) {
-	var returnVal = '#666',
-		lRatingLevel = '';
-	for (lRatingLevel in gWN9_SCALE) {
-		var lClassObj = gWN9_SCALE[lRatingLevel];
-		// Handle last case
-		if (lClassObj.max < 0 && pWN9Rating >= lClassObj.min) {
+	for (lRatingLevel in gScales) {
+		var lClassObj = gScales[lRatingLevel];
+		if (pRating >= lClassObj[pTypeOfRating]) {
 			returnVal = lClassObj.color;
-			break;
-		} else if (pWN9Rating >= lClassObj.min && pWN9Rating < lClassObj.max) {
-			returnVal = lClassObj.color;
-			break;
-		}
-	}
-	return returnVal;
-};
-
-var getWRClass = function(pWR) {
-	var returnVal = '',
-		lRatingLevel = '';
-	for (lRatingLevel in gWNR_SCALE) {
-		var lClassObj = gWNR_SCALE[lRatingLevel];
-		// Handle last case
-		if (lClassObj.max < 0 && pWR >= lClassObj.min) {
-			returnVal = lClassObj.cssclass;
-			break;
-		} else if (pWR >= lClassObj.min && pWR < lClassObj.max) {
-			returnVal = lClassObj.cssclass;
-			break;
-		}
-	}
-	return returnVal;
-};
-
-var getWRColor = function(pWR) {
-	var returnVal = '#666',
-		lRatingLevel = '';
-	for (lRatingLevel in gWNR_SCALE) {
-		var lClassObj = gWNR_SCALE[lRatingLevel];
-		// Handle last case
-		if (lClassObj.max < 0 && pWR >= lClassObj.min) {
-			returnVal = lClassObj.color;
-			break;
-		} else if (pWR >= lClassObj.min && pWR < lClassObj.max) {
-			returnVal = lClassObj.color;
+		} else {
+			// Current rating is above the passed one. stop.
 			break;
 		}
 	}
