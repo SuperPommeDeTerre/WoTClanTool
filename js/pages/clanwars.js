@@ -32,15 +32,15 @@ var advanceRefreshProgress = function(pMessage) {
 var onLoad = function() {
 	var styleHidden = new ol.style.Style({
 			fill: new ol.style.Fill({
-				color: [0, 0, 0, 0],
+				color: [0, 0, 0, 0]
 			}),
 			stroke: new ol.style.Stroke({
-				color: [0, 0, 0, 0],
+				color: [0, 0, 0, 0]
 			})
 		}),
 		styleFreeProvince = new ol.style.Style({
 			fill: new ol.style.Fill({
-				color: [0, 0, 0, 0.4],
+				color: [0, 0, 0, 0.4]
 			}),
 			stroke: new ol.style.Stroke({
 				color: '#FFFFFF',
@@ -62,6 +62,7 @@ var onLoad = function() {
 			myFeature.setStyle(myFeature.get('olstyle'));
 			myFeature.set('isvisible', true);
 		}
+		// Then hide non-matching elements
 		if (myFrontFilter != 'all') {
 			for (myFeatureIndex in myFeaturesList) {
 				myFeature = myFeaturesList[myFeatureIndex];
@@ -89,6 +90,15 @@ var onLoad = function() {
 				}
 			}
 		}
+		// TODO: Handle colorization
+		switch (myProvinceColorMode) {
+		case 'ownerclan':
+			break;
+		case 'revenue':
+			break;
+		case 'bid':
+			break;
+		}
 	};
 
 	checkConnected();
@@ -102,6 +112,7 @@ var onLoad = function() {
 		myLink.parent().parent().prev().data('value', myLink.parent().data('value')).find('.btnVal').text(myLink.text());
 	});
 	var gLayerMap = new ol.layer.Tile({
+			isBaseLayer: true,
 			title: 'OpenTopoMap',
 			type: 'base',
 			visible: true,
@@ -129,18 +140,43 @@ var onLoad = function() {
 		}),
 		gCWMap = new ol.Map({
 			controls: ol.control.defaults().extend([
-				//new ol.control.FullScreen(),
+				new ol.control.FullScreen(),
 				new ol.control.OverviewMap()
 			]),
 			layers: [
-				gLayerMap,
-				gLayerProvincesGeom
+				new ol.layer.Tile({
+					isBaseLayer: true,
+					title: 'OpenTopoMap',
+					type: 'base',
+					visible: true,
+					source: new ol.source.XYZ({
+						// OpenTopoMap source
+						url: 'https://{a-c}.tile.opentopomap.org/{z}/{x}/{y}.png'
+					})
+				}),
+				new ol.layer.Image({
+					source: new ol.source.ImageVector({
+						source: new ol.source.Vector({
+							opacity : 0.2,
+							format: new ol.format.GeoJSON()
+						}),
+						style: new ol.style.Style({
+							fill: new ol.style.Fill({
+								color: [255, 255, 255, 0.5],
+							}),
+							stroke: new ol.style.Stroke({
+								color: '#319FD3',
+								width: 1
+							})
+						})
+					})
+				})
 			],
 			target: 'cwMap',
 			view: new ol.View({
 				center: ol.proj.transform([0, 0], 'EPSG:4326', 'EPSG:3857'),
 				zoom: 5,
-				minZoom: 3,
+				minZoom: 4,
 				maxZoom: 7
 			}),
 			logo: null
@@ -149,18 +185,22 @@ var onLoad = function() {
 	gCWMap.getView().setCenter(ol.proj.transform([2.349014, 48.864716], 'EPSG:4326', 'EPSG:3857'));
 	var gLayerProvincesGeomSource = gCWMap.getLayers().a[1].getSource().getSource(),
 		gTranformFn = ol.proj.getTransform('EPSG:4326', 'EPSG:3857');
+	gLayerMap.setZIndex(1);
+	//gLayerProvincesGeom.setZIndex(1);
 	var drawProvince = function(pProvinceGeom, pProvinceInfos, pClanInfos) {
 		if (isDebugEnabled()) {
 			logDebug('Drawing province: ' + pProvinceInfos.province_name);
 		}
-		var thing = new ol.geom.Polygon(pProvinceGeom.geom.coordinates),
-			featureGeometryTf = thing.applyTransform(gTranformFn),
-			featurething = new ol.Feature({
+		var myProvinceProlygon = new ol.geom.Polygon(pProvinceGeom.geom.coordinates),
+			myFeatureGeometryTf = myProvinceProlygon.applyTransform(gTranformFn),
+			myFeatureCenterTf = (new ol.geom.Point(pProvinceGeom.center)).applyTransform(gTranformFn),
+			myFeatureProvince = new ol.Feature({
 				province_id: pProvinceInfos.province_id,
 				front_id: pProvinceInfos.front_id,
 				server: pProvinceInfos.server,
 				prime_time: pProvinceInfos.prime_time,
-				geometry: thing,
+				geometry: myProvinceProlygon,
+				centerPoint: new ol.geom.Point(pProvinceGeom.center),
 				isvisible: true
 			});
 		var myFeatureStyle = styleFreeProvince;
@@ -177,12 +217,13 @@ var onLoad = function() {
 					src: myClanInfos.emblems.x24.portal,
 					imgSize: [24, 24],
 					size: [24, 24],
-					scale: 1
+					scale: 1,
+					opicity: 0.8
 				})*/});
 		}
-		featurething.setStyle(myFeatureStyle);
-		featurething.set('olstyle', myFeatureStyle);
-		monfeature = gLayerProvincesGeomSource.addFeature(featurething);
+		myFeatureProvince.setStyle(myFeatureStyle);
+		myFeatureProvince.set('olstyle', myFeatureStyle);
+		var myAddedFeatureprovince = gLayerProvincesGeomSource.addFeature(myFeatureProvince);
 	};
 	if (gLayerProvincesGeomSource.getState() == 'ready') {
 		$.getJSON("./res/wot/game.json", {}, function(data) {
@@ -542,6 +583,8 @@ var onLoad = function() {
 							gCWMapData.provinces.push({
 								'front_id': pProvince.front_id,
 								'province_id': pProvince.province_id,
+								'prime_time': pProvince.prime_time,
+								'server': pProvince.server,
 								'geom': dataProvinceGeoInfoResponse.geom,
 								'center': dataProvinceGeoInfoResponse.center
 							});
