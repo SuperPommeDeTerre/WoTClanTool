@@ -1,11 +1,21 @@
-function hexToR(h) {return parseInt((cutHex(h)).substring(0,2),16)}
-function hexToG(h) {return parseInt((cutHex(h)).substring(2,4),16)}
-function hexToB(h) {return parseInt((cutHex(h)).substring(4,6),16)}
-function cutHex(h) {return (h.charAt(0)=="#") ? h.substring(1,7):h}
+/*
+ * Hex to RGB convertion functions.
+ */
+var cutHex = function(h) {return (h.charAt(0)=="#") ? h.substring(1,7):h};
+var hexToR = function(h) {return parseInt((cutHex(h)).substring(0,2),16)};
+var hexToG = function(h) {return parseInt((cutHex(h)).substring(2,4),16)};
+var hexToB = function(h) {return parseInt((cutHex(h)).substring(4,6),16)};
 
+/*
+ * Global variables
+ */
 var gMapInfos = {},
 	gMaps = {};
 
+/**
+ * Advance local refresh progress bar
+ * @param pMessage String message to display
+ */
 var advanceRefreshProgress = function(pMessage) {
 	var myRefreshProgress = $('#refreshCWprogress'),
 		curProgress = myRefreshProgress.attr('aria-valuenow') * 1,
@@ -16,30 +26,34 @@ var advanceRefreshProgress = function(pMessage) {
 		.text(progressToSet + ' %');
 };
 
+/**
+ * Function executed on page load.
+ */
 var onLoad = function() {
-	styleHidden = new ol.style.Style({
-		fill: new ol.style.Fill({
-			color: [0, 0, 0, 0],
+	var styleHidden = new ol.style.Style({
+			fill: new ol.style.Fill({
+				color: [0, 0, 0, 0],
+			}),
+			stroke: new ol.style.Stroke({
+				color: [0, 0, 0, 0],
+			})
 		}),
-		stroke: new ol.style.Stroke({
-			color: [0, 0, 0, 0],
-		})
-	});
-	styleFreeProvince = new ol.style.Style({
-		fill: new ol.style.Fill({
-			color: [0, 0, 0, 0.4],
-		}),
-		stroke: new ol.style.Stroke({
-			color: '#FFFFFF',
-			width: 1
-		})
-	});
+		styleFreeProvince = new ol.style.Style({
+			fill: new ol.style.Fill({
+				color: [0, 0, 0, 0.4],
+			}),
+			stroke: new ol.style.Stroke({
+				color: '#FFFFFF',
+				width: 1
+			})
+		});
 
 	var applyCWFilter = function() {
 		var myFrontFilter = $('#mapFilterFront').data('value'),
 			myTimeFilter = $('#mapFilterTime').data('value'),
 			myServerFilter = $('#mapFilterServer').data('value'),
-			myFeaturesList = varlayersource.getFeatures(),
+			myProvinceColorMode = $('#mapProvinceColor').data('value'),
+			myFeaturesList = gLayerProvincesGeomSource.getFeatures(),
 			myFeatureIndex = 0;
 			myFeature = null;
 		// Start by showing all
@@ -80,45 +94,47 @@ var onLoad = function() {
 	checkConnected();
 	setNavBrandWithClan();
 	progressNbSteps = 7;
-	$('#mapFilterFront, #mapFilterTime, #mapFilterServer').parent().on('hide.bs.dropdown', function(evt) {
+	$('#mapFilterFront, #mapFilterTime,#mapFilterServer,#mapProvinceColor').parent().on('hide.bs.dropdown', function(evt) {
 		applyCWFilter();
 	}).on('click', 'a', function(evt) {
 		evt.preventDefault();
 		var myLink = $(this);
 		myLink.parent().parent().prev().data('value', myLink.parent().data('value')).find('.btnVal').text(myLink.text());
 	});
-	var gCWMap = new ol.Map({
+	var gLayerMap = new ol.layer.Tile({
+			title: 'OpenTopoMap',
+			type: 'base',
+			visible: true,
+			source: new ol.source.XYZ({
+				// OpenTopoMap source
+				url: 'https://{a-c}.tile.opentopomap.org/{z}/{x}/{y}.png'
+			})
+		}),
+		gLayerProvincesGeom = new ol.layer.Image({
+			source: new ol.source.ImageVector({
+				source: new ol.source.Vector({
+					opacity : 0.2,
+					format: new ol.format.GeoJSON()
+				}),
+				style: new ol.style.Style({
+					fill: new ol.style.Fill({
+						color: [255, 255, 255, 0.5],
+					}),
+					stroke: new ol.style.Stroke({
+						color: '#319FD3',
+						width: 1
+					})
+				})
+			})
+		}),
+		gCWMap = new ol.Map({
 			controls: ol.control.defaults().extend([
-				new ol.control.FullScreen(),
+				//new ol.control.FullScreen(),
 				new ol.control.OverviewMap()
 			]),
 			layers: [
-				new ol.layer.Tile({
-					title: 'OpenTopoMap',
-					type: 'base',
-					visible: true,
-					source: new ol.source.XYZ({
-						// OpenTopoMap source
-						url: 'https://{a-c}.tile.opentopomap.org/{z}/{x}/{y}.png'
-					})
-				}),
-				new ol.layer.Image({
-					source: new ol.source.ImageVector({
-						source: new ol.source.Vector({
-							opacity : 0.2,
-							format: new ol.format.GeoJSON()
-						}),
-						style: new ol.style.Style({
-							fill: new ol.style.Fill({
-								color: [255, 255, 255, 0.5],
-							}),
-							stroke: new ol.style.Stroke({
-								color: '#319FD3',
-								width: 1
-							})
-						})
-					})
-				})
+				gLayerMap,
+				gLayerProvincesGeom
 			],
 			target: 'cwMap',
 			view: new ol.View({
@@ -131,13 +147,42 @@ var onLoad = function() {
 		}),
 		gProvinceGeomUrl = gConfig.CLUSTERS[gConfig.CLUSTER].cwgeojsonbaseurl;
 	gCWMap.getView().setCenter(ol.proj.transform([2.349014, 48.864716], 'EPSG:4326', 'EPSG:3857'));
-	var vector = gCWMap.getLayers(),
-		vectorSource = gCWMap.getLayers().a[1],
-		varlayersource = vectorSource.getSource().getSource();
-	if (varlayersource.getState() == 'ready') {
-		//PROVINCES POSSEDEES = noir
-		var features = varlayersource.getFeatures();
-
+	var gLayerProvincesGeomSource = gCWMap.getLayers().a[1].getSource().getSource(),
+		tranformFn = ol.proj.getTransform('EPSG:4326', 'EPSG:3857');
+	var drawProvince = function(pProvinceGeom, pProvinceInfos, pClanInfos) {
+		logDebug('Drawing province : ' + pProvinceInfos.province_name);
+		var thing = new ol.geom.Polygon(pProvinceGeom.geom.coordinates),
+			featureGeometryTf = thing.applyTransform(tranformFn),
+			featurething = new ol.Feature({
+				province_id: pProvinceInfos.province_id,
+				front_id: pProvinceInfos.front_id,
+				server: pProvinceInfos.server,
+				prime_time: pProvinceInfos.prime_time,
+				geometry: thing,
+				isvisible: true
+			});
+		var myFeatureStyle = styleFreeProvince;
+		if (typeof(pClanInfos) != 'undefined' && pClanInfos != null) {
+			myFeatureStyle = new ol.style.Style({
+				fill: new ol.style.Fill({
+					color: [ hexToR(pClanInfos.color), hexToG(pClanInfos.color), hexToB(pClanInfos.color), 0.4 ]
+				}),
+				stroke: new ol.style.Stroke({
+					color: '#FFFFFF',
+					width: 1
+				})/*,
+				image: new ol.style.Icon({
+					src: myClanInfos.emblems.x24.portal,
+					imgSize: [24, 24],
+					size: [24, 24],
+					scale: 1
+				})*/});
+		}
+		featurething.setStyle(myFeatureStyle);
+		featurething.set('olstyle', myFeatureStyle);
+		monfeature = gLayerProvincesGeomSource.addFeature(featurething);
+	};
+	if (gLayerProvincesGeomSource.getState() == 'ready') {
 		$.getJSON("./res/wot/game.json", {}, function(data) {
 			gMaps = data.maps;
 		}, 'json');
@@ -170,81 +215,68 @@ var onLoad = function() {
 						}
 					}
 					if (nbProvincesLoaded >= nbTotalProvinces) {
-						var nbTotalClansPages = Math.ceil(clansList.length / 100),
-							numPageClans = 0;
-						advanceProgress($.t('loading.clansinfos'));
-						for (numPageClans = 0; numPageClans<nbTotalClansPages; numPageClans++) {
-							// Load owners clans infos
-							var startIndexClans = numPageClans * 100,
-								endIndexClans = (numPageClans + 1) * 100;
-							if (endIndexClans > clansList.length) {
-								endIndexClans = clansList.length - 1;
-							}
-							$.post(gConfig.WG_API_URL + 'wgn/clans/info/', {
-								application_id: gConfig.WG_APP_ID,
-								access_token: gConfig.ACCESS_TOKEN,
-								clan_id: clansList.slice(startIndexClans, endIndexClans).toString(),
-								fields: [ 'color', 'tag', 'emblems.x24' ].toString(),
-								language: gConfig.LANG
-							}, function(dataClansInfoResponse) {
-								if (isDebugEnabled()) {
-									logDebug('dataClansInfoResponse=' + JSON.stringify(dataClansInfoResponse, null, 4));
-								}
-								var clansInfo = dataClansInfoResponse.data;
-								for (var provinceIndex in provincesInfos) {
-									var myProvinceInfos = provincesInfos[provinceIndex];
-									for (var provinceGeomIndex in dataCWMap.provinces) {
-										var myProvince = dataCWMap.provinces[provinceGeomIndex];
-										if (myProvince.province_id == myProvinceInfos.province_id) {
-											var isClanFound = false,
-												myClanInfos = null;
-											for (var clanId in clansInfo) {
-												myClanInfos = clansInfo[clanId];
-												if (myProvinceInfos.owner_clan_id == clanId) {
-													isClanFound = true;
-													break;
-												}
-											}
-											var thing = new ol.geom.Polygon(myProvince.geom.coordinates),
-											featureGeometryTf = thing.applyTransform(tranformFn),
-											featurething = new ol.Feature({
-												province_id: myProvinceInfos.province_id,
-												front_id: myProvinceInfos.front_id,
-												server: myProvinceInfos.server,
-												prime_time: myProvinceInfos.prime_time,
-												geometry: thing,
-												isvisible: true
-											});
-											var myFeatureStyle = styleFreeProvince;
-											if (isClanFound) {
-												myFeatureStyle = new ol.style.Style({
-													fill: new ol.style.Fill({
-														color: [ hexToR(myClanInfos.color), hexToG(myClanInfos.color), hexToB(myClanInfos.color), 0.4 ]
-													}),
-													stroke: new ol.style.Stroke({
-														color: '#FFFFFF',
-														width: 1
-													})/*,
-													image: new ol.style.Icon({
-														src: myClanInfos.emblems.x24.portal,
-														imgSize: [24, 24],
-														size: [24, 24],
-														scale: 1
-													})*/});
-											}
-											featurething.setStyle(myFeatureStyle);
-											featurething.set('olstyle', myFeatureStyle);
-											monfeature = varlayersource.addFeature(featurething);
-											// Stop processing provinces geometry
-											break;
-										}
+						if (clansList.length == 0) {
+							// No clan on map. Default draw.
+							for (var provinceIndex in provincesInfos) {
+								var myProvinceInfos = provincesInfos[provinceIndex];
+								for (var provinceGeomIndex in dataCWMap.provinces) {
+									var myProvince = dataCWMap.provinces[provinceGeomIndex];
+									if (myProvince.province_id == myProvinceInfos.province_id) {
+										drawProvince(myProvince, myProvinceInfos);
+										// Stop processing provinces geometry
+										break;
 									}
 								}
-							}, 'json')
-							.fail(function(jqXHR, textStatus) {
-								logErr('Error while loading [/wgn/clans/info/]: ' + textStatus + '.');
-							});
+							}
+						} else {
+							var nbTotalClansPages = Math.ceil(clansList.length / 100),
+								numPageClans = 0;
+							advanceProgress($.t('loading.clansinfos'));
+							for (numPageClans = 0; numPageClans<nbTotalClansPages; numPageClans++) {
+								// Load owners clans infos
+								var startIndexClans = numPageClans * 100,
+									endIndexClans = (numPageClans + 1) * 100;
+								if (endIndexClans > clansList.length) {
+									endIndexClans = clansList.length - 1;
+								}
+								$.post(gConfig.WG_API_URL + 'wgn/clans/info/', {
+									application_id: gConfig.WG_APP_ID,
+									access_token: gConfig.ACCESS_TOKEN,
+									clan_id: clansList.slice(startIndexClans, endIndexClans).toString(),
+									fields: [ 'color', 'tag', 'emblems.x24' ].toString(),
+									language: gConfig.LANG
+								}, function(dataClansInfoResponse) {
+									if (isDebugEnabled()) {
+										logDebug('dataClansInfoResponse=' + JSON.stringify(dataClansInfoResponse, null, 4));
+									}
+									var clansInfo = dataClansInfoResponse.data;
+									for (var provinceIndex in provincesInfos) {
+										var myProvinceInfos = provincesInfos[provinceIndex];
+										for (var provinceGeomIndex in dataCWMap.provinces) {
+											var myProvince = dataCWMap.provinces[provinceGeomIndex];
+											if (myProvince.province_id == myProvinceInfos.province_id) {
+												var isClanFound = false,
+													myClanInfos = null;
+												for (var clanId in clansInfo) {
+													myClanInfos = clansInfo[clanId];
+													if (myProvinceInfos.owner_clan_id == clanId) {
+														isClanFound = true;
+														break;
+													}
+												}
+												drawProvince(myProvince, myProvinceInfos, clansInfo);
+												// Stop processing provinces geometry
+												break;
+											}
+										}
+									}
+								}, 'json')
+								.fail(function(jqXHR, textStatus) {
+									logErr('Error while loading [/wgn/clans/info/]: ' + textStatus + '.');
+								});
+							}
 						}
+						afterLoad();
 					}
 				}, 'json')
 				.fail(function(jqXHR, textStatus) {
@@ -252,7 +284,6 @@ var onLoad = function() {
 				});
 			};
 			var dataCWMap = (typeof(dataCWMapResponse.data) != 'undefined'?dataCWMapResponse.data:null),
-				tranformFn = ol.proj.getTransform('EPSG:4326', 'EPSG:3857'),
 				frontSelectHtml = '',
 				timeSelectHtml = '',
 				serverSelectHtml = '',
@@ -263,6 +294,9 @@ var onLoad = function() {
 				nbTotalProvinces = 0,
 				clansList = [],
 				provincesInfos = [];
+			if (dataCWMapResponse.status == 'error') {
+				logErr($.t(dataCWMapResponse.message));
+			}
 			gMapInfos = dataCWMap;
 			advanceProgress($.t('loading.clanwars.fronts'));
 			$.post(gConfig.WG_API_URL + 'wot/globalmap/fronts/', {
@@ -302,6 +336,7 @@ var onLoad = function() {
 					// Front IDs have changed. Need refresh...
 					$('#ctnBtnReload').show();
 					$('#ctnCWMap').hide();
+					afterLoad();
 				} else {
 					$('#ctnBtnReload').hide();
 					if (gConfig.IS_ADMIN) {
@@ -437,7 +472,6 @@ var onLoad = function() {
 						lModalDetailProvince.modal('hide');
 					}
 				});
-				afterLoad();
 			}, 'json')
 			.fail(function(jqXHR, textStatus) {
 				logErr('Error while loading [/wot/globalmap/fronts/]: ' + textStatus + '.');
@@ -453,8 +487,10 @@ var onLoad = function() {
 		if (gConfig.IS_ADMIN) {
 			// This can be triggered by admin.
 			// We nees to do some extra work...
-			$('#cwMap').hide().parent().append($('#refreshCWprogress').parent().detach());
-			$('#cwMap').parent().append($('#progressRefreshInfoMessage'));
+			if ($('#ctnCWMap').is(':visible')) {
+				$('#cwMap').hide().parent().append($('#refreshCWprogress').parent().detach());
+				$('#cwMap').parent().append($('#progressRefreshInfoMessage'));
+			}
 			$('#frmCWFilter').hide();
 		}
 		$('#refreshCWprogress').parent().removeClass('hidden');
@@ -501,7 +537,7 @@ var onLoad = function() {
 								'center': dataProvinceGeoInfoResponse.center
 							});
 							nbProvincesLoaded++;
-							if (nbProvincesLoaded == nbTotalProvinces) {
+							if (nbProvincesLoaded >= nbTotalProvinces) {
 								// We have finished loading all provinces.
 								// Pushing data to server.
 								advanceRefreshProgress($.t('loading.clanwars.savedata'));

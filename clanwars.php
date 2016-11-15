@@ -60,51 +60,17 @@ include(WCT_INC_DIR . 'ads.php');
 								</ul>
 							</div>
 						</div>
-						<!--
 						<div class="input-group">
-							<span class="input-group-addon glyphicon glyphicon-fullscreen"></span>
+							<span class="input-group-addon glyphicon glyphicon-tint"></span>
 							<div class="btn-group">
-								<button type="button" id="mapFilterSize" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" data-value="all" aria-expanded="false"><span class="btnVal" data-i18n="strat.map.allsizes"></span> <span class="caret"></span></button>
+								<button type="button" id="mapProvinceColor" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" data-value="ownerclan" aria-expanded="false"><span class="btnVal" data-i18n="clanwars.provincecolor.ownerclan"></span> <span class="caret"></span></button>
 								<ul class="dropdown-menu" role="menu">
-									<li data-value="all"><a href="#" data-i18n="strat.map.allsizes"></a></li>
-									<li class="divider"></li>
+									<li data-value="ownerclan"><a href="#" data-i18n="clanwars.provincecolor.ownerclan"></a></li>
+									<li data-value="revenue"><a href="#" data-i18n="clanwars.provincecolor.revenue"></a></li>
+									<li data-value="bid"><a href="#" data-i18n="clanwars.provincecolor.bid"></a></li>
 								</ul>
 							</div>
 						</div>
-						<div class="input-group">
-							<span class="input-group-addon glyphicon glyphicon-cloud"></span>
-							<div class="btn-group">
-								<button type="button" id="mapFilterCamo" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" data-value="all" aria-expanded="false"><span class="btnVal" data-i18n="strat.camos.all"></span> <span class="caret"></span></button>
-								<ul class="dropdown-menu" role="menu">
-									<li data-value="all"><a href="#" data-i18n="strat.camos.all"></a></li>
-									<li class="divider"></li>
-									<li data-value="summer"><a href="#" data-i18n="strat.camos.summer"></a></li>
-									<li data-value="winter"><a href="#" data-i18n="strat.camos.winter"></a></li>
-									<li data-value="desert"><a href="#" data-i18n="strat.camos.desert"></a></li>
-								</ul>
-							</div>
-						</div>
-						<div class="input-group">
-							<span class="input-group-addon glyphicon glyphicon-tasks"></span>
-							<div class="btn-group">
-								<button type="button" id="mapFilterLevel" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" data-value="all" aria-expanded="false"><span class="btnVal" data-i18n="tank.alllevels"></span> <span class="caret"></span></button>
-								<ul class="dropdown-menu" role="menu">
-									<li data-value="all"><a href="#" data-i18n="tank.alllevels"></a></li>
-									<li class="divider"></li>
-									<li data-value="1"><a href="#" data-i18n="tank.level.0"></a></li>
-									<li data-value="2"><a href="#" data-i18n="tank.level.1"></a></li>
-									<li data-value="3"><a href="#" data-i18n="tank.level.2"></a></li>
-									<li data-value="4"><a href="#" data-i18n="tank.level.3"></a></li>
-									<li data-value="5"><a href="#" data-i18n="tank.level.4"></a></li>
-									<li data-value="6"><a href="#" data-i18n="tank.level.5"></a></li>
-									<li data-value="7"><a href="#" data-i18n="tank.level.6"></a></li>
-									<li data-value="8"><a href="#" data-i18n="tank.level.7"></a></li>
-									<li data-value="9"><a href="#" data-i18n="tank.level.8"></a></li>
-									<li data-value="10"><a href="#" data-i18n="tank.level.9"></a></li>
-								</ul>
-							</div>
-						</div>
-						-->
 					</form>
 				</div>
 				<div class="row">
