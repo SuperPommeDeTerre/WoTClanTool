@@ -255,12 +255,18 @@ var onLoad = function() {
 										for (var provinceGeomIndex in dataCWMap.provinces) {
 											var myProvince = dataCWMap.provinces[provinceGeomIndex];
 											if (myProvince.province_id == myProvinceInfos.province_id) {
-												var myClanInfos = null;
+												var isClanFound = false,
+													myClanInfos = null;
 												for (var clanId in clansInfo) {
 													myClanInfos = clansInfo[clanId];
 													if (myProvinceInfos.owner_clan_id == clanId) {
+														isClanFound = true;
 														break;
 													}
+												}
+												// Reset clan's infos if not found.
+												if (!isClanFound) {
+													myClanInfos = null;
 												}
 												drawProvince(myProvince, myProvinceInfos, myClanInfos);
 												// Stop processing provinces geometry
