@@ -150,7 +150,9 @@ var onLoad = function() {
 	var gLayerProvincesGeomSource = gCWMap.getLayers().a[1].getSource().getSource(),
 		gTranformFn = ol.proj.getTransform('EPSG:4326', 'EPSG:3857');
 	var drawProvince = function(pProvinceGeom, pProvinceInfos, pClanInfos) {
-		logDebug('Drawing province: ' + pProvinceInfos.province_name);
+		if (isDebugEnabled()) {
+			logDebug('Drawing province: ' + pProvinceInfos.province_name);
+		}
 		var thing = new ol.geom.Polygon(pProvinceGeom.geom.coordinates),
 			featureGeometryTf = thing.applyTransform(gTranformFn),
 			featurething = new ol.Feature({
@@ -363,6 +365,9 @@ var onLoad = function() {
 						nbFronts++;
 					}
 					$("#mapFilterFront").next().append(frontSelectHtml);
+					if (nbFronts < 2) {
+						$("#mapFilterFront").parent().parent().hide();
+					}
 					var listPrimeTimes = [],
 						listServers = [];
 					for (provinceIndex in dataCWMap.provinces) {
