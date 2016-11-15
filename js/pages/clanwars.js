@@ -148,11 +148,11 @@ var onLoad = function() {
 		gProvinceGeomUrl = gConfig.CLUSTERS[gConfig.CLUSTER].cwgeojsonbaseurl;
 	gCWMap.getView().setCenter(ol.proj.transform([2.349014, 48.864716], 'EPSG:4326', 'EPSG:3857'));
 	var gLayerProvincesGeomSource = gCWMap.getLayers().a[1].getSource().getSource(),
-		tranformFn = ol.proj.getTransform('EPSG:4326', 'EPSG:3857');
+		gTranformFn = ol.proj.getTransform('EPSG:4326', 'EPSG:3857');
 	var drawProvince = function(pProvinceGeom, pProvinceInfos, pClanInfos) {
-		logDebug('Drawing province : ' + pProvinceInfos.province_name);
+		logDebug('Drawing province: ' + pProvinceInfos.province_name);
 		var thing = new ol.geom.Polygon(pProvinceGeom.geom.coordinates),
-			featureGeometryTf = thing.applyTransform(tranformFn),
+			featureGeometryTf = thing.applyTransform(gTranformFn),
 			featurething = new ol.Feature({
 				province_id: pProvinceInfos.province_id,
 				front_id: pProvinceInfos.front_id,
@@ -255,16 +255,14 @@ var onLoad = function() {
 										for (var provinceGeomIndex in dataCWMap.provinces) {
 											var myProvince = dataCWMap.provinces[provinceGeomIndex];
 											if (myProvince.province_id == myProvinceInfos.province_id) {
-												var isClanFound = false,
-													myClanInfos = null;
+												var myClanInfos = null;
 												for (var clanId in clansInfo) {
 													myClanInfos = clansInfo[clanId];
 													if (myProvinceInfos.owner_clan_id == clanId) {
-														isClanFound = true;
 														break;
 													}
 												}
-												drawProvince(myProvince, myProvinceInfos, clansInfo);
+												drawProvince(myProvince, myProvinceInfos, myClanInfos);
 												// Stop processing provinces geometry
 												break;
 											}
