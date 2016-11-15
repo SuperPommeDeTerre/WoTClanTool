@@ -943,6 +943,13 @@
 		},
 		"revenue": {
 			"title": "Revenu journalier"
+		},
+		"provincecolor": {
+			"ownerclan": "Par clan",
+			"revenue": "Par revenu",
+			"bid": "Par enchère",
+			"battles": "Par nombre de batailles",
+			"elo": "Par classement ELO"
 		}
 	}
 }

@@ -941,6 +941,13 @@
 		},
 		"revenue": {
 			"title": "Dayly income"
+		},
+		"provincecolor": {
+			"ownerclan": "By clan",
+			"revenue": "By income",
+			"bid": "By bid",
+			"battles": "By number of battles",
+			"elo": "By ELO rating"
 		}
 	}
 }
