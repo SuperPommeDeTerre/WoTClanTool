@@ -32,15 +32,15 @@ var advanceRefreshProgress = function(pMessage) {
 var onLoad = function() {
 	var styleHidden = new ol.style.Style({
 			fill: new ol.style.Fill({
-				color: [0, 0, 0, 0]
+				color: [0, 0, 0, 0],
 			}),
 			stroke: new ol.style.Stroke({
-				color: [0, 0, 0, 0]
+				color: [0, 0, 0, 0],
 			})
 		}),
 		styleFreeProvince = new ol.style.Style({
 			fill: new ol.style.Fill({
-				color: [0, 0, 0, 0.4]
+				color: [0, 0, 0, 0.4],
 			}),
 			stroke: new ol.style.Stroke({
 				color: '#FFFFFF',
@@ -111,41 +111,13 @@ var onLoad = function() {
 		var myLink = $(this);
 		myLink.parent().parent().prev().data('value', myLink.parent().data('value')).find('.btnVal').text(myLink.text());
 	});
-	var gLayerMap = new ol.layer.Tile({
-			isBaseLayer: true,
-			title: 'OpenTopoMap',
-			type: 'base',
-			visible: true,
-			source: new ol.source.XYZ({
-				// OpenTopoMap source
-				url: 'https://{a-c}.tile.opentopomap.org/{z}/{x}/{y}.png'
-			})
-		}),
-		gLayerProvincesGeom = new ol.layer.Image({
-			source: new ol.source.ImageVector({
-				source: new ol.source.Vector({
-					opacity : 0.2,
-					format: new ol.format.GeoJSON()
-				}),
-				style: new ol.style.Style({
-					fill: new ol.style.Fill({
-						color: [255, 255, 255, 0.5],
-					}),
-					stroke: new ol.style.Stroke({
-						color: '#319FD3',
-						width: 1
-					})
-				})
-			})
-		}),
-		gCWMap = new ol.Map({
+	var gCWMap = new ol.Map({
 			controls: ol.control.defaults().extend([
 				new ol.control.FullScreen(),
 				new ol.control.OverviewMap()
 			]),
 			layers: [
 				new ol.layer.Tile({
-					isBaseLayer: true,
 					title: 'OpenTopoMap',
 					type: 'base',
 					visible: true,
@@ -183,24 +155,23 @@ var onLoad = function() {
 		}),
 		gProvinceGeomUrl = gConfig.CLUSTERS[gConfig.CLUSTER].cwgeojsonbaseurl;
 	gCWMap.getView().setCenter(ol.proj.transform([2.349014, 48.864716], 'EPSG:4326', 'EPSG:3857'));
-	var gLayerProvincesGeomSource = gCWMap.getLayers().a[1].getSource().getSource(),
-		gTranformFn = ol.proj.getTransform('EPSG:4326', 'EPSG:3857');
-	gLayerMap.setZIndex(1);
-	//gLayerProvincesGeom.setZIndex(1);
-	var drawProvince = function(pProvinceGeom, pProvinceInfos, pClanInfos) {
+	var gLayerProvincesGeomSource = gCWMap.getLayers().a[1].getSource().getSource();
+	var getProvinceFeature = function(pProvinceGeom, pProvinceInfos, pClanInfos) {
 		if (isDebugEnabled()) {
 			logDebug('Drawing province: ' + pProvinceInfos.province_name);
 		}
-		var myProvinceProlygon = new ol.geom.Polygon(pProvinceGeom.geom.coordinates),
+		var gTranformFn = ol.proj.getTransform('EPSG:4326', 'EPSG:3857'),
+			myProvinceProlygon = new ol.geom.Polygon(pProvinceGeom.geom.coordinates),
 			myFeatureGeometryTf = myProvinceProlygon.applyTransform(gTranformFn),
-			myFeatureCenterTf = (new ol.geom.Point(pProvinceGeom.center)).applyTransform(gTranformFn),
+			myFeatureCenterPoint = new ol.geom.Point(pProvinceGeom.center),
+			myFeatureCenterTf = myFeatureCenterPoint.applyTransform(gTranformFn),
 			myFeatureProvince = new ol.Feature({
 				province_id: pProvinceInfos.province_id,
 				front_id: pProvinceInfos.front_id,
 				server: pProvinceInfos.server,
 				prime_time: pProvinceInfos.prime_time,
 				geometry: myProvinceProlygon,
-				centerPoint: new ol.geom.Point(pProvinceGeom.center),
+				//centerPoint: myFeatureCenterPoint,
 				isvisible: true
 			});
 		var myFeatureStyle = styleFreeProvince;
@@ -223,7 +194,7 @@ var onLoad = function() {
 		}
 		myFeatureProvince.setStyle(myFeatureStyle);
 		myFeatureProvince.set('olstyle', myFeatureStyle);
-		var myAddedFeatureprovince = gLayerProvincesGeomSource.addFeature(myFeatureProvince);
+		return myFeatureProvince;
 	};
 	if (gLayerProvincesGeomSource.getState() == 'ready') {
 		$.getJSON("./res/wot/game.json", {}, function(data) {
@@ -248,7 +219,7 @@ var onLoad = function() {
 					}
 					var globalMapFrontProvinces = dataProvincesResponse.data,
 						provinceIndex = 0;
-					nbProvincesLoaded += globalMapFrontProvinces.length;
+					nbProvincesLoaded += dataProvincesResponse.meta.count;
 					for (provinceIndex in globalMapFrontProvinces) {
 						var myProvince = globalMapFrontProvinces[provinceIndex];
 						provincesInfos.push(myProvince);
@@ -260,17 +231,19 @@ var onLoad = function() {
 					if (nbProvincesLoaded >= nbTotalProvinces) {
 						if (clansList.length == 0) {
 							// No clan on map. Default draw.
+							var myProvinceFeatures = [];
 							for (var provinceIndex in provincesInfos) {
 								var myProvinceInfos = provincesInfos[provinceIndex];
 								for (var provinceGeomIndex in dataCWMap.provinces) {
 									var myProvince = dataCWMap.provinces[provinceGeomIndex];
 									if (myProvince.province_id == myProvinceInfos.province_id) {
-										drawProvince(myProvince, myProvinceInfos);
+										myProvinceFeatures.push(getProvinceFeature(myProvince, myProvinceInfos));
 										// Stop processing provinces geometry
 										break;
 									}
 								}
 							}
+							gLayerProvincesGeomSource.addFeatures(myProvinceFeatures);
 						} else {
 							var nbTotalClansPages = Math.ceil(clansList.length / 100),
 								numPageClans = 0;
@@ -292,7 +265,8 @@ var onLoad = function() {
 									if (isDebugEnabled()) {
 										logDebug('dataClansInfoResponse=' + JSON.stringify(dataClansInfoResponse, null, 4));
 									}
-									var clansInfo = dataClansInfoResponse.data;
+									var clansInfo = dataClansInfoResponse.data,
+										myProvinceFeatures = [];
 									for (var provinceIndex in provincesInfos) {
 										var myProvinceInfos = provincesInfos[provinceIndex];
 										for (var provinceGeomIndex in dataCWMap.provinces) {
@@ -311,12 +285,13 @@ var onLoad = function() {
 												if (!isClanFound) {
 													myClanInfos = null;
 												}
-												drawProvince(myProvince, myProvinceInfos, myClanInfos);
+												myProvinceFeatures.push(getProvinceFeature(myProvince, myProvinceInfos, myClanInfos));
 												// Stop processing provinces geometry
 												break;
 											}
 										}
 									}
+									gLayerProvincesGeomSource.addFeatures(myProvinceFeatures);
 								}, 'json')
 								.fail(function(jqXHR, textStatus) {
 									logErr('Error while loading [/wgn/clans/info/]: ' + textStatus + '.');
