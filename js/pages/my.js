@@ -501,7 +501,7 @@ var onLoad = function() {
 				for (var i in statsTanksByLevel) {
 					statsTanksByLevel[i]['wr'] = Math.round((statsTanksByLevel[i].wins / statsTanksByLevel[i].battles) * 10000) / 100;
 				}
-				for (var i in statsTanksByType) {
+				for (var i in statsTanksByNation) {
 					statsTanksByNation[i]['wr'] = Math.round((statsTanksByNation[i].wins / statsTanksByNation[i].battles) * 10000) / 100;
 				}
 				// Sort stats
