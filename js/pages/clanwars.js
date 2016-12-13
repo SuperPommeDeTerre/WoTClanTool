@@ -205,7 +205,7 @@ var onLoad = function() {
 			if (isDebugEnabled()) {
 				logDebug('dataCWMapResponse=' + JSON.stringify(dataCWMapResponse, null, 4));
 			}
-			var loadFrontProvinces = function(pFrontInfos, pNumPage) {
+			var loadFrontProvinces = function(pFrontInfos, pNumPage, pTotalNbPages) {
 				$.post(gConfig.WG_API_URL + 'wot/globalmap/provinces/', {
 					application_id: gConfig.WG_APP_ID,
 					access_token: gConfig.ACCESS_TOKEN,
@@ -216,6 +216,9 @@ var onLoad = function() {
 				}, function(dataProvincesResponse) {
 					if (isDebugEnabled()) {
 						logDebug('dataProvincesResponse=' + JSON.stringify(dataProvincesResponse, null, 4));
+					}
+					if (dataProvincesResponse.status == "error") {
+						return;
 					}
 					var globalMapFrontProvinces = dataProvincesResponse.data,
 						provinceIndex = 0;
@@ -228,7 +231,7 @@ var onLoad = function() {
 							clansList.push(myProvince.owner_clan_id);
 						}
 					}
-					if (nbProvincesLoaded >= nbTotalProvinces) {
+					if (pNumPage >= pTotalNbPages) {
 						if (clansList.length == 0) {
 							// No clan on map. Default draw.
 							var myProvinceFeatures = [];
@@ -344,7 +347,7 @@ var onLoad = function() {
 						for (frontIndex in globalMapFronts) {
 							if (globalMapFronts[frontIndex].front_id == myFrontInfos.front_id) {
 								isFrontFound = true;
-								nbTotalProvinces += myFrontInfos.provinces_count;
+								nbTotalProvinces += globalMapFronts[frontIndex].provinces_count;
 								break;
 							}
 						}
@@ -369,14 +372,14 @@ var onLoad = function() {
 						myRefreshButton.find('.btnLabel').remove();
 						myRefreshButton.removeClass('btn-info').addClass('btn-default btn-sm').detach().appendTo($('#ctnBtnReloadAdmin'));
 					}
-					for (frontIndex in dataCWMap.fronts) {
-						var myFrontInfos = dataCWMap.fronts[frontIndex],
+					for (frontIndex in globalMapFronts) {
+						var myFrontInfos = globalMapFronts[frontIndex],
 							nbPages = Math.ceil(myFrontInfos.provinces_count / 100),
 							numPage = 1;
 						frontSelectHtml += '<li data-value="' + myFrontInfos.front_id + '"><a href="#' + myFrontInfos.front_id + '">' + myFrontInfos.front_name + ' <img src="./themes/' + gConfig.THEME + '/style/images/Tier_' + myFrontInfos.max_vehicle_level + '_icon.png" alt="' + gTANKS_LEVEL[myFrontInfos.max_vehicle_level - 1] + '" title="' + myFrontInfos.max_vehicle_level + '" /></a></li>';
 						advanceRefreshProgress($.t('loading.clanwars.frontprovinces', { nbprovinces: myFrontInfos.provinces_count, frontname: myFrontInfos.front_name }));
 						for (numPage = 1; numPage <= nbPages; numPage++) {
-							loadFrontProvinces(myFrontInfos, numPage);
+							loadFrontProvinces(myFrontInfos, numPage, nbPages);
 						}
 						nbFronts++;
 					}
