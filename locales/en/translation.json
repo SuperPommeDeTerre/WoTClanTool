@@ -171,7 +171,8 @@
 			"garage": "My garage",
 			"strats": "My strategies",
 			"stats": "My statistics",
-			"personalmissions": "My personal missions"
+			"personalmissions": "My personal missions",
+			"settings": "My settings"
 		},
 		"encyclopedia": {
 			"title": "Encyclopedias",
@@ -534,7 +535,8 @@
 			"usa": "U.S.A.",
 			"ussr": "U.R.R.S.",
 			"china": "China",
-			"czech": "Czechoslovakia"
+			"czech": "Czechoslovakia",
+			"sweden": "Sweden"
 		},
 		"infos": {
 			"name": "Tank name",
@@ -652,6 +654,9 @@
 		},
 		"encyclopedia": {
 			"title": "Encyclopedias"
+		},
+		"settings": {
+			"title": "My settings"
 		}
 	},
 	"strat": {
@@ -948,6 +953,14 @@
 			"bid": "By bid",
 			"battles": "By number of battles",
 			"elo": "By ELO rating"
+		}
+	},
+	"settings": {
+		"twitch": {
+			"url": "Twitch channel URL"
+		},
+		"youtube": {
+			"url": "Youtube channel URL"
 		}
 	}
 }

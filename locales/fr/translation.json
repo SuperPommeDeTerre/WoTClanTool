@@ -171,7 +171,8 @@
 			"garage": "Mon garage",
 			"strats": "Mes stratégies",
 			"stats": "Mes statistiques",
-			"personalmissions": "Mes missions personnelles"
+			"personalmissions": "Mes missions personnelles",
+			"settings": "Mes préférences"
 		},
 		"encyclopedia": {
 			"title": "Encyclopédies",
@@ -519,7 +520,8 @@
 			"usa": "Etats-Unis",
 			"ussr": "URRS",
 			"china": "Chine",
-			"czech": "Tchécoslovaquie"
+			"czech": "Tchécoslovaquie",
+			"sweden": "Suède"
 		},
 		"type": {
 			"lightTank": "Léger",
@@ -654,6 +656,9 @@
 		},
 		"encyclopedia": {
 			"title": "Encyclopédies"
+		},
+		"settings": {
+			"title": "Mes préférences"
 		}
 	},
 	"strat": {
@@ -950,6 +955,14 @@
 			"bid": "Par enchère",
 			"battles": "Par nombre de batailles",
 			"elo": "Par classement ELO"
+		}
+	},
+	"settings": {
+		"twitch": {
+			"url": "URL chaîne Twitch"
+		},
+		"youtube": {
+			"url": "URL chaîne Youtube"
 		}
 	}
 }
