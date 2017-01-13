@@ -5,8 +5,8 @@ var onLoad = function() {
 		evt.preventDefault();
 		if ($(this).hasClass('online')) {
 			var player = new Twitch.Player('twitchPlayerContainer', {
-				width: 854,
-				height: 480,
+				width: '100%',
+				height: 600,
 				channel: $(this).data('channelname')
 			});
 			player.play();
@@ -77,21 +77,8 @@ var onLoad = function() {
 						myTwitchHtml += '<p>Player name</p>';
 						myTwitchHtml += '</div></div>';
 					}
-					/*
-					for (j in streamsInfo.streams) {
-						if (streamsInfo.streams[j] != null) {
-							var player = new Twitch.Player('twitchPlayerContainer', {
-								width: 854,
-								height: 480,
-								channel: streamsInfo.streams[j].channel.name
-							});
-							player.play();
-							break;
-						}
-					}
-					*/
 					myTwitchHtml += '</div></div>';
-					$('.main h1').after(myTwitchHtml);
+					$('.main h2.twitch').after(myTwitchHtml);
 					afterLoad();
 				}
 			});

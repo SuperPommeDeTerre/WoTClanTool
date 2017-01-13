@@ -20,7 +20,9 @@ require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR
 include(WCT_INC_DIR . 'ads.php');
 ?>
 			<h1 class="page-header"><span class="glyphicon glyphicon-film"></span> <span data-i18n="page.<?php echo($gPageProps['id']); ?>.title"></span></h1>
+			<h2 class="twitch">Twitch</h2>
 			<div id="twitchPlayerContainer"></div>
+			<!-- <h2>Youtube</h2> -->
 		</div>
 	</div>
 </div><?php
