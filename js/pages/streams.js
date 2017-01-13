@@ -1,6 +1,17 @@
 var onLoad = function() {
 	checkConnected();
 	progressNbSteps = 2;
+	$(document).on('click', 'a.twitchstream', function(evt) {
+		evt.preventDefault();
+		if ($(this).hasClass('online')) {
+			var player = new Twitch.Player('twitchPlayerContainer', {
+				width: 854,
+				height: 480,
+				channel: $(this).data('channelname')
+			});
+			player.play();
+		}
+	});
 	advanceProgress($.t('loading.claninfos'));
 	$.post(gConfig.WG_API_URL + 'wgn/clans/info/', {
 		application_id: gConfig.WG_APP_ID,
@@ -40,6 +51,7 @@ var onLoad = function() {
 					myTwitchChannelName = myTwitchURLParts[myTwitchURLParts.length - 1];
 				if (myTwitchChannelName != '') {
 					twitchChannelIds.push(myTwitchChannelName);
+					myTwitchChannelInfos.channelname = myTwitchChannelName;
 				}
 			}
 			// Retrieve status of channels
@@ -60,7 +72,7 @@ var onLoad = function() {
 					myTwitchHtml += '<div class="col-xs-6 col-md-3">';
 					for (i in configuredChannelInfos.streams.twitch) {
 						myTwitchHtml += '<div class="thumbnail">';
-						myTwitchHtml += '<a href="' + configuredChannelInfos.streams.twitch[i].url + '" class="thumbnail"><img src="" alt="Offline" style="height:180px;width:180px" /></a>';
+						myTwitchHtml += '<a href="' + configuredChannelInfos.streams.twitch[i].url + '" class="thumbnail twitchstream online" data-channelname="' + configuredChannelInfos.streams.twitch[i].channelname + '"><img src="" alt="Offline" style="height:180px;width:180px" /></a>';
 						myTwitchHtml += '<div class="caption">';
 						myTwitchHtml += '<p>Player name</p>';
 						myTwitchHtml += '</div></div>';
