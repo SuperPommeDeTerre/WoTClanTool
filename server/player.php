@@ -582,14 +582,14 @@ switch ($_REQUEST ['action']) {
 		if (array_key_exists ( 'twitchurl', $_REQUEST ) && $playerSettings ['twitchurl'] != $_REQUEST ['twitchurl']) {
 			$playerSettings ['twitchurl'] = $_REQUEST ['twitchurl'];
 			$needSaveSettings = true;
-		} else {
+		} else if ($playerSettings ['twitchurl'] != $_REQUEST ['twitchurl']) {
 			$playerSettings ['twitchurl'] = null;
 			$needSaveSettings = true;
 		}
 		if (array_key_exists ( 'youtubeurl', $_REQUEST ) && $playerSettings ['youtubeurl'] != $_REQUEST ['youtubeurl']) {
 			$playerSettings ['youtubeurl'] = $_REQUEST ['youtubeurl'];
 			$needSaveSettings = true;
-		} else {
+		} else if ($playerSettings ['youtubeurl'] != $_REQUEST ['youtubeurl']) {
 			$playerSettings ['youtubeurl'] = null;
 			$needSaveSettings = true;
 		}
