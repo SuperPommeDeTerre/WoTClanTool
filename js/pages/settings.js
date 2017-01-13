@@ -1,7 +1,20 @@
 var onLoad = function() {
 	checkConnected();
 	setNavBrandWithClan();
-	afterLoad();
+	progressNbSteps = 2;
+	$.post('./server/player.php', {
+		'action': 'getsettings'
+	}, function(settingsResult) {
+		advanceProgress($.t('loading.complete'));
+		if (settingsResult.result == 'ok') {
+			$('#myTwitchURL').val(settingsResult.data.twitchurl);
+			$('#myYoutubeURL').val(settingsResult.data.youtubeurl);
+		}
+		afterLoad();
+	}, 'json')
+	.fail(function(jqXHR, textStatus) {
+		logErr('Error while getting personal settings: ' + textStatus + '.');
+	});
 	$('#btnSaveSettings').on('click', function(evt) {
 		var myBtnSave = $(this);
 		evt.preventDefault();
