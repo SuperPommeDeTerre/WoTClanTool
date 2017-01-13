@@ -11,7 +11,8 @@ $confArray = array(
 	'THRESHOLDS_MAX_BATTLES' => $gMAX_BATTLE_TIME,
 	'CLUSTERS' => $gClusters,
 	'SHOW_ADS' => $gShowAds,
-	'KEEP_REPLAYS' => $gKeepReplays
+	'KEEP_REPLAYS' => $gKeepReplays,
+	'TWITCH_API_KEY' => $gTwitchAPIKey
 );
 if (isset($_SESSION["access_token"])) {
 	$confArray['ACCESS_TOKEN'] = $_SESSION["access_token"];
