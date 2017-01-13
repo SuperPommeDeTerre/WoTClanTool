@@ -19,7 +19,6 @@ if (!WctRights::isUserHasRight("clansettings.modify")) {
 	if (!empty($gClanConfig)) {
 		switch ($_REQUEST['a']) {
 			case 'savesettings':
-				// TODO: Handle security
 				if (array_key_exists('forumurl', $_REQUEST) && !empty(trim($_REQUEST['forumurl']))) {
 					$gClanConfig['forumurl'] = $_REQUEST['forumurl'];
 				} else {
