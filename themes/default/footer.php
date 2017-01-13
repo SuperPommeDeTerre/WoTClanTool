@@ -42,9 +42,6 @@ if ($gPageProps["blocks"]["footer"]) { ?>
 		</div><?php
 }
 ?>
-		<!-- Bootstrap core JavaScript
-		================================================== -->
-		<!-- Placed at the end of the document so the pages load faster -->
 		<script type="text/javascript" src="server/config.js.php"></script>
 		<script type="text/javascript" src="js/jquery-2.2.4.min.js"></script>
 		<script type="text/javascript" src="js/i18next.min.js"></script>
@@ -75,6 +72,7 @@ if ($gPageProps["blocks"]["footer"]) { ?>
 		<script type="text/javascript" src="js/jquery.svganim.min.js"></script>
 		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 		<script type="text/javascript" src="js/ie10-viewport-bug-workaround.js"></script>
+		<script src= "http://player.twitch.tv/js/embed/v1.js"></script>
 		<!-- Local scripts -->
 		<script type="text/javascript" src="js/pages/<?php echo($gPageProps["id"]); ?>.js"></script>
 		<script type="text/javascript" src="js/common.js"></script>

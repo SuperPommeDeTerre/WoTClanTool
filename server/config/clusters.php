@@ -11,4 +11,8 @@ $gClusters = array(
 );
 // Defines the default cluster
 $gDefaultCluster = "EU";
+
+// Defines more API keys
+// Twicth
+$gTwitchAPIKey = "f48qj4dfi3k138rijzzlgezhrqzcqo";
 ?>
