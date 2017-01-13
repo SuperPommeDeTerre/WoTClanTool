@@ -157,6 +157,7 @@
 		"clanwars": "Clan Wars",
 		"events": "Events",
 		"stronghold": "Stronghold",
+		"streams": "Streams & videos",
 		"admin": "Administration",
 		"forum": "Forum",
 		"logout": "Logout",
@@ -662,6 +663,9 @@
 		},
 		"settings": {
 			"title": "My settings"
+		},
+		"streams": {
+			"title": "Streams & videos"
 		}
 	},
 	"strat": {

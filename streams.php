@@ -2,7 +2,7 @@
 require(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'server' . DIRECTORY_SEPARATOR . 'global.php');
 
 $gPageProps = array(
-	"id" => "stronghold",
+	"id" => "streams",
 	"authenticated" => true,
 	"rights" => array(),
 	"blocks" => array (
@@ -19,14 +19,9 @@ require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR
 		<div class="main"><?php
 include(WCT_INC_DIR . 'ads.php');
 ?>
-			<h1 class="page-header" data-i18n="nav.stronghold"></h1>
-			<!-- <h2 class="sub-header" data-i18n="stronghold.battles"></h2> -->
-			<h2 class="sub-header" data-i18n="stronghold.buildings"></h2>
-			<div class="container-fluid" id="strongholdBuildings">
-			</div>
+			<h1 class="page-header"><span class="glyphicon glyphicon-film"></span> <span data-i18n="page.<?php echo($gPageProps['id']); ?>.title"></span></h1>
 		</div>
 	</div>
-</div>
-<?php
+</div><?php
 require(WCT_THEMES_DIR . DIRECTORY_SEPARATOR . $gThemeName . DIRECTORY_SEPARATOR . 'footer.php');
 ?>

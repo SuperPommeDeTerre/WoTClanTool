@@ -157,6 +157,7 @@
 		"clanwars": "Clan Wars",
 		"events": "Evènements",
 		"stronghold": "Bastion",
+		"streams": "Streams et vidéos",
 		"admin": "Administration",
 		"forum": "Forum",
 		"logout": "Se déconnecter",
@@ -664,6 +665,9 @@
 		},
 		"settings": {
 			"title": "Mes préférences"
+		},
+		"streams": {
+			"title": "Streams et vidéos"
 		}
 	},
 	"strat": {
