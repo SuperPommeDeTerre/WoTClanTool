@@ -109,7 +109,8 @@
 	"success": {
 		"title": "Operation réussie",
 		"configsave": "La configuration de l'application a été sauvegardée correctement !",
-		"clansettingssave": "La sauvegarde des paramètres du clan s'est déroulée correctement !"
+		"clansettingssave": "La sauvegarde des paramètres du clan s'est déroulée correctement !",
+		"playersettingssave": "La sauvegarde de vos paramètres s'est déroulée correctement !"
 	},
 	"error": {
 		"title": "Erreur",
@@ -143,7 +144,11 @@
 	},
 	"clansettings": {
 		"general": "Paramètres généraux",
-		"forumurl": "URL du forum"
+		"forumurl": "URL du forum",
+		"youtube": {
+			"url": "URL de la chaîne Youtube",
+			"hint": "Veuillez saisir ici l'URL de la chaîne Youtube du clan. Pour rappel, chaque membre du clan peut également posséder sa chaîne propre."
+		}
 	},
 	"nav": {
 		"toggle": "Basculer navigation",

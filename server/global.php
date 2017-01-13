@@ -149,6 +149,11 @@ if (!array_key_exists('inactivitythreshold', $gClanConfig)) {
 	$gMAX_BATTLE_TIME = $gClanConfig['inactivitythreshold'];
 }
 
+// Handle clan's youtube channel URL
+if (!array_key_exists('youtubeurl', $gClanConfig)) {
+	$gClanConfig['youtubeurl'] = '';
+}
+
 // Define the data dir (depends on cluster)
 define('WCT_DATA_DIR', WCT_BASE_DATA_DIR . DIRECTORY_SEPARATOR . $gCluster . DIRECTORY_SEPARATOR);
 

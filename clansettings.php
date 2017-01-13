@@ -46,13 +46,20 @@ include(WCT_INC_DIR . 'ads.php');
 			<div class="tab-content">
 				<div role="tabpanel" class="tab-pane active" id="configGeneral">
 					<h2 class="sub-header" data-i18n="clansettings.general"></h2>
-					<div>
-						<h3 data-i18n="clansettings.forumurl"></h3>
-						<input id="clanForumURL" type="text" class="form-control" data-i18n="[placeholder]clansettings.forumurl;" aria-describedby="sizing-addon1" value="<?php echo($gClanConfig['forumurl']); ?>"<?php echo($isReadOnly?' disabled="disabled"':''); ?> />
+					<h3 data-i18n="clansettings.forumurl"></h3>
+					<div class="form-group label-placeholder">
+						<label for="clanForumURL" id="lblClanForumURL" class="control-label" data-i18n="clansettings.forumurl"></label>
+						<input id="clanForumURL" type="text" class="form-control" aria-describedby="lblClanForumURL" value="<?php echo($gClanConfig['forumurl']); ?>"<?php echo($isReadOnly?' disabled="disabled"':''); ?> />
 					</div>
 					<div>
 						<h3><span data-i18n="install.inactivitythreshold.title"></span> <span class="badge" id="badgeInactivityThreshold" data-i18n="install.inactivitythreshold.value" data-i18n-options="{&quot;count&quot;:<?php echo($gClanConfig['inactivitythreshold']); ?>}"></span></h3>
-						<div id="sliderInactivityThreshold" style="background-color:#4caf50" class="slider shor slider-material-green"<?php echo($isReadOnly?' disabled="disabled"':''); ?>></div>
+						<div id="sliderInactivityThreshold" style="background-color:#009688" class="slider shor slider-default"<?php echo($isReadOnly?' disabled="disabled"':''); ?>></div>
+					</div>
+					<h3 data-i18n="clansettings.youtube.url"></h3>
+					<div class="form-group label-placeholder">
+						<label for="clanYoutubeURL" id="lblYoutubeURL" class="control-label" data-i18n="clansettings.youtube.url"></label>
+						<input id="clanYoutubeURL" type="text" class="form-control" aria-describedby="lblYoutubeURL" value="<?php echo($gClanConfig['youtubeurl']); ?>"<?php echo($isReadOnly?' disabled="disabled"':''); ?> />
+						<span class="help-block" data-i18n="clansettings.youtube.hint"></span>
 					</div>
 				</div>
 				<div role="tabpanel" class="tab-pane" id="configRights">

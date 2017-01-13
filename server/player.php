@@ -108,6 +108,34 @@ function calcTankWN9($pTankStats, $pMaxhist) {
 	return $returnVal;
 }
 
+/**
+ * Gets the user's settings from file.
+ * @param string $pUserFile User's file path
+ * @return user's settings array
+ */
+function getPlayerSettings($pUserFile) {
+	$userSettings = array();
+	if (!defined($pUserFile) || !isset($pUserFile) || $pUserFile == null) {
+		if (isset($_SESSION['account_id'])) {
+			$userFile = getUserFile($_SESSION['account_id']);
+			$userSettings = getPlayerSettings($userFile);
+		}
+	} else if (file_exists($pUserFile)) {
+		$userSettings = json_decode(file_get_contents($pUserFile), true);
+	}
+	if (!array_key_exists('vacancies', $userSettings)) {
+		$userSettings['vacancies'] = array();
+	}
+	if (!array_key_exists('settings', $userSettings)) {
+		$userSettings['settings'] = array();
+	}
+	return $userSettings;
+}
+
+function savePlayerSettings($pUserFile = null, $pVacancies, $pTankStats, $pSettings) {
+	
+}
+
 // Switch between requested action
 $userFile = '';
 if (isset($_SESSION['account_id'])) {
@@ -169,9 +197,12 @@ switch ($_REQUEST['action']) {
 				$playerTanksStats[$userId] = array();
 			}
 			$playerVacancies = array();
+			$playerSettings = array();
 			if (array_key_exists('tankstats', $playerTanksStats[$userId])) {
 				// Store vacancies to preserve them.
 				$playerVacancies = $playerTanksStats[$userId]['vacancies'];
+				// Store settings to preserve them.
+				$playerSettings = $playerTanksStats[$userId]['settings'];
 				$playerTanksStats[$userId] = $playerTanksStats[$userId]['tankstats'];
 			}
 			$playerTanksStatsToStore[$userId] = array();
@@ -240,7 +271,7 @@ switch ($_REQUEST['action']) {
 					}
 				}
 				$myfile = fopen($userFile, 'w') or die('Unable to open file!');
-				$playerInfos = array('vacancies' => $playerVacancies, 'tankstats' => $playerTanksStatsToStore[$userId]);
+				$playerInfos = array('vacancies' => $playerVacancies, 'tankstats' => $playerTanksStatsToStore[$userId], 'settings' => $playerSettings);
 				fwrite($myfile, json_encode($playerInfos));
 				fclose($myfile);
 			}
@@ -257,6 +288,10 @@ switch ($_REQUEST['action']) {
 		$playerTanksStats = is_array($playerTanksStats) ? $playerTanksStats : array($playerTanksStats);
 		// Handle file version format
 		if (array_key_exists('tankstats', $playerTanksStats)) {
+			// Store vacancies to preserve them.
+			$playerVacancies = $playerTanksStats['vacancies'];
+			// Store settings to preserve them.
+			$playerSettings = $playerTanksStats['settings'];
 			$playerTanksStats = $playerTanksStats['tankstats'];
 		}
 		foreach ($playerTanksStats as &$valueStored) {
@@ -272,7 +307,8 @@ switch ($_REQUEST['action']) {
 			}
 		}
 		$myfile = fopen($userFile, 'w') or die('Unable to open file!');
-		fwrite($myfile, json_encode($playerTanksStats));
+		$playerInfos = array('vacancies' => $playerVacancies, 'tankstats' => $playerTanksStats, 'settings' => $playerSettings);
+		fwrite($myfile, json_encode($playerInfos));
 		fclose($myfile);
 		break;
 	case 'addvacancy':
@@ -286,12 +322,14 @@ switch ($_REQUEST['action']) {
 			// Handle file version format
 			if (array_key_exists('vacancies', $playerInfos)) {
 				$playerVacancies = $playerInfos['vacancies'];
+				// Store settings to preserve them.
+				$playerSettings = $playerInfos['settings'];
 				$playerTankStats = $playerInfos['tankstats'];
 			}
 			array_push($playerVacancies, array('startdate' => $_REQUEST['startdate'], 'enddate' => $_REQUEST['enddate'], 'reason' => $_REQUEST['reason']));
 			// Persist data
 			$myfile = fopen($userFile, 'w') or die('Unable to open file!');
-			fwrite($myfile, json_encode(array('vacancies' => $playerVacancies, 'tankstats' => $playerTankStats)));
+			fwrite($myfile, json_encode(array('vacancies' => $playerVacancies, 'tankstats' => $playerTankStats, 'settings' => $playerSettings)));
 			fclose($myfile);
 		}
 		break;
@@ -308,6 +346,8 @@ switch ($_REQUEST['action']) {
 			if (array_key_exists('vacancies', $playerInfos)) {
 				$playerVacancies = $playerInfos['vacancies'];
 				$playerVacanciesToStore = array();
+				// Store settings to preserve them.
+				$playerSettings = $playerInfos['settings'];
 				$playerTankStats = $playerInfos['tankstats'];
 				foreach ($playerVacancies as $vacancy) {
 					if ($vacancy['startdate'] == $_REQUEST['startdate'] && $vacancy['enddate'] == $_REQUEST['enddate']) {
@@ -322,7 +362,7 @@ switch ($_REQUEST['action']) {
 			// Persist data
 			if ($isVacancyDeleted == true) {
 				$myfile = fopen($userFile, 'w') or die('Unable to open file!');
-				fwrite($myfile, json_encode(array('vacancies' => $playerVacanciesToStore, 'tankstats' => $playerTankStats)));
+				fwrite($myfile, json_encode(array('vacancies' => $playerVacanciesToStore, 'tankstats' => $playerTankStats, 'settings' => $playerSettings)));
 				fclose($myfile);
 			}
 		}
@@ -349,6 +389,57 @@ switch ($_REQUEST['action']) {
 			}
 		}
 		$result['data'] = $playerVacancies;
+		break;
+	case 'getsettings':
+		// Get settings
+		$playerInfos = file_get_contents($userFile);
+		$playerInfos = json_decode($playerInfos, true);
+		$playerInfos = is_array($playerInfos) ? $playerInfos : array($playerInfos);
+		$result['data'] = $playerInfos['settings'];
+		break;
+	case 'savesettings':
+		// Save settings
+		$settingsToSave = array();
+		$needSaveSettings = false;
+		// Gets actual data.
+		$playerInfos = file_get_contents($userFile);
+		$playerInfos = json_decode($playerInfos, true);
+		$playerInfos = is_array($playerInfos) ? $playerInfos : array($playerInfos);
+		if (array_key_exists('vacancies', $playerInfos)) {
+			$playerVacancies = $playerInfos['vacancies'];
+		} else {
+			$playerVacancies = array();
+		}
+		if (array_key_exists('tankstats', $playerInfos)) {
+			$playerTankStats = $playerInfos['tankstats'];
+		} else {
+			$playerTankStats = array();
+		}
+		if (array_key_exists('settings', $playerInfos)) {
+			$playerSettings = $playerInfos['settings'];
+		} else {
+			$playerSettings = array();
+		}
+		if (!array_key_exists('twitchurl', $playerSettings)) {
+			$playerSettings['twitchurl'] = null;
+		}
+		if (!array_key_exists('youtubeurl', $playerSettings)) {
+			$playerSettings['youtubeurl'] = null;
+		}
+		if (array_key_exists('twitchurl', $_REQUEST) && $playerSettings['twitchurl'] != $_REQUEST['twitchurl']) {
+			$playerSettings['twitchurl'] = $_REQUEST['twitchurl'];
+			$needSaveSettings = true;
+		}
+		if (array_key_exists('youtubeurl', $_REQUEST) && $playerSettings['youtubeurl'] != $_REQUEST['youtubeurl']) {
+			$playerSettings['youtubeurl'] = $_REQUEST['youtubeurl'];
+			$needSaveSettings = true;
+		}
+		// Persist data
+		if ($needSaveSettings == true) {
+			$myfile = fopen($userFile, 'w') or die('Unable to open file!');
+			fwrite($myfile, json_encode(array('vacancies' => $playerVacancies, 'tankstats' => $playerTankStats, 'settings' => $playerSettings)));
+			fclose($myfile);
+		}
 		break;
 }
 $result['result'] = 'ok';

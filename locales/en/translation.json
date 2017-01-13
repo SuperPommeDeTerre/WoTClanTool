@@ -109,7 +109,8 @@
 	"success": {
 		"title": "Success",
 		"configsave": "Application configuration saved successfully!",
-		"clansettingssave": "Clan's settings saved successfully!"
+		"clansettingssave": "Clan's settings saved successfully!",
+		"playersettingssave": "Your settings have been successfully saved!"
 	},
 	"error": {
 		"title": "Error",
@@ -143,7 +144,11 @@
 	},
 	"clansettings": {
 		"general": "General settings",
-		"forumurl": "Forum URL"
+		"forumurl": "Forum URL",
+		"youtube": {
+			"url": "Youtube channel URL",
+			"hint": "Please enter the Youtube clan's channel. Remind that each clan's member can also have its own Youtube channel."
+		}
 	},
 	"nav": {
 		"toggle": "Switch navigation",

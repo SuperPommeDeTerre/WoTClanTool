@@ -25,6 +25,11 @@ if (!WctRights::isUserHasRight("clansettings.modify")) {
 				} else {
 					$gClanConfig['forumurl'] = null;
 				}
+				if (array_key_exists('youtubeurl', $_REQUEST) && !empty(trim($_REQUEST['youtubeurl']))) {
+					$gClanConfig['youtubeurl'] = $_REQUEST['youtubeurl'];
+				} else {
+					$gClanConfig['youtubeurl'] = null;
+				}
 				if (array_key_exists('inactivitythreshold', $_REQUEST) && !empty(trim($_REQUEST['inactivitythreshold']))) {
 					$gClanConfig['inactivitythreshold'] = $_REQUEST['inactivitythreshold'];
 				} else {

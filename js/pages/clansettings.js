@@ -48,6 +48,7 @@ var onLoad = function() {
 		$.post('./server/clan.php', {
 				'a': 'savesettings',
 				'forumurl': $('#clanForumURL').val(),
+				'youtubeurl': $('#clanYoutubeURL').val(),
 				'rights': JSON.stringify(selectedRights),
 				'inactivitythreshold': parseInt(mySliderInactivityThreshold.val())
 			}, function(saveResult) {

@@ -94,13 +94,14 @@ if ($gPageProps["blocks"]["nav"]) { ?>
 						</nav><?php
 	} else { ?>
 						<ul class="nav navbar-nav navbar-right">
-							<li class="dropdown<?php if ($gPageProps["id"] == 'my' || $gPageProps["id"] == 'personalmissions') { echo(' active'); } ?>">
+							<li class="dropdown<?php if (in_array($gPageProps["id"], array('my', 'personalmissions', 'settings'))) { echo(' active'); } ?>">
 								<a href="/my" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span id="playerNickName"><?php echo($_SESSION["nickname"]); ?></span> <span class="caret"></span></a>
 								<ul class="dropdown-menu" role="menu">
 									<li><a href="my#calendar"><span class="glyphicon glyphicon-calendar"></span> <span data-i18n="nav.my.calendar"></span></a></li>
 									<li><a href="my#garage"><span class="glyphicon glyphicon-oil"></span> <span data-i18n="nav.my.garage"></span></a></li>
 									<li><a href="my#stats"><span class="glyphicon glyphicon-signal"></span> <span data-i18n="nav.my.stats"></span></a></li>
-									<li><a href="personalmissions"><span class="glyphicon glyphicon-tasks"></span> <span data-i18n="nav.my.personalmissions"></span></a></li>
+									<li<?php if ($gPageProps["id"] == 'personalmissions') { echo(' class="active"'); } ?>><a href="personalmissions"><span class="glyphicon glyphicon-tasks"></span> <span data-i18n="nav.my.personalmissions"></span></a></li>
+									<li<?php if ($gPageProps["id"] == 'settings') { echo(' class="active"'); } ?>><a href="settings"><span class="glyphicon glyphicon-cog"></span> <span data-i18n="nav.my.settings"></span></a></li>
 									<li class="divider"></li>
 									<li><a href="logout" id="linkLogout" data-i18n="[title]nav.logout;"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> <span data-i18n="nav.logout"></span></a></li>
 								</ul>
