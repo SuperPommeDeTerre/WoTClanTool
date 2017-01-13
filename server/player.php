@@ -604,6 +604,39 @@ switch ($_REQUEST ['action']) {
 			fclose ( $myfile );
 		}
 		break;
+	case 'getstreams':
+		// Find twitch and youtube configured streams
+		$result ['streams'] = array('twitch' => array(), 'youtube' => array());
+		$usersToGet = array ();
+		if (array_key_exists ( 'account_id', $_REQUEST )) {
+			$usersToGet = explode ( ',', $_REQUEST ['account_id'] );
+		} else {
+			array_push ( $usersToGet, $_SESSION ['account_id'] );
+		}
+		// Add clan channels
+		$clanConfigFile = getClanConfigFile();
+		$clanConfig = file_get_contents ( $clanConfigFile );
+		$clanConfig = json_decode ( $clanConfig, true );
+		$clanConfig = is_array ( $clanConfig ) ? $clanConfig : array (
+				$clanConfig
+		);
+		if (array_key_exists('twitchurl', $clanConfig) && $clanConfig['twitchurl'] != null) {
+			array_push($result ['streams']['twitch'], $clanConfig['twitchurl']);
+		}
+		if (array_key_exists('youtubeurl', $clanConfig) && $clanConfig['youtubeurl'] != null) {
+			array_push($result ['streams']['youtube'], $clanConfig['youtubeurl']);
+		}
+		// Add players channels
+		foreach ( $usersToGet as $userId ) {
+			$playerInfos = getPlayerSettings(getUserFile ( $userId ));
+			if (array_key_exists('twitchurl', $playerInfos['settings']) && $playerInfos['settings']['twitchurl'] != null) {
+				array_push($result ['streams']['twitch'], $playerInfos['settings']['twitchurl']);
+			}
+			if (array_key_exists('youtubeurl', $playerInfos['settings']) && $playerInfos['settings']['youtubeurl'] != null) {
+				array_push($result ['streams']['youtube'], $playerInfos['settings']['youtubeurl']);
+			}
+		}
+		break;
 }
 $result ['result'] = 'ok';
 
