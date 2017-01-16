@@ -24,7 +24,9 @@ include(WCT_INC_DIR . 'ads.php');
 			<div class="hidden panel panel-default">
 				<div id="twitchPlayerContainer" class="panel-body embed-responsive embed-responsive-16by9"></div>
 			</div>
+			<script src="http://www.gmodules.com/ig/ifr?url=http://www.google.com/ig/modules/youtube.xml&amp;up_channel=QuickyBabyTV&amp;synd=open&amp;w=320&amp;h=390&amp;title=&amp;border=%23ffffff%7C3px%2C1px+solid+%23999999&amp;output=js"></script>
 			<!-- <h2>Youtube</h2> -->
+			<div id="youtubeContainer"></div>
 		</div>
 	</div>
 </div><?php
