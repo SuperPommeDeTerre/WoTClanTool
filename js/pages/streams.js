@@ -5,12 +5,11 @@ var onLoad = function() {
 		evt.preventDefault();
 		if ($(this).hasClass('online')) {
 			var player = new Twitch.Player('twitchPlayerContainer', {
-				width: '100%',
-				height: 600,
 				channel: $(this).data('channelname')
 			});
 			player.play();
 		}
+		$('#twitchPlayerContainer').parent().removeClass('hidden');
 	});
 	advanceProgress($.t('loading.claninfos'));
 	$.post(gConfig.WG_API_URL + 'wgn/clans/info/', {
@@ -68,13 +67,25 @@ var onLoad = function() {
 				success: function(streamsInfo) {
 					var i = 0,
 						j = 0,
+						onlineStreamInfos = null,
 						myTwitchHtml = '<div class="row">';
 					myTwitchHtml += '<div class="col-xs-6 col-md-3">';
 					for (i in configuredChannelInfos.streams.twitch) {
 						myTwitchHtml += '<div class="thumbnail">';
-						myTwitchHtml += '<a href="' + configuredChannelInfos.streams.twitch[i].url + '" class="thumbnail twitchstream online" data-channelname="' + configuredChannelInfos.streams.twitch[i].channelname + '"><img src="" alt="Offline" style="height:180px;width:180px" /></a>';
+						onlineStreamInfos = null;
+						for (j in streamsInfo.streams) {
+							if (streamsInfo.streams[j].channel.name == configuredChannelInfos.streams.twitch[i].channelname) {
+								onlineStreamInfos = streamsInfo.streams[j];
+								break;
+							}
+						}
+						if (onlineStreamInfos != null) {
+							myTwitchHtml += '<a href="' + configuredChannelInfos.streams.twitch[i].url + '" class="thumbnail twitchstream online" data-channelname="' + configuredChannelInfos.streams.twitch[i].channelname + '"><img src="' + onlineStreamInfos.preview.medium + '" alt="Online" /></a>';
+						} else {
+							myTwitchHtml += '<a href="' + configuredChannelInfos.streams.twitch[i].url + '" class="thumbnail twitchstream offline" data-channelname="' + configuredChannelInfos.streams.twitch[i].channelname + '"><img src="" alt="Offline" style="height:180px;width:180px" /></a>';
+						}
 						myTwitchHtml += '<div class="caption">';
-						myTwitchHtml += '<p>Player name</p>';
+						myTwitchHtml += '<p>' + getClanMember(configuredChannelInfos.streams.twitch[i].user).account_name + '</p>';
 						myTwitchHtml += '</div></div>';
 					}
 					myTwitchHtml += '</div></div>';
