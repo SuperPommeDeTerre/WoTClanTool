@@ -69,7 +69,7 @@ var onLoad = function() {
 						j = 0,
 						onlineStreamInfos = null,
 						myTwitchHtml = '<div class="row">';
-					myTwitchHtml += '<div class="col-xs-6 col-md-3">';
+					myTwitchHtml += '<div class="col-xs-4 col-md-2">';
 					for (i in configuredChannelInfos.streams.twitch) {
 						myTwitchHtml += '<div class="thumbnail">';
 						onlineStreamInfos = null;
