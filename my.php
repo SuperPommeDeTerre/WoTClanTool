@@ -93,16 +93,16 @@ include(WCT_INC_DIR . 'ads.php');
 						<ul class="dropdown-menu" role="menu">
 							<li data-value="all"><a href="#" data-i18n="tank.alllevels"></a></li>
 							<li class="divider"></li>
-							<li data-value="1"><a href="#" data-i18n="tank.level.0"></a></li>
-							<li data-value="2"><a href="#" data-i18n="tank.level.1"></a></li>
-							<li data-value="3"><a href="#" data-i18n="tank.level.2"></a></li>
-							<li data-value="4"><a href="#" data-i18n="tank.level.3"></a></li>
-							<li data-value="5"><a href="#" data-i18n="tank.level.4"></a></li>
-							<li data-value="6"><a href="#" data-i18n="tank.level.5"></a></li>
-							<li data-value="7"><a href="#" data-i18n="tank.level.6"></a></li>
-							<li data-value="8"><a href="#" data-i18n="tank.level.7"></a></li>
-							<li data-value="9"><a href="#" data-i18n="tank.level.8"></a></li>
-							<li data-value="10"><a href="#" data-i18n="tank.level.9"></a></li>
+							<li data-value="1"><a href="#"><img src="./themes/<?php echo($gThemeName); ?>/style/images/Tier_1_icon.png" data-i18n="[title]tank.level.0;[alt]tank.level.0;" /></a></li>
+							<li data-value="2"><a href="#"><img src="./themes/<?php echo($gThemeName); ?>/style/images/Tier_2_icon.png" data-i18n="[title]tank.level.1;[alt]tank.level.1;" /></a></li>
+							<li data-value="3"><a href="#"><img src="./themes/<?php echo($gThemeName); ?>/style/images/Tier_3_icon.png" data-i18n="[title]tank.level.2;[alt]tank.level.2;" /></a></li>
+							<li data-value="4"><a href="#"><img src="./themes/<?php echo($gThemeName); ?>/style/images/Tier_4_icon.png" data-i18n="[title]tank.level.3;[alt]tank.level.3;" /></a></li>
+							<li data-value="5"><a href="#"><img src="./themes/<?php echo($gThemeName); ?>/style/images/Tier_5_icon.png" data-i18n="[title]tank.level.4;[alt]tank.level.4;" /></a></li>
+							<li data-value="6"><a href="#"><img src="./themes/<?php echo($gThemeName); ?>/style/images/Tier_6_icon.png" data-i18n="[title]tank.level.5;[alt]tank.level.5;" /></a></li>
+							<li data-value="7"><a href="#"><img src="./themes/<?php echo($gThemeName); ?>/style/images/Tier_7_icon.png" data-i18n="[title]tank.level.6;[alt]tank.level.6;" /></a></li>
+							<li data-value="8"><a href="#"><img src="./themes/<?php echo($gThemeName); ?>/style/images/Tier_8_icon.png" data-i18n="[title]tank.level.7;[alt]tank.level.7;" /></a></li>
+							<li data-value="9"><a href="#"><img src="./themes/<?php echo($gThemeName); ?>/style/images/Tier_9_icon.png" data-i18n="[title]tank.level.8;[alt]tank.level.8;" /></a></li>
+							<li data-value="10"><a href="#"><img src="./themes/<?php echo($gThemeName); ?>/style/images/Tier_10_icon.png" data-i18n="[title]tank.level.9;[alt]tank.level.9;" /></a></li>
 						</ul>
 					</div>
 				</div>
@@ -113,11 +113,11 @@ include(WCT_INC_DIR . 'ads.php');
 						<ul class="dropdown-menu" role="menu">
 							<li data-value="all"><a href="#" data-i18n="tank.alltypes"></a></li>
 							<li class="divider"></li>
-							<li data-value="lightTank"><a href="#" data-i18n="tank.type.lightTank"></a></li>
-							<li data-value="mediumTank"><a href="#" data-i18n="tank.type.mediumTank"></a></li>
-							<li data-value="heavyTank"><a href="#" data-i18n="tank.type.heavyTank"></a></li>
-							<li data-value="AT-SPG"><a href="#" data-i18n="tank.type.AT-SPG"></a></li>
-							<li data-value="SPG"><a href="#" data-i18n="tank.type.SPG"></a></li>
+							<li data-value="lightTank"><a href="#"><img src="./themes/default/style/images/type-lightTank.png" data-i18n="[alt]tank.type.lightTank;[title]tank.type.lightTank" /> <span data-i18n="tank.type.lightTank"></span></a></li>
+							<li data-value="mediumTank"><a href="#"><img src="./themes/default/style/images/type-mediumTank.png" data-i18n="[alt]tank.type.mediumTank;[title]tank.type.mediumTank" /> <span data-i18n="tank.type.mediumTank"></span></a></li>
+							<li data-value="heavyTank"><a href="#"><img src="./themes/default/style/images/type-heavyTank.png" data-i18n="[alt]tank.type.heavyTank;[title]tank.type.heavyTank" /> <span data-i18n="tank.type.heavyTank"></span></a></li>
+							<li data-value="AT-SPG"><a href="#"><img src="./themes/default/style/images/type-AT-SPG.png" data-i18n="[alt]tank.type.AT-SPG;[title]tank.type.AT-SPG" /> <span data-i18n="tank.type.AT-SPG"></span></a></li>
+							<li data-value="SPG"><a href="#"><img src="./themes/default/style/images/type-SPG.png" data-i18n="[alt]tank.type.SPG;[title]tank.type.SPG" /> <span data-i18n="tank.type.SPG"></span></a></li>
 						</ul>
 					</div>
 				</div>
