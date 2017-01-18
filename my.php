@@ -50,13 +50,6 @@ include(WCT_INC_DIR . 'ads.php');
 			<div id="myVacancies">
 				<p id="noVacancy" data-i18n="vacancy.novacancy"></p>
 				<div class="row">
-					<div class="togglebutton togglebutton-info pull-right">
-						<label><span data-i18n="vacancy.showpast"></span>
-							<input type="checkbox" id="chkPastVacancies" />
-						</label>
-					</div>
-				</div>
-				<div class="row">
 					<div class="table-responsive" id="myVacanciesTableContainer">
 						<table class="table table-hover header-fixed" id="myVacanciesTable" data-sortable="true">
 							<thead>
@@ -73,7 +66,16 @@ include(WCT_INC_DIR . 'ads.php');
 					</div>
 				</div>
 				<div class="row">
-					<button type="button" id="btnAddVacancy" class="btn btn-default btn-material-grey-500" data-target="#vacancy-dialog" data-toggle="modal"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <span data-i18n="vacancy.add"></span></button>
+					<div class="col-md-6">
+						<button type="button" id="btnAddVacancy" class="btn btn-default btn-material-grey-500" data-target="#vacancy-dialog" data-toggle="modal"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <span data-i18n="vacancy.add"></span></button>
+					</div>
+					<div class="col-md-6">
+						<div class="togglebutton togglebutton-info pull-right">
+							<label><span data-i18n="vacancy.showpast"></span>
+								<input type="checkbox" id="chkPastVacancies" />
+							</label>
+						</div>
+					</div>
 				</div>
 			</div>
 			<h2 class="sub-header" id="garage"><span class="glyphicon glyphicon-oil"></span> <span data-i18n="elems.garage"></span></h2>
