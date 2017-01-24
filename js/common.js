@@ -1,12 +1,18 @@
 var gMaps = null,
 	gSortedMaps = [];
 
+/**
+ * Get a clan member infos from its account id
+ * @param pAccountId The member's account id
+ * @returns An object reprsenting the member or null if it can't be found
+ */
 function getClanMember(pAccountId) {
 	for (var i=0; i<gClanInfos.members.length; i++) {
 		if (gClanInfos.members[i].account_id == pAccountId) {
 			return gClanInfos.members[i];
 		}
 	}
+	return null;
 };
 
 /**
@@ -57,7 +63,9 @@ function getTanksTypesString(pSelectedTypes) {
 	return myTypesSelectedString;
 };
 
-// Fill the event window and add event handlers
+/**
+ * Fill the event window and add event handlers
+ */
 function fillEventDialog(pDialog, pEvents) {
 	var myParticipants = [],
 		allParticipants = [],
