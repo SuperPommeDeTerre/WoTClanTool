@@ -25,7 +25,7 @@ function getNbMembersOnline() {
 function isClanMemberOnline(pAccountId) {
 	var myPlayerId = null;
 	for (myPlayerId in gClanInfos.private.online_members) {
-		if (myPlayerId == pAccountId) {
+		if (gClanInfos.private.online_members[myPlayerId] == pAccountId) {
 			return true;
 		}
 	}
