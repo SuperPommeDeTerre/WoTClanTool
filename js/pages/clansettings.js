@@ -49,6 +49,7 @@ var onLoad = function() {
 				'a': 'savesettings',
 				'forumurl': $('#clanForumURL').val(),
 				'youtubeurl': $('#clanYoutubeURL').val(),
+				'discordurl': $('#clanDiscordURL').val(),
 				'rights': JSON.stringify(selectedRights),
 				'inactivitythreshold': parseInt(mySliderInactivityThreshold.val())
 			}, function(saveResult) {

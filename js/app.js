@@ -115,6 +115,36 @@ var setUserRole = function() {
 	}
 };
 
+/**
+ * Sets the voice/chat server infos
+ */
+var setChatInfos = function() {
+	if (gConfig.CLAN_CONFIG.discordurl !== '') {
+		// Extract discord channel ID
+		var lChannelId = gConfig.CLAN_CONFIG.discordurl.substring(gConfig.CLAN_CONFIG.discordurl.lastIndexOf('/') + 1);
+		$.get('https://discordapp.com/api/guilds/' + lChannelId + '/widget.json', {}, function(discordChannelInfos) {
+			// Compute number of online users
+			var nbOnlineUsers = 0,
+				i = 0,
+				myMember = null;
+			for (i in discordChannelInfos.members) {
+				myMember = discordChannelInfos.members[i];
+				if (myMember.status == 'online') {
+					nbOnlineUsers++;
+				}
+			}
+			$('#clanName').after(' <span class="label label-info" title="' + $.t('nav.onlineusersandchat') + '">' + nbOnlineUsers + ' / ' + getNbMembersOnline() + '</span>');
+			$('#navVoiceServer').removeClass('hidden').find('a').attr('href', gConfig.CLAN_CONFIG.discordurl);
+			$('#navVoiceServerName').text(discordChannelInfos.name);
+		}, 'json')
+		.fail(function(jqXHR, textStatus) {
+			logErr('Error while getting clan discord channel infos: ' + textStatus + '.');
+		});
+	} else {
+		$('#clanName').after(' <span class="label label-info" title="' + $.t('nav.onlineusers') + '">' + getNbMembersOnline() + '</span>');
+	}
+};
+
 var setNavBrandWithClan = function(pCallbackFunction) {
 	if (gClanInfos != null) {
 		$('#mainNavBar .navbar-brand').html('<span style="color:' + gClanInfos.color + '">[' + gClanInfos.tag + ']</span> ' + gClanInfos.name + ' <small>' + gClanInfos.motto + '</small>')
@@ -123,16 +153,18 @@ var setNavBrandWithClan = function(pCallbackFunction) {
 			// Add padding to avoid overlap of emblem and text
 			.css('padding-left', '51px');
 		$('#clanName').text('[' + gClanInfos.tag + ']');
+		setChatInfos();
 		setUserRole();
 		if (pCallbackFunction && (typeof(pCallbackFunction) == "function")) {
 			pCallbackFunction();
 		}
-	} else {
+	} else if (gPersonalInfos.clan_id != null) {
 		$.post(gConfig.WG_API_URL + 'wgn/clans/info/', {
 			application_id: gConfig.WG_APP_ID,
 			language: gConfig.LANG,
 			access_token: gConfig.ACCESS_TOKEN,
-			clan_id: gPersonalInfos.clan_id
+			clan_id: gPersonalInfos.clan_id,
+			extra: 'private.online_members'
 		}, function(dataClanResponse) {
 			var dataClan = dataClanResponse.data[gPersonalInfos.clan_id],
 				clanEmblem = dataClan.emblems.x32.portal;
@@ -143,11 +175,16 @@ var setNavBrandWithClan = function(pCallbackFunction) {
 				// Add padding to avoid overlap of emblem and text
 				.css('padding-left', '51px');
 			$('#clanName').text('[' + gClanInfos.tag + ']');
+			setChatInfos();
 			setUserRole();
 			if (pCallbackFunction && (typeof(pCallbackFunction) == "function")) {
 				pCallbackFunction();
 			}
 		}, 'json');
+	} else {
+		if (pCallbackFunction && (typeof(pCallbackFunction) == "function")) {
+			pCallbackFunction();
+		}
 	}
 };
 

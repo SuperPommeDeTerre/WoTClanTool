@@ -9,12 +9,14 @@ var onLoad = function() {
 		application_id: gConfig.WG_APP_ID,
 		language: gConfig.LANG,
 		access_token: gConfig.ACCESS_TOKEN,
-		clan_id: gPersonalInfos.clan_id
+		clan_id: gPersonalInfos.clan_id,
+		extra: 'private.online_members'
 	}, function(dataClanResponse) {
 		var dataClan = dataClanResponse.data[gPersonalInfos.clan_id],
 			clanEmblem = dataClan.emblems.x64.portal;
 		gClanInfos = dataClan;
 		$('#clanName').text('[' + gClanInfos.tag + ']');
+		setChatInfos();
 		setUserRole();
 		$('#clansInfosTitle').html('<img src="' + clanEmblem + '" alt="' + $.t('clan.emblem') + '" /> <span style="color:' + gClanInfos.color + '">[' + gClanInfos.tag + ']</span> ' + gClanInfos.name + ' <small>' + gClanInfos.motto + '</small>');
 		$('#clanTotalPlayers').text($.t('clan.nbplayers', { count: gClanInfos.members.length }));
@@ -82,6 +84,7 @@ var onLoad = function() {
 					additionalClass = '';
 				}
 				tableContent += '<tr' + additionalClass + '>';
+				tableContent += '<td data-value="' + (isClanMemberOnline(memberId)?'0':'1') + '"><span class="glyphicon glyphicon-asterisk text-' + (isClanMemberOnline(memberId)?'success':'muted') + '"></span></td>';
 				tableContent += '<td data-id="' + memberId + '"><a class="playerDetailsLink" href="./player.php?id=' + memberId + '" data-id="' + memberId + '" data-target="#my-dialog" data-toggle="modal">';
 				tableContent += playerInfos.nickname + '</a></td>';
 				tableContent += '<td data-value="' + gROLE_POSITION[clanMemberInfo.role] + '" class="role role_' + clanMemberInfo.role + '">' + $.t('player.role.' + clanMemberInfo.role) + '</td>';

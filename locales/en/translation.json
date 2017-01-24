@@ -148,6 +148,10 @@
 		"youtube": {
 			"url": "Youtube channel URL",
 			"hint": "Please enter the Youtube clan's channel. Remind that each clan's member can also have its own Youtube channel."
+		},
+		"discord": {
+			"url": "Discord server URL",
+			"hint": "Please enter the discord clan's server. Expected form is https://discordapp.com/channels/123456789012345678."
 		}
 	},
 	"nav": {
@@ -159,6 +163,9 @@
 		"stronghold": "Stronghold",
 		"streams": "Streams & videos",
 		"admin": "Administration",
+		"onlineusers": "Online",
+		"onlineusersandchat": "Online users in vocal / in game",
+		"voiceserver": "Vocal server",
 		"forum": "Forum",
 		"logout": "Logout",
 		"tscomments": "Mumble/TeamSpeak comment",

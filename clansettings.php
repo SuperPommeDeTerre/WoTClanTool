@@ -61,6 +61,12 @@ include(WCT_INC_DIR . 'ads.php');
 						<input id="clanYoutubeURL" type="text" class="form-control" aria-describedby="lblYoutubeURL" value="<?php echo($gClanConfig['youtubeurl']); ?>"<?php echo($isReadOnly?' disabled="disabled"':''); ?> />
 						<span class="help-block" data-i18n="clansettings.youtube.hint"></span>
 					</div>
+					<h3 data-i18n="clansettings.discord.url"></h3>
+					<div class="form-group label-placeholder">
+						<label for="clanDiscordURL" id="lblDiscordURL" class="control-label" data-i18n="clansettings.discord.url"></label>
+						<input id="clanDiscordURL" type="text" class="form-control" aria-describedby="lblDiscordURL" value="<?php echo($gClanConfig['discordurl']); ?>"<?php echo($isReadOnly?' disabled="disabled"':''); ?> />
+						<span class="help-block" data-i18n="clansettings.discord.hint"></span>
+					</div>
 				</div>
 				<div role="tabpanel" class="tab-pane" id="configRights">
 					<h2 class="sub-header" data-i18n="rights.title"></h2>

@@ -9,6 +9,29 @@ function getClanMember(pAccountId) {
 	}
 };
 
+/**
+ * Gets the number of online members
+ * @returns
+ */
+function getNbMembersOnline() {
+	return gClanInfos.private.online_members.length;
+};
+
+/**
+ * Determine if a clan's member is online (only available for your own clan)
+ * @param pAccountId Clan's member account ID
+ * @returns <code>true</code> if the member is online and <code>false</code> elsewhere.
+ */
+function isClanMemberOnline(pAccountId) {
+	var myPlayerId = null;
+	for (myPlayerId in gClanInfos.private.online_members) {
+		if (myPlayerId == pAccountId) {
+			return true;
+		}
+	}
+	return false;
+};
+
 function getTanksTypesString(pSelectedTypes) {
 	var myTypesSelectedString = $.t('tank.alltypes'),
 		i = 0;

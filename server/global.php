@@ -154,6 +154,11 @@ if (!array_key_exists('youtubeurl', $gClanConfig)) {
 	$gClanConfig['youtubeurl'] = '';
 }
 
+// Handle clan's discord channel URL
+if (!array_key_exists('discordurl', $gClanConfig)) {
+	$gClanConfig['discordurl'] = '';
+}
+
 // Define the data dir (depends on cluster)
 define('WCT_DATA_DIR', WCT_BASE_DATA_DIR . DIRECTORY_SEPARATOR . $gCluster . DIRECTORY_SEPARATOR);
 

@@ -148,6 +148,10 @@
 		"youtube": {
 			"url": "URL de la chaîne Youtube",
 			"hint": "Veuillez saisir ici l'URL de la chaîne Youtube du clan. Pour rappel, chaque membre du clan peut également posséder sa chaîne propre."
+		},
+		"discord": {
+			"url": "Serveur Discord",
+			"hint": "Veuillez saisir ici l'URL du serveur Discord du clan. La forme attendue est https://discordapp.com/channels/123456789012345678. Note : Vous devez activer la fonctionnalité de widget dans le paramétrage de votre serveur pour que cette fonctionnalité soit opérationnelle."
 		}
 	},
 	"nav": {
@@ -159,6 +163,9 @@
 		"stronghold": "Bastion",
 		"streams": "Streams et vidéos",
 		"admin": "Administration",
+		"onlineusers": "Connectés en jeu",
+		"onlineusersandchat": "Connectés dans le serveur vocal / en jeu",
+		"voiceserver": "Serveur vocal",
 		"forum": "Forum",
 		"logout": "Se déconnecter",
 		"tscomments": "Contenu commentaire Mumble/TS",

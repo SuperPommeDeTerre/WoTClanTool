@@ -16,7 +16,8 @@ var onLoad = function() {
 		application_id: gConfig.WG_APP_ID,
 		language: gConfig.LANG,
 		access_token: gConfig.ACCESS_TOKEN,
-		clan_id: gPersonalInfos.clan_id
+		clan_id: gPersonalInfos.clan_id,
+		extra: 'private.online_members'
 	}, function(dataClanResponse) {
 		if (isDebugEnabled()) {
 			logDebug('dataClanResponse=' + JSON.stringify(dataClanResponse, null, 4));

@@ -76,6 +76,7 @@ include(WCT_INC_DIR . 'ads.php');
 				<table class="table table-hover header-fixed" id="tableClanPlayers">
 					<thead>
 						<tr>
+							<th>&nbsp;</th>
 							<th data-i18n="player.headers.nickname"></th>
 							<th data-i18n="player.headers.role" data-sorted="true" data-sorted-direction="descending"></th>
 							<th data-i18n="player.headers.daysinclan"></th>
