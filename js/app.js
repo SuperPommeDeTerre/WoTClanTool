@@ -139,6 +139,7 @@ var setChatInfos = function() {
 		}, 'json')
 		.fail(function(jqXHR, textStatus) {
 			logErr('Error while getting clan discord channel infos: ' + textStatus + '.');
+			$('#clanName').after(' <span class="label label-info" title="' + $.t('nav.onlineusers') + '">' + getNbMembersOnline() + '</span>');
 		});
 	} else {
 		$('#clanName').after(' <span class="label label-info" title="' + $.t('nav.onlineusers') + '">' + getNbMembersOnline() + '</span>');
