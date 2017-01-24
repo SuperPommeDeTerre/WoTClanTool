@@ -151,7 +151,7 @@
 		},
 		"discord": {
 			"url": "Discord server URL",
-			"hint": "Please enter the discord clan's server. Expected form is https://discordapp.com/channels/123456789012345678."
+			"hint": "Please enter the discord clan's server. Expected form is https://discordapp.com/channels/123456789012345678. Note that you must enable the widget in your server preferences."
 		}
 	},
 	"nav": {
