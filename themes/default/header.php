@@ -61,7 +61,7 @@ include_once(WCT_INC_DIR . 'analyticstracking.php');
 				<div id="progressBar" class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">0 %</div>
 			</div>
 			<p id="progressInfoMessage">&nbsp;</p>
-			<a class="btn btn-default btn-sm pull-right" id="btnShowLogs" href="#" role="button" data-i18n="[title]admin.showlogs;" data-toggle="modal" data-target="#logsDlg"><span class="glyphicon glyphicon-console" /></a>
+			<a class="btn btn-default btn-sm pull-right" id="btnShowLogs" href="#" role="button" data-i18n="[title]admin.showlogs;" data-toggle="modal" data-target="#logsDlg"><span class="glyphicon glyphicon-console"></span></a>
 		</div>
 		<div id="content"><?php
 if ($gPageProps["blocks"]["nav"]) { ?>
@@ -85,8 +85,8 @@ if ($gPageProps["blocks"]["nav"]) { ?>
 									<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" style="display:none">
 										<input type="hidden" name="cmd" value="_s-xclick" />
 										<input type="hidden" name="hosted_button_id" value="CD4LXS5KJGNWC" />
-										<input type="image" src="https://www.paypalobjects.com/en_GB/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="PayPal – The safer, easier way to pay online." />
-										<img alt="" border="0" src="https://www.paypalobjects.com/fr_FR/i/scr/pixel.gif" width="1" height="1" />
+										<input type="image" src="https://www.paypalobjects.com/en_GB/i/btn/btn_donate_SM.gif" name="submit" alt="PayPal - The safer, easier way to pay online." />
+										<img alt="" src="https://www.paypalobjects.com/fr_FR/i/scr/pixel.gif" width="1" height="1" />
 									</form></li>
 								<li class="facebook"><a href="http://www.facebook.com/share.php?u=[URL]&title=[TITLE]" data-toggle="tooltip" data-placement="bottom" data-i18n="[title]share.facebook;"><span>Facebook</span></a></li>
 								<li class="twitter"><a href="https://twitter.com/share" data-toggle="tooltip" data-placement="bottom" data-i18n="[title]share.tweeter;"><span>Tweet</span></a></li>
@@ -156,7 +156,7 @@ if ($gPageProps["blocks"]["nav"]) { ?>
 								<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" style="display:none">
 									<input type="hidden" name="cmd" value="_s-xclick" />
 									<input type="hidden" name="hosted_button_id" value="CD4LXS5KJGNWC" />
-									<input type="image" src="https://www.paypalobjects.com/en_GB/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="PayPal – The safer, easier way to pay online." />
+									<input type="image" src="https://www.paypalobjects.com/en_GB/i/btn/btn_donate_SM.gif" name="submit" alt="PayPal – The safer, easier way to pay online." />
 									<img alt="" border="0" src="https://www.paypalobjects.com/fr_FR/i/scr/pixel.gif" width="1" height="1" />
 								</form></li>
 						</ul><?php
