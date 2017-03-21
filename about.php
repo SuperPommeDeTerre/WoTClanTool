@@ -22,7 +22,7 @@ include(WCT_INC_DIR . 'ads.php');
 ?>
 					<h1><span data-i18n="app.name"></span> <span class="label label-default">v<?php echo(WCT_VERSION); ?></span></h1>
 					<div class="list-group">
-						<a class="list-group-item" href="http://eu.wargaming.net/developers/">WG API</a>
+						<a class="list-group-item" href="https://developers.wargaming.net/">WG API</a>
 						<a class="list-group-item" href="http://jquery.com/">jQuery</a>
 						<a class="list-group-item" href="http://getbootstrap.com/">Bootstrap</a>
 						<a class="list-group-item" href="http://fezvrasta.github.io/bootstrap-material-design/">Material design for bootstrap</a>
