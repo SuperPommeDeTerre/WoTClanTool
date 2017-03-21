@@ -112,7 +112,7 @@ if ($gPageProps["blocks"]["nav"]) { ?>
 									<li<?php if ($gPageProps["id"] == 'garage') { echo(' class="active"'); } ?>><a href="garage"><span class="glyphicon glyphicon-oil"></span> <span data-i18n="nav.garage"></span></a></li>
 									<li<?php if ($gPageProps["id"] == 'events') { echo(' class="active"'); } ?>><a href="events"><span class="glyphicon glyphicon-calendar"></span> <span data-i18n="nav.events"></span></a></li>
 									<li<?php if ($gPageProps["id"] == 'clanwars') { echo(' class="active"'); } ?>><a href="clanwars"><span class="glyphicon glyphicon-tower"></span> <span data-i18n="nav.clanwars"></span></a></li>
-									<li<?php if ($gPageProps["id"] == 'stronghold') { echo(' class="active"'); } ?>><a href="stronghold"><span class="glyphicon glyphicon-home"></span> <span data-i18n="nav.stronghold"></span></a></li>
+									<!-- <li<?php if ($gPageProps["id"] == 'stronghold') { echo(' class="active"'); } ?>><a href="stronghold"><span class="glyphicon glyphicon-home"></span> <span data-i18n="nav.stronghold"></span></a></li> -->
 									<li<?php if ($gPageProps["id"] == 'streams') { echo(' class="active"'); } ?>><a href="streams"><span class="glyphicon glyphicon-film"></span> <span data-i18n="nav.streams"></span></a></li>
 									<li id="navVoiceServer" class="hidden"><a href="#" ><span class="glyphicon glyphicon-volume-up"></span> <span data-i18n="nav.voiceserver" id="navVoiceServerName"></span></a></li><?php
 		// Show forum link only if clan's forum URL is set
