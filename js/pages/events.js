@@ -109,6 +109,8 @@ var onLoad = function() {
 		view: 'month',
 		modal: '#events-modal',
 		modal_type: 'ajax',
+		display_week_numbers: false,
+		weekbox: false,
 		modal_title : function (e) {
 			return '<span class="eventTitle">' + e.title + '</span>'
 				+ ' <span class="label label-default eventStartDate" data-date="' + e.start + '">' + moment(e.start * 1).format('LT')
