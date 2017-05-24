@@ -895,7 +895,6 @@ function fillEventDialog(pDialog, pEvents) {
 						}
 					}
 					if (isTankTypeFound && isTankLevelFound && myCurrentlySelectedTankId != playerTankAdditionalInfos.tank_id) {
-						nbTanksAdded++;
 						if (nbTanksAdded % 3 == 0) {
 							myDetailsRowHtml += '</div>';
 							myDetailsRowHtml += '<div class="row">';
@@ -903,6 +902,7 @@ function fillEventDialog(pDialog, pEvents) {
 						myDetailsRowHtml += '<div class="col-md-4">';
 						myDetailsRowHtml += '<span class="playerTank" data-tank-id="' + playerTankAdditionalInfos.tank_id + '"><img src="' + gTankopedia[playerTankAdditionalInfos.tank_id].images.contour_icon + '" /><span class="label label-' + getScaleClass('wn8', playerTankAdditionalInfos.wn8) + '">' + (Math.round(playerTankAdditionalInfos.wn8 * 100) / 100) + '</span> ' + gTankopedia[playerTankAdditionalInfos.tank_id].short_name + '</span>';
 						myDetailsRowHtml += '</div>';
+						nbTanksAdded++;
 					}
 				}
 				myDetailsRowHtml += '</div>';
