@@ -273,7 +273,8 @@ foreach ($gClusters as $clusterId => $clusterProps) {
 				</form>
 			</div>
 		</div>
-		<script type="text/javascript" src="./js/jquery-2.2.4.min.js"></script>
+		<script type="text/javascript" src="./js/jquery-3.2.1.min.js"></script>
+		<script type="text/javascript" src="./js/jquery-migrate-3.0.0.min.js"></script>
 		<script type="text/javascript" src="./js/i18next.min.js"></script>
 		<script type="text/javascript" src="./js/i18next-jquery.min.js"></script>
 		<script type="text/javascript" src="./js/bootstrap.min.js"></script>

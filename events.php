@@ -60,7 +60,7 @@ include(WCT_INC_DIR . 'ads.php');
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h3></h3>
+				<h3 class="modal-title"></h3>
 			</div>
 			<div class="modal-body">
 			</div>
