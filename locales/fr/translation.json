@@ -329,7 +329,8 @@
 		"notank": "Aucun char sélectionné",
 		"participants": "{{count}} participant",
 		"participants_plural": "{{count}} participants",
-		"participations": "Participations"
+		"participations": "Participations",
+		"othertanks": "Afficher les autres chars disponibles"
 	},
 	"stats": {
 		"global": {

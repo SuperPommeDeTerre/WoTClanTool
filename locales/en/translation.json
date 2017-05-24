@@ -327,7 +327,8 @@
 		"notank": "No tank selected",
 		"participants": "{{count}} participant",
 		"participants_plural": "{{count}} participants",
-		"participations": "Participations"
+		"participations": "Participations",
+		"othertanks": "Show available tanks"
 	},
 	"stats": {
 		"global": {
