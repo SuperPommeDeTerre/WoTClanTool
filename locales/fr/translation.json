@@ -535,7 +535,9 @@
 			"ussr": "URRS",
 			"china": "Chine",
 			"czech": "Tchécoslovaquie",
-			"sweden": "Suède"
+			"sweden": "Suède",
+			"poland": "Pologne",
+			"italy": "Italie"
 		},
 		"type": {
 			"lightTank": "Léger",

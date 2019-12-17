@@ -550,7 +550,9 @@
 			"ussr": "U.R.R.S.",
 			"china": "China",
 			"czech": "Czechoslovakia",
-			"sweden": "Sweden"
+			"sweden": "Sweden",
+			"poland": "Poland",
+			"italy": "Italy"
 		},
 		"infos": {
 			"name": "Tank name",
