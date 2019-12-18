@@ -33,7 +33,7 @@ if ($gPageProps["blocks"]["footer"]) { ?>
 					<div class="col-xs-12 col-md-6 col-lg-6">
 						<ul class="list-unstyled">
 							<li><a href="about" data-i18n="page.about.title"></a></li>
-							<li><a href="http://superpommedeterre.github.io/WoTClanTool/" data-i18n="app.projectpage"></a></li>
+							<li><a href="https://superpommedeterre.github.io/WoTClanTool/" data-i18n="app.projectpage"></a></li>
 							<li><a href="https://github.com/SuperPommeDeTerre/WoTClanTool/issues" data-i18n="app.bugreports"></a></li>
 						</ul>
 					</div>
@@ -73,7 +73,7 @@ if ($gPageProps["blocks"]["footer"]) { ?>
 		<script type="text/javascript" src="js/jquery.svganim.min.js"></script>
 		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 		<script type="text/javascript" src="js/ie10-viewport-bug-workaround.js"></script>
-		<script src= "http://player.twitch.tv/js/embed/v1.js"></script>
+		<script src= "https://player.twitch.tv/js/embed/v1.js"></script>
 		<!-- Local scripts -->
 		<script type="text/javascript" src="js/pages/<?php echo($gPageProps["id"]); ?>.js"></script>
 		<script type="text/javascript" src="js/common.js"></script>
