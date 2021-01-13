@@ -11,7 +11,7 @@
 						</ul>
 					</div>
 					<div class="modal-footer">
-						<button id="copyLogButton" class="btn btn-default btn-material-grey-500" data-clipboard-target="logsContent" data-i18n="[title]action.copy;"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></button>
+						<button id="copyLogButton" class="btn btn-default btn-material-grey-500" data-clipboard-target="#logsContent" data-i18n="[title]action.copy;"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></button>
 						<button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="btn.close"></button>
 					</div>
 				</div>
@@ -63,7 +63,7 @@ if ($gPageProps["blocks"]["footer"]) { ?>
 		<script type="text/javascript" src="js/URI.js"></script>
 		<script type="text/javascript" src="js/jcanvas.min.js"></script>
 		<script type="text/javascript" src="js/bootstrap-colorpicker.min.js"></script>
-		<script type="text/javascript" src="js/ZeroClipboard.min.js"></script>
+		<script type="text/javascript" src="js/clipboard.min.js"></script>
 		<script type="text/javascript" src="js/jquery.nouislider.all.min.js"></script>
 		<script type="text/javascript" src="js/jquery.svg.min.js"></script>
 		<script type="text/javascript" src="js/jquery.svgdom.min.js"></script>

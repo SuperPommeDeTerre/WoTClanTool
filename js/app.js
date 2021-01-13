@@ -361,7 +361,7 @@ var afterLoad = function() {
 	if (isInfoEnabled) {
 		logInfo('Finish !');
 	}
-	gLogClipBoard = new ZeroClipboard($('#copyLogButton'));
+	gLogClipBoard = new ClipboardJS('#copyLogButton');
 	/*
 	gLogClipBoard.on('copy', function(copyEvent) {
 		var clipboard = copyEvent.clipboardData,

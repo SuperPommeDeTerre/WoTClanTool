@@ -218,7 +218,7 @@ include(WCT_INC_DIR . 'ads.php');
 					</div>
 					<div class="tab-pane fade in" id="tabTSCommentText">
 						<pre id="textResumePlayer"></pre>
-						<button id="copy-button" class="btn btn-default btn-material-grey-500" data-clipboard-target="textResumePlayer" data-i18n="[title]action.copy;"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></button>
+						<button id="copy-button" class="btn btn-default btn-material-grey-500" data-clipboard-target="#textResumePlayer" data-i18n="[title]action.copy;"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></button>
 					</div>
 				</div>
 				<div class="input-group pull-left">

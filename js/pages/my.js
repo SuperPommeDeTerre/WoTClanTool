@@ -947,7 +947,7 @@ var onLoad = function() {
 						});
 					}
 				});
-				new ZeroClipboard($('#copy-button'));
+				new ClipboardJS('#copy-button');
 			}, 'json')
 			.fail(function(jqXHR, textStatus) {
 				logErr('Error while loading [./server/player.php]: ' + textStatus + '.');
