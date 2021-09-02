@@ -200,7 +200,7 @@ class WctRights {
 	 */
 	public static function getUserRights($pUserId = null) {
 		// TODO Implementes it, stupid !
-		return $RIGHTS_MATRIX;
+		return WctRights::$DEFAULT_RIGHTS;
 	}
 	
 	/**
@@ -237,8 +237,10 @@ class WctRights {
 		if (WctRights::isUserAdmin($lUserId)) {
 			$isRightAllowed = true;
 		} else {
-			$rightElements = explode($pRightName, ".");
+			$rightElements = explode(".", $pRightName);
+			// Get the rights assigned to the user
 			$userAssignedRights = WctRights::getUserRights($lUserId);
+			// Ensure the right is in the assigned rights matrix
 			$isRightAllowed = array_key_exists($rightElements[0], $userAssignedRights) && array_key_exists($rightElements[1], $userAssignedRights[$rightElements[0]]);
 		}
 		return $isRightAllowed;
